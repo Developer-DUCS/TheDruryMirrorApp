@@ -15,7 +15,15 @@ Repo for the Drury Mirror App capstone project at Drury University.
 5. Run `npm run android` in the terminal.
 6. When prompted, type `a` in the terminal to open the android app.
 
+## Run on Simulator for iPhone (Mac)
+1. Open the phone in *Simulator*.
+2. When the phone is started, open the terminal and make sure you are in the working directory of the project.
+3. Run `npm run ios` in the terminal.
+4. Restart the *Expo Go* app in the emulator and click the project file.  
+5. Press `i` in the terminal window to open the app.
 
+## Stop the Server
+Type `ctrl C` in the terminal to stop.
 
 
 ## Trouble Shooting
