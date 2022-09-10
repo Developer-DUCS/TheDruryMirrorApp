@@ -14,3 +14,9 @@ Repo for the Drury Mirror App capstone project at Drury University.
 4. When the phone is started, open the terminal and make sure you are in the working directory of the project.
 5. Run `npm run android` in the terminal.
 6. When prompted, type `a` in the terminal to open the android app.
+
+
+
+
+## Trouble Shooting
+Expo needs internet to run. Make sure the phone in the emulator has an internet connection.    
