@@ -51,21 +51,21 @@ const styles = StyleSheet.create({
   headerContainer:
   {
     backgroundColor: 'black',
-    padding: '10px',
+    padding: 10,
     display: 'block',
   },
   headerText: 
   {
     color: 'white',
-    fontSize: '24px',
-    margin: '12px',
+    fontSize: 24,
+    //margin: '12px',
   },
 
   tagsContainer: 
   {
     backgroundColor: 'red',
     alignSelf: 'center', 
-    padding: '12px',
+    padding: 12,
     width: '100%',
     alignItems: 'flex-start',
     flexDirection: 'row',
@@ -73,16 +73,16 @@ const styles = StyleSheet.create({
   },
   tagHolder:
   {
-    padding: '12px',
-    margin: '5px',
-    borderRadius: '8px',
+    padding: 12,
+    margin: 5,
+    borderRadius: 8,
     backgroundColor: 'white',
     maxWidth: '20%'
   },
   tagText:
   {
     color: 'black',
-    fontSize: '12px',
+    fontSize: 12,
     textAlign: 'center',
     justifyContent: 'center',
   }
