@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   return (
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   {
     backgroundColor: 'black',
     padding: 10,
-    display: 'block',
+    // display: 'block',
+    //display: 1,
   },
   headerText: 
   {
