@@ -6,7 +6,6 @@ export const globalStyleSheet = StyleSheet.create({
         color: '#fef9fb',
     },
     TextLogo: {
-        fontFamily: 'AvantGarde Md BT medium',
         fontSize: 18,
         color: '#fef9fb',
         top: '25%',
@@ -14,9 +13,7 @@ export const globalStyleSheet = StyleSheet.create({
         position: 'relative',
     },
     paragraph: {
-        fontFamily: 'Garamond Regular',
         fontSize: 12,
-
     },
 
 // Tags
@@ -47,7 +44,4 @@ export const globalStyleSheet = StyleSheet.create({
       justifyContent: 'center',
     },
 
-
-  
-  
   });
