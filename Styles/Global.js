@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const globalStyleSheet = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
     primaryContainer: {
         backgroundColor: '#101921',
         color: '#fef9fb',

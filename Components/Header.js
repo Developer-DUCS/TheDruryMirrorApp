@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { globalStyleSheet } from '../Styles/Global';
+import { globalStyles } from '../Styles/Global';
 
 export function HeaderBar()
 {
     return(
-        <View style = {[globalStyleSheet.primaryContainer, headerStyles.headerContainer]}>
-            <Text style ={globalStyleSheet.TextLogo}>Drury Mirror</Text>
+        <View style = {[globalStyles.primaryContainer, headerStyles.headerContainer]}>
+            <Text style ={globalStyles.TextLogo}>Drury Mirror</Text>
         </View>
     )
 }
