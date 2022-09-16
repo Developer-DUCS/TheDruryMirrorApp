@@ -1,242 +1,110 @@
 // Components
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import React from "react";
-import {Dropdown} from 'react-native-element-dropdown';
+import { StyleSheet, Text, View, Platform} from 'react-native';
+import { Component, React} from 'react';
+import { Input, Button } from 'react-native-elements';
+import { Editor } from 'react-draft-wysiwyg';
+import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 // Styles
 import * as Icon from "react-native-feather";
 import { Entypo } from '@expo/vector-icons';
 import { globalStyles } from '../Styles/Global';
 
-export function HeadlineField()
-{
-    
-    const [text, onChangeText] = React.useState("");
-    const [number, onChangeNumber] = React.useState(null);
-
-    const [getFontsDropDown, setFontsDropDown] = React.useState(null);
-    const [getSizeDropDown, setSizeDropDown] = React.useState(null);
-    const [selected, setSelected] = React.useState([]);
-
-    const fontTypeData = [
-        {label: 'Times New Roman', value: '1'},
-        {label: 'Arial', value: '2'},
-        {label: 'Garamond Regular', value: '3'},
-    ];
-
-    const fontSizeData = [
-        {label: '6', value: '1'},
-        {label: '8', value: '2'},
-        {label: '12', value: '3'},
-        {label: '16', value: '4'},
-        {label: '18', value: '5'},
-        {label: '24', value: '6'},
-    ];
-
-    const _renderItem = item => {
-        return (
-        <View style={styles.item}>
-            <Text style={styles.textItem}>{item.label}</Text>
-        </View>
-        );
-    };
-
-
-    return(
-        <View>
-                <View style={[styles.optionsBar, globalStyles.primaryContainer]}>
-                    <View>
-                        <Dropdown
-                            style={[styles.dropdown, styles.optionsBarText]}
-                            containerStyle={styles.shadow}
-                            data={fontTypeData}
-                            search
-                            searchPlaceholder="Search"
-                            labelField="label"
-                            valueField="value"
-                            label="Fonts"
-                            placeholder="Font"
-                            value={getFontsDropDown}
-                            onChange={item => {
-                            setFontsDropDown(item.value);
-                                console.log('selected', item);
-                            }}
-                            renderItem={item => _renderItem(item)}
-                            textError="Error"
-                        />
-                    </View>
-                    <View>
-                        <Dropdown
-                            style={[styles.dropdown, styles.optionsBarText]}
-                            containerStyle={styles.shadow}
-                            data={fontSizeData}
-                            search
-                            searchPlaceholder="Search"
-                            labelField="label"
-                            valueField="value"
-                            label="Size"
-                            placeholder="Size"
-                            value={getSizeDropDown}
-                            onChange={item => {
-                            setSizeDropDown(item.value);
-                                console.log('selected', item);
-                            }}
-                            renderItem={item => _renderItem(item)}
-                            textError="Error"
-                        />
-                    </View>
-                    <View>
-                        <Text style = {[globalStyles.paragraph, styles.optionsBarText]}>B</Text>
-                    </View>
-                    <View>
-                        <Text style = {[globalStyles.paragraph, styles.optionsBarText]}>U</Text>
-                    </View>
-                    <View>
-                        <Text style = {[globalStyles.paragraph, styles.optionsBarText]}>I</Text>
-                    </View>
-                    <View>
-                        <Icon.AlignLeft style = {styles.optionsBarIcon}></Icon.AlignLeft>
-                    </View>
-                    <View>
-                        <Icon.AlignCenter style = {styles.optionsBarIcon}></Icon.AlignCenter>
-                    </View>
-                    <View>
-                        <Icon.AlignRight style = {styles.optionsBarIcon} multiline></Icon.AlignRight>
-                    </View>
-                </View>
-                <TextInput
-                    style={styles.headlineField}
-                    onChangeText={onChangeText}
-                    placeholder = "Write Your Header Here..."
-                    value={text}
-                    multiline
-                />
-                
-        </View>
-    )
-}
-
 export function TextEditor()
 {
     
-    const [text, onChangeText] = React.useState("");
-    const [number, onChangeNumber] = React.useState(null);
-
     return(
         <View>
-                
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={onChangeText}
-                    placeholder = "Write Your Article Here..."
-                    value={text}
-                    multiline
-                />
-        </View>
-    )
-}
-
-
-export function SourcesField()
-{
-    
-    const [text, onChangeText] = React.useState("");
-    const [number, onChangeNumber] = React.useState(null);
-
-    return(
-        <View>
-                <TextInput
-                    style={styles.sourcesField}
-                    onChangeText={onChangeText}
-                    placeholder = "Write Your Sources Here..."
-                    value={text}
-                    multiline
-                />
+            <View style={styles.articleInputs}>
+                {/* Status View */}
+                <View style = {styles.statusBar}>
+                    <Button title="Admin" type="outline" />
+                </View>
+                {/* Headline View */}
+                <View style = {styles.headlineView}>
+                    <Input
+                        placeholder = "Headline"
+                        style = {styles.headlineInput}
+                    />
+                </View>
+                {/* Rich Text Editor */}
+                <View style = {styles.textEditor}>
+                    <Editor></Editor>
+                </View>
+                {/* Links and Info for Citations */}
+                <View style = {styles.citationsView}>
+                    <Text style = {styles.citationsTitle}>Citations</Text>
+                    <Input style = {styles.citationsInput} multiline></Input>
+                </View>
+                {/* Save Draft and Schedule Upload Buttons */}
+            </View>
+            <View style={styles.actionsBar}>
+                <Button title="Save Draft" type="outline" style={styles.actionsItem}  />
+                <Button title="Schedule Upload" type="outline" style={styles.actionsItem}  />
+            </View>
         </View>
     )
 }
 
 
 const styles = StyleSheet.create({
-    optionsBar: {
-        height: '60px',
-        margin: 12,
-        marginBottom: 6,
-        padding: 12,
-        borderRadius: 5,
-        alignItems: 'flex-start',
-        direction: 'column',
-        flexDirection: 'row',
-    },
-    dropdown: {
-        backgroundColor: 'white',
-        borderBottomColor: 'gray',
-        borderBottomWidth: 0.5,
-        width: '20vh',
-        marginLeft: 5,
-    },
-    shadow: {
-        shadowColor: '#000',
-        shadowOffset: {
-        width: 0,
-        height: 1,
+        articleInputs:{
+            padding: 3,
+            marginLeft: 20,
+            width: '80vw',
+            display: 'inline-block',
         },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 2,
-    },
-    item: {
-        paddingVertical: 17,
-        paddingHorizontal: 4,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    textItem: {
-        flex: 1,
-        fontSize: 16,
-    },
-    optionsBarText: {
-        color: 'white',
-        borderWidth: 1,
-        padding: 3,
-        paddingLeft: 6,
-        paddingRight: 6,
-        borderColor: 'white',
-        fontStyle: 'bold',
-    },
-    optionsBarIcon: {
-        color: 'white',
-        marginBottom: 3,
-        marginLeft: 6,
-        borderColor: 'white',
-        fontStyle: 'bold',
-    },
-    headlineField: {
-      height: '5vh',
-      textAlignVertical: 'top',
-      padding: 3,
-      paddingLeft: 5,
-      margin: 12,
-      marginTop: 0,
-      borderWidth: 1,
-    },
-    textInput: {
-      height: '80vh',
-      //textAlignVertical: 'top',
-      padding: 3,
-      paddingLeft: 5,
-      margin: 12,
-      marginTop: 0,
-      borderWidth: 1,
-    },
-    sourcesField: {
-      height: '15vh',
-      //textAlignVertical: 'top',
-      padding: 3,
-      paddingLeft: 5,
-      margin: 12,
-      marginTop: 0,
-      borderWidth: 1,
-    },
+        statusBar: {
+            alignItems: 'flex-start',
+            margin: 5,
+            marginBottom: 5,
+        },
+        statusItems: {
+            borderRadius: 5,
+            borderWidth: 1,
+        },
+        headlineView: {
+            marginBottom: 10,
+            marginTop: 10,
+            marginLeft: -6,
+        },
+        headlineInput: {
+            outlineStyle: 'none',
+        },
+        textEditor: {
+            borderWidth: 1,
+            borderRadius: 3,
+            padding: 6,
+            height: '80vh',
+        },
+        citationsView: {
+            borderWidth: 1,
+            borderRadius: 5,
+            margin: 5,
+            marginTop: 10,
+            marginLeft: -1,
+            width: '60vw',
+
+        },
+        citationsTitle: {
+            fontSize: 18,
+            fontStyle: 'bold',
+            marginLeft: 5,
+        },
+        citationsInput: {
+            outlineStyle: 'none',
+        },
+        actionsBar:{
+            width: '40vh',
+            alignItems: 'baseline',
+            margin: 5,
+            marginLeft: 20,
+            flexDirection:'row',
+            flex: 1,
+        },
+        actionsItem: {
+            margin: 5,
+            marginLeft: 0,
+        }
+
   });
