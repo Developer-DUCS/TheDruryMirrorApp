@@ -14,8 +14,9 @@ export function HeadlineField()
     const [text, onChangeText] = React.useState("");
     const [number, onChangeNumber] = React.useState(null);
 
-    const [dropdown, setDropdown] = React.useState(null);
-        const [selected, setSelected] = React.useState([]);
+    const [getFontsDropDown, setFontsDropDown] = React.useState(null);
+    const [getSizeDropDown, setSizeDropDown] = React.useState(null);
+    const [selected, setSelected] = React.useState([]);
 
     const fontTypeData = [
         {label: 'Times New Roman', value: '1'},
@@ -55,9 +56,9 @@ export function HeadlineField()
                             valueField="value"
                             label="Fonts"
                             placeholder="Font"
-                            value={dropdown}
+                            value={getFontsDropDown}
                             onChange={item => {
-                            setDropdown(item.value);
+                            setFontsDropDown(item.value);
                                 console.log('selected', item);
                             }}
                             renderItem={item => _renderItem(item)}
@@ -75,9 +76,9 @@ export function HeadlineField()
                             valueField="value"
                             label="Size"
                             placeholder="Size"
-                            value={dropdown}
+                            value={getSizeDropDown}
                             onChange={item => {
-                            setDropdown(item.value);
+                            setSizeDropDown(item.value);
                                 console.log('selected', item);
                             }}
                             renderItem={item => _renderItem(item)}
@@ -144,7 +145,6 @@ export function SourcesField()
 
     return(
         <View>
-                
                 <TextInput
                     style={styles.sourcesField}
                     onChangeText={onChangeText}
@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderBottomColor: 'gray',
         borderBottomWidth: 0.5,
-
+        width: '20vh',
+        marginLeft: 5,
     },
     shadow: {
         shadowColor: '#000',
