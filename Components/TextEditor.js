@@ -8,9 +8,10 @@ import * as Icon from "react-native-feather";
 import { Entypo } from '@expo/vector-icons';
 import { globalStyles } from '../Styles/Global';
 
-export function TextEditor()
+export function HeadlineField()
 {
-    const [text, onChangeText] = React.useState("Write Here");
+    
+    const [text, onChangeText] = React.useState("");
     const [number, onChangeNumber] = React.useState(null);
 
     const [dropdown, setDropdown] = React.useState(null);
@@ -103,14 +104,58 @@ export function TextEditor()
                     </View>
                 </View>
                 <TextInput
-                    style={styles.input}
+                    style={styles.headlineField}
                     onChangeText={onChangeText}
+                    placeholder = "Write Your Header Here..."
+                    value={text}
+                    multiline
+                />
+                
+        </View>
+    )
+}
+
+export function TextEditor()
+{
+    
+    const [text, onChangeText] = React.useState("");
+    const [number, onChangeNumber] = React.useState(null);
+
+    return(
+        <View>
+                
+                <TextInput
+                    style={styles.textInput}
+                    onChangeText={onChangeText}
+                    placeholder = "Write Your Article Here..."
                     value={text}
                     multiline
                 />
         </View>
     )
 }
+
+
+export function SourcesField()
+{
+    
+    const [text, onChangeText] = React.useState("");
+    const [number, onChangeNumber] = React.useState(null);
+
+    return(
+        <View>
+                
+                <TextInput
+                    style={styles.sourcesField}
+                    onChangeText={onChangeText}
+                    placeholder = "Write Your Sources Here..."
+                    value={text}
+                    multiline
+                />
+        </View>
+    )
+}
+
 
 const styles = StyleSheet.create({
     optionsBar: {
@@ -166,9 +211,27 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         fontStyle: 'bold',
     },
-    input: {
-      height: '80vh',
+    headlineField: {
+      height: '5vh',
       textAlignVertical: 'top',
+      padding: 3,
+      paddingLeft: 5,
+      margin: 12,
+      marginTop: 0,
+      borderWidth: 1,
+    },
+    textInput: {
+      height: '80vh',
+      //textAlignVertical: 'top',
+      padding: 3,
+      paddingLeft: 5,
+      margin: 12,
+      marginTop: 0,
+      borderWidth: 1,
+    },
+    sourcesField: {
+      height: '15vh',
+      //textAlignVertical: 'top',
       padding: 3,
       paddingLeft: 5,
       margin: 12,
