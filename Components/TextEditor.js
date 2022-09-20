@@ -10,9 +10,42 @@ import * as Icon from "react-native-feather";
 import { Entypo } from '@expo/vector-icons';
 import { globalStyles } from '../Styles/Global';
 
+// LATER //
+// AutoSave Function
+// - Saves, or uploads, the current inputs from the text editor to the MySQL database
+// - For convenience of the writer, so their current articles do not get lost
+function AutoSave()
+{
+
+}
+
+// Sprint 2
+// SaveDraft Function
+// - Called whenever the "Save Draft" button is clicked, uploads inputs in TextEditor to the MySQL database
+// TODO: Add props for this function from current article inputs
+// TODO: Connect to MySQL database
+function SaveDraft()
+{
+    console.log("pressed saved draft");
+}
+
+// Sprint 2
+// ScheduleUpload Function
+// - Does the same as SaveDraft, except adds a date type data attribute to the row
+// TODO: Add props for this function from current article inputs
+// TODO: Connect to MySQL database
+function ScheduleUpload()
+{
+    console.log("pressed schedule upload");
+}
+
+// TEXT EDITOR COMPONENT //
+// - The TextEditor component includes the status, or role, the current user has.
+// - It includes the Headline input, what the headline will be for the current article.
+// - It includes the Editor component, imported from the React Draft.JS node module above.
+// - It includes the Save Draft and Schedule Upload buttons, shown only to the Admin status.
 export function TextEditor()
 {
-    
     return(
         <View>
             <View style={styles.articleInputs}>
@@ -39,8 +72,14 @@ export function TextEditor()
                 {/* Save Draft and Schedule Upload Buttons */}
             </View>
             <View style={styles.actionsBar}>
-                <Button title="Save Draft" type="outline" style={styles.actionsItem}  />
-                <Button title="Schedule Upload" type="outline" style={styles.actionsItem}  />
+                <Button title="Save Draft" 
+                        type="outline" 
+                        style={styles.actionsItem} 
+                        onPress={() => SaveDraft()}  />
+                <Button title="Schedule Upload" 
+                        type="outline" 
+                        style={styles.actionsItem}  
+                        onPress={() => ScheduleUpload()}/>
             </View>
         </View>
     )
