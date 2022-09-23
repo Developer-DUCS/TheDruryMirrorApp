@@ -26,5 +26,9 @@ Repo for the Drury Mirror App capstone project at Drury University.
 Type `ctrl C` in the terminal to stop.
 
 
+# MySQL Server
+1. Create a test database. 
+2. Add users to the server and grant them privileges.
+
 ## Trouble Shooting
 Expo needs internet to run. Make sure the phone in the emulator has an internet connection.    
