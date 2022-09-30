@@ -30,5 +30,7 @@ Type `ctrl C` in the terminal to stop.
 1. Create a test database. 
 2. Add users to the server and grant them privileges.
 
+* Had to `npm install mysql2` for the authentication between mysql and nodejs.
+
 ## Trouble Shooting
 Expo needs internet to run. Make sure the phone in the emulator has an internet connection.    

@@ -27,6 +27,7 @@ function AutoSave()
 function SaveDraft()
 {
     console.log("pressed saved draft");
+    
 }
 
 // Sprint 2

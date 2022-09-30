@@ -1,0 +1,7 @@
+{
+    "host": "10.15.6.126",
+    "user": "SamuelDev",
+    "password": "Letmein!123456",
+    "database": "DruryMirror",
+    "port": "3306"
+}
