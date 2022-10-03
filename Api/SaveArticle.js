@@ -24,6 +24,7 @@ router.post('/', (req, res) => {
     //console.log(testString2);
     let createQuery = ("insert into TESTING(Testing) values(?)");
 
+    // make sure this is a compiled query
     conn.query(createQuery, [testString], (err, rows) => {
         if (err) {
             console.log(`Could not add ${testString} with query ${createQuery}`);
