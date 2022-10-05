@@ -19,10 +19,10 @@ const conn = require("../Database/mysqldb");
 router.post('/', (req, res) => {
     console.log(`Called test route`);
 
-    let testString = "This is a test";
+    let testString = "This is a test2";
     //let testString2 = req.body.testString;
     //console.log(testString2);
-    let createQuery = ("insert into TESTING(Testing) values(?)");
+    let createQuery = ("insert into test(mytest) values(?)");
 
     // make sure this is a compiled query
     conn.query(createQuery, [testString], (err, rows) => {

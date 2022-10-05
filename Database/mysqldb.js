@@ -26,7 +26,7 @@ const config = require("./mysqlConfig.json");  // Configuration file for the mys
 // });
 
 // Change the myUser variable to your username 
-var myUser = "thomasN";
+var myUser = "sam";
 
 if (myUser == "sam") {
     var conn = mysql.createConnection({

@@ -20,7 +20,34 @@
     "thomasN_local_db": [
         {
             "host": "127.0.0.1",
-            "user": "sam",
+            "user": "thomasN",
+            "password": "Letmein!22",
+            "database": "test_schema",
+            "port": "3306"
+        }
+    ],
+    "daniel_local_db": [
+        {
+            "host": "127.0.0.1",
+            "user": "daniel",
+            "password": "Letmein!22",
+            "database": "test_schema",
+            "port": "3306"
+        }
+    ],
+    "haley_local_db": [
+        {
+            "host": "127.0.0.1",
+            "user": "haley",
+            "password": "Letmein!22",
+            "database": "test_schema",
+            "port": "3306"
+        }
+    ],
+    "thomasO_local_db": [
+        {
+            "host": "127.0.0.1",
+            "user": "thomasO",
             "password": "Letmein!22",
             "database": "test_schema",
             "port": "3306"
