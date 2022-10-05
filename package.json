@@ -20,12 +20,17 @@
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "react": "18.0.0",
+    "react-calendar-datetime-picker": "^1.6.3",
     "react-dom": "18.0.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-native": "0.69.5",
     "react-native-element-dropdown": "^2.3.0",
     "react-native-elements": "^3.4.2",
     "react-native-feather": "^1.1.2",
+<<<<<<< HEAD
+=======
+    "react-native-screens": "~3.15.0",
+>>>>>>> Test-Development
     "react-native-svg": "12.3.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.18.9"

@@ -1,9 +1,12 @@
 // Components
 import { StyleSheet, Text, View, Platform} from 'react-native';
-import { Component, React} from 'react';
+import { Component, React, useState} from 'react';
 import { Input, Button } from 'react-native-elements';
 import { Editor } from 'react-draft-wysiwyg';
 import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import  DtPicker  from 'react-calendar-datetime-picker'
+import 'react-calendar-datetime-picker/dist/index.css'
+import { convertToRaw, convertFromRaw, EditorState } from 'draft-js';
 
 // Styles
 import * as Icon from "react-native-feather";
@@ -47,6 +50,47 @@ function ScheduleUpload()
 // - It includes the Save Draft and Schedule Upload buttons, shown only to the Admin status.
 export function TextEditor()
 {
+    // CALENDAR DATETIME COMPONENT //
+    // - Node module created by "mehdinasiri"
+    // - Allows the user to select a date and change time
+    const [date, setDate] = useState([]) // used to store current date
+    const DatePicker = () => {
+        return (
+            <DtPicker
+            onChange={setDate}
+            type='single'
+            local='en'
+            withTime
+            showTimeInput
+            showWeekend
+            />
+        )
+    }
+
+    const [contentState, setContentState] = useState({}) // ContentState JSON
+
+    // Sprint 2
+    // SaveDraft Function
+    // - Called whenever the "Save Draft" button is clicked, uploads inputs in TextEditor to the MySQL database
+    // TODO: Add props for this function from current article inputs
+    // TODO: Connect to MySQL database
+    function SaveDraft()
+    {
+        // Upload json to MysQL database
+        console.log("pressed saved draft");
+        console.log(JSON.stringify(contentState, 2));
+    }
+
+    // Sprint 2
+    // ScheduleUpload Function
+    // - Does the same as SaveDraft, except adds a date type data attribute to the row
+    // TODO: Add props for this function from current article inputs
+    // TODO: Connect to MySQL database
+    function ScheduleUpload()
+    {
+        console.log("pressed schedule upload");
+    }
+
     return(
         <View>
             <View style={styles.articleInputs}>
@@ -63,7 +107,10 @@ export function TextEditor()
                 </View>
                 {/* Rich Text Editor */}
                 <View style = {styles.textEditor}>
-                    <Editor></Editor>
+                    <Editor
+                        onContentStateChange={setContentState}
+                        >
+                    </Editor>
                 </View>
                 {/* Links and Info for Citations */}
                 <View style = {styles.citationsView}>
@@ -81,6 +128,9 @@ export function TextEditor()
                         type="outline" 
                         style={styles.actionsItem}  
                         onPress={() => ScheduleUpload()}/>
+            </View>
+            <View>
+                <DatePicker></DatePicker>
             </View>
         </View>
     )
