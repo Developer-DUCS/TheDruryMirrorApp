@@ -26,7 +26,7 @@ const config = require("./mysqlConfig.json");  // Configuration file for the mys
 // });
 
 // Change the myUser variable to your username 
-var myUser = "sam";
+var myUser = "thomasNWIN";
 
 if (myUser == "sam") {
     var conn = mysql.createConnection({
@@ -53,6 +53,15 @@ else if (myUser == "thomasN") {
         password: config.thomasN_local_db[0].password,
         database: config.thomasN_local_db[0].database,
         port: config.thomasN_local_db[0].port
+    });
+}
+else if (myUser == "thomasNWIN") {
+    var conn = mysql.createConnection({
+        host: config.thomasN_local_db_WIN[0].host,
+        user: config.thomasN_local_db_WIN[0].user,
+        password: config.thomasN_local_db_WIN[0].password,
+        database: config.thomasN_local_db_WIN[0].database,
+        port: config.thomasN_local_db_WIN[0].port
     });
 }
 else if (myUser == "haley") {

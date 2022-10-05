@@ -20,9 +20,18 @@
     "thomasN_local_db": [
         {
             "host": "127.0.0.1",
-            "user": "thomasN",
-            "password": "Letmein!22",
-            "database": "test_schema",
+            "user": "thosnield",
+            "password": "Letmein!1",
+            "database": "DruryMirror",
+            "port": "3306"
+        }
+    ],
+    "thomasN_local_db_WIN": [
+        {
+            "host": "127.0.0.1",
+            "user": "thosnield",
+            "password": "Letmein!",
+            "database": "DruryMirror",
             "port": "3306"
         }
     ],
