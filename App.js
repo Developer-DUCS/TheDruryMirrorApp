@@ -3,7 +3,7 @@ import { TextInput } from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 
-import { ArticleWritingPage } from './Pages/ArticleWriting';
+import { ArticleWritingPage } from './Screens/ArticleWriting';
 
 import { Entypo } from '@expo/vector-icons';
 import { globalStyles } from './Styles/Global';
