@@ -12,6 +12,7 @@
 import { Text, View } from 'react-native';
 
 import { HeaderBar } from '../Components/Header';
+import { NavMenu } from '../Components/NavMenu';
 import { TextEditor } from '../Components/TextEditor';
 import { SourcesField } from '../Components/TextEditor';
 
@@ -22,6 +23,7 @@ export function ArticleWritingPage()
     return(
         <View>
             <HeaderBar/>
+            <NavMenu/>
             <View>
                 <TextEditor></TextEditor>
             </View>

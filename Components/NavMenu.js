@@ -33,13 +33,69 @@ export function NavMenu()
     }
 
     return(
-        <View>
-            <View>
-                <Button title="Schedule Upload" 
-                    type="solid"
-                    onPress={() => onArticlesPress()}/>
+        <View style={styles.NavGrid}>
+            <View style={styles.NavItem}>
+                <Button 
+                    type="clear"
+                    onPress={() => onArticlesPress()}
+                    icon={{
+                        name: 'list',
+                        type: 'font-awesome',
+                        size: 24,
+                        color: 'white',
+                      }}/>
+            </View>
+            <View style={styles.NavItem}>
+                <Button 
+                    type="clear"
+                    onPress={() => onArticlesPress()}
+                    icon={{
+                        name: 'pencil',
+                        type: 'entypo',
+                        size: 24,
+                        color: 'white',
+                      }}
+                      />
+            </View>
+            <View style={styles.NavItem}>
+                <Button 
+                    type="clear"
+                    onPress={() => onArticlesPress()}
+                    icon={{
+                        name: 'users',
+                        type: 'font-awesome-5',
+                        size: 24,
+                        color: 'white',
+                      }}
+                      />
+            </View>
+            <View style={styles.NavItem}>
+                <Button 
+                    type="clear"
+                    onPress={() => onArticlesPress()}
+                    icon={{
+                        name: 'stats-chart',
+                        type: 'ionicon',
+                        size: 24,
+                        color: 'white',
+                      }}
+                      />
             </View>
         </View>
     )
 }
 
+const styles = StyleSheet.create({
+    NavGrid:{
+        flex: 1,
+        height: 50,
+        flexDirection: "row",
+        backgroundColor: '#1A2733',
+    },
+    NavItem: {
+        width: 50,
+        marginLeft: 16,
+        marginTop: 5,
+        marginBottom: 5,
+    }
+});
