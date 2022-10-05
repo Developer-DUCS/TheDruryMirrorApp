@@ -32,5 +32,7 @@ Type `ctrl C` in the terminal to stop.
 
 * Had to `npm install mysql2` for the authentication between mysql and nodejs.
 
+To set up the local MySQL connection on a windows device you must first install MySQL Server. This can be done by downloading the `MySQL Commnunity Installer`. Go through the steps on the installer and download the most up to date version of MySQL Server. Once this is done make an account that is **not the root** and matches the information in the information in the `mysqlConfig.json` file. After this is done change the `myUser` (line 29) variable in the `mysqldb.js` file to your name. Once these steps are done you can then run the command `node Server/backend.js` and it will prompt you if you have a successful connection.
+
 ## Trouble Shooting
 Expo needs internet to run. Make sure the phone in the emulator has an internet connection.    
