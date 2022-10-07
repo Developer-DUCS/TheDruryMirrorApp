@@ -7,6 +7,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { ArticleWritingPage } from './Screens/ArticleWriting';
 import { ArticleList } from './Screens/ArticleList';
+import { login } from './Screens/login';
+
 
 import { Entypo } from '@expo/vector-icons';
 import { globalStyles } from './Styles/Global';
@@ -17,18 +19,15 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     'Garamond-Regular': require('./assets/fonts/Garamond-Regular.ttf')
   });
-  const Stack = createNativeStackNavigator();
+  const AppStack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen
-        name = 'ArticleWriting' 
-        component= {TextEditor} />
-
-
-    </Stack.Navigator>
-    </NavigationContainer>
-    
+    <AppStack.Navigator screenOptions={{ headerShown: false}}>
+                <AppStack.Screen name='login' component = {login}/>
+                <AppStack.Screen name='ArticleWritingPage' component = {ArticleWritingPage} />
+                <AppStack.Screen name='ArticleList' component = {ArticleList} />
+            </AppStack.Navigator> 
+    </NavigationContainer>   
   );
 }

@@ -27,21 +27,13 @@ function AutoSave()
 // - Called whenever the "Save Draft" button is clicked, uploads inputs in TextEditor to the MySQL database
 // TODO: Add props for this function from current article inputs
 // TODO: Connect to MySQL database
-function SaveDraft()
-{
-    console.log("pressed saved draft");
-    
-}
 
 // Sprint 2
 // ScheduleUpload Function
 // - Does the same as SaveDraft, except adds a date type data attribute to the row
 // TODO: Add props for this function from current article inputs
 // TODO: Connect to MySQL database
-function ScheduleUpload()
-{
-    console.log("pressed schedule upload");
-}
+
 
 // TEXT EDITOR COMPONENT //
 // - The TextEditor component includes the status, or role, the current user has.
@@ -86,10 +78,7 @@ export function TextEditor()
     // - Does the same as SaveDraft, except adds a date type data attribute to the row
     // TODO: Add props for this function from current article inputs
     // TODO: Connect to MySQL database
-    function ScheduleUpload()
-    {
-        console.log("pressed schedule upload");
-    }
+    
 
     return(
         <View>
@@ -117,17 +106,13 @@ export function TextEditor()
                     <Text style = {styles.citationsTitle}>Citations</Text>
                     <Input style = {styles.citationsInput} multiline></Input>
                 </View>
-                {/* Save Draft and Schedule Upload Buttons */}
+                {/* Save Draft */}
             </View>
             <View style={styles.actionsBar}>
                 <Button title="Save Draft" 
                         type="outline" 
                         style={styles.actionsItem} 
                         onPress={() => SaveDraft()}  />
-                <Button title="Schedule Upload" 
-                        type="outline" 
-                        style={styles.actionsItem}  
-                        onPress={() => ScheduleUpload()}/>
             </View>
             <View>
                 <DatePicker></DatePicker>

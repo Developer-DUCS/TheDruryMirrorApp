@@ -12,16 +12,19 @@
 
 import { Text, View } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 
 export function NavMenu()
 {
+    const navigation = useNavigation();
     // onArticlesPress
     // - Sends user to the ArticleList.js page
     function onArticlesPress()
     {
+        navigation.navigate ("ArticleList");
 
     }
 
@@ -29,11 +32,12 @@ export function NavMenu()
     // - Sends user to the Admin, Copyeditor, or Writer ArticleWriting view
     function onArticleWritingPress()
     {
-
+        navigation.navigate ("ArticleWritingPage");
     }
 
     return(
-        <View style={styles.NavGrid}>
+        
+            <View style={styles.NavGrid}>
             <View style={styles.NavItem}>
                 <Button 
                     type="clear"
@@ -48,7 +52,7 @@ export function NavMenu()
             <View style={styles.NavItem}>
                 <Button 
                     type="clear"
-                    onPress={() => onArticlesPress()}
+                    onPress={() => onArticleWritingPress()}
                     icon={{
                         name: 'pencil',
                         type: 'entypo',
@@ -82,6 +86,7 @@ export function NavMenu()
                       />
             </View>
         </View>
+    
     )
 }
 

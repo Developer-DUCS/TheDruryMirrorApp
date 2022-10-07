@@ -12,6 +12,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Component, React, useState} from 'react';
 import { HeaderBar } from '../Components/Header';
+import { NavMenu} from '../Components/NavMenu';
 import { ArticleContainer } from '../Components/ArticleContainer';
 
 import { SourcesField } from '../Components/TextEditor';
@@ -77,6 +78,7 @@ export function ArticleList()
     return(
         <View>
             <HeaderBar/>
+            <NavMenu/>
             <View style={styles.container}>
                 {populatePage()}
             </View>

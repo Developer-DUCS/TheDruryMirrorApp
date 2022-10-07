@@ -17,10 +17,13 @@ import { TextEditor } from '../Components/TextEditor';
 import { SourcesField } from '../Components/TextEditor';
 
 import { useFonts } from 'expo-font';
+import { NavigationContainer } from '@react-navigation/native';
 
 export function ArticleWritingPage()
 {
+    
     return(
+        
         <View>
             <HeaderBar/>
             <NavMenu/>
@@ -28,5 +31,6 @@ export function ArticleWritingPage()
                 <TextEditor></TextEditor>
             </View>
         </View>
+    
     )
 }
