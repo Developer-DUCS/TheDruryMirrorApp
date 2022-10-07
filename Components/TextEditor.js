@@ -5,43 +5,17 @@ import { Input, Button } from 'react-native-elements';
 import { Editor } from 'react-draft-wysiwyg';
 import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import  DtPicker  from 'react-calendar-datetime-picker'
-import 'react-calendar-datetime-picker/dist/index.css'
-import { convertToRaw, convertFromRaw, EditorState } from 'draft-js';
-
+//import 'react-calendar-datetime-picker/dist/index.css'
+import { convertToRaw, convertFromRaw, EditorState, ContentState } from 'draft-js';
+//import 'draft-js';
 // Styles
 import * as Icon from "react-native-feather";
 import { Entypo } from '@expo/vector-icons';
 import { globalStyles } from '../Styles/Global';
+import { text } from 'body-parser';
 
-// LATER //
-// AutoSave Function
-// - Saves, or uploads, the current inputs from the text editor to the MySQL database
-// - For convenience of the writer, so their current articles do not get lost
-function AutoSave()
-{
 
-}
 
-// Sprint 2
-// SaveDraft Function
-// - Called whenever the "Save Draft" button is clicked, uploads inputs in TextEditor to the MySQL database
-// TODO: Add props for this function from current article inputs
-// TODO: Connect to MySQL database
-function SaveDraft()
-{
-    console.log("pressed saved draft");
-    
-}
-
-// Sprint 2
-// ScheduleUpload Function
-// - Does the same as SaveDraft, except adds a date type data attribute to the row
-// TODO: Add props for this function from current article inputs
-// TODO: Connect to MySQL database
-function ScheduleUpload()
-{
-    console.log("pressed schedule upload");
-}
 
 // TEXT EDITOR COMPONENT //
 // - The TextEditor component includes the status, or role, the current user has.
@@ -50,45 +24,64 @@ function ScheduleUpload()
 // - It includes the Save Draft and Schedule Upload buttons, shown only to the Admin status.
 export function TextEditor()
 {
-    // CALENDAR DATETIME COMPONENT //
-    // - Node module created by "mehdinasiri"
-    // - Allows the user to select a date and change time
-    const [date, setDate] = useState([]) // used to store current date
-    const DatePicker = () => {
-        return (
-            <DtPicker
-            onChange={setDate}
-            type='single'
-            local='en'
-            withTime
-            showTimeInput
-            showWeekend
-            />
-        )
-    }
-
     const [contentState, setContentState] = useState({}) // ContentState JSON
-
+    
+ 
     // Sprint 2
     // SaveDraft Function
     // - Called whenever the "Save Draft" button is clicked, uploads inputs in TextEditor to the MySQL database
     // TODO: Add props for this function from current article inputs
     // TODO: Connect to MySQL database
-    function SaveDraft()
+    async function SaveDraft()
     {
         // Upload json to MysQL database
-        console.log("pressed saved draft");
-        console.log(JSON.stringify(contentState, 2));
-    }
+        console.log("pressed saved draft2");
 
-    // Sprint 2
-    // ScheduleUpload Function
-    // - Does the same as SaveDraft, except adds a date type data attribute to the row
-    // TODO: Add props for this function from current article inputs
-    // TODO: Connect to MySQL database
-    function ScheduleUpload()
-    {
-        console.log("pressed schedule upload");
+        // send post data to sql server
+        const url = "http://127.0.0.1:3000/Api/SaveArticle";
+
+        // Get the data from the text editor
+        let ourJsonObj = contentState;
+        // Find the "text" field of the json object contentState
+        let textField = ourJsonObj["blocks"][0]["text"];
+        let data = {
+            "article": textField
+        }
+
+
+        console.log(`typeof textField: ${typeof textField}`);
+        console.log(`textField: ${textField}`);
+        console.log(`data: ${data}`);
+        console.log(`data stringified: ${JSON.stringify(data)}`);
+        //console.log(`Stringified data: ${JSON.stringify(data)}`);
+
+        //console.log("DATA: ", data[0][0][0]);
+        // const response = await fetch(url, {
+        //     method: "post",
+        //     headers: {"Content-Type": "application/json" },
+        //     body: JSON.stringify(data[0])
+        // });
+        console.log(JSON.stringify(data));
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+
+        fetch(url, {
+            mode: "no-cors",    // look into this
+            method: "POST",
+            headers: myHeaders,
+            body: JSON.stringify(data),
+            //redirect: 'follow'
+            //dataType: "json"
+        })
+            .then(res => res) // the .json() method parses the JSON response into a JS object literal
+            .then(data => console.log(data))
+            .catch(err => {
+                console.error(err);
+            });
+
+
     }
 
     return(
@@ -108,9 +101,14 @@ export function TextEditor()
                 {/* Rich Text Editor */}
                 <View style = {styles.textEditor}>
                     <Editor
+                        //editorState={article}
+                        //onEditorStateChange={onEditorStateChange}
                         onContentStateChange={setContentState}
                         >
                     </Editor>
+                    
+                    {/*editorState={editorState} onChange={setEditorState}*/}
+                    
                 </View>
                 {/* Links and Info for Citations */}
                 <View style = {styles.citationsView}>
@@ -124,13 +122,6 @@ export function TextEditor()
                         type="outline" 
                         style={styles.actionsItem} 
                         onPress={() => SaveDraft()}  />
-                <Button title="Schedule Upload" 
-                        type="outline" 
-                        style={styles.actionsItem}  
-                        onPress={() => ScheduleUpload()}/>
-            </View>
-            <View>
-                <DatePicker></DatePicker>
             </View>
         </View>
     )
@@ -161,11 +152,11 @@ const styles = StyleSheet.create({
         headlineInput: {
             outlineStyle: 'none',
         },
-        textEditor: {
+        textEditor: {            
             borderWidth: 1,
             borderRadius: 3,
             padding: 6,
-            height: '80vh',
+            height: '40vh',
         },
         citationsView: {
             borderWidth: 1,

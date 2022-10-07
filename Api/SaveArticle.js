@@ -8,7 +8,9 @@
 
 const router = require("express").Router();
 const conn = require("../Database/mysqldb");
+const express = require("express");
 
+router.use(express.json());
 
 // TODO:
 //  Add a connection file to connect to the database
@@ -19,15 +21,28 @@ const conn = require("../Database/mysqldb");
 router.post('/', (req, res) => {
     console.log(`Called test route`);
 
-    let testString = "This is a test2";
-    //let testString2 = req.body.testString;
-    //console.log(testString2);
     let createQuery = ("insert into test(mytest) values(?)");
 
+    console.log(`req: ${req}`);
+    console.log(`req.body: ${req.body}`);
+    console.log(`req type: ${typeof req.body}`);
+
+    //let articleString = req.body.data;    // Works in postman
+
+    let articleString = req.body;
+    //articleString = JSON.stringify(articleString);
+    //articleString = JSON.parse(articleString);
+
+    console.log(`req articleString["article"]: ${articleString["article"]}`);
+    console.log(`req articleString[0]: ${articleString[0]}`);
+    console.log(`req articleString.article: ${articleString.article}`);
+    console.log(`req type: ${typeof articleString}`);
+    //console.log(type(req));
+
     // make sure this is a compiled query
-    conn.query(createQuery, [testString], (err, rows) => {
+    conn.query(createQuery, [articleString], (err, rows) => {
         if (err) {
-            console.log(`Could not add ${testString} with query ${createQuery}`);
+            //console.log(`Could not add ${testString} with query ${createQuery}`);
             res.status(500).json({error: "Could not insert."});
         }
         else {
