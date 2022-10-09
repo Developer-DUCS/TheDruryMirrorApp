@@ -1,5 +1,5 @@
 
-import excuteQuery from "../../backend/mysqldb";
+const conn = require("../../backend/mysqldb");
 
 export default async (req, res) => {
     try {
@@ -9,13 +9,25 @@ export default async (req, res) => {
 
         let articleString = body.article;
 
-        const result = await excuteQuery({
-            query: 'INSERT INTO test(article) VALUES(?)',
-            values: articleString
+        let saveQuery = ('INSERT INTO test(article) VALUES(?)');
+
+        conn.query(saveQuery, [articleString], (err) => {
+            if (err) {
+                console.log("Something went wrong");
+                res.status(500).json({error: "Failed Insertion"});
+            }
+            else {
+                res.status(201).json({msg: "Successful Insertion"});
+            }
         });
-        res.status(201).json({msg: "Insertion Successful"});
-        console.log("here");
-        console.log(result);
+
+        // const result = ({
+        //     query: 'INSERT INTO test(article) VALUES(?)',
+        //     values: articleString
+        // });
+        // res.status(201).json({msg: "Insertion Successful"});
+        // console.log("here");
+        // console.log(result);
     }
     catch (error) {
         console.log(error);

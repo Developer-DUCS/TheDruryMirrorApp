@@ -11,9 +11,10 @@
 //Sam's hat syas "Simulated Wheat 8"
 
 
-//const mysql = require("mysql2");  // Needed mysql2 for the authentication handshake to work
+const mysql = require("mysql2");  // Needed mysql2 for the authentication handshake to work
 const config = require("./mysqlConfig.json");  // Configuration file for the mysql connection
-import mysql from 'serverless-mysql';
+//import mysql from 'serverless-mysql';
+//const mysql = require('serverless-mysql');
 
 
 //console.log(config.sams_local_db[0]);
@@ -29,9 +30,9 @@ import mysql from 'serverless-mysql';
 
 // Change the myUser variable to your username 
 var myUser = "sam";
-
+let db = ""
 if (myUser == "sam") {
-    const db = mysql({
+    db = mysql.createConnection({
         host: config.sam_local_db[0].host,
         user: config.sam_local_db[0].user,
         password: config.sam_local_db[0].password,
@@ -40,7 +41,7 @@ if (myUser == "sam") {
     });
 }
 else if (myUser == "daniel") {
-    const db = mysql({
+    db = mysql.createConnection({
         host: config.daniel_local_db[0].host,
         user: config.daniel_local_db[0].user,
         password: config.daniel_local_db[0].password,
@@ -49,7 +50,7 @@ else if (myUser == "daniel") {
     });
 }
 else if (myUser == "thomasN") {
-    const db = mysql({
+    db = mysql.createConnection({
         host: config.thomasN_local_db[0].host,
         user: config.thomasN_local_db[0].user,
         password: config.thomasN_local_db[0].password,
@@ -58,7 +59,7 @@ else if (myUser == "thomasN") {
     });
 }
 else if (myUser == "thomasNWIN") {
-    const db = mysql({
+    db = mysql.createConnection({
         host: config.thomasN_local_db_WIN[0].host,
         user: config.thomasN_local_db_WIN[0].user,
         password: config.thomasN_local_db_WIN[0].password,
@@ -67,7 +68,7 @@ else if (myUser == "thomasNWIN") {
     });
 }
 else if (myUser == "haley") {
-    const db = mysql({
+    db = mysql.createConnection({
         host: config.haley_local_db[0].host,
         user: config.haley_local_db[0].user,
         password: config.haley_local_db[0].password,
@@ -76,7 +77,7 @@ else if (myUser == "haley") {
     });
 }
 else if (myUser == "thomasO") {
-    const db = mysql({
+    db = mysql.createConnection({
         host: config.thomasO_local_db[0].host,
         user: config.thomasO_local_db[0].user,
         password: config.thomasO_local_db[0].password,
@@ -87,12 +88,28 @@ else if (myUser == "thomasO") {
 
 
 
-export default async function excuteQuery({ query, values }) {
-    try {
-      const results = await db.query(query, values);
-      await db.end();
-      return results;
-    } catch (error) {
-      return { error };
+
+db.connect(function(err) {
+    //console.log(`host: ${conn.host}\nuser: ${conn.user}\npassword: ${conn.password}\ndatabase: ${conn.database}\nport: ${conn.port}`);
+    if (err){
+        console.log('Error establishing mysql connection');
+        //console.log(err);
     }
-  }
+    else {
+        console.log("connection established");
+    }
+});
+module.exports = db;
+
+
+// export default async function excuteQuery({ query, values }) {
+//     try {
+//         const test = await db.connect()
+//         console.log(test);
+//         const results = await db.query(query, values);
+//         await db.end();
+//         return results;
+//     } catch (error) {
+//         return { error };
+//     }
+//   }
