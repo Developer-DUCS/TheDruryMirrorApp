@@ -4,7 +4,8 @@
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
 
-
+import React, { useState } from 'react';
+import parse from 'html-react-parser';
 
 
 // we import react-quill dynamically, to avoid including it in server-side 
@@ -12,6 +13,7 @@ import dynamic from 'next/dynamic'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {	
 	ssr: false,
 	loading: () => <p>Loading ...</p>,
+
 	})
 
 
@@ -56,16 +58,21 @@ const modules = {
     ]
 
 export default function PageWithJSbasedForm() {
+
+    // Handles the contents of the article editor.
+    const [value, setValue] = useState();
     // Handles the submit event on form submit.
+
     const handleSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
+        console.log(value)
         event.preventDefault()
     
         // Get data from the form.
         const data = {
         first: event.target.first.value,
         last: event.target.last.value,
-        article: event.QuillNoSSRWrapper.getText()
+        article: value
         }
     
         // Send the data to the server in JSON format.
@@ -78,14 +85,14 @@ export default function PageWithJSbasedForm() {
     
         // Form the request for sending data to the server.
         const options = {
-        // The method is POST because we are sending data.
-        method: 'POST',
-        // Tell the server we're sending JSON.
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        // Body of the request is the JSON data we created above.
-        body: JSONdata,
+            // The method is POST because we are sending data.
+            method: 'POST',
+            // Tell the server we're sending JSON.
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // Body of the request is the JSON data we created above.
+            body: JSONdata,
         }
     
         // Send the form data to our forms API on Vercel and get a response.
@@ -94,22 +101,33 @@ export default function PageWithJSbasedForm() {
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         const result = await response.json()
-        alert(`Is this your full name: ${result.data}`)
+
     }
+
     return (
         // We pass the event to the handleSubmit() function on submit.
-        <form onSubmit={handleSubmit}>
-        <label htmlFor="first">First Name</label> <br></br>
-        <input type="text" id="first" name="first" required /><br></br>
-    
-        <label htmlFor="last">Last Name</label> <br></br>
-        <input type="text" id="last" name="last" required /> <br></br><br></br>
-
-        <QuillNoSSRWrapper id="article" modules={modules} formats={formats} theme="snow" /><br></br><br></br>
+        <>
         
-    
-        <button type="submit">Submit</button>
-        </form>
+            <form onSubmit={handleSubmit}>
+            <label htmlFor="first">First Name</label> <br></br>
+            <input type="text" id="first" name="first" required /><br></br>
+        
+            <label htmlFor="last">Last Name</label> <br></br>
+            <input type="text" id="last" name="last" required /> <br></br><br></br>
+
+            <QuillNoSSRWrapper id="article" modules={modules} value={value} onChange={setValue} formats={formats} theme="snow" /><br></br><br></br>
+            
+            
+            <button type="submit">Submit</button>
+            </form>
+
+            <div>
+                <p>{value}</p>
+                
+            </div>
+
+
+        </>
     )
     }
 
