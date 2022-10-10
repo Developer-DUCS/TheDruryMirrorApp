@@ -1,10 +1,10 @@
 //import Head from 'next/head'
 //import Image from 'next/image'
 //import styles from '../styles/Home.module.css'
-
+import Router, { useRouter } from 'next/router';
 
 export default function LoginPage() {
-
+    const router = useRouter();
     const handleSubmit = async (event) => {
         event.preventDefault()
 
@@ -36,11 +36,15 @@ export default function LoginPage() {
       // Send the form data to our forms API on Vercel and get a response.
       const response = await fetch(endpoint, options)
       console.log("response: ",response)
-      
+      if (response.status == 200) {
+          console.log("here")
+          router.push('quillTest')
+      }
       // Get the response data from server as JSON.
       // If server returns the name submitted, that means the form works.
       const result = await response.json()
       console.log("result: ",result)
+
 
     }
 
