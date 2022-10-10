@@ -97,6 +97,7 @@ export function TextEditor()
                 {/* Rich Text Editor */}
                 <View style = {styles.textEditor}>
                     <Editor
+                        toolbarHidden
                         onContentStateChange={setContentState}
                         >
                     </Editor>
