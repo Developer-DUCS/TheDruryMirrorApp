@@ -1,7 +1,8 @@
 
 const conn = require("../../backend/mysqldb");
 
-export default async (req, res) => {
+// removed async
+export default (req, res) => {
     try {
         console.log("Called saveArticle route");
         const body = req.body;
