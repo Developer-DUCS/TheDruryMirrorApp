@@ -1,7 +1,8 @@
 //import Head from 'next/head'
 //import Image from 'next/image'
-//import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css'
 import Router, { useRouter } from 'next/router';
+import { MissingStaticPage } from 'next/dist/shared/lib/utils';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -15,9 +16,9 @@ export default function LoginPage() {
         }
 
         // Send the data to the server in JSON format.
-        console.log(data)
+        //console.log(data)
         const JSONdata = JSON.stringify(data)
-        console.log(JSONdata)
+        //console.log(JSONdata)
 
         const endpoint = 'api/login'
 
@@ -37,15 +38,11 @@ export default function LoginPage() {
       const response = await fetch(endpoint, options)
       console.log("response: ",response)
       if (response.status == 200) {
-          console.log("here")
           router.push('quillTest')
       }
-      // Get the response data from server as JSON.
-      // If server returns the name submitted, that means the form works.
-      const result = await response.json()
-      console.log("result: ",result)
-
-
+      else {
+        // TODO: Display message saying the username or password is incorrect
+      }
     }
 
 
@@ -58,6 +55,9 @@ export default function LoginPage() {
           <input type="password" id="password" name="password" required /> <br></br>
           <button type="submit">Log In</button>
         </form>
+        <div className={styles.loginErrorMsg}>
+          <h3>Incorrect Username or Password</h3>
+        </div>
       </>
     )
 }

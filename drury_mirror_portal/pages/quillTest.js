@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
 
 import React, { useState } from 'react';
-import parse from 'html-react-parser';
+//import parse from 'html-react-parser';
 
 
 // we import react-quill dynamically, to avoid including it in server-side 
