@@ -38,7 +38,7 @@ export default function LoginPage() {
       const response = await fetch(endpoint, options)
       console.log("response: ",response)
       if (response.status == 200) {
-          router.push('quillTest')
+          router.push('articleWriting')
       }
       else {
         // TODO: Display message saying the username or password is incorrect
