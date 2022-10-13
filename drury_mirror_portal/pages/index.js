@@ -44,7 +44,7 @@ export default function LoginPage() {
 
       if (response.status == 200) {
           if (user.role == "Writer") {
-              router.push('articleWriting')
+              router.push('writerPortal')
           }
           else if (user.role == "Professor") {
               router.push("professorPortal")
