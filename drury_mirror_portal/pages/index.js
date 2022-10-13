@@ -37,8 +37,24 @@ export default function LoginPage() {
       // Send the form data to our forms API on Vercel and get a response.
       const response = await fetch(endpoint, options)
       console.log("response: ",response)
+      let user = await response.json()
+      console.log("response: ",response)
+      console.log("username: ",user.username)
+      console.log("username: ",user.role)
+
       if (response.status == 200) {
-          router.push('articleWriting')
+          if (user.role == "Writer") {
+              router.push('articleWriting')
+          }
+          else if (user.role == "Professor") {
+              router.push("professorPortal")
+          }
+          else if (user.role == "Admin") {
+              router.push("adminPortal")
+          }
+          else if (user.role == "Copy-Editor") {
+              router.push("copyEditorPortal")
+          }
       }
       else {
         // TODO: Display message saying the username or password is incorrect

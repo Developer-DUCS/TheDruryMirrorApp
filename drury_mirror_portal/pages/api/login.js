@@ -9,8 +9,7 @@ export default (req, res) => {
 
     let username = body.username
     let password = body.password
-
-    let authQuery = ("SELECT username, password FROM users WHERE username = ?")
+    let authQuery = ("SELECT username, password, role FROM users WHERE username = ?")
 
     conn.query(authQuery, [username], (err, rows) => {
 
@@ -22,7 +21,11 @@ export default (req, res) => {
         }
         else {
             if (password == rows[0].password) {
-                res.status(200).json({msg: "User Authenticated"})
+                let user = {
+                    username: rows[0].username,
+                    role: rows[0].role
+                }
+                res.status(200).json(user)
                 console.log("User Authenticated")
             }
             else {
