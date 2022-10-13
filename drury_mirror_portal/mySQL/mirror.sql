@@ -41,6 +41,22 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `thomas`.`unfinished`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `drurymirror`.`unfinished` ;
+
+CREATE TABLE IF NOT EXISTS `drurymirror`.`unfinished` (
+  `fid` INT NOT NULL AUTO_INCREMENT,
+  `author` VARCHAR(45) NOT NULL,
+  `headline` VARCHAR(50) NOT NULL,
+  `body` VARCHAR(8000) NOT NULL,
+  `isDraft` bool NOT NULL,
+  `createdDate` date NOT NULL,
+  PRIMARY KEY (`fid`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
 -- Table `thomas`.`article`
 -- -----------------------------------------------------
 
