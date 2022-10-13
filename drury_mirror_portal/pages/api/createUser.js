@@ -6,23 +6,27 @@ export default (req, res) => {
     console.log("Called Create User Route")
     const body = req.body
 
-    let username = body.username
+    let email = body.email
     let password = body.password
-    let role = body.role
+    let roles = body.roles
 
-    let createQuery = ("INSERT into users (username, password, role) VALUES (?, ?, ?)")
+    console.log(email)
 
-    let existingQuery = ("SELECT username, role FROM users WHERE username = ?")
+    let createQuery = ("INSERT into users (email, password, roles) VALUES (?, ?, ?)")
+
+    let existingQuery = ("SELECT email, roles FROM users WHERE email = ?")
     
-    conn.query(existingQuery, [username], (err, rows) => {
+    conn.query(existingQuery, [email], (err, rows) => {
         if (rows.length == 0) {
             console.log("no user found")
-            conn.query(createQuery, [username, password, role],  (err, rows) => {
+            conn.query(createQuery, [email, password, roles],  (err, rows) => {
 
-                if (err) return res.status(500).json({error: err})
-                
+                if (err) {
+                    console.log(err)
+                    return res.status(500).json({error: err})
+                }
                 else {
-                    res.status(201).json({msg: "User Created"});
+                    res.status(201).json({msg: "User Created"})
                     console.log("User Created")
                 }
                 

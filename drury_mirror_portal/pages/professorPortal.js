@@ -12,9 +12,9 @@ function professorPortal({users}) {
 
         // Get data from the form.
         const data = {
-            username: event.target.email.value,
+            email: event.target.email.value,
             password: event.target.password.value,
-            role: event.target.role.value,
+            roles: event.target.roles.value,
         }
 
         // Send the data to the server in JSON format.
@@ -60,8 +60,8 @@ function professorPortal({users}) {
           <input type="text" id="email" name="email" required/><br></br>
           <label htmlFor="password">Password</label> <br></br>
           <input type="password" id="password" name="password" required /> <br></br>
-          <label htmlFor="role">Role</label> <br></br>
-          <select id="role" name="role" required >
+          <label htmlFor="roles">Roles</label> <br></br>
+          <select id="roles" name="roles" required >
             <option value = "Writer">Writer</option>
             <option value = "Editor">Editor</option>
             <option value = "Copy-Editor">Copy-Editor</option>
@@ -73,7 +73,7 @@ function professorPortal({users}) {
           <h4 id = "">Select a User</h4>
           <select id="User" name="User" required >
             {users.map((user) => (
-                <option>{user.username}</option>
+                <option>{user.email}</option>
             ))}
             <option value = "student"></option>
           </select> <br></br>

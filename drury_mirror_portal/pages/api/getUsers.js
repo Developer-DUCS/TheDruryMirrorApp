@@ -5,7 +5,7 @@ export default (req, res) => {
     console.log("called get user route")
     const body = req.body
 
-    let getQuery = ("SELECT username, role FROM users")
+    let getQuery = ("SELECT email, roles FROM users")
 
     conn.query(getQuery, (err, rows) => {
         if (err){
@@ -20,8 +20,8 @@ export default (req, res) => {
                 console.log("row: ", row)
 
                 let user = {
-                    username: row.username,
-                    role: row.role
+                    email: row.email,
+                    roles: row.roles
                 }
 
                 users.push(user)
