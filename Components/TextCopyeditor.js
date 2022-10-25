@@ -1,19 +1,18 @@
-// TextEditor.js
-// Created: ???
+// TextCopyeditor.js
+// Created: 10/08/2022
 // Purpose:
-// To give Writers a tool to create articles
+// For Copyeditors to highlight and comment on articles Writers drafted
 //
 // Modification Log:
-// 
-// 
-// 
+
 
 
 // Components
 import { StyleSheet, Text, View, Platform} from 'react-native';
-import { Component, React, useState} from 'react';
+import { Component, React, useState, useEffect, useCallback  } from 'react';
 import { Input, Button } from 'react-native-elements';
 import { Editor } from 'react-draft-wysiwyg';
+import { CommentContainer } from './CommentContainer';
 import '../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import  DtPicker  from 'react-calendar-datetime-picker'
 import 'react-calendar-datetime-picker/dist/index.css'
@@ -59,10 +58,55 @@ function ScheduleUpload()
 // - It includes the Headline input, what the headline will be for the current article.
 // - It includes the Editor component, imported from the React Draft.JS node module above.
 // - It includes the Save Draft and Schedule Upload buttons, shown only to the Admin status.
-export function TextEditor()
+export function TextCopyEditor()
 {
 
-    const [contentState, setContentState] = useState({}) // ContentState JSON
+    // stackOfComments is a stack of comment components, added/pushed each time addComment is called
+    let stackOfComments = []
+
+    // PopulateComments
+    // - Fetches comments from database, ids of comments attatched to this article
+    // - Return a stack of cards w/ props changed to comment data
+    function populateComments(){
+
+    }
+
+    // CopyEditors current comments
+    const [getCommentInput, setCommentInput] = useState({});
+
+    // Current EditorState properties
+    const [editorState, setEditorState] = useState(EditorState.createEmpty())
+    const onEditorStateChange = (editorState) => {
+      setEditorState(editorState)
+    }
+
+    // Reference data for CopyEditor and comment container
+    const [getReferenceData, setReferenceData] = useState({});
+    function findReferenceData(){
+        var selectionState = editorState.getSelection();
+        var anchorKey = selectionState.getAnchorKey();
+        var currentContent = editorState.getCurrentContent();
+        var currentContentBlock = currentContent.getBlockForKey(anchorKey);
+        var start = selectionState.getStartOffset();
+        var end = selectionState.getEndOffset();
+        var selectedText = currentContentBlock.getText().slice(start, end);
+        setReferenceData(selectedText);
+        console.log(selectedText);
+    }
+    
+    useEffect(() => {
+        findReferenceData();
+    }, [editorState]);
+
+
+    // Sprint 3
+    // onAddComment Function
+    // - Called whenever "Add" comment button is clicked
+    function onAddComment(){
+        // getCommentInput is from the input field above the add button
+        // getReferenceData is the selection from the mouse cursor
+
+    }
 
     // Sprint 2
     // SaveDraft Function
@@ -73,17 +117,7 @@ export function TextEditor()
     {
         // Upload json to MysQL database
         console.log("pressed saved draft");
-        console.log(JSON.stringify(contentState, 2));
-    }
-
-    // Sprint 2
-    // ScheduleUpload Function
-    // - Does the same as SaveDraft, except adds a date type data attribute to the row
-    // TODO: Add props for this function from current article inputs
-    // TODO: Connect to MySQL database
-    function ScheduleUpload()
-    {
-        console.log("pressed schedule upload");
+        console.log(JSON.stringify(editorState, 2));
     }
 
     return(
@@ -94,7 +128,6 @@ export function TextEditor()
                     <Button title="Admin" type="outline" />
                 </View>
                 
-                <View></View>
                 {/* Headline View */}
                 <View style = {styles.headlineView}>
                     <Input
@@ -102,13 +135,33 @@ export function TextEditor()
                         style = {styles.headlineInput}
                     />
                 </View>
-                {/* Rich Text Editor */}
-                <View style = {styles.textEditor}>
-                    <Editor
-                        onContentStateChange={setContentState}
-                        >
-                    </Editor>
+                {/* Two Rows - CopyEditor, Comments */}
+                <View style={styles.copyEditorView}>
+                    {/* Rich Text Editor */}
+                    <View style = {styles.textEditor}>
+                        <Editor
+                            editorState={editorState}
+                            onEditorStateChange={onEditorStateChange}
+                        />
+                    </View>
+
+                    {/* Comment Section */}
+                    <View style = {styles.commentsContainer}>
+                        { populateComments() }
+                        <View>
+                            <Input
+                            placeholder = "Comment"
+                            onChangeText = { value => setCommentInput(value)}
+                            style = {styles.headlineInput}
+                            />
+                            <Button title="Add" 
+                            type="outline" 
+                            style={styles.addComment}  
+                            onPress={() => onAddComment()}/>
+                        </View>
+                    </View>
                 </View>
+
                 {/* Links and Info for Citations */}
                 <View style = {styles.citationsView}>
                     <Text style = {styles.citationsTitle}>Citations</Text>
@@ -121,10 +174,6 @@ export function TextEditor()
                         type="outline" 
                         style={styles.actionsItem} 
                         onPress={() => SaveDraft()}  />
-                <Button title="Schedule Upload" 
-                        type="outline" 
-                        style={styles.actionsItem}  
-                        onPress={() => ScheduleUpload()}/>
             </View>
         </View>
     )
@@ -132,6 +181,16 @@ export function TextEditor()
 
 
 const styles = StyleSheet.create({
+        commentsContainer:{
+            width: '25vw',
+            height: '70vh',
+            borderRadius: 5,
+            marginLeft: 5,
+        },
+        copyEditorView:{
+            flex: 2,
+            flexDirection: 'row',
+        },
         articleInputs:{
             padding: 3,
             marginLeft: 30,
@@ -163,6 +222,7 @@ const styles = StyleSheet.create({
             padding: 6,
             marginLeft: 15,
             height: '80vh',
+            width: '60vw'
         },
         citationsView: {
             borderWidth: 1,
@@ -192,6 +252,9 @@ const styles = StyleSheet.create({
         actionsItem: {
             margin: 5,
             marginLeft: 0,
+        },
+        addComment: {
+            marginBottom: 15,
         }
 
   });

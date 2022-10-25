@@ -37,5 +37,12 @@ router.post('/', (req, res) => {
     });
 });
 
+router.post('/saveDraft', (req, res) => {
+
+    let articleHeadline = req.body.articleHeadline
+    let articleBody = req.body.articleBody
+
+});
+
 
 module.exports = router;

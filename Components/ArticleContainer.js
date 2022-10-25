@@ -18,12 +18,15 @@ import { useFonts } from 'expo-font';
 export function ArticleContainer(props)
 {
 
+    // Headline entry 
     const [getHeadline, setHeadline] = useState(null);
     if(getHeadline == null){ setHeadline(props.currentHeadline); } 
 
+    // Author entry
     const [getAuthor, setAuthor] = useState(null);
     if(getAuthor == null){ setAuthor(props.currentAuthor); } 
 
+    // Status entry
     const [getStatus, setStatus] = useState(null);
     if(getStatus == null){ setStatus(props.currentStatus); } 
 

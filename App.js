@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform } from 'react-native';
 
 import { ArticleWritingPage } from './Screens/ArticleWriting';
+import { ArticleCopyEditingPage } from './Screens/ArticleCopyediting';
 import { ArticleList } from './Screens/ArticleList';
 
 import { Entypo } from '@expo/vector-icons';
@@ -17,7 +18,7 @@ export default function App() {
 
   return (
     <View>
-      <ArticleWritingPage></ArticleWritingPage>
+      <ArticleCopyEditingPage></ArticleCopyEditingPage>
     </View>
     
   );
