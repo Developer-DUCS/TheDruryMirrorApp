@@ -40,7 +40,7 @@ export default function LoginPage() {
       let user = await response.json()
       console.log("response: ",response)
       console.log("username: ",user.username)
-      console.log("username: ",user.role)
+      console.log("role: ",user.role)
 
       if (response.status == 200) {
           if (user.role == "Writer") {

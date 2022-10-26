@@ -7,11 +7,11 @@ export default (req, res) => {
     console.log("Called Login Route")
     const body = req.body
 
-    let username = body.username
+    let email = body.username
     let password = body.password
-    let authQuery = ("SELECT username, password, role FROM users WHERE username = ?")
+    let authQuery = ("SELECT email, password, roles FROM users WHERE email = ?")
 
-    conn.query(authQuery, [username], (err, rows) => {
+    conn.query(authQuery, [email], (err, rows) => {
 
         if (err) return res.status(500).json({error: err})
         
@@ -22,8 +22,8 @@ export default (req, res) => {
         else {
             if (password == rows[0].password) {
                 let user = {
-                    username: rows[0].username,
-                    role: rows[0].role
+                    username: rows[0].email,
+                    role: rows[0].roles
                 }
                 res.status(200).json(user)
                 console.log("User Authenticated")

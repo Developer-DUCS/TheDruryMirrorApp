@@ -1,10 +1,18 @@
-//Landing page for the copy editor after they log in to the site
+//Page Description:
+//                  Landing page for the copy editor after they log in to the site
+//Creation Date:
+//                  By: Thomas Nield  Oct. 4 2022 
+//
+//Modificaiton Log:
+//                  Implemented getStaticProps 
+//                  
+
 import styles from '../styles/article.module.css'
 
+//Populates the page
 export function copyEditorPortal({articles}){    
     const parse = require('html-react-parser')
     return(
-        
       <>
       <div className={styles.divWelcome}>
         <text className={styles.welcome}>Article List</text>

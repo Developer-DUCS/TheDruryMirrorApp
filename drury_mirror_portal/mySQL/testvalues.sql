@@ -1,10 +1,15 @@
+-- -----------------------------------------------------
+-- Data for testing the functionally of different
+-- parts of the website that have been implemented
+-- -----------------------------------------------------
+
 insert into users(email,password,roles,created) values
-('test1@test.edu','12345','writer', NOW()),
-('test2@test.edu','123456','writer', NOW()),
-('test3@test.edu','123457','writer', NOW()),
-('mcduck@school.edu','letmein!','writer', NOW()),
-('dduck@school.edu','letmein!1','copy-editor', NOW()),
-('daisyduck@school.edu','letmein!12','admin', NOW());
+('test1@test.edu','12345','Writer', NOW()),
+('test2@test.edu','123456','Writer', NOW()),
+('test3@test.edu','123457','Writer', NOW()),
+('mcduck@school.edu','letmein!','Writer', NOW()),
+('dduck@school.edu','letmein!1','Copy-Editor', NOW()),
+('daisyduck@school.edu','letmein!12','Admin', NOW());
 
 insert into articles(author,headline,body,isDraft,createdDate) values
 (
