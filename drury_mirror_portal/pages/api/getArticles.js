@@ -29,8 +29,6 @@ export default (req, res) => {
 
             });
 
-            console.log("Article list: ", articles)
-
             return res.status(200).json(articles)
             
         }

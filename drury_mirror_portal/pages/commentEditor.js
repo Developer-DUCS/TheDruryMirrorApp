@@ -1,11 +1,22 @@
+// commentEditor.js
+// Page Description:
+//                  Page for the Copy Editor to edit the articles that have been
+//                  saved as drafts.                    
+//Creation Date:
+//                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 27 2022 
+//
+//Modificaiton Log:
+//                   
+//
+
+
+
 //import styles from '../styles/quillTestStyle.css'
 import 'react-quill/dist/quill.snow.css'
 import styles from '../styles/quill.module.css'
 import dynamic from 'next/dynamic'
 
 import React, { useState } from 'react';
-//import parse from 'html-react-parser';
-
 
 // we import react-quill dynamically, to avoid including it in server-side 
 // and we will render a loading state while the dynamic component is being loaded.
@@ -65,17 +76,53 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
         'bullet'
         ]
 
-export default function PageWithJSbasedForm() {
+// Function to load the article in the let editor
+export async function getStaticProps() {
+    console.log("Getting Article")
+
+    // Get the article (todo: that the user clicked on)
+    const endpoint = 'http://localhost:3000/api/getArticle'
+
+    const options = {
+        // The method is POST because we are sending data.
+        method: 'GET',
+        // Tell the server we're sending JSON.
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }
+
+    // Wait for the article to come back from the database
+    const data = await fetch(endpoint, options)
+
+    if (data.status == 200) {
+        console.log("recieving article")
+
+        let article = await data.json()
+        return { props: {article} }
+    }
+    // else {
+    //     console.log("there was an error")
+    //     return { props: "{<p>test</p>}" }
+    // }
+}
+
+
+export function PageWithJSbasedForm({article}) {
+
+    // Put the article from the api in the left editor and handle the 
+    // changes that the copy editor makes
+    const [value=article, setValue] = useState();
+
     // Handles the contents of the article editor.
-    //const [value="test", setValue] = useState();
-    const [value, setValue] = useState();
     const [commentValue, setCommentValue] = useState();
 
-    // Handles the submit event on form submit.
+    
 
+    // Handles the submit event from submit edits
     const handleSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
-        console.log(value)
+        //console.log(value)
         event.preventDefault()
     
         // Get data from the form.
@@ -113,6 +160,7 @@ export default function PageWithJSbasedForm() {
         const result = await response.json()
 
     }
+
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
@@ -135,6 +183,9 @@ export default function PageWithJSbasedForm() {
                 </form>
             </div>
         </div>  
+        
         </>
     )
     }
+
+export default PageWithJSbasedForm

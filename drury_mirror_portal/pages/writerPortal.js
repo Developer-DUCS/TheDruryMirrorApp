@@ -47,7 +47,6 @@ export async function getStaticProps() {
       //body: JSONdata,
   }
 
-  // Send the form data to our forms API on Vercel and get a response.
   const data = await fetch(endpoint, options)
 
   if (data.status == 200) {

@@ -43,17 +43,17 @@ export default function LoginPage() {
       console.log("role: ",user.role)
 
       if (response.status == 200) {
-          if (user.role == "writer") {
+          if (user.role == "Writer") {
               console.log("writer")
               router.push('writerPortal')
           }
-          else if (user.role == "professor") {
+          else if (user.role == "Professor") {
               router.push("professorPortal")
           }
-          else if (user.role == "admin") {
+          else if (user.role == "Admin") {
               router.push("adminPortal")
           }
-          else if (user.role == "copy-editor") {
+          else if (user.role == "Copy-Editor") {
               router.push("copyEditorPortal")
           }
       }
