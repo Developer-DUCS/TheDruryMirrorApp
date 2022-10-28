@@ -8,6 +8,7 @@
 //
 
 import { Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { HeaderBar } from '../Components/Header';
 import { NavMenu } from '../Components/NavMenu';
@@ -17,9 +18,10 @@ import { useFonts } from 'expo-font';
 
 export function Home()
 {
+    
     return(
         <View>
-            
+            <NavMenu/>
         </View>
     )
 }
