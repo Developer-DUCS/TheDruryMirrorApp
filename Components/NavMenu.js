@@ -9,6 +9,7 @@
 //
 // Documentation
 // - 09/25: Thomas O. created the NavMenu javascript file
+// - 10/7: Haley S. made onArticlePress and onArticleWritingPress Work with navigation
 
 import { Text, View } from 'react-native';
 import { StyleSheet } from 'react-native';

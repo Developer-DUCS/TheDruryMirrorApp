@@ -1,3 +1,8 @@
+//App.js
+//The general building blocks of the web page. 
+//Documentation
+//-10/7: Haley Saylor made the building blocks work with the navigation. 
+
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from "react-native";
 import { StatusBar } from 'expo-status-bar';

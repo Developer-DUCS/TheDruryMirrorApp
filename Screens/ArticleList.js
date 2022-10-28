@@ -9,6 +9,7 @@
 // Documentation
 // - 09/25: Thomas O. created the NavMenu javascript file
 
+
 import { StyleSheet, Text, View } from 'react-native';
 import { Component, React, useState} from 'react';
 import { HeaderBar } from '../Components/Header';
