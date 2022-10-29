@@ -16,8 +16,8 @@ export default function App() {
 
   return (
     <View>
-      <ArticleCopyEditingPage></ArticleCopyEditingPage>
+      <Home></Home>
     </View>
-    
+
   );
 }

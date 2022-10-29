@@ -12,16 +12,17 @@ import { useNavigation } from '@react-navigation/native';
 
 import { HeaderBar } from '../Components/Header';
 import { NavMenu } from '../Components/NavMenu';
-import { TextCopyEditor } from '../Components/TextCopyEditor';
+import { ArticleListView } from '../Components/ArticleListView';
 
 import { useFonts } from 'expo-font';
 
-export function Home()
-{
-    
-    return(
+export function Home() {
+
+    return (
         <View>
-            <NavMenu/>
+            <HeaderBar />
+            <ArticleListView />
+            <NavMenu />
         </View>
     )
 }
