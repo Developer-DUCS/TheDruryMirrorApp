@@ -12,9 +12,9 @@ export default (req, res) => {
 
     console.log(email)
 
-    let createQuery = ("INSERT into users (email, password, roles) VALUES (?, ?, ?)")
+    let createQuery = ("INSERT into users (email, password, roles, created, active) VALUES (?, ?, ?, NOW(), '1')")
 
-    let existingQuery = ("SELECT email, roles FROM users WHERE email = ?")
+    let existingQuery = ("SELECT email FROM users WHERE email = ?")
     
     conn.query(existingQuery, [email], (err, rows) => {
         if (rows.length == 0) {

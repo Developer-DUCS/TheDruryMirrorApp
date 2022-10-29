@@ -1,12 +1,10 @@
-//import Head from 'next/head'
-//import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Router, { useRouter } from 'next/router';
-import { MissingStaticPage } from 'next/dist/shared/lib/utils';
+//reformating the manager portal
 
+import Table from 'react-bootstrap/Table';
+import {useRouter} from 'next/router'
 
-function professorPortal({users}) {
-    const router = useRouter();
+function managerPortal({users}) {
+    const router = useRouter()
     const handleSubmit = async (event) => {
         event.preventDefault()
 
@@ -40,22 +38,21 @@ function professorPortal({users}) {
       const response = await fetch(endpoint, options)
       console.log("response: ",response)
       if (response.status == 201) {
-          router.push('professorPortal')
+          console.log("User Created")
+          router.reload(window.location)
+          
       }
       else {
         // TODO: Display message saying the username or password is incorrect
       }
     }
 
-
-    
-
-
     return (
 
       <>
         <form onSubmit={handleSubmit}>
-          <h1 id = "header">Create User</h1>
+        <h1>User Manager</h1>
+          <h2 id = "header">Create User</h2>
           <label htmlFor="first">Email</label> <br></br>
           <input type="text" id="email" name="email" required/><br></br>
           <label htmlFor="password">Password</label> <br></br>
@@ -69,22 +66,47 @@ function professorPortal({users}) {
           </select> <br></br>
           <button type="submit">Create User</button>
           <br></br>
-          <h1 id = "headerChangeUser"> Change User Role</h1>
-          <h4 id = "">Select a User</h4>
-          <select id="User" name="User" required >
-            {users.map((user) => (
-                <option>{user.email}</option>
-            ))}
-            <option value = "student"></option>
-          </select> <br></br>
-          <select id="changeRoleSelect" name="changeRoleSelect" required >
-            <option value = "Writer">Writer</option>
-            <option value = "Editor">Editor</option>
-            <option value = "Copy-Editor">Copy-Editor</option>
-            <option value = "Admin">Admin</option>
-          </select> <br></br>
-          <button type="submit">Change Role</button>
         </form>
+        <br></br>
+        <h2>User List</h2>
+            <Table striped bordered hover variant="dark">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                        <th>Active</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map((user) => (
+                        <tr>
+                            <td>{user.email}</td>
+                            <td>{user.password}</td>
+                            {/* blur out passwords */}
+                            {/* Change password route */}
+                            <td>
+                                <select id="changeRoleSelect" name="changeRoleSelect" required defaultValue={user.roles}>
+                                    <option value = "Writer">Writer</option>
+                                    <option value = "Editor">Editor</option>
+                                    <option value = "Copy-Editor">Copy-Editor</option>
+                                    <option value = "Admin">Admin</option>
+                                </select> <br></br>
+                                <button type="submit">Change Role</button>
+                                {/* Add click event to change role */}
+                            </td>
+                            <td>
+                                <input type="checkbox" required defaultChecked={user.active}></input>
+                            </td>
+                            <td>
+                                <button>Delete</button>
+                                {/* Add an Alert or modal warning */}
+                            </td>
+                        </tr>
+                    ))} 
+                </tbody>
+            </Table>
       </>
     )
 }
@@ -118,8 +140,9 @@ export async function getStaticProps() {
       return { props: {users} }
   }
   else {
-    
+
   }
 }
 
-export default professorPortal
+export default managerPortal
+

@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`users` (
   `password` VARCHAR(60) NULL,
   `roles` VARCHAR(20) NOT NULL,
   `created` DATETIME NULL,
+  `active` bool NOT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;

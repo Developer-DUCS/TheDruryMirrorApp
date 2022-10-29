@@ -47,8 +47,8 @@ export default function LoginPage() {
               console.log("writer")
               router.push('writerPortal')
           }
-          else if (user.role == "Professor") {
-              router.push("professorPortal")
+          else if (user.role == "Manager") {
+              router.push("managerPortal")
           }
           else if (user.role == "Admin") {
               router.push("adminPortal")

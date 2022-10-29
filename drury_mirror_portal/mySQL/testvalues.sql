@@ -3,13 +3,15 @@
 -- parts of the website that have been implemented
 -- -----------------------------------------------------
 
-insert into users(email,password,roles,created) values
-('test1@test.edu','12345','Writer', NOW()),
-('test2@test.edu','123456','Writer', NOW()),
-('test3@test.edu','123457','Writer', NOW()),
-('mcduck@school.edu','letmein!','Writer', NOW()),
-('dduck@school.edu','letmein!1','Copy-Editor', NOW()),
-('daisyduck@school.edu','letmein!12','Admin', NOW());
+insert into users(email,password,roles,created,active) values
+('test1@test.edu','12345','Writer', NOW(),'1'),
+('test2@test.edu','123456','Writer', NOW(),'1'),
+('test3@test.edu','123457','Writer', NOW(),'1'),
+('mcduck@school.edu','letmein!','Writer', NOW(),'1'),
+('deactive@test.edu','letmein?','Writer', NOW(),'0'),
+('dduck@school.edu','letmein!1','Copy-Editor', NOW(),'1'),
+('daisyduck@school.edu','letmein!12','Admin', NOW(),'1'),
+('manager','manager','Manager', NOW(),'1');
 
 insert into articles(author,headline,body,isDraft,createdDate) values
 (

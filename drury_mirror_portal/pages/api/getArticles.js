@@ -24,7 +24,6 @@ export default (req, res) => {
                     headline: row.headline,
                     body: row.body
                 }
-
                 articles.push(article)
 
             });
