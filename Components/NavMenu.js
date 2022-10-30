@@ -5,7 +5,7 @@
 //
 //Modificaiton Log:
 //                  10/25 Creation date
-//
+//                  10/30 Modified for testing of Navigation by Haley Saylor
 
 import { Text, View } from 'react-native';
 import { StyleSheet } from 'react-native';

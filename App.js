@@ -1,3 +1,11 @@
+//Page Description:
+//                  Container for Screens and Navigation Stack
+//Creation Date:
+//                  By: Thomas O'Brien 10/25
+//Modification Log:
+//                  10/25 Creation Date
+//                  10/30 Modified for Navigation use by Haley Saylor
+
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from "react-native";
 import { StatusBar } from 'expo-status-bar';
