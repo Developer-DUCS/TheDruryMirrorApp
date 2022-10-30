@@ -7,13 +7,14 @@
 //                  10/25 Creation date
 //
 
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
-export function ArticleListView()
-{
-    return(
+function ArticleListView() {
+    return (
         <View>
-            
+            <Text>Test</Text>
         </View>
     )
 }
+
+export default ArticleListView;

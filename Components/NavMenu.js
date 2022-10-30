@@ -15,25 +15,23 @@ import { Button } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 
 
-export function NavMenu()
-{
+export default function NavMenu() {
     const navigation = useNavigation();
 
-    function onRecentPress()
-    {
+    function onRecentPress() {
         navigation.navigate("Home")
     }
-    return(
+    return (
         <View>
             <Button
                 type="clear"
                 onPress={() => onRecentPress()}
                 icon={{
-                    name:'clock',
+                    name: 'clock',
                     type: 'simple-line-icons',
                     size: 24,
                     color: 'white',
-                }}/>
+                }} />
 
         </View>
     )
