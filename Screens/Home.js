@@ -11,7 +11,7 @@ import { Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import HeaderBar from '../Components/Header';
-//import NavMenu from '../Components/NavMenu';
+import NavMenu from '../Components/NavMenu';
 import ArticleListView from '../Components/ArticleListView';
 
 import { useFonts } from 'expo-font';
@@ -21,6 +21,7 @@ function Home() {
         <View>
             <HeaderBar />
             <ArticleListView />
+            <NavMenu />
         </View>
     )
 }
