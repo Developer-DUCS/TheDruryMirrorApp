@@ -14,6 +14,7 @@ import NavMenu from '../Components/NavMenu';
 function Test(){
     return(
        <View>
+        <Header/>
         <Text>"Test"</Text>
         <NavMenu/>
 

@@ -29,7 +29,8 @@ export default function NavMenu() {
     return (
         <View style={styles.container}>
             <Button
-                type="clear"
+                title="Recent"
+                color="BC2932"
                 onPress={() => onRecentPress()}
                 icon={{
                     name: 'clock',
@@ -56,7 +57,7 @@ export default function NavMenu() {
 const styles = StyleSheet.create({
     container: {
         height: 40,
-        width: Dimensions.get('window').width,
+        width: Dimensions.get('window').width,        
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#BC2932',

@@ -7,7 +7,7 @@
 //                  10/25 Creation date
 //
 
-import { Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import HeaderBar from '../Components/Header';
@@ -18,10 +18,12 @@ import { useFonts } from 'expo-font';
 
 function Home() {
     return (
-        <View>
+        <View style={{flex: 1}}>
+        
             <HeaderBar />
-            <ArticleListView />
-            {/* <NavMenu /> */}
+            <ScrollView><ArticleListView /></ScrollView>
+            <NavMenu />
+            
         </View>
     )
 }
