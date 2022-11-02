@@ -1,10 +1,22 @@
-//reformating the manager portal
+// managerPortal.js
+// Page Description:
+//                  The page that the manager will see, they will be able to manage users, add, update, delete
+//Creation Date:
+//                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 29 2022 
+//
+//Modificaiton Log:
+//     (11/1/2022): Minimal viable requirements met for this page. (TN,DB,SR)
+//                  
+//                   
+
 
 import Table from 'react-bootstrap/Table';
 import {useRouter} from 'next/router'
 
 function managerPortal({users}) {
     const router = useRouter()
+
+    // Handle the creation of a new user
     const handleSubmit = async (event) => {
         event.preventDefault()
 
@@ -47,6 +59,134 @@ function managerPortal({users}) {
       }
     }
 
+    // Handle the deletion of a user
+    const handleDelete = async (event) => {
+        event.preventDefault()
+        console.log(event.target.name)
+
+        let data = {
+            email: event.target.name,
+        }
+
+        const JSONdata = JSON.stringify(data)
+        //console.log(JSONdata)
+
+        const endpoint = 'api/deleteUser'
+
+        // Form the request for sending data to the server.
+        const options = {
+          // The method is POST because we are sending data.
+          method: 'POST',
+          // Tell the server we're sending JSON.
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          // Body of the request is the JSON data we created above.
+          body: JSONdata,
+      }
+
+      // Wait for the response to see if the user was deleted
+      const response = await fetch(endpoint, options)
+      console.log("response: ",response)
+
+      if (response.status == 204) {
+          console.log("User Deleted")
+          router.reload(window.location)
+          
+      }
+      else {
+        // TODO: Display message saying the user could not be deleted
+      }
+
+    }
+
+    // Handle the activation and deactivation of a user
+    const handleActive = async (event) => {
+        event.preventDefault()
+        //console.log(email)
+        //console.log(document.getElementById("checkbox").checked)
+        console.log(event.target.name)
+        console.log(event.target.checked)
+        let data = {
+            email: event.target.name,
+            //email: event.target.getElementBy,
+            active: event.target.checked
+        }
+
+        const JSONdata = JSON.stringify(data)
+        //console.log(JSONdata)
+
+        const endpoint = 'api/userStatus'
+
+        // Form the request for sending data to the server.
+        const options = {
+          // The method is POST because we are sending data.
+          method: 'POST',
+          // Tell the server we're sending JSON.
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          // Body of the request is the JSON data we created above.
+          body: JSONdata,
+      }
+
+      // Wait for the response to see if the user was deleted
+      const response = await fetch(endpoint, options)
+      console.log("response: ",response)
+      
+      if (response.status == 200) {
+          router.reload(window.location)
+          console.log("User Status Changed")
+
+          
+      }
+      else {
+        // TODO: Display message saying the user could not be deleted
+      }
+    }
+
+    // Handle role changes
+    const handleRole = async (event) => {
+        event.preventDefault()
+        console.log(event.target.name)
+        console.log(event.target.role.value)
+        let data = {
+            email: event.target.name,
+            role: event.target.role.value
+        }
+
+        const JSONdata = JSON.stringify(data)
+        //console.log(JSONdata)
+
+        const endpoint = 'api/changeUserRole'
+
+        // Form the request for sending data to the server.
+        const options = {
+          // The method is POST because we are sending data.
+          method: 'POST',
+          // Tell the server we're sending JSON.
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          // Body of the request is the JSON data we created above.
+          body: JSONdata,
+      }
+
+      // Wait for the response to see if the user was deleted
+      const response = await fetch(endpoint, options)
+      console.log("response: ",response)
+      
+      if (response.status == 200) {
+          router.reload(window.location)
+          console.log("User Role Changed")
+
+          
+      }
+      else {
+        // TODO: Display message saying the user could not be deleted
+      }
+    }
+
     return (
 
       <>
@@ -80,27 +220,31 @@ function managerPortal({users}) {
                     </tr>
                 </thead>
                 <tbody>
+
                     {users.map((user) => (
-                        <tr>
-                            <td>{user.email}</td>
+
+                        <tr key={user.email}>
+                            <td id={user.email}>{user.email}</td>
                             <td>{user.password}</td>
                             {/* blur out passwords */}
                             {/* Change password route */}
                             <td>
-                                <select id="changeRoleSelect" name="changeRoleSelect" required defaultValue={user.roles}>
-                                    <option value = "Writer">Writer</option>
-                                    <option value = "Editor">Editor</option>
-                                    <option value = "Copy-Editor">Copy-Editor</option>
-                                    <option value = "Admin">Admin</option>
-                                </select> <br></br>
-                                <button type="submit">Change Role</button>
+                                <form name={user.email} onSubmit={handleRole}>
+                                    <select name = "role" required defaultValue={user.roles}>
+                                        <option value = "Writer">Writer</option>
+                                        <option value = "Editor">Editor</option>
+                                        <option value = "Copy-Editor">Copy-Editor</option>
+                                        <option value = "Admin">Admin</option>
+                                    </select> <br></br>
+                                    <button type="submit">Change Role</button>
+                                </form>
                                 {/* Add click event to change role */}
                             </td>
                             <td>
-                                <input type="checkbox" required defaultChecked={user.active}></input>
+                                <input name={user.email} type="checkbox" required defaultChecked={user.active} onChange={handleActive}></input>
                             </td>
                             <td>
-                                <button>Delete</button>
+                                <button name={user.email} onClick={handleDelete} >Delete</button>
                                 {/* Add an Alert or modal warning */}
                             </td>
                         </tr>
