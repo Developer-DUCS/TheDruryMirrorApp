@@ -21,7 +21,7 @@ function Home() {
         <View>
             <HeaderBar />
             <ArticleListView />
-            <NavMenu />
+            {/* <NavMenu /> */}
         </View>
     )
 }

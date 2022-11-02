@@ -37,17 +37,17 @@ export default function NavMenu() {
                     size: 24,
                     color: 'white',
                 }} />
-                <Button
-                    type="clear"
-                    onPress={()=> onTestPress()}
-                    icon={{
-                        name: 'globe',
-                        type: 'simple-line-icon',
-                        size: 24,
-                        color: 'white',
-                    }}
+            <Button
+                type="clear"
+                onPress={() => onTestPress()}
+                icon={{
+                    name: 'globe',
+                    type: 'simple-line-icon',
+                    size: 24,
+                    color: 'white',
+                }}
 
-                />
+            />
 
         </View>
     )

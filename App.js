@@ -24,13 +24,13 @@ import { useFonts } from 'expo-font';
 function App() {
   const AppStack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-    <AppStack.Navigator screenOption={{ headerShown: false}}>
-      <AppStack.Screen name='Home' component={Home}/>
-      <AppStack.Screen name='Test' component={Test}/>
-    </AppStack.Navigator>
-    </NavigationContainer>
-       
+    // <NavigationContainer>
+    //   <AppStack.Navigator screenOption={{ headerShown: false }}>
+    //     <AppStack.Screen name='Home' component={Home} />
+    //     <AppStack.Screen name='Test' component={Test} />
+    //   </AppStack.Navigator>
+    // </NavigationContainer>
+    <Home></Home>
   );
 }
 
