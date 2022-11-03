@@ -11,10 +11,17 @@
 
 
 import Table from 'react-bootstrap/Table';
+import styles from '../styles/article.module.css'
+
 import {useRouter} from 'next/router'
 
 function managerPortal({users}) {
     const router = useRouter()
+
+    // Handle the log out button
+    const logOut = async (event) => {
+        router.push("/")
+      }
 
     // Handle the creation of a new user
     const handleSubmit = async (event) => {
@@ -190,6 +197,7 @@ function managerPortal({users}) {
     return (
 
       <>
+        <button className={styles.draftButton} onClick={logOut}>Log Out</button>
         <form onSubmit={handleSubmit}>
         <h1>User Manager</h1>
           <h2 id = "header">Create User</h2>

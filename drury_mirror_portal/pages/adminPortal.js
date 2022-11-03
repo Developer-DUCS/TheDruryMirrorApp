@@ -1,15 +1,36 @@
 //Landing page for the admin after they log in to the site
 
 import styles from '../styles/article.module.css'
+import {useRouter} from 'next/router'
 
 export function adminPortal({articles}){    
     const parse = require('html-react-parser')
+    const router = useRouter()
+
+
+    // Handle the log out button
+    const logOut = async (event) => {
+      router.push("/")
+    }
+
+    // Handle the write draft button
+    const writeDraftRoute = async (event) => {
+      router.push("articleWriting")
+    }
+
+    // Handle the edit article button
+    const editArticleRoute = async (event) => {
+      router.push("commentEditor")
+    }
+
     return(
         
       <>
+      <button className={styles.draftButton} onClick={logOut}>Log Out</button>
+
       <div className={styles.divWelcome}>
         <text className={styles.welcome}>Article List</text>
-        <button className={styles.draftButton}>Write Draft</button>
+        <button className={styles.draftButton} onClick={writeDraftRoute}>Write Draft</button>
       </div>
       <div className={styles.divArticle}>
         <ul>
@@ -19,7 +40,7 @@ export function adminPortal({articles}){
                     <text className={styles.author}>By: {article.author}</text>
                     <text className={styles.body}>{parse(article.body)}</text> 
                     <div className={styles.buttons}>
-                        <button id="edit" className={styles.edit}>Edit Article</button>
+                        <button id="edit" className={styles.edit} onClick={editArticleRoute}>Edit Article</button>
                         <button id="publish" className={styles.publish}>Ready to Publish</button>
                     </div>
                     

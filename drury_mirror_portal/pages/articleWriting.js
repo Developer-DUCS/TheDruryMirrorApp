@@ -3,8 +3,12 @@
 //import styles from '../styles/quillTestStyle.css'
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
+import styles from '../styles/article.module.css'
 
+import {useRouter} from 'next/router'
 import React, { useState } from 'react';
+
+
 //import parse from 'html-react-parser';
 
 
@@ -66,6 +70,14 @@ export default function PageWithJSbasedForm() {
     const [value, setValue] = useState();
     // Handles the submit event on form submit.
 
+    const router = useRouter()
+
+
+    // Handle the log out button
+    const logOut = async (event) => {
+        router.push("/")
+    }
+
     const handleSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         console.log(value)
@@ -110,7 +122,7 @@ export default function PageWithJSbasedForm() {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
-        
+            <button className={styles.draftButton} onClick={logOut}>Log Out</button>
             <form onSubmit={handleSubmit}>
             <label htmlFor="first">First Name</label> <br></br>
             <input type="text" id="first" name="first" required /><br></br>

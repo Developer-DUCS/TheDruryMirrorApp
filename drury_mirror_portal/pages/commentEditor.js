@@ -14,7 +14,11 @@
 //import styles from '../styles/quillTestStyle.css'
 import 'react-quill/dist/quill.snow.css'
 import styles from '../styles/quill.module.css'
+import styles2 from '../styles/article.module.css'
+
 import dynamic from 'next/dynamic'
+import {useRouter} from 'next/router'
+
 
 import React, { useState } from 'react';
 
@@ -110,6 +114,8 @@ export async function getStaticProps() {
 
 export function PageWithJSbasedForm({article}) {
 
+    const router = useRouter()
+
     // Put the article from the api in the left editor and handle the 
     // changes that the copy editor makes
     const [value=article, setValue] = useState();
@@ -118,6 +124,11 @@ export function PageWithJSbasedForm({article}) {
     const [commentValue, setCommentValue] = useState();
 
     
+
+    // Handle the log out button
+    const logOut = async (event) => {
+        router.push("/")
+    }
 
     // Handles the submit event from submit edits
     const handleSubmit = async (event) => {
@@ -164,6 +175,8 @@ export function PageWithJSbasedForm({article}) {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
+        <button className={styles2.draftButton} onClick={logOut}>Log Out</button>
+
         <div className={styles.editorDiv}>
             <div id="quillEditor" className={styles.Editor}>
                 <label htmlFor="first">Editor Name</label> <br></br>

@@ -1,15 +1,37 @@
-//Landing page for writers after they log in to the site
-
+// writerPortal.js
+// Page Description:
+//                  The home page for the writer
+//Creation Date:
+//                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022 
+//
+//Modificaiton Log:
+//                  
+//                   
 import styles from '../styles/article.module.css'
+import {useRouter} from 'next/router'
+
 
 export function writerPortal({articles}){    
+    const router = useRouter()
     const parse = require('html-react-parser')
+
+    // Handle the log out button
+    const logOut = async (event) => {
+      router.push("/")
+    }
+
+    // Handle the write draft button
+    const writeDraftRoute = async (event) => {
+      router.push("articleWriting")
+    }
+
     return(
         
       <>
       <div className={styles.divWelcome}>
         <text className={styles.welcome}>Article List</text>
-        <button className={styles.draftButton}>Write Draft</button>
+        <button className={styles.draftButton} onClick={logOut}>Log Out</button>
+        <button className={styles.draftButton} onClick={writeDraftRoute}>Write Draft</button>
       </div>
       <div className={styles.divArticle}>
         <ul>
