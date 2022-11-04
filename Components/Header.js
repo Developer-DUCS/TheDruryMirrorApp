@@ -7,16 +7,33 @@
 //                  10/25 Creation date
 //                  10/29 Thomas O. added custom fonts, search button, styles
 
-import { Text, View, StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements';
+//import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import { Easing, Text, View, StyleSheet, TextInput } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { React, useState, useEffect } from 'react'
+import React, { useState } from 'react'
+
 
 import { Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 
 function Header() {
+    // When the search button is clicked, change style
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Save query
+    const [getSearchQuery, setSearchQuery] = useState("")
+
+    // Animation stuff
+    // const animation = useSharedValue({ width: 'auto', height: 0 })
+    // const animationStyle = useAnimationStyle(() => {
+    //     return {
+    //         height: withTiming(animation.value.height, {
+    //             duration: 500
+    //         }),
+    //     }
+    // })
 
     // Load the custom Drury Mirror fonts...
     const [loaded] = useFonts({
@@ -29,36 +46,27 @@ function Header() {
         return null;
     }
 
-    // Search Bar component that pops up when the search button was clicked
-    const searchBar = () => {
-        return (
-            <View>
-
-            </View>
-        )
-    }
-
-    // When the search button is clicked, change style
-    //const [isSearching, setIsSearching] = useState(false);
-    // onSearchButtonClick = (event) => {
-    //     event.target.style = styles.searchButtonHidden;
-    //     //setIsSearching(true);
-    // }
-
-    // Updates style of searchBar and searchButton whenever isSearching changes state
-    // useEffect(() => {
-
-    // }, [isSearching]);
-
-
     return (
-        <View style={styles.container}>
-            <Text style={styles.logo} >Drury Mirror</Text>
-            <Button
-                style={styles.searchButton}
-                icon={<Icon name="search" size={20} color="white" />}
-                type="clear"
-            />
+        <View>
+            <View style={styles.container}>
+                <Text style={styles.logo} >Drury Mirror</Text>
+                <Button
+                    style={styles.searchButton}
+                    icon={<Icon name="search" size={20} color="white" />}
+                    type="clear"
+                    onPress={() => setIsOpen(!isOpen)}
+                />
+            </View>
+            <View style={styles.searchBarContainer}>
+                {isOpen ? (
+                    <Input
+                        containerStyle={{}}
+                        errorStyle={{}}
+                        errorProps={{}}
+                        inputStyle={{ color: "black" }}
+                        placeholder="Search for..."
+                    />) : null}
+            </View>
         </View>
     )
 }
@@ -67,6 +75,9 @@ function Header() {
 export default Header;
 
 const styles = StyleSheet.create({
+    searchBarContainer: {
+        color: 'black'
+    },
     container: {
         paddingTop: 25,
         height: 60,
@@ -89,11 +100,14 @@ const styles = StyleSheet.create({
         height: 10,
     },
     searchButtonHidden: {
-        display: 'none'
+        display: 'none',
+        color: '#black',
+        width: 'auto',
+        height: 0,
     },
     searchBar: {
-        display: 'none',
-        color: '#000000',
+        display: 'flex',
+        color: 'black',
         width: 'auto',
         height: 15,
     }

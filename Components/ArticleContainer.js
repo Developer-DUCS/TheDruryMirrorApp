@@ -10,6 +10,8 @@ function ArticleContainer(props) {
     // Load the custom Drury Mirror fonts...
     const [loaded] = useFonts({
         GaramondRegular: require('../assets/fonts/Garamond-Regular.ttf'),
+        TrajanPro: require('../assets/fonts/TrajanPro3Regular.ttf'),
+        AvantGarde: require('../assets/fonts/AVGARDN_2.ttf'),
     });
 
     // If not loaded, don't load page (waits until fonts are loaded)
@@ -48,14 +50,13 @@ const styles = StyleSheet.create({
         height: 'auto',
         width: 'auto',
         margin: 15,
-        marginBottom: 15,
-        borderColor: '#141414',
+        marginBottom: 25,
         borderRadius: 5,
         shadowColor: 'black',
         shadowOpacity: 1,
-        shadowOffset: { width: 25, height: 40 },
-        shadowRadius: 5,
-        elevation: 4,
+        shadowOffset: { width: 1, height: 2 },
+        shadowRadius: 2,
+        elevation: 8,
         backgroundColor: 'white'
     },
     column: {
@@ -64,30 +65,28 @@ const styles = StyleSheet.create({
         display: 'flex',
     },
     featuredImage: {
-        width: 125,
-        height: 125,
+        width: 120,
+        height: 120,
         borderRadius: 5,
         margin: 10,
     },
     headline: {
-        width: 200,
-        fontWeight: "bold",
-        fontStyle: 'GaramondRegular',
+        fontFamily: "AvantGarde",
         fontSize: 16,
+        width: 200,
         margin: 10,
         marginBottom: 0,
     },
     author: {
+        fontFamily: "AvantGarde",
+        fontSize: 12,
         width: 150,
-        fontWeight: "bold",
-        fontStyle: 'GaramondRegular',
-        fontSize: 14,
         margin: 10,
         marginBottom: 10,
     },
     subtitle: {
-        fontStyle: 'GaramondRegular',
-        fontSize: 14,
+        fontFamily: 'AvantGarde',
+        fontSize: 12,
         margin: 10,
         marginTop: 0,
         width: 200,
