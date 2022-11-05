@@ -3,6 +3,9 @@
 import styles from '../styles/Home.module.css'
 import Router, { useRouter } from 'next/router';
 import { MissingStaticPage } from 'next/dist/shared/lib/utils';
+import {TextField, Button, FormGroup, Grid, Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import theme from '../styles/theme'
 
 export default function LoginPage() {
     const router = useRouter();
@@ -65,16 +68,25 @@ export default function LoginPage() {
 
     return (
       <>
+      <div>
+        <Typography variant="h1">Drury Mirror</Typography>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="first">Username</label> <br></br>
-          <input type="text" id="username" name="username" required /><br></br>
-          <label htmlFor="password">Password</label> <br></br>
-          <input type="password" id="password" name="password" required /> <br></br>
-          <button type="submit">Log In</button>
+          <FormGroup>
+          <Grid container spacing={3}>
+            <Grid item xs="auto">
+              <TextField color="primary" id="username" name="username" label="Username" variant="outlined" />
+              <TextField type="password" id="password" label="Password" variant="outlined" />
+            </Grid>
+            <Grid item xs>
+              <Button type="submit" variant="contained">Log in</Button>
+            </Grid>
+          </Grid>
+          </FormGroup>
         </form>
         <div className={styles.loginErrorMsg}>
           <h3>Incorrect Username or Password</h3>
         </div>
+      </div>
       </>
     )
 }

@@ -20,7 +20,7 @@ export default (req, res) => {
     let authQuery = ("SELECT email, password, roles, active FROM users WHERE email = ?")
 
     conn.query(authQuery, [email], (err, rows) => {
-
+        console.log("Query With Email: " + email)
         if (err) return res.status(500).json({error: err})
         
         if (rows.length == 0) {
