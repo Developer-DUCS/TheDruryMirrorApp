@@ -1,6 +1,11 @@
 //Landing page for the admin after they log in to the site
 
 import styles from '../styles/article.module.css'
+import {TextField, Button, FormGroup, Grid, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+
+import Toolbar from '@mui/material/Toolbar';
+
 import {useRouter} from 'next/router'
 
 export function adminPortal({articles}){    
@@ -26,28 +31,40 @@ export function adminPortal({articles}){
     return(
         
       <>
-      <button className={styles.draftButton} onClick={logOut}>Log Out</button>
-
-      <div className={styles.divWelcome}>
-        <text className={styles.welcome}>Article List</text>
-        <button className={styles.draftButton} onClick={writeDraftRoute}>Write Draft</button>
-      </div>
-      <div className={styles.divArticle}>
-        <ul>
-            {articles.map((article)=>(
-                <li className={styles.indArticle}>
-                    {article.headline}
-                    <text className={styles.author}>By: {article.author}</text>
-                    <text className={styles.body}>{parse(article.body)}</text> 
-                    <div className={styles.buttons}>
-                        <button id="edit" className={styles.edit} onClick={editArticleRoute}>Edit Article</button>
-                        <button id="publish" className={styles.publish}>Ready to Publish</button>
-                    </div>
-                    
-                </li>
-            ))}
-        </ul>
-      </div>
+      <Toolbar>
+        <Typography variant="h2" sx={{ flexGrow: 5 }}>Drury Mirror</Typography>
+        <Button 
+          variant="outline" 
+          sx={{
+              color: "white",
+              borderColor: "white",
+              backGroundColor: '#7A2530',
+              marginRight: 5,
+            }}
+            onClick={writeDraftRoute}>Write Draft
+          </Button>
+        <Button 
+          variant="outline"  
+          sx={{
+            color: "white",
+            borderColor: "white",
+            backGroundColor: '#7A2530'
+          }}
+          onClick={logOut}>Log Out
+        </Button>
+      </Toolbar>
+      <Typography variant="h2" sx={{marginLeft: 3}}>Article List</Typography>
+        {
+          articles.map((article)=>(
+            <Card style={{backgroundColor: "#303030", margin: 15, padding: 5, paddingLeft: 15, boxShadow: 2}}>
+              <Typography variant="h3">{article.headline}</Typography>
+              <Typography variant="h5">{article.author}</Typography>
+              <Typography variant="h5">{parse(article.body)}</Typography>
+              <Button id="edit" onClick={editArticleRoute} sx={{marginRight: 5}}>Edit Article</Button>
+              <Button id="publish">Ready to Publish</Button>
+            </Card>
+          ))
+      }
       </>
   )
 }

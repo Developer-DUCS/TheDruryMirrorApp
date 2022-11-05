@@ -6,7 +6,23 @@
   display: none;
 }
 
+.formContainer {
+  height: 100vh;
+}
 
+.formItem {
+  height: 100vh;
+  align-items: center;
+}
+
+.loginButton {
+  border-color: '#60CFF2';
+  border-width: 1;
+}
+
+.labelColor {
+  color: "#fff"
+}
 
 /*
 .main {
