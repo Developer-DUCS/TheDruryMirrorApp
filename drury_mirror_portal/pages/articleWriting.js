@@ -7,6 +7,8 @@ import styles from '../styles/article.module.css'
 
 import {useRouter} from 'next/router'
 import React, { useState } from 'react';
+import {Button , Container, TextField, Box} from '@mui/material';
+import {styled} from '@mui/material/styles';
 
 
 //import parse from 'html-react-parser';
@@ -66,6 +68,8 @@ const modules = {
 
 export default function PageWithJSbasedForm() {
 
+    
+
     // Handles the contents of the article editor.
     const [value, setValue] = useState();
     // Handles the submit event on form submit.
@@ -122,24 +126,51 @@ export default function PageWithJSbasedForm() {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
-            <button className={styles.draftButton} onClick={logOut}>Log Out</button>
-            <form onSubmit={handleSubmit}>
-            <label htmlFor="first">First Name</label> <br></br>
-            <input type="text" id="first" name="first" required /><br></br>
-        
-            <label htmlFor="last">Last Name</label> <br></br>
-            <input type="text" id="last" name="last" required /> <br></br><br></br>
-
-            <QuillNoSSRWrapper id="article" modules={modules} value={value} onChange={setValue} formats={formats} theme="snow" /><br></br><br></br>
-            
-            
-            <button type="submit">Submit</button>
-            </form>
-
             <div>
-                <p>{value}</p>
-                
+                <Button sx={{
+                    position: 'absolute',
+                    right: 5,
+                    top: 5,}}
+                 variant='contained' color='error' onClick={logOut}>Log Out</Button>
             </div>
+            <form onSubmit={handleSubmit}>
+            <Container>
+                <TextField
+                variant ='filled' 
+                size='small'
+                label='First Name'
+                id="first" 
+                name="first"
+                required
+                 />
+                <TextField
+                variant = 'filled'
+                size='small'
+                label='Last Name'
+                id='last'
+                name='last'
+                required
+                />                
+            </Container>
+            <Box sx={{
+                backgroundColor: '#232023',
+            }}>
+            <QuillNoSSRWrapper id="article" 
+            modules={modules} value={value} 
+            onChange={setValue} formats={formats} 
+            theme="snow" />
+            </Box>
+            <br></br>
+            <br></br>
+            
+            
+            <Button sx={{
+                backgroundColor: '#232023',
+            }}
+            color = 'error'
+            variant = 'contained' 
+            type="submit">Submit</Button>
+            </form>
 
 
         </>
