@@ -68,19 +68,57 @@ export default function LoginPage() {
 
     return (
       <>
-      <div>
-        <Typography variant="h1">Drury Mirror</Typography>
-        <form onSubmit={handleSubmit}>
-          <FormGroup>
-          <Grid container spacing={3}>
-            <Grid item xs="auto">
-              <TextField color="primary" id="username" name="username" label="Username" variant="outlined" />
-              <TextField type="password" id="password" label="Password" variant="outlined" />
+      <div className = {styles.formContainer}>
+        <form onSubmit={handleSubmit} className = {styles.formItem}>
+          <FormGroup className = {styles.formItem}>
+            <Grid container direction={'column'} spacing={2} justifyContent = "center" alignItems = "center" className = {styles.formContainer}>
+              <Grid item>
+                <Typography variant="h1">Drury Mirror</Typography>
+              </Grid>
+              <Grid item>
+                <TextField 
+                  sx={{
+                    input: {
+                      color: "white",
+                    },
+                    label: {
+                      color: "white",
+                    }
+                  }}
+                  color="primary" 
+                  id="username" 
+                  name="username" 
+                  label="Username" 
+                  variant="standard" 
+                />
+              </Grid>
+              <Grid item>
+                <TextField 
+                  sx={{
+                    input: {
+                      color: "white",
+                    },
+                    label: {
+                      color: "white",
+                    },
+                  }}
+                  type="password" 
+                  id="password" 
+                  label="Password" 
+                  variant="standard" 
+                />
+              </Grid>
+              <Grid item>
+                <Button 
+                  sx={{
+                    color: "white",
+                    borderColor: "white",
+                    backGroundColor: '#7A2530'
+                  }}
+                  type="submit"
+                  variant="outline">Log in</Button>
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <Button type="submit" variant="contained">Log in</Button>
-            </Grid>
-          </Grid>
           </FormGroup>
         </form>
         <div className={styles.loginErrorMsg}>
@@ -90,6 +128,7 @@ export default function LoginPage() {
       </>
     )
 }
+
 
 
 // export default function Home() {

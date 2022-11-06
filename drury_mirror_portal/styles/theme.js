@@ -14,16 +14,35 @@ let theme = createTheme({
 theme = createTheme(theme, {
   palette: {
     background: {
-      default: "#7A2529"
+      default: "#7A2529",
+      primary: '#fff',
     },
-    color: '#fff',
+    text: {
+      color: '#fff',
+    }
   },
 });
 
 theme.typography.h1 = {
-  fontSize: '18',
-  color: theme.palette.color,
+  fontSize: '6rem',
+  color: theme.palette.text.color,
   fontFamily: 'Garamond-Regular',
+}
+theme.typography.h2 = {
+  fontSize: '2rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+}
+theme.typography.h3 = {
+  fontSize: '1.25rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+}
+theme.typography.h5={
+  fontSize: '1rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+  fontWeight: 50,
 }
 
 export default theme;

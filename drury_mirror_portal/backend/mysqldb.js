@@ -85,15 +85,6 @@ else if (myUser == "thomasO") {
         port: config.thomasO_local_db[0].port
     });
 }
-else if (myUser == "root"){
-    db = mysql.createConnection({
-        host: config.thomasO_local_db[0].host,
-        user: "root",
-        password: "Velvet2velvet!",
-        database: config.thomasO_local_db[0].database,
-        port: config.thomasO_local_db[0].port
-    });
-}
 
 
 
