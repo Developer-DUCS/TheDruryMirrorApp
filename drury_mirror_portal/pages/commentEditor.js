@@ -15,7 +15,7 @@
 import 'react-quill/dist/quill.snow.css'
 import styles from '../styles/quill.module.css'
 import styles2 from '../styles/article.module.css'
-import {Button , Container, TextField, Box} from '@mui/material';
+import {Button , Container, TextField, Box, Grid, Typography} from '@mui/material';
 
 
 import dynamic from 'next/dynamic'
@@ -177,27 +177,66 @@ export function PageWithJSbasedForm({article}) {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
-        <button className={styles2.draftButton} onClick={logOut}>Log Out</button>
-
-        <div className={styles.editorDiv}>
-            <div id="quillEditor" className={styles.Editor}>
-                <label htmlFor="first">Editor Name</label> <br></br>
-                <input type="text" id="editor" name="editor" required /><br></br><br></br>
-                
-                <QuillNoSSRWrapper id="article" modules={articleModules} value={value} onChange={setValue} formats={articleFormats} theme="snow"/><br></br><br></br>
-
+        
+        <div>
+        
+                <Button sx={{
+                    position: 'absolute',
+                    right: 5,
+                    top: 5,}}
+                 variant='contained' color='error' onClick={logOut}>Log Out</Button>
             </div>
+        
+        <Box className={styles.editorDiv} 
+            sx={{
+                backgroundColor: 'white',
+            }}>
+            <TextField
+                sx={{
+                    padding: 0,
+                    marginLeft: -1,
+                    marginTop: -1,
+                }}
+                variant = 'filled'
+                size='small'
+                label='Editor Name'
+                id='editor'
+                name='editor'
+                required
+                />
+        
+            <Container id="quillEditor" >
+            
+            </Container>
+                <br></br>
+                <br></br>
+            
+            <Grid container spacing={2}>
+                 <Container className={styles.Editor}>
+                    <QuillNoSSRWrapper id="article" modules={articleModules} value={value} onChange={setValue} formats={articleFormats} theme="snow"/>
+                    <br></br><br></br>
+                </Container> 
 
             <div className={styles.comments}>
+            <Typography sx={{marginBottom: 4}}>Edits</Typography>
+
                 <form onSubmit={handleSubmit}>
-                <label htmlFor="comments">Edits</label> <br></br> <br></br>
+                
                 <QuillNoSSRWrapper id="comments" modules={modules} placeholder='' value={commentValue} onChange={setCommentValue} formats={formats} theme="snow" /><br></br><br></br>
                 {//To see the placeholder the host computer cant be in dark mode. (dont know how to edit the color of the placeholder text)
                 }
-                <button type="submit" className={styles.button}>Submit Edits</button>
+                 <Button sx={{
+                backgroundColor: '#232023',
+                }}
+                color = 'error'
+                variant = 'contained' 
+                type="submit">Submit</Button>
                 </form>
             </div>
-        </div>  
+            </Grid>
+            
+        </Box>
+        
         
         </>
     )
