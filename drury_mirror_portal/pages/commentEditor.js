@@ -175,7 +175,8 @@ export function PageWithJSbasedForm({article}) {
     }
 
     return (
-        // We pass the event to the handleSubmit() function on submit.
+        <div className={styles.editorDiv}> 
+        
         <>
         
         <div>
@@ -187,10 +188,7 @@ export function PageWithJSbasedForm({article}) {
                  variant='contained' color='error' onClick={logOut}>Log Out</Button>
             </div>
         
-        <Box className={styles.editorDiv} 
-            sx={{
-                backgroundColor: 'blue',
-            }}>
+        
             <TextField
                 sx={{
                     padding: 0,
@@ -235,10 +233,11 @@ export function PageWithJSbasedForm({article}) {
             </div>
             </Grid>
             
-        </Box>
+        
         
         
         </>
+        </div>
     )
     }
 

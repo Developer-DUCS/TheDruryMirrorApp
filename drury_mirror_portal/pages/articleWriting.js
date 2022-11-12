@@ -126,6 +126,7 @@ export default function PageWithJSbasedForm() {
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
+        <div className={styles.divWriting}>
             <div>
                 <Button sx={{
                     position: 'absolute',
@@ -141,6 +142,15 @@ export default function PageWithJSbasedForm() {
                 label='First Name'
                 id="first" 
                 name="first"
+                sx={{
+                    input: {
+                        color: "white",
+                      },
+                      label: {
+                        color: "white",
+                      },
+                    marginLeft: -1,
+                }}
                 required
                  />
                 <TextField
@@ -149,11 +159,20 @@ export default function PageWithJSbasedForm() {
                 label='Last Name'
                 id='last'
                 name='last'
+                sx={{
+                        input: {
+                            color: "white",
+                          },
+                          label: {
+                            color: "white",
+                          },
+                }}
                 required
                 />                
             </Container>
             <Box sx={{
-                backgroundColor: '#232023',
+                backgroundColor: 'white',
+                margin: 2,
             }}>
             <QuillNoSSRWrapper id="article" 
             modules={modules} value={value} 
@@ -165,14 +184,14 @@ export default function PageWithJSbasedForm() {
             
             
             <Button sx={{
-                backgroundColor: '#232023',
+                marginLeft: 2,
             }}
             color = 'error'
             variant = 'contained' 
             type="submit">Submit</Button>
             </form>
 
-
+            </div>
         </>
     )
     }
