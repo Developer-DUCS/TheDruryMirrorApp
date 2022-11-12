@@ -189,7 +189,7 @@ export function PageWithJSbasedForm({article}) {
         
         <Box className={styles.editorDiv} 
             sx={{
-                backgroundColor: 'white',
+                backgroundColor: 'blue',
             }}>
             <TextField
                 sx={{
