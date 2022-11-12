@@ -130,8 +130,8 @@ export default function PageWithJSbasedForm() {
             <div>
                 <Button sx={{
                     position: 'absolute',
-                    right: 5,
-                    top: 5,}}
+                    right: 35,
+                    top: 25,}}
                  variant='contained' color='error' onClick={logOut}>Log Out</Button>
             </div>
             <form onSubmit={handleSubmit}>
