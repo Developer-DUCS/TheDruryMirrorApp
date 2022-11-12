@@ -61,6 +61,14 @@
             "database": "drurymirror",
             "port": "3306"
         }
-
+    ],
+    "root": [
+        {
+            "host": "127.0.0.1",
+            "user": "root",
+            "password": "Velvet2velvet!",
+            "database": "drurymirror",
+            "port": "3306"
+        }
     ]
 }

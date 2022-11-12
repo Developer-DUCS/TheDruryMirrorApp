@@ -30,7 +30,7 @@ export function adminPortal({articles}){
 
     return(
         
-      <>
+      <div style={{backgroundColor: "#0E0E0E"}}>
       <Toolbar>
         <Typography variant="h2" sx={{ flexGrow: 5 }}>Drury Mirror</Typography>
         <Button 
@@ -56,7 +56,7 @@ export function adminPortal({articles}){
       <Typography variant="h2" sx={{marginLeft: 3}}>Article List</Typography>
         {
           articles.map((article)=>(
-            <Card style={{backgroundColor: "#303030", margin: 15, padding: 5, paddingLeft: 15, boxShadow: 2}}>
+            <Card style={{backgroundColor: "#41414B", margin: 15, padding: 5, paddingLeft: 15, boxShadow: 2}}>
               <Typography variant="h3">{article.headline}</Typography>
               <Typography variant="h5">{article.author}</Typography>
               <Typography variant="h5">{parse(article.body)}</Typography>
@@ -65,7 +65,7 @@ export function adminPortal({articles}){
             </Card>
           ))
       }
-      </>
+      </div>
   )
 }
 
