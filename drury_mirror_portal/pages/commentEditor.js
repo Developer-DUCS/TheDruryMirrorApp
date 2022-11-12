@@ -31,7 +31,7 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 	loading: () => <p>Loading ...</p>,
 
 	})
-
+    let test = null
     const articleModules = {
         toolbar: [
             ['bold', 'italic', 'underline', 'strike'],
