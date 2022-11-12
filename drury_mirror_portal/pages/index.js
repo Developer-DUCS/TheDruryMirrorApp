@@ -76,7 +76,7 @@ export default function LoginPage() {
                 <Typography variant="h1">Drury Mirror</Typography>
               </Grid>
               <Grid item>
-                <TextField 
+                <TextField
                   sx={{
                     input: {
                       color: "white",
@@ -85,7 +85,6 @@ export default function LoginPage() {
                       color: "white",
                     }
                   }}
-                  color="primary" 
                   id="username" 
                   name="username" 
                   label="Username" 
@@ -100,7 +99,7 @@ export default function LoginPage() {
                     },
                     label: {
                       color: "white",
-                    },
+                    }
                   }}
                   type="password" 
                   id="password" 
@@ -110,11 +109,8 @@ export default function LoginPage() {
               </Grid>
               <Grid item>
                 <Button 
-                  sx={{
-                    color: "white",
-                    borderColor: "white",
-                    backGroundColor: '#7A2530'
-                  }}
+                  color="contrast"
+                  sx={{color: "white"}}
                   type="submit"
                   variant="outline">Log in</Button>
               </Grid>

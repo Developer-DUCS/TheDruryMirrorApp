@@ -1,6 +1,34 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-let theme = createTheme({
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#fffee",
+    },
+    contrast:{
+      main:"#fff"
+    },
+    background: {
+      default: "#781f1c"
+    }
+  },
+});
+
+export const mainTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#fffee",
+    },
+    contrast:{
+      main:"#000"
+    },
+    background: {
+      default: "#0E0E0E"
+    },
+  },
+});
+
+let lightTheme = createTheme({
   palette: {
     light: {
       main: '#0052cc',
@@ -11,21 +39,10 @@ let theme = createTheme({
   },
 });
 
-theme = createTheme(theme, {
-  palette: {
-    background: {
-      default: "#7A2529",
-      primary: '#fff',
-    },
-    text: {
-      color: '#fff',
-    }
-  },
-});
 
 theme.typography.h1 = {
   fontSize: '6rem',
-  color: theme.palette.text.color,
+  color: theme.palette.contrast.main,
   fontFamily: 'Garamond-Regular',
 }
 theme.typography.h2 = {
@@ -45,4 +62,26 @@ theme.typography.h5={
   fontWeight: 50,
 }
 
-export default theme;
+
+
+mainTheme.typography.h1 = {
+  fontSize: '6rem',
+  color: theme.palette.contrast.main,
+  fontFamily: 'Garamond-Regular',
+}
+mainTheme.typography.h2 = {
+  fontSize: '2rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+}
+mainTheme.typography.h3 = {
+  fontSize: '1.25rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+}
+mainTheme.typography.h5={
+  fontSize: '1rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+  fontWeight: 50,
+}
