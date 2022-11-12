@@ -58,3 +58,9 @@
     padding: 1%;
     margin-right: 3%;
 }
+
+.divWriting{
+    padding: 20px;
+    background-color: #0E0E0E;
+    height: 100vh;
+}
