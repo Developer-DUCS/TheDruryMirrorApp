@@ -6,7 +6,7 @@
 //
 //Modificaiton Log:
 //                  Added check for whether or not a user is active or deactive Oct. 31 2022
-//                   
+//                  
 
 const conn = require("../../backend/mysqldb");
 
@@ -15,8 +15,9 @@ export default (req, res) => {
     console.log("Called Login Route")
     const body = req.body
 
-    let email = body.username
+    let email = body.email
     let password = body.password
+    console.log(email,password)
     let authQuery = ("SELECT email, password, roles, active FROM users WHERE email = ?")
 
     conn.query(authQuery, [email], (err, rows) => {
@@ -30,9 +31,10 @@ export default (req, res) => {
         else {
             if (password == rows[0].password && rows[0].active == 1) {
                 let user = {
-                    username: rows[0].email,
+                    email: rows[0].email,
                     role: rows[0].roles
                 }
+                console.log("user: ",user)
                 res.status(200).json(user)
                 console.log("User Authenticated")
             }

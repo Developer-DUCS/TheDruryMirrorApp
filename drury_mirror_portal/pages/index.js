@@ -3,64 +3,103 @@
 import styles from '../styles/Home.module.css'
 import Router, { useRouter } from 'next/router';
 import { MissingStaticPage } from 'next/dist/shared/lib/utils';
+import { useSession, signIn, signOut } from "next-auth/react"
+import { redirect } from 'next/dist/server/api-utils';
 
 export default function LoginPage() {
     const router = useRouter();
+    const {status, data} = useSession()
+
+    
     const handleSubmit = async (event) => {
+        console.log("test")
+        console.log(event.target.username.value)
+        //setTimeout(() => {  console.log("World!"); }, 5000);
+
         event.preventDefault()
-
-        // Get data from the form.
-        const data = {
-            username: event.target.username.value,
+        const res = await signIn('credentials', {
+            redirect: false,
+            email: event.target.username.value, 
             password: event.target.password.value,
+            callbackUrl: "/testPage"
+        })
+
+        console.log(res.status)
+        
+        console.log("STATUS: ", res)
+        //console.log("email: ", data.email)
+        // await new Promise(r => setTimeout(r, 5000));
+        if(res.ok) {
+        //   const session = await getSession()
+        //   console.log("Session: ", session)
+
+        //   if (session.role == "Manager") {
+        //     router.push("testPage")
+        //   }
+          router.push(res.url)
+          console.log(res.status)
         }
-
-        // Send the data to the server in JSON format.
-        //console.log(data)
-        const JSONdata = JSON.stringify(data)
-        //console.log(JSONdata)
-
-        const endpoint = 'api/login'
-
-        // Form the request for sending data to the server.
-        const options = {
-          // The method is POST because we are sending data.
-          method: 'POST',
-          // Tell the server we're sending JSON.
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          // Body of the request is the JSON data we created above.
-          body: JSONdata,
-      }
-  
-      // Send the form data to our forms API on Vercel and get a response.
-      const response = await fetch(endpoint, options)
-      console.log("response: ",response)
-      let user = await response.json()
-      console.log("response: ",response)
-      console.log("username: ",user.username)
-      console.log("role: ",user.role)
-
-      if (response.status == 200) {
-          if (user.role == "Writer") {
-              console.log("writer")
-              router.push('writerPortal')
-          }
-          else if (user.role == "Manager") {
-              router.push("managerPortal")
-          }
-          else if (user.role == "Admin") {
-              router.push("adminPortal")
-          }
-          else if (user.role == "Copy-Editor") {
-              router.push("copyEditorPortal")
-          }
-      }
-      else {
-        // TODO: Display message saying the username or password is incorrect
-      }
+        else {
+          console.log(res.error)
+        }
+          
     }
+    
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault()
+
+    //     // Get data from the form.
+    //     const data = {
+    //         username: event.target.username.value,
+    //         password: event.target.password.value,
+    //     }
+
+    //     // Send the data to the server in JSON format.
+    //     //console.log(data)
+    //     const JSONdata = JSON.stringify(data)
+    //     //console.log(JSONdata)
+
+    //     const endpoint = 'api/login'
+
+    //     // Form the request for sending data to the server.
+    //     const options = {
+    //       // The method is POST because we are sending data.
+    //       method: 'POST',
+    //       // Tell the server we're sending JSON.
+    //       headers: {
+    //           'Content-Type': 'application/json',
+    //       },
+    //       // Body of the request is the JSON data we created above.
+    //       body: JSONdata,
+    //   }
+  
+    //   // Send the form data to our forms API on Vercel and get a response.
+    //   const response = await fetch(endpoint, options)
+    //   console.log("response: ",response)
+    //   let user = await response.json()
+    //   console.log("response: ",response)
+    //   console.log("username: ",user.username)
+    //   console.log("role: ",user.role)
+
+    //   if (response.status == 200) {
+    //       if (user.role == "Writer") {
+    //           console.log("writer")
+    //           router.push('writerPortal')
+    //       }
+    //       else if (user.role == "Manager") {
+    //           router.push("managerPortal")
+    //       }
+    //       else if (user.role == "Admin") {
+    //           router.push("adminPortal")
+    //       }
+    //       else if (user.role == "Copy-Editor") {
+    //           router.push("copyEditorPortal")
+    //       }
+    //   }
+    //   else {
+    //     // TODO: Display message saying the username or password is incorrect
+    //   }
+    // }
 
 
     return (

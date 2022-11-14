@@ -61,6 +61,23 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`unfinished` (
   PRIMARY KEY (`fid`))
 ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS `drurymirror.sessions`;
+
+CREATE TABLE IF NOT EXISTS `drurymirror.sessions`
+  (
+    `id`            INT NOT NULL AUTO_INCREMENT,
+    `user_id`       INTEGER NOT NULL,
+    `expires`       TIMESTAMP(6) NOT NULL,
+    `session_token` VARCHAR(255) NOT NULL,
+    `access_token`  VARCHAR(255) NOT NULL,
+    `created_at`    TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    `updated_at`    TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB;
+
+
+
 -- -----------------------------------------------------
 -- Table `thomas`.`article`
 -- -----------------------------------------------------

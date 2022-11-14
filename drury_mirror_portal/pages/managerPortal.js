@@ -14,6 +14,7 @@ import Table from 'react-bootstrap/Table';
 import styles from '../styles/article.module.css'
 
 import {useRouter} from 'next/router'
+import { useSession, signOut } from 'next-auth/react'
 
 function managerPortal({users}) {
     const router = useRouter()
