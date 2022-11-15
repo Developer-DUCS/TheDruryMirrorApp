@@ -6,6 +6,9 @@ import { useSession, signOut } from 'next-auth/react'
 import Router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+//import { signOut } from "next-auth/react"
+
+
 export default function test() {
     const router = useRouter()
     const {status, data} = useSession()
@@ -29,7 +32,7 @@ export default function test() {
                     <p>Email: {data.user.email}</p>
                     <p>Role: {data.user.role}</p>
                     <p>Expires: {data.expires}</p>
-                    <button>Log Out</button>
+                    <button onClick={() => signOut()}>Sign out</button>
 
                 </div>
             </>

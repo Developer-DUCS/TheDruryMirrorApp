@@ -113,6 +113,7 @@ export async function getStaticProps() {
     // }
 }
 
+let commentId = 0
 
 export function PageWithJSbasedForm({article}) {
     
@@ -122,6 +123,7 @@ export function PageWithJSbasedForm({article}) {
     // changes that the copy editor makes
 
     let [value=article, setValue] = useState();
+
 
     // Handle the log out button
     const logOut = async (event) => {
@@ -169,12 +171,12 @@ export function PageWithJSbasedForm({article}) {
 
     }
 
-    var commentId = 0
 
     const addComment = async (event) => {
 
         console.log("pressed button")
-
+        commentId = commentId + 1
+        console.log(commentId)
         //Grabs the cursor highlighted text
         var comment = window.getSelection().toString()
 
@@ -214,7 +216,7 @@ export function PageWithJSbasedForm({article}) {
             var box = document.createElement("div")
             
             // increment the comment id value
-            box.setAttribute("id",commentId+=1)
+            box.setAttribute("id",commentId)
             box.innerHTML = "<br></br>"
    
                 //Appends the new comment to the <ul> 
