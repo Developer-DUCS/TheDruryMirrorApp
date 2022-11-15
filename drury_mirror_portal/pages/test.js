@@ -169,7 +169,8 @@ export function PageWithJSbasedForm({article}) {
 
     }
 
-    let commentId = 0;
+    var commentId = 0
+
     const addComment = async (event) => {
 
         console.log("pressed button")
@@ -211,13 +212,12 @@ export function PageWithJSbasedForm({article}) {
             var button = document.createElement("button")
             button.innerHTML = "Resolve"
             var box = document.createElement("div")
-
-            // increment the comment id value
-            commentId += 1
-            box.setAttribute("id",commentId)
-            box.innerHTML = "<br></br>"
             
-            //Appends the new comment to the <ul> 
+            // increment the comment id value
+            box.setAttribute("id",commentId+=1)
+            box.innerHTML = "<br></br>"
+   
+                //Appends the new comment to the <ul> 
             box.append(label,input,button)
 
             //Gets the index of the beginning of the highlighted text
@@ -241,7 +241,10 @@ export function PageWithJSbasedForm({article}) {
             textId.append(box);
         }
         else{
-            alert("Please highlight inside the article")
+            let notice = document.getElementById("notice")
+            notice.hidden = false
+            await new Promise(r => setTimeout(r, 3000));
+            notice.hidden= true
         }
     }
     //TODO
@@ -264,9 +267,15 @@ export function PageWithJSbasedForm({article}) {
                 
                 <br></br>
                 <br></br>
-                
+        
                 <QuillNoSSRWrapper id="article" modules={articleModules} value={value} onChange={setValue} formats={articleFormats} theme="snow"/><br></br><br></br>
+                
+                <div id="notice" hidden>
+                    {/* make red */}
+                    <text>Please hightlight in the draft</text>
+                </div>
             </div>
+            
 
             <div className={styles.comments}>
                 <form>
