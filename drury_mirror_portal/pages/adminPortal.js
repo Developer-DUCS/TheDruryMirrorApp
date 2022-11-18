@@ -29,27 +29,20 @@ export function adminPortal({ articles }) {
 
   return (
     <div>
-
-      <Toolbar>
+      <Toolbar sx={{ marginTop: "10px" }}>
         <Typography variant="h2" sx={{ flexGrow: 5 }}>
           Drury Mirror
         </Typography>
 
         <Button
-          variant="outline"
-          color="contrast"
-          sx={{color: 'white'}}
+          variant="contained"
+          sx={{ marginRight: 3, color: "white", backgroundColor: "#4685F5" }}
           onClick={writeDraftRoute}
         >
           Write Draft
         </Button>
 
-        <Button
-          variant="primary"
-          color="contrast"
-          sx={{color: 'white'}}
-          onClick={logOut}
-        >
+        <Button variant="contained" color="error" onClick={logOut}>
           Log Out
         </Button>
       </Toolbar>
@@ -72,10 +65,27 @@ export function adminPortal({ articles }) {
             <Typography variant="h3">{article.headline}</Typography>
             <Typography variant="h5">{article.author}</Typography>
             <Typography variant="h5">{parse(article.body)}</Typography>
-            <Button id="edit" variant="contained" onClick={editArticleRoute} sx={{ marginRight: 5, color: "white", backgroundColor: "#4685F5"  }} >
+            <Button
+              id="edit"
+              variant="contained"
+              onClick={editArticleRoute}
+              sx={{
+                marginBottom: 1,
+                marginRight: 5,
+                color: "white",
+                backgroundColor: "#4685F5",
+              }}
+            >
               Edit Article
             </Button>
-            <Button id="publish" variant="contained" sx={{ color: "white", backgroundColor: "#4685F5" }}>Ready to Publish</Button>
+            <Button
+              id="publish"
+              variant="contained"
+              color="error"
+              sx={{ marginLeft: 1, marginBottom: 1 }}
+            >
+              Ready to Publish
+            </Button>
           </Card>
         ))}
       </div>

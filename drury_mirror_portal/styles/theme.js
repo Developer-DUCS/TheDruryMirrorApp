@@ -22,9 +22,12 @@ export const mainTheme = createTheme({
     contrast:{
       main:"#000"
     },
+    primaryButton: {
+      main:"#FEF9FB",
+    },
     background: {
       default: "#0E0E0E"
-    },
+    }
   },
 });
 
@@ -61,6 +64,12 @@ theme.typography.h5={
   fontFamily: 'Garamond-Regular',
   fontWeight: 50,
 }
+theme.typography.paragraph={
+  fontSize: '1rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+  fontWeight: 30,
+}
 
 
 
@@ -79,9 +88,25 @@ mainTheme.typography.h3 = {
   color: "#fff",
   fontFamily: 'Garamond-Regular',
 }
+mainTheme.typography.h4 = {
+  fontSize: '1.15rem',
+  color: "#fff",
+  fontFamily: 'Garamond-Regular',
+}
 mainTheme.typography.h5={
   fontSize: '1rem',
   color: "#fff",
   fontFamily: 'Garamond-Regular',
   fontWeight: 50,
+}
+mainTheme.typography.body1={
+  fontSize: '1rem',
+  color: "#000",
+  fontFamily: 'AvantGarde',
+  fontWeight: 60,
+}
+mainTheme.typography.body2={
+  fontSize: '1.2rem',
+  fontFamily: "AvantGarde",
+  fontWeight: "bold",
 }
