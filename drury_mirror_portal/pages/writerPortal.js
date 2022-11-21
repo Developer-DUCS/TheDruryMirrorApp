@@ -39,7 +39,7 @@ export function writerPortal({articles}){
                 <li className={styles.indArticle}>
                     {article.headline}
                     <text className={styles.author}>By: {article.author}</text>
-                    <text className={styles.body}>{parse(article.body)}</text> 
+                    <text >{parse(article.body)}</text> 
                     <div className={styles.buttons}>
                         <button id="comments" className={styles.edit}>See Comments</button>
                     </div>

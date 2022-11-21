@@ -9,12 +9,16 @@ export default (req, res) => {
         console.log("article", body.article);
 
         let articleString = body.article;
+        let testAuthor = "Test Author"
+        let testHeadline = "Test Headline"
 
-        let saveQuery = ('INSERT INTO test(article) VALUES(?)');
+        let saveQuery = ("INSERT INTO articles(author, headline, body, isDraft, createdDate) VALUES(?,?,?,'1', NOW())");
 
-        conn.query(saveQuery, [articleString], (err) => {
+        conn.query(saveQuery, [testAuthor, testHeadline, articleString], (err) => {
+            //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
             if (err) {
                 console.log("Something went wrong");
+                console.log(err)
                 res.status(500).json({error: "Failed Insertion"});
             }
             else {
