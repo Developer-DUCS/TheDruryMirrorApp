@@ -205,21 +205,29 @@ export function PageWithJSbasedForm({article}) {
         //compares the two arrays to check if highlighted text is in article
         if(check.toString() === com.toString()){
 
-    
             //Creates the new comment div
-            var label = document.createElement("Label");
-            label.setAttribute("for",input);
-            label.innerHTML = "Comment";
-            var input = document.createElement("textarea");
+            var label = document.createElement("Label")
+            label.setAttribute("for",input)
+            label.innerHTML = "Comment"
+            var input = document.createElement("textarea")
             var button = document.createElement("button")
-            button.innerHTML = "Resolve"
+            button.innerHTML = "Clear"
             var box = document.createElement("div")
+
+            //Called the resolve function on a click
+            button.onclick = resolve
             
-            // increment the comment id value
-            box.setAttribute("id",commentId)
+            //Highlights comment when associated comment box has the mouse over
+            input.onmouseover = mouseover
+            input.onmouseleave = mouseleave
+
+            //Increment the comment id value
+            box.setAttribute("id","div"+commentId)
+            input.setAttribute("id","input"+commentId)
+            button.setAttribute("id","button"+commentId)
             box.innerHTML = "<br></br>"
    
-                //Appends the new comment to the <ul> 
+            //Appends the new comment to the <ul> 
             box.append(label,input,button)
 
             //Gets the index of the beginning of the highlighted text
@@ -228,14 +236,13 @@ export function PageWithJSbasedForm({article}) {
             //Gets the length of the highlight text
             var range = comment.length
 
-            console.log(" Starting at index: "+index + " Length of highlighted comment: "+range )
-            //console.log("Before highlight: "+ value)
+            console.log(" Starting at index: "+ index +" Length of highlighted comment: "+ range )
 
             //Adds <span></span> tags to highlight the text in the article
             if (index >= 0) { 
                 document.getElementsByClassName("ql-editor")[0].innerHTML = value.substring(0,index) 
-                    + '<span style="background-color: rgb(255, 255, 0); color:black;">' 
-                    + value.substring(index,index+range) + "</span>" 
+                    + '<span id=span' + commentId + ' style="background-color: rgb(255, 255, 0); color:black;">'
+                    + value.substring(index,index + range) + "</span>" 
                     + value.substring(index + range);
                 console.log("ql-editor: "+document.getElementsByClassName("ql-editor")[0].innerHTML)
             }
@@ -249,14 +256,68 @@ export function PageWithJSbasedForm({article}) {
             notice.hidden= true
         }
     }
-    //TODO
-    // const resolve = async (event) => {
-    //     
-    // }
+
+    const resolve = async (event) => {
+       console.log("resolved clicked")
+       //Gets the id of the button that triggered the event
+       let buttonId = event.path[0].id
+       console.log(buttonId)
+       
+       //Splits the number from the id of the button
+       let num = buttonId.split("n")
+       console.log(num[1].toString())
+
+       //Uses the number from the button id to get the id of the div its in
+       let tempDiv = "div"
+       let tempDivId = tempDiv.concat(num[1].toString())
+
+       //Uses the number from the button id to get the id of the span with the related comment
+       let tempSpan = "span"
+       let tempSpanId = tempSpan.concat(num[1].toString())
+
+       console.log(tempDivId)
+       console.log(tempSpanId)
+
+       console.log(document.getElementById(tempDivId))
+       console.log(document.getElementById(tempSpanId))
+       
+       //Removes the span tags around the comment
+       document.getElementById(tempSpanId).removeAttribute("style")
+        
+       //Removes the div that the button that is clicked is in
+       document.getElementById(tempDivId).remove()
+
+       //Prevents the page from completely reloading
+       event.preventDefault() 
+    }
+
+    const mouseover = async (event) => {
+        let inputId = event.path[0].id
+
+        let num = inputId.split("t")
+
+        let tempCom = "span"
+        let tempComId = tempCom.concat(num[1].toString())
+
+        document.getElementById(tempComId).setAttribute("style", "background-color: blue")
+    }
     
+    const mouseleave = async (event) => {
+        let inputId = event.path[0].id
+
+        let num = inputId.split("t")
+
+        let tempCom = "span"
+        let tempComId = tempCom.concat(num[1].toString())
+
+        document.getElementById(tempComId).setAttribute("style", "background-color: rgb(255,255,0); color:black;")
+    }
+
+    //Temporary
     const testval = async (event) => {
         console.log("value: ", value)
     }
+
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
@@ -265,6 +326,7 @@ export function PageWithJSbasedForm({article}) {
         <div className={styles.editorDiv}>
             <div id="quillEditor" className={styles.Editor}>
                 <button onClick={addComment}>Add Comment</button>
+                {/* Temporary */}
                 <button onClick={testval}>value</button>
                 
                 <br></br>
@@ -281,7 +343,9 @@ export function PageWithJSbasedForm({article}) {
 
             <div className={styles.comments}>
                 <form>
-                    <label>Edits</label> 
+                    <label>Overall Comments</label> <br></br>
+                    <textarea></textarea> <br></br> <br></br>
+                    <label>Comments</label> 
                     <ul id="textId">
                     </ul>
                     <button type="submit">Submit Edits</button>
