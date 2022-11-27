@@ -13,9 +13,14 @@ export default function MyApp(props) {
 
   let curTheme = theme;
 
-  if (router.pathname != "/") {
+  if (router.pathname !== "/") {
     curTheme = mainTheme;
   }
+
+  if (router.pathname == "/testSplashPage"){
+    curTheme = theme;
+  }
+  
 
   return (
     <React.Fragment>
