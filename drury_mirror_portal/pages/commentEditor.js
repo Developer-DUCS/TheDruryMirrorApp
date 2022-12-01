@@ -6,7 +6,10 @@
 //                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 27 2022 
 //
 //Modificaiton Log:
-//                   
+//                  !!!!ADD COMMENT BUG: CANT HANDLE A SINGLE HIGHLIGHTED SPACE IN THE TEXT!!!!
+//                  !!!!ADD COMMENT BUG: CAN'T COMMENT OVER AN EXIST COMMENT!!!!
+//                  TODO:: FIX NAMING CONVENTIONS
+//                  
 //
 
 
@@ -20,7 +23,7 @@ import dynamic from 'next/dynamic'
 import {useRouter} from 'next/router'
 
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 // we import react-quill dynamically, to avoid including it in server-side 
 // and we will render a loading state while the dynamic component is being loaded.
@@ -111,19 +114,17 @@ export async function getStaticProps() {
     // }
 }
 
+let commentId = 0
 
 export function PageWithJSbasedForm({article}) {
-
+    
     const router = useRouter()
 
     // Put the article from the api in the left editor and handle the 
     // changes that the copy editor makes
-    const [value=article, setValue] = useState();
 
-    // Handles the contents of the article editor.
-    const [commentValue, setCommentValue] = useState();
+    let [value=article, setValue] = useState();
 
-    
 
     // Handle the log out button
     const logOut = async (event) => {
@@ -133,13 +134,12 @@ export function PageWithJSbasedForm({article}) {
     // Handles the submit event from submit edits
     const handleSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
-        //console.log(value)
         event.preventDefault()
     
         // Get data from the form.
         const data = {
-        first: event.target.first.value,
-        last: event.target.last.value,
+        //first: event.target.first.value,
+        //last: event.target.last.value,
         article: value
         }
     
@@ -172,6 +172,174 @@ export function PageWithJSbasedForm({article}) {
 
     }
 
+
+    const addComment = async (event) => {
+
+        console.log("pressed button")
+        commentId = commentId + 1
+        console.log(commentId)
+        //Grabs the cursor highlighted text
+        var comment = window.getSelection().toString()
+
+        //Identifies the index of the beginning of the comment
+        let start = value.indexOf(comment)
+
+        //empty arrays to fill and compare to check that the highlighted text or is not in the article
+        let check = []
+        let com = []
+
+        //iterates through the article where the comment should be and adds it to an array
+        for(let i = start; i<value.length; i++){
+            check.push(value.charAt(i))
+            if(i == start+comment.length-1){
+                console.log(check.toString())
+                break
+            }
+        }
+        
+        //adds the comment into an array 
+        for(let x = 0; x<comment.length; x++){
+            com.push(comment[x])
+        }
+        console.log(com.toString())
+
+        //compares the two arrays to check if highlighted text is in article
+        if(check.toString() === com.toString()){
+
+            //Creates the new comment div
+            var label = document.createElement("Label")
+            label.setAttribute("for",input)
+            label.innerHTML = "Comment"
+            var input = document.createElement("textarea")
+            var button = document.createElement("button")
+            button.innerHTML = "Clear"
+            var box = document.createElement("div")
+
+            //Called the resolve function on a click
+            button.onclick = resolve
+            
+            //Highlights comment when associated comment box has the mouse over
+            input.onmouseover = mouseover
+            input.onmouseleave = mouseleave
+
+            //Increment the comment id value
+            box.setAttribute("id","div"+commentId)
+            input.setAttribute("id","input"+commentId)
+            button.setAttribute("id","button"+commentId)
+            box.innerHTML = "<br></br>"
+   
+            //Appends the new comment to the <ul> 
+            box.append(label,input,button)
+
+            //Gets the index of the beginning of the highlighted text
+            var index = value.indexOf(comment)
+
+            //Gets the length of the highlight text
+            var range = comment.length
+
+            console.log(" Starting at index: "+ index +" Length of highlighted comment: "+ range )
+
+            //Adds <span></span> tags to highlight the text in the article
+            if (index >= 0) { 
+                document.getElementsByClassName("ql-editor")[0].innerHTML = value.substring(0,index) 
+                    + '<span id=span' + commentId + ' style="background-color: rgb(255, 255, 0); color:black;">'
+                    + value.substring(index,index + range) + "</span>" 
+                    + value.substring(index + range);
+                console.log("ql-editor: "+document.getElementsByClassName("ql-editor")[0].innerHTML)
+            }
+            //Append the element in page (in span).
+            textId.append(box);
+        }
+        else{
+            let notice = document.getElementById("notice")
+            notice.hidden = false
+            await new Promise(r => setTimeout(r, 3000));
+            notice.hidden= true
+        }
+    }
+
+    const resolve = async (event) => {
+       console.log("resolved clicked")
+       //Gets the id of the button that triggered the event
+       let buttonId = event.path[0].id
+       console.log(buttonId)
+       
+       //Splits the number from the id of the button
+       let num = buttonId.split("n")
+       console.log(num[1].toString())
+
+       //Uses the number from the button id to get the id of the div its in
+       let tempDiv = "div"
+       let tempDivId = tempDiv.concat(num[1].toString())
+
+       //Uses the number from the button id to get the id of the span with the related comment
+       let tempSpan = "span"
+       let tempSpanId = tempSpan.concat(num[1].toString())
+
+       console.log(tempDivId)
+       console.log(tempSpanId)
+
+       console.log(document.getElementById(tempDivId))
+       console.log(document.getElementById(tempSpanId))
+       
+       //Removes the span tags around the comment
+       document.getElementById(tempSpanId).removeAttribute("style")
+        
+       //Removes the div that the button that is clicked is in
+       document.getElementById(tempDivId).remove()
+
+       //Prevents the page from completely reloading
+       event.preventDefault() 
+    }
+
+    const mouseover = async (event) => {
+        let inputId = event.path[0].id
+
+        let num = inputId.split("t")
+
+        let tempCom = "span"
+        let tempComId = tempCom.concat(num[1].toString())
+
+        document.getElementById(tempComId).setAttribute("style", "background-color: blue")
+    }
+    
+    const mouseleave = async (event) => {
+        let inputId = event.path[0].id
+
+        let num = inputId.split("t")
+
+        let tempCom = "span"
+        let tempComId = tempCom.concat(num[1].toString())
+
+        document.getElementById(tempComId).setAttribute("style", "background-color: rgb(255,255,0); color:black;")
+    }
+
+    const submit = (event) => {
+        event.preventDefault()
+        //console.log("Comments:", event.target.input1.value)
+        // console.log("Overall Comments:", event.target.overAllComments.value)
+        // console.log("list", event.target.getElementsByTagName("div"))
+        let x = event.target.getElementsByTagName("textarea")
+        let y = x.length
+        let i = 1
+        let commentsArray = []
+        let overAllComments = x[0].value
+        console.log("OverAllComments:", overAllComments)
+        if(y>1){
+            while(y > 1){
+                if(x[i].value != null){
+                    let com = [x[i].value, x[i].id]
+                    commentsArray.push(com)
+                    y = y-1
+                }
+                i = i+1
+            }
+        }else{
+            console.log("List was Empty")
+        }
+        console.log(commentsArray)
+    }
+
     return (
         // We pass the event to the handleSubmit() function on submit.
         <>
@@ -179,24 +347,31 @@ export function PageWithJSbasedForm({article}) {
 
         <div className={styles.editorDiv}>
             <div id="quillEditor" className={styles.Editor}>
-                <label htmlFor="first">Editor Name</label> <br></br>
-                <input type="text" id="editor" name="editor" required /><br></br><br></br>
+                <button onClick={addComment}>Add Comment</button>
                 
+                <br></br>
+                <br></br>
+        
                 <QuillNoSSRWrapper id="article" modules={articleModules} value={value} onChange={setValue} formats={articleFormats} theme="snow"/><br></br><br></br>
-
+                
+                <div id="notice" hidden>
+                    {/* make red */}
+                    <text>Please hightlight in the draft</text>
+                </div>
             </div>
-
+            
             <div className={styles.comments}>
-                <form onSubmit={handleSubmit}>
-                <label htmlFor="comments">Edits</label> <br></br> <br></br>
-                <QuillNoSSRWrapper id="comments" modules={modules} placeholder='' value={commentValue} onChange={setCommentValue} formats={formats} theme="snow" /><br></br><br></br>
-                {//To see the placeholder the host computer cant be in dark mode. (dont know how to edit the color of the placeholder text)
-                }
-                <button type="submit" className={styles.button}>Submit Edits</button>
+                <form onSubmit={submit}>
+                    <label>Overall Comments</label> <br></br>
+                    <textarea id="overAllComments"></textarea> <br></br>
+                    <label>Comments</label> 
+                    <ul id="textId">
+                    </ul>
+                    <button type='submit'>Submit Edits</button>
                 </form>
+                
             </div>
         </div>  
-        
         </>
     )
     }
