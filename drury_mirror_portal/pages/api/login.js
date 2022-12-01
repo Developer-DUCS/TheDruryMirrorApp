@@ -18,7 +18,7 @@ export default (req, res) => {
     let email = body.email
     let password = body.password
     console.log(email,password)
-    let authQuery = ("SELECT email, password, roles, active FROM users WHERE email = ?")
+    let authQuery = ("SELECT fname, lname, email, password, roles, active FROM users WHERE email = ?")
 
     conn.query(authQuery, [email], (err, rows) => {
 
@@ -31,6 +31,8 @@ export default (req, res) => {
         else {
             if (password == rows[0].password && rows[0].active == 1) {
                 let user = {
+                    fname: rows[0].fname,
+                    lname: rows[0].lname,
                     email: rows[0].email,
                     role: rows[0].roles
                 }

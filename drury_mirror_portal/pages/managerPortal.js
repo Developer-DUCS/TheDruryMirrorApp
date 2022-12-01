@@ -18,11 +18,14 @@ import { useSession, signOut } from 'next-auth/react'
 
 function managerPortal({users}) {
     const router = useRouter()
+    const {status, data} = useSession()
 
-    // Handle the log out button
-    const logOut = async (event) => {
+
+    const redirectToSignIn = (event) => {
+        event.preventDefault()
         router.push("/")
-      }
+
+    }
 
     // Handle the creation of a new user
     const handleSubmit = async (event) => {
@@ -195,73 +198,86 @@ function managerPortal({users}) {
       }
     }
 
-    return (
+    if (status === "authenticated") {
+        console.log(data.user.role)
+        const role = data.user.role
 
-      <>
-        <button className={styles.draftButton} onClick={logOut}>Log Out</button>
-        <form onSubmit={handleSubmit}>
-        <h1>User Manager</h1>
-          <h2 id = "header">Create User</h2>
-          <label htmlFor="first">Email</label> <br></br>
-          <input type="text" id="email" name="email" required/><br></br>
-          <label htmlFor="password">Password</label> <br></br>
-          <input type="password" id="password" name="password" required /> <br></br>
-          <label htmlFor="roles">Roles</label> <br></br>
-          <select id="roles" name="roles" required >
-            <option value = "Writer">Writer</option>
-            <option value = "Editor">Editor</option>
-            <option value = "Copy-Editor">Copy-Editor</option>
-            <option value = "Admin">Admin</option>
-          </select> <br></br>
-          <button type="submit">Create User</button>
-          <br></br>
-        </form>
-        <br></br>
-        <h2>User List</h2>
-            <Table striped bordered hover variant="dark">
-                <thead>
-                    <tr>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th>Active</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+        return (
 
-                    {users.map((user) => (
+            <>
+                <button className={styles.draftButton} onClick={() => signOut()}>Log Out</button>
+                <form onSubmit={handleSubmit}>
+                <h1>User Manager</h1>
+                <h2 id = "header">Create User</h2>
+                <label htmlFor="first">Email</label> <br></br>
+                <input type="text" id="email" name="email" required/><br></br>
+                <label htmlFor="password">Password</label> <br></br>
+                <input type="password" id="password" name="password" required /> <br></br>
+                <label htmlFor="roles">Roles</label> <br></br>
+                <select id="roles" name="roles" required >
+                    <option value = "Writer">Writer</option>
+                    <option value = "Editor">Editor</option>
+                    <option value = "Copy-Editor">Copy-Editor</option>
+                    <option value = "Editor-In-Chief">Editor-In-Chief</option>
+                </select> <br></br>
+                <button type="submit">Create User</button>
+                <br></br>
+                </form>
+                <br></br>
+                <h2>User List</h2>
+                    <Table striped bordered hover variant="dark">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Active</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        <tr key={user.email}>
-                            <td id={user.email}>{user.email}</td>
-                            <td>{user.password}</td>
-                            {/* blur out passwords */}
-                            {/* Change password route */}
-                            <td>
-                                <form name={user.email} onSubmit={handleRole}>
-                                    <select name = "role" required defaultValue={user.roles}>
-                                        <option value = "Writer">Writer</option>
-                                        <option value = "Editor">Editor</option>
-                                        <option value = "Copy-Editor">Copy-Editor</option>
-                                        <option value = "Admin">Admin</option>
-                                    </select> <br></br>
-                                    <button type="submit">Change Role</button>
-                                </form>
-                                {/* Add click event to change role */}
-                            </td>
-                            <td>
-                                <input name={user.email} type="checkbox" required defaultChecked={user.active} onChange={handleActive}></input>
-                            </td>
-                            <td>
-                                <button name={user.email} onClick={handleDelete} >Delete</button>
-                                {/* Add an Alert or modal warning */}
-                            </td>
-                        </tr>
-                    ))} 
-                </tbody>
-            </Table>
-      </>
-    )
+                            {users.map((user) => (
+
+                                <tr key={user.email}>
+                                    <td id={user.email}>{user.email}</td>
+                                    <td>{user.password}</td>
+                                    {/* blur out passwords */}
+                                    {/* Change password route */}
+                                    <td>
+                                        <form name={user.email} onSubmit={handleRole}>
+                                            <select name = "role" required defaultValue={user.roles}>
+                                                <option value = "Writer">Writer</option>
+                                                <option value = "Editor">Editor</option>
+                                                <option value = "Copy-Editor">Copy-Editor</option>
+                                                <option value = "Editor-In-Chief">Editor-In-Chief</option>
+                                            </select> <br></br>
+                                            <button type="submit">Change Role</button>
+                                        </form>
+                                        {/* Add click event to change role */}
+                                    </td>
+                                    <td>
+                                        <input name={user.email} type="checkbox" required defaultChecked={user.active} onChange={handleActive}></input>
+                                    </td>
+                                    <td>
+                                        <button name={user.email} onClick={handleDelete} >Delete</button>
+                                        {/* Add an Alert or modal warning */}
+                                    </td>
+                                </tr>
+                            ))} 
+                        </tbody>
+                    </Table>
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <p>Please sign in</p>
+                <button onClick={redirectToSignIn}>Sign In</button>
+            </>
+        )
+    }
 }
 
 export async function getStaticProps() {

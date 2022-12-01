@@ -1,9 +1,19 @@
 
+import { getSession } from 'next-auth/react'
+
 const conn = require("../../backend/mysqldb")
 
-export default (req, res) => {
+export default async (req, res, session) => {
     console.log("called get article route")
+
+    //let session = await getSession({ req })
+
+
+
     const body = req.body
+    console.log(body)
+    console.log(session)
+    //const session = await getSession({req})
 
     let getQuery = ("SELECT author,headline,body FROM articles")
 

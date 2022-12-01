@@ -21,7 +21,7 @@ export default function LoginPage() {
             redirect: false,
             email: event.target.username.value, 
             password: event.target.password.value,
-            callbackUrl: "/testPage"
+            callbackUrl: "/testSplashPage"
         })
 
         console.log(res.status)

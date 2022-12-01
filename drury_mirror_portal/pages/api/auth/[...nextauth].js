@@ -53,8 +53,10 @@ export default NextAuth ({
     callbacks: {
         session: async ({ session, token }) => {
           if (session?.user) {
-            console.log()
+            //console.log(session.user)
             session.user.id = token.uid;
+            session.user.fname = token.fname,
+            session.user.lname = token.lname,
             session.user.role = token.role
           }
           return session;
@@ -62,9 +64,12 @@ export default NextAuth ({
         jwt: async ({ user, token }) => {
           if (user) {
             token.uid = user.id;
+            token.fname = user.fname,
+            token.lname = user.lname
             token.role = user.role
+            //console.log(user)
           }
-
+          
           return token;
         },
       },
