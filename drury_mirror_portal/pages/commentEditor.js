@@ -325,18 +325,20 @@ export function PageWithJSbasedForm({article}) {
         let commentsArray = []
         let overAllComments = x[0].value
         console.log("OverAllComments:", overAllComments)
-        if(y>1){
-            while(y > 1){
-                if(x[i].value != null){
+
+        if (y > 1) {
+            while (y > 1){
+                if (x[i].value != null) {
                     let com = [x[i].value, x[i].id]
                     commentsArray.push(com)
                     y = y-1
                 }
                 i = i+1
             }
-        }else{
+        } else {
             console.log("List was Empty")
         }
+        
         console.log(commentsArray)
     }
 

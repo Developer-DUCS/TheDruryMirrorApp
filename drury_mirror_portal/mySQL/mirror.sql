@@ -20,6 +20,8 @@ USE `drurymirror` ;
 
 CREATE TABLE IF NOT EXISTS `drurymirror`.`users` (
   `uid` INT NOT NULL AUTO_INCREMENT,
+  `fname` VARCHAR(45) NOT NULL,
+  `lname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(60) NOT NULL,
   `password` VARCHAR(60) NULL,
   `roles` VARCHAR(20) NOT NULL,

@@ -8,12 +8,16 @@ export default async (req, res, session) => {
 
     //let session = await getSession({ req })
 
+    //let testSesssion = session.then()
+    let name = session[0]
 
+    console.log(name)
 
     const body = req.body
     console.log(body)
     console.log(session)
     //const session = await getSession({req})
+
 
     let getQuery = ("SELECT author,headline,body FROM articles")
 

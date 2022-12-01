@@ -3,17 +3,31 @@
 -- parts of the website that have been implemented
 -- -----------------------------------------------------
 
-insert into users(email,password,roles,created,active) values
-('test1@test.edu','12345','Writer', NOW(),'1'),
-('test2@test.edu','123456','Writer', NOW(),'1'),
-('test3@test.edu','123457','Writer', NOW(),'1'),
-('mcduck@school.edu','letmein!','Writer', NOW(),'1'),
-('deactive@test.edu','letmein?','Writer', NOW(),'0'),
-('dduck@school.edu','letmein!1','Copy-Editor', NOW(),'1'),
-('daisyduck@school.edu','letmein!12','Admin', NOW(),'1'),
-('manager','manager','Manager', NOW(),'1');
+insert into users(fname,lname,email,password,roles,created,active) values
+('test1','lastname','test1@test.edu','12345','Writer', NOW(),'1'),
+('test2','lastname','test2@test.edu','123456','Writer', NOW(),'1'),
+('test3','lastname','test3@test.edu','123457','Writer', NOW(),'1'),
+('m','duck','mcduck@school.edu','letmein!','Writer', NOW(),'1'),
+('dee','active','deactive@test.edu','letmein?','Writer', NOW(),'0'),
+('Donald','Duck','dduck@school.edu','letmein!1','Copy-Editor', NOW(),'1'),
+('Daisy','Duck','daisyduck@school.edu','letmein!12','Editor-In-Chief', NOW(),'1'),
+('firstname','lastname','manager','manager','Manager', NOW(),'1');
 
 insert into articles(author,headline,body,isDraft,createdDate) values
+(
+'Daisy', 
+'daisys article',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
+(
+'Donald', 
+'dducks article',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
 (
 'test1', 
 'The Queen is Dead',
@@ -36,7 +50,7 @@ NOW()
 NOW()
 ),
 (
-'duck', 
+'m', 
 'Springfield has a Drug Problem',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
 '1',
