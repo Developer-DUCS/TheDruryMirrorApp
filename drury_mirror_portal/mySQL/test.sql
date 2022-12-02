@@ -1,108 +1,58 @@
 -- -----------------------------------------------------
--- Sql file to reset database
+-- Data for testing the functionally of different
+-- parts of the website that have been implemented
 -- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema drury_mirror_portal
--- -----------------------------------------------------
+insert into users(fname,lname,email,password,roles,created,active) values
+('test1','lastname','test1@test.edu','12345','Writer', NOW(),'1'),
+('test2','lastname','test2@test.edu','123456','Writer', NOW(),'1'),
+('test3','lastname','test3@test.edu','123457','Writer', NOW(),'1'),
+('m','duck','mcduck@school.edu','letmein!','Writer', NOW(),'1'),
+('dee','active','deactive@test.edu','letmein?','Writer', NOW(),'0'),
+('Donald','Duck','dduck@school.edu','letmein!1','Copy-Editor', NOW(),'1'),
+('Daisy','Duck','daisyduck@school.edu','letmein!12','Editor-In-Chief', NOW(),'1'),
+('firstname','lastname','manager','manager','Manager', NOW(),'1');
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
-
-CREATE SCHEMA IF NOT EXISTS `drurymirror` DEFAULT CHARACTER SET utf8 ;
-USE `drurymirror` ;
-
--- -----------------------------------------------------
--- Table `drurymirror`.`sessions`
--- -----------------------------------------------------
-
-DROP TABLE IF EXISTS `drurymirror.sessions`;
-
-CREATE TABLE IF NOT EXISTS `drurymirror.sessions`
-  (
-    `id`            INT NOT NULL AUTO_INCREMENT,
-    `user_id`       INTEGER NOT NULL,
-    `expires`       TIMESTAMP(6) NOT NULL,
-    `session_token` VARCHAR(255) NOT NULL,
-    `access_token`  VARCHAR(255) NOT NULL,
-    `created_at`    TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    `updated_at`    TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    PRIMARY KEY (`id`)
-  )
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `drurymirror`.`user`
--- -----------------------------------------------------
-
-DROP TABLE IF EXISTS `drurymirror`.`users` ;
-
-CREATE TABLE IF NOT EXISTS `drurymirror`.`users` (
-  `uid` INT NOT NULL AUTO_INCREMENT,
-  `fname` VARCHAR(45) NOT NULL,
-  `lname` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(60) NOT NULL,
-  `password` VARCHAR(60) NULL,
-  `roles` VARCHAR(20) NOT NULL,
-  `created` DATETIME NULL,
-  `active` bool NOT NULL,
-  PRIMARY KEY (`uid`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `drurymirror`.`article`
--- -----------------------------------------------------
-
-DROP TABLE IF EXISTS `drurymirror`.`articles` ;
-
-CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
-  `aid` INT NOT NULL AUTO_INCREMENT,
-  `author` VARCHAR(45) NOT NULL,
-  `headline` VARCHAR(50) NOT NULL,
-  `body` VARCHAR(8000) NOT NULL,
-  `isDraft` bool NOT NULL,
-  `tags` VARCHAR(80) NOT NULL,
-  `createdDate` date NOT NULL,
-  PRIMARY KEY (`aid`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `drurymirror`.`unfinished`
--- -----------------------------------------------------
-
-DROP TABLE IF EXISTS `drurymirror`.`drafts` ;
-
-CREATE TABLE IF NOT EXISTS `drurymirror`.`drafts` (
-  `fid` INT NOT NULL AUTO_INCREMENT,
-  `author` VARCHAR(45) NOT NULL,
-  `headline` VARCHAR(50) NOT NULL,
-  `body` VARCHAR(8000) NOT NULL,
-  `unfinished` bool NOT NULL,
-  `createdDate` date NOT NULL,
-  PRIMARY KEY (`fid`))
-ENGINE = InnoDB;
-
--- -----------------------------------------------------
--- Table `drurymirror`.`comments`
--- -----------------------------------------------------
-
-DROP TABLE IF EXISTS `drurymirror`.`comments` ;
-
-CREATE TABLE IF NOT EXISTS `thomas`.`comments` (
-    `cid` INT NOT NULL AUTO_INCREMENT,
-    `aid` INT NOT NULL, --Set to the same as the aid of the article being edited
-    `editor` VARCHAR(45) NOT NULL, 
-    `comments` VARCHAR(500) NOT NULL, --Or saved as a list?
-    `overAllComments` VARCHAR(500) NOT NULL,
-    `editedArticle` VARCHAR(8000) NOT NULL, --overwrite the article OR save as a different thing then overwrite when article is done
-    `createdDate` date NOT NULL,
-    PRIMARY KEY (`cid`))
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+insert into articles(author,headline,body,isDraft,createdDate) values
+(
+'Daisy', 
+'daisys article',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
+(
+'Donald', 
+'dducks article',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
+(
+'test1', 
+'The Queen is Dead',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
+(
+'test2', 
+'Gas Prices are Raising',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
+(
+'test3', 
+'Drury Issues Student Loan Forgiveness',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+),
+(
+'m', 
+'Springfield has a Drug Problem',
+'<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
+'1',
+NOW()
+)
