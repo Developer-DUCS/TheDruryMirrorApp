@@ -1,21 +1,19 @@
 
-import { getSession } from 'next-auth/react'
+import { unstable_getServerSession } from "next-auth/next"
+
+import { useSession, signOut, getSession } from 'next-auth/react'
+
+import { getToken } from "next-auth/jwt"
+
 
 const conn = require("../../backend/mysqldb")
 
-export default async (req, res, session) => {
+export default async (req, res) => {
     console.log("called get article route")
-
-    //let session = await getSession({ req })
-
-    //let testSesssion = session.then()
-    let name = session[0]
-
-    console.log(name)
-
+    
     const body = req.body
-    console.log(body)
-    console.log(session)
+    console.log("body", body)
+    //console.log("session", session)
     //const session = await getSession({req})
 
 
@@ -31,7 +29,7 @@ export default async (req, res, session) => {
         else {
             let articles = []
             rows.forEach((row) => {
-                console.log("row: ", row)
+                //console.log("row: ", row)
 
                 let article = {
                     author: row.author,
@@ -41,6 +39,7 @@ export default async (req, res, session) => {
                 articles.push(article)
 
             });
+            console.log(articles)
 
             return res.status(200).json(articles)
             

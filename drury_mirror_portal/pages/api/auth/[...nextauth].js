@@ -69,6 +69,7 @@ export default NextAuth ({
             token.role = user.role
             //console.log(user)
           }
+          // console.log("token: ",token)
           
           return token;
         },

@@ -12,13 +12,12 @@ import {useRouter} from 'next/router'
 import { useSession, signOut, getSession } from 'next-auth/react'
 
 
-
 export function writerPortal({articles}){    
     const router = useRouter()
     const {status, data} = useSession()
-    const session = getSession()
+    //const session = getSession()
 
-    console.log("SESSION: ", session.then())
+    //console.log("SESSION: ", session.then())
 
     const parse = require('html-react-parser')
 
@@ -75,11 +74,15 @@ export function writerPortal({articles}){
       )
     }
 }
+import { getToken } from "next-auth/jwt"
 
-export async function getStaticProps() {
+export async function getServerSideProps({ req }) {
     console.log("Getting Articles")
-    const session = await getSession()
-    //console.log(session)
+
+    const token = await getToken({ req })
+    console.log("this token2: ", JSON.stringify(token))
+
+
     const endpoint = 'http://localhost:3000/api/getArticles'
 
     // Form the request for sending data to the server.
@@ -89,18 +92,19 @@ export async function getStaticProps() {
       // Tell the server we're sending JSON.
       headers: {
           'Content-Type': 'application/json',
+          //cookie: headers.cookie || "",
       },
       // Body of the request is the JSON data we created above.
       //body: JSONdata,
   }
 
-  const data = await fetch(endpoint, options, session)
+  const data = await fetch(endpoint, options)
 
   if (data.status == 200) {
       console.log("recieving data")
       let articles = await data.json()
-      console.log(articles)
-      console.log(articles[0])
+      //console.log(articles)
+      //console.log(articles[0])
       return { props: {articles} }
   }
   else {
