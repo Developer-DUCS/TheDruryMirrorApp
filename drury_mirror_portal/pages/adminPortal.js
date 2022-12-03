@@ -1,3 +1,8 @@
+//Modificaiton Log:
+//
+// 12/03 - Thomas O. standardized the styling on this page to match the other portals' styling               
+// 
+
 //Landing page for the admin after they log in to the site
 
 import styles from "../styles/article.module.css";

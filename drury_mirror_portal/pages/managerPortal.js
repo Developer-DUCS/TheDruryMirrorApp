@@ -306,6 +306,7 @@ function managerPortal({ users }) {
       <Button
         color="error"
         variant="contained"
+        onClick={logOut}
         sx={{ position: "absolute", right: 10, top: 10 }}
       >
         Log Out

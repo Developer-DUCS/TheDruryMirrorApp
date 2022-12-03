@@ -5,9 +5,12 @@
 //                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022 
 //
 //Modificaiton Log:
-//                  
+//
+// 12/03 - Thomas O. standardized the styling on this page to match the other portals' styling               
 //                   
 import styles from '../styles/article.module.css'
+import { TextField, Button, FormGroup, Grid, Typography, Card, Toolbar } from "@mui/material";
+
 import {useRouter} from 'next/router'
 
 
@@ -25,28 +28,57 @@ export function writerPortal({articles}){
       router.push("articleWriting")
     }
 
-    return(
-        
+    return(        
       <>
-      <div className={styles.divWelcome}>
-        <text className={styles.welcome}>Article List</text>
-        <button className={styles.draftButton} onClick={logOut}>Log Out</button>
-        <button className={styles.draftButton} onClick={writeDraftRoute}>Write Draft</button>
-      </div>
-      <div className={styles.divArticle}>
-        <ul>
-            {articles.map((article)=>(
-                <li className={styles.indArticle}>
-                    {article.headline}
-                    <text className={styles.author}>By: {article.author}</text>
-                    <text className={styles.body}>{parse(article.body)}</text> 
-                    <div className={styles.buttons}>
-                        <button id="comments" className={styles.edit}>See Comments</button>
-                    </div>
-                    
-                </li>
-            ))}
-        </ul>
+              <Toolbar sx={{ marginTop: "10px" }}>
+        <Typography variant="h2" sx={{ flexGrow: 5 }}>
+          Drury Mirror
+        </Typography>
+
+        <Button
+          variant="contained"
+          sx={{ marginRight: 3, color: "white", backgroundColor: "#4685F5" }}
+          onClick={writeDraftRoute}
+        >
+          Write Draft
+        </Button>
+
+        <Button variant="contained" color="error" onClick={logOut}>
+          Log Out
+        </Button>
+      </Toolbar>
+
+      <Typography variant="h2" sx={{ marginLeft: 3 }}>
+        Article List
+      </Typography>
+      <div>
+        {articles.map((article) => (
+          <Card
+            style={{
+              backgroundColor: "#41414B",
+              margin: 15,
+              padding: 5,
+              paddingLeft: 15,
+              boxShadow: 2,
+            }}
+          >
+            <Typography variant="h3">{article.headline}</Typography>
+            <Typography variant="h5">{article.author}</Typography>
+            <Typography variant="h5">{parse(article.body)}</Typography>
+            <Button
+              id="edit"
+              variant="contained"
+              sx={{
+                marginBottom: 1,
+                marginRight: 5,
+                color: "white",
+                backgroundColor: "#4685F5",
+              }}
+            >
+              See Comments
+            </Button>
+          </Card>
+        ))}
       </div>
       </>
   )

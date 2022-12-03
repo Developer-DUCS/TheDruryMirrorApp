@@ -83,7 +83,7 @@ export default function LoginPage() {
                     },
                     label: {
                       color: "white",
-                    }
+                    },
                   }}
                   id="username" 
                   name="username" 
