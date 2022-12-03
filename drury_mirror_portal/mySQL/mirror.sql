@@ -39,6 +39,7 @@ DROP TABLE IF EXISTS `drurymirror`.`articles` ;
 
 CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
   `pid` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(60) NOT NULL,
   `author` VARCHAR(45) NOT NULL,
   `headline` VARCHAR(50) NOT NULL,
   `body` VARCHAR(8000) NOT NULL,

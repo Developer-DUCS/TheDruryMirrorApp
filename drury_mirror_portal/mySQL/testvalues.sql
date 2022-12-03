@@ -13,8 +13,9 @@ insert into users(fname,lname,email,password,roles,created,active) values
 ('Daisy','Duck','daisyduck@school.edu','letmein!12','Editor-In-Chief', NOW(),'1'),
 ('firstname','lastname','manager','manager','Manager', NOW(),'1');
 
-insert into articles(author,headline,body,isDraft,createdDate) values
+insert into articles(email,author,headline,body,isDraft,createdDate) values
 (
+'daisyduck@school.edu',
 'Daisy', 
 'daisys article',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
@@ -22,6 +23,7 @@ insert into articles(author,headline,body,isDraft,createdDate) values
 NOW()
 ),
 (
+'dduck@school.edu',
 'Donald', 
 'dducks article',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
@@ -29,6 +31,7 @@ NOW()
 NOW()
 ),
 (
+'test1@test.edu',
 'test1', 
 'The Queen is Dead',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
@@ -36,6 +39,7 @@ NOW()
 NOW()
 ),
 (
+'test2@test.edu',
 'test2', 
 'Gas Prices are Raising',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
@@ -43,6 +47,7 @@ NOW()
 NOW()
 ),
 (
+'test3@test.edu',
 'test3', 
 'Drury Issues Student Loan Forgiveness',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
@@ -50,6 +55,7 @@ NOW()
 NOW()
 ),
 (
+'mcduck@school.edu',
 'm', 
 'Springfield has a Drug Problem',
 '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',

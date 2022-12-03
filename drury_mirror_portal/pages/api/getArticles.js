@@ -11,16 +11,22 @@ const conn = require("../../backend/mysqldb")
 export default async (req, res) => {
     console.log("called get article route")
     
-    const body = req.body
-    console.log("body", body)
+    const email = req.body
+    console.log("email", email)
+    console.log("email.length", email.length)
+    console.log(typeof email)
     //console.log("session", session)
     //const session = await getSession({req})
 
+    console.log("here")
 
-    let getQuery = ("SELECT author,headline,body FROM articles")
+    let getQuery = ("SELECT author,headline,body FROM articles WHERE email = ?")
 
-    conn.query(getQuery, (err, rows) => {
+    conn.query(getQuery, [email], (err, rows) => {
+        console.log("here2")
+
         if (err){
+            console.log("error",err)
             return res.status(500).json({error: err})
         }
         else if (rows.length == 0){
@@ -29,7 +35,7 @@ export default async (req, res) => {
         else {
             let articles = []
             rows.forEach((row) => {
-                //console.log("row: ", row)
+                console.log("row: ", row)
 
                 let article = {
                     author: row.author,
@@ -39,7 +45,7 @@ export default async (req, res) => {
                 articles.push(article)
 
             });
-            console.log(articles)
+            // console.log(articles)
 
             return res.status(200).json(articles)
             

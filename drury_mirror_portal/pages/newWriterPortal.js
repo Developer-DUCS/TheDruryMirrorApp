@@ -19,6 +19,21 @@ export function writerPortal() {
 
   const parse = require("html-react-parser");
 
+  async function myFunction() {
+    const session = await getSession()
+    console.log("myFunction",session)
+    return session
+  }
+
+  useEffect(() => {
+    if (status === "loading") {
+      return 
+    }
+    else {
+      console.log(data.user.fname)
+    }
+  }, []);
+
   // Redirect the user to the log in screen
   const redirectToSignIn = (event) => {
     event.preventDefault();
@@ -30,36 +45,51 @@ export function writerPortal() {
     router.push("articleWriting");
   };
 
+  async function getUser() {
+    
+    let name = data.user.fname
+    console.log(name)
+  }
   useEffect(() => {
-    const test2 = async () => {
-      let endpoint = "/api/getArticles";
-      let JSONdata = JSON.stringify(data);
-      let options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // Body of the request is the JSON data we created above.
-        body: JSONdata,
-      };
+    
+    const getArticlesRoute = async () => {
+        //let mySession = myFunction()
 
-      let data2 = await fetch(endpoint, options);
-      let articles = await data2.json();
-      console.log("Articles from JSON: \n" + JSON.stringify(articles));
-      let arr = [];
-      if (articles) {
-        setArticles(articles);
-        console.log("articles", getArticles);
+        const session = await getSession()
+        let endpoint = "/api/getArticles";
+        if (session) {
+          let JSONdata = JSON.stringify(session.user.email);
+
+        
+        console.log("JSONdata",JSONdata)
+        let options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // Body of the request is the JSON data we created above.
+          body: JSONdata,
+        };
+
+        let response = await fetch(endpoint, options);
+        let articles = await response.json();
+        //console.log("Articles from JSON: \n" + JSON.stringify(articles));
+        let arr = [];
+        if (articles) {
+          setArticles(articles);
+          //console.log("articles", getArticles);
+        }
       }
+      
     };
 
-    test2();
+    getArticlesRoute();
   }, []);
 
   if (getArticles != []) {
-    console.log("Articles Retrieved \n" + JSON.stringify(getArticles));
+    //console.log("Articles Retrieved \n" + JSON.stringify(getArticles));
   }
-
+  
   // Filters 'getArticles' array based on whichever user is logged in
   // - should be done server-side
   let filteredArray = []
@@ -72,7 +102,7 @@ export function writerPortal() {
 
   function checkArticle(article){
     console.log("Article: \n" + JSON.stringify(article.author))
-    if(article.author == data.user.fname) {filteredArray.push(article)}
+    if(article) {filteredArray.push(article)}
   }
 
   filterArticles();
@@ -125,6 +155,29 @@ export function writerPortal() {
       </>
     );
   }
+}
+
+
+// Hook
+function useDebounce(value, delay) {
+  // State and setters for debounced value
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(
+    () => {
+      // Update debounced value after delay
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+      // Cancel the timeout if value changes (also on delay change or unmount)
+      // This is how we prevent debounced value from updating if value is changed ...
+      // .. within the delay period. Timeout gets cleared and restarted.
+      return () => {
+        clearTimeout(handler);
+      };
+    },
+    [value, delay] // Only re-call effect if value or delay changes
+  );
+  return debouncedValue;
 }
 
 export default writerPortal;
