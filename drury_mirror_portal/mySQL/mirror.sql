@@ -31,6 +31,23 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`users` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table thomas.comments
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `drurymirror`.`comments` ;
+
+CREATE TABLE IF NOT EXISTS `drurymirror`.`comments` (
+  `cid` INT NOT NULL, -- Set to the same as the "aid" of the article that the comments belong to
+  `email` VARCHAR(60) NOT NULL,
+  `editor` VARCHAR(45) NOT NULL,
+  `overallComments` VARCHAR(500) NOT NULL,
+  `comments` VARCHAR(500) NOT NULL,
+  `createdDate` date NOT NULL,
+  PRIMARY KEY (`cid`))
+ENGINE = InnoDB;
+ 
 -- -----------------------------------------------------
 -- Table `thomas`.`article`
 -- -----------------------------------------------------

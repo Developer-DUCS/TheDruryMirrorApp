@@ -1,4 +1,3 @@
-
 const conn = require("../../backend/mysqldb");
 
 // removed async
@@ -10,32 +9,35 @@ export default (req, res) => {
         console.log("article", body.article);
         console.log("check", body.check);
 
-        let check = body.check
+        let check = body.check;
         let articleString = body.article;
-        let author = body.author
-        let testHeadline = "Test Headline"
-        let email = body.email
+        let author = body.author;
+        let testHeadline = "Test Headline";
+        let email = body.email;
 
         if (check) {
-            check = '1'
-        }
-        else {
-            check = '0'
+            check = "1";
+        } else {
+            check = "0";
         }
 
-        let saveQuery = ("INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())");
+        let saveQuery =
+            "INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())";
 
-        conn.query(saveQuery, [email, author, testHeadline, articleString, check], (err) => {
-            //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
-            if (err) {
-                console.log("Something went wrong");
-                console.log(err)
-                res.status(500).json({error: "Failed Insertion"});
+        conn.query(
+            saveQuery,
+            [email, author, testHeadline, articleString, check],
+            (err) => {
+                //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
+                if (err) {
+                    console.log("Something went wrong");
+                    console.log(err);
+                    res.status(500).json({ error: "Failed Insertion" });
+                } else {
+                    res.status(201).json({ msg: "Successful Insertion" });
+                }
             }
-            else {
-                res.status(201).json({msg: "Successful Insertion"});
-            }
-        });
+        );
 
         // const result = ({
         //     query: 'INSERT INTO test(article) VALUES(?)',
@@ -44,9 +46,7 @@ export default (req, res) => {
         // res.status(201).json({msg: "Insertion Successful"});
         // console.log("here");
         // console.log(result);
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
     }
-
 };
