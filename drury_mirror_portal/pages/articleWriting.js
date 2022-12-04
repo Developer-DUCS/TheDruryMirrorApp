@@ -6,7 +6,9 @@ import dynamic from 'next/dynamic'
 import styles from '../styles/article.module.css'
 
 import {useRouter} from 'next/router'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSession, signOut, getSession } from "next-auth/react";
+
 
 
 //import parse from 'html-react-parser';
@@ -64,30 +66,125 @@ const modules = {
     'video',
     ]
 
-export default function PageWithJSbasedForm() {
+export default function articleWriting() {
 
     // Handles the contents of the article editor.
-    const [value, setValue] = useState();
+    let [value, setValue] = useState();
+    const [getArticle, setArticle] = useState([]);
+    const { status, data } = useSession();
+
+
     // Handles the submit event on form submit.
 
     const router = useRouter()
-
-
-    // Handle the log out button
-    const logOut = async (event) => {
+    
+    // Redirect the user to the 
+    const redirectToSignIn = (event) => {
+        event.preventDefault()
         router.push("/")
+
     }
+
+    
+
+
+    
+    
+    useEffect(() => {
+        
+            console.log("here")
+
+
+            // Get the articles for the current user from the database
+            const getArticleRoute = async () => {
+        
+                const session = await getSession()
+                const id = parseInt(router.query.id)
+                console.log(id);
+                console.log(id);
+
+                if (!isNaN(id)) {
+                    let endpoint = "/api/getArticle";
+                
+                    // Make sure there is a session before making the API call
+                    if (session) {
+                        const data = {
+                            email: session.user.email,
+                            id: id
+                        }
+                        let JSONdata = JSON.stringify(data);
+                        console.log("JSONdata", JSONdata)
+                        let options = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        // Body of the request is the JSON data we created above.
+                        body: JSONdata,
+                        };
+                
+                        let response = await fetch(endpoint, options);
+                        let article = await response.json();
+                
+                        // Make sure the response was recieved before setting the articles
+                        if (article) {
+                            setArticle(article);
+
+                        }
+
+
+                    }
+                }
+                else {
+                    console.log("id was NaN")
+
+                }
+        
+            }; 
+        
+            getArticleRoute();
+
+        
+    }, []);
+    
+        
+          // Populate the articles array to display the articles on the page
+        //   let articles = []
+        //   function filterArticles() {
+        //     // if not default value (meaning it has data)
+        //     if (getArticles != []) {
+        //       getArticles.forEach(checkArticle)
+        //     }
+        //   }
+    
+
+        
+        //   // Check if the article exists
+        //   function checkArticle(article) {
+        //     if (article) { articles.push(article) }
+        //   }
+        
+        //   filterArticles();
+    
+
+
+
+
 
     const handleSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         console.log(value)
         event.preventDefault()
+        let session = await getSession()
+        let author = session.user.fname + " " + session.user.lname
+        // console.log(event.target.check)
     
         // Get data from the form.
         const data = {
-        first: event.target.first.value,
-        last: event.target.last.value,
-        article: value
+            email: session.user.email,
+            author: author,
+            article: value,
+            check: document.getElementById("checkbox").checked
         }
     
         // Send the data to the server in JSON format.
@@ -119,51 +216,56 @@ export default function PageWithJSbasedForm() {
 
     }
 
-    return (
-        // We pass the event to the handleSubmit() function on submit.
-        <>
-            <button className={styles.draftButton} onClick={logOut}>Log Out</button>
-            <form onSubmit={handleSubmit}>
-            <label htmlFor="first">First Name</label> <br></br>
-            <input type="text" id="first" name="first" required /><br></br>
-        
-            <label htmlFor="last">Last Name</label> <br></br>
-            <input type="text" id="last" name="last" required /> <br></br><br></br>
-
-            <QuillNoSSRWrapper id="article" modules={modules} value={value} onChange={setValue} formats={formats} theme="snow" /><br></br><br></br>
+     const loadArticle = (event) => {
+        if (getArticle != []) {
+            let article = getArticle
+            console.log(article)
+            document.getElementsByClassName("ql-editor")[0].innerHTML += article
+            //value = article
+        }
+        else {
             
             
-            <button type="submit">Submit</button>
-            </form>
-
-            <div>
-                <p>{value}</p>
-                
-            </div>
-
-
-        </>
-    )
+        }
     }
 
+    if (status === "authenticated") {
+        return (
+            // We pass the event to the handleSubmit() function on submit.
+            <>
+                <h1>
+                    Welcome {data.user.fname} {data.user.lname} <br></br>
+                    
 
-// export default function Home() {
-//     return (
-//         <>
-//             <div>
-//                 <div className="px-6 py-4">
-//                     <form id="textEditor" action="#" method="post">
-//                         <label htmlFor="first">First name:</label><br></br>
-//                         <input type="text" id="first" name="first" /><br></br>
-//                         <label htmlFor="last">Last name:</label><br></br>
-//                         <input type="text" id="last" name="last" /><br></br>
-//                         <QuillNoSSRWrapper modules={modules} formats={formats} theme="snow" />
-//                         <button type="submit">Submit</button>
-//                     </form>
-//                 </div>
-//             </div>
-            
-            
-//         </>
-//     )
-// }
+                </h1>
+                <button onClick={loadArticle}>Load Article</button>
+                <button className={styles.draftButton} onClick={() => signOut()}>Log Out</button>
+                    <form onSubmit={handleSubmit}>
+        
+                    <QuillNoSSRWrapper id="article" modules={modules} value={value} onChange={setValue} formats={formats} theme="snow" /><br></br><br></br>
+                    
+                    <input id="checkbox" type="checkbox"></input>
+                    
+                    <button type="submit">Submit</button>
+                </form>
+    
+                <div>
+                    <p>{value}</p>
+                    
+                </div>
+    
+    
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <p>Please sign in</p>
+                <button onClick={redirectToSignIn}>Sign In</button>
+            </>
+        )
+    }
+
+    
+    }

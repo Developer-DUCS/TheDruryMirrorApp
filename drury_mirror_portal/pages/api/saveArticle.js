@@ -6,15 +6,26 @@ export default (req, res) => {
     try {
         console.log("Called saveArticle route");
         const body = req.body;
+        console.log("author", body.author);
         console.log("article", body.article);
+        console.log("check", body.check);
 
+        let check = body.check
         let articleString = body.article;
-        let testAuthor = "Test Author"
+        let author = body.author
         let testHeadline = "Test Headline"
+        let email = body.email
 
-        let saveQuery = ("INSERT INTO articles(author, headline, body, isDraft, createdDate) VALUES(?,?,?,'1', NOW())");
+        if (check) {
+            check = '1'
+        }
+        else {
+            check = '0'
+        }
 
-        conn.query(saveQuery, [testAuthor, testHeadline, articleString], (err) => {
+        let saveQuery = ("INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())");
+
+        conn.query(saveQuery, [email, author, testHeadline, articleString, check], (err) => {
             //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
             if (err) {
                 console.log("Something went wrong");

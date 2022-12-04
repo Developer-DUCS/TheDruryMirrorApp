@@ -10,19 +10,30 @@ const conn = require("../../backend/mysqldb")
 
 export default async (req, res) => {
     console.log("called get article route")
+    console.log(req)
     
-    const email = req.body
+    const email = req.body.email
+    const page = req.body.page
+    let isDraft = '0'
+
     console.log("email", email)
     console.log("email.length", email.length)
     console.log(typeof email)
     //console.log("session", session)
     //const session = await getSession({req})
 
+    if (page == "draftList") {
+        isDraft = '0'
+    }
+    else if (page == "writerPortal") {
+        isDraft = '2'
+    }
+
     console.log("here")
 
-    let getQuery = ("SELECT author,headline,body FROM articles WHERE email = ?")
+    let getQuery = ("SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? AND isDraft = ?")
 
-    conn.query(getQuery, [email], (err, rows) => {
+    conn.query(getQuery, [email, isDraft], (err, rows) => {
         console.log("here2")
 
         if (err){
@@ -38,9 +49,11 @@ export default async (req, res) => {
                 console.log("row: ", row)
 
                 let article = {
+                    aid: row.aid,
                     author: row.author,
                     headline: row.headline,
-                    body: row.body
+                    body: row.body,
+                    isDraft: row.isDraft
                 }
                 articles.push(article)
 

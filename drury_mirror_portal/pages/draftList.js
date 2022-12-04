@@ -1,81 +1,144 @@
-// // unfinished.js
-// // Page Description:
-// //                  List that shows the a writers unfinished drafts
-// //Creation Date:
-// //                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Nov. 30 2022 
-// //
-// //Modificaiton Log:
-// //                  
-// //                   
-// import styles from '../styles/article.module.css'
-// import {useRouter} from 'next/router'
+// writerPortal.js
+// Page Description:
+//                  The home page for the writer
+//Creation Date:
+//                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022
+//
+//Modificaiton Log:
+//
+//
+import styles from "../styles/article.module.css";
+import { useRouter } from "next/router";
+import { useSession, signOut, getSession } from "next-auth/react";
+import { useState, useEffect } from "react";
 
+export function draftList() {
+  const router = useRouter();
+  const { status, data } = useSession();
+  const [getArticles, setArticles] = useState([]);
 
-// export function draftList({drafts}){    
-//     const router = useRouter()
-//     const parse = require('html-react-parser')
+  const parse = require("html-react-parser");
 
-//     // Handle the log out button
-//     const logOut = async (event) => {
-//       router.push("/")
-//     }
+  // Redirect the user to the log in screen
+  const redirectToSignIn = (event) => {
+    event.preventDefault();
+    router.push("/");
+  };
 
-//     return(
-        
-//       <>
-//       <div className={styles.divWelcome}>
-//         <text className={styles.welcome}>Draft List</text>
-//         <button className={styles.draftButton} onClick={logOut}>Log Out</button>
-//       </div>
-//       <div className={styles.divArticle}>
-//         <ul>
-//             {drafts.map((draft)=>(
-//                 <li className={styles.indArticle}>
-//                     {draft.headline}
-//                     <text className={styles.author}>By: {draft.author}</text>
-//                     <text >{parse(draft.body)}</text> 
-//                     <div className={styles.buttons}>
-//                         <button id="comments" className={styles.edit}>Contuine Article</button>
-//                     </div>
-                    
-//                 </li>
-//             ))}
-//         </ul>
-//       </div>
-//       </>
-//   )
-// }
+  // Handle the write draft button
+  const writeDraftRoute = async (event) => {
+    event.preventDefault()
+    console.log("article id: ", event.currentTarget.id)
+    router.push({
+        pathname: "articleWriting",
+        query: {id: event.currentTarget.id}
+    });
+  };
 
-// export async function getStaticProps() {
-//     console.log("Getting Drafts")
+  useEffect(() => {
 
-//     const endpoint = 'http://localhost:3000/api/getDrafts'
+    // Get the articles for the current user from the database
+    const getArticlesRoute = async () => {
 
-//     // Form the request for sending data to the server.
-//     const options = {
-//       // The method is POST because we are sending data.
-//       method: 'GET',
-//       // Tell the server we're sending JSON.
-//       headers: {
-//           'Content-Type': 'application/json',
-//       },
-//       // Body of the request is the JSON data we created above.
-//       //body: JSONdata,
-//   }
+      const session = await getSession()
+      let endpoint = "/api/getArticles";
 
-//   const data = await fetch(endpoint, options)
+      // Make sure there is a session before making the API call
+      if (session) {
+        let data = {
+          email: session.user.email,
+          page: "draftList"
+        }
+        let JSONdata = JSON.stringify(data);
+        console.log("JSONdata", JSONdata)
+        let options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // Body of the request is the JSON data we created above.
+          body: JSONdata,
+        };
 
-//   if (data.status == 200) {
-//       console.log("recieving data")
-//       let drafts = await data.json()
-//       console.log(drafts)
-//       console.log(drafts[0])
-//       return { props: {drafts} }
-//   }
-//   else {
+        let response = await fetch(endpoint, options);
+        let articles = await response.json();
 
-//   }
+        // Make sure the response was recieved before setting the articles
+        if (articles) {
+          setArticles(articles);
+        }
+      }
 
-// }
+    }; 
 
-// export default draftList
+    getArticlesRoute();
+  }, []);
+
+  // Populate the articles array to display the articles on the page
+  let articles = []
+  function filterArticles() {
+    // if not default value (meaning it has data)
+    if (getArticles != []) {
+      getArticles.forEach(checkArticle)
+    }
+  }
+
+  // Check if the article exists
+  function checkArticle(article) {
+    if (article) { articles.push(article) }
+  }
+
+  filterArticles();
+  console.log("aritcle 1:", articles[0])
+
+  // Check if the user is authenticated
+  if (status === "authenticated") {
+    console.log(data.user);
+    console.log(data.user.role);
+    const role = data.user.role;
+
+    return (
+      <>
+        <p id="article"></p>
+        <div className={styles.divWelcome}>
+          <p>
+            {data.user.fname} {data.user.lname}
+          </p>
+          <text className={styles.welcome}>Draft List</text>
+          <button className={styles.draftButton} onClick={() => signOut()}>
+            Log Out
+          </button>
+          <button className={styles.draftButton} onClick={writeDraftRoute}>
+            Write Draft
+          </button>
+        </div>
+        <div className={styles.divArticle}>
+          <ul>
+            {articles.map((article) => (
+              <li className={styles.indArticle}>
+                {article.headline}
+                <text className={styles.author}>By: {article.author}</text>
+                <text>{parse(article.body)}</text>
+                <div className={styles.buttons}>
+                  <button id={article.aid} className={styles.edit} onClick={writeDraftRoute}>
+                    Keep Writing
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
+    );
+  }
+  else {
+    return (
+      <>
+        <p>Please sign in</p>
+        <button onClick={redirectToSignIn}>Sign In</button>
+      </>
+    );
+  }
+}
+
+export default draftList;

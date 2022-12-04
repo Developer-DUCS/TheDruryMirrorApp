@@ -49,6 +49,10 @@ export function testSplashPage({}){
     const editArticleRoute = async (event) => {
         router.push("commentEditor");
     };
+    
+    const seeDraftsRoute = async (event) => {
+        router.push("draftList");
+    };
 
     const mySeeEditsRoute = (event) => {
         event.preventDefault()
@@ -142,9 +146,7 @@ export function testSplashPage({}){
                     <Grid item xs={2}>
                     <Stack alignItems='center' justifyContent='center'>
                         <Buttonavatar>
-                            <IconButton size='large' onClick={() =>{
-                                alert('Clicked');
-                            }}>
+                            <IconButton size='large' onClick={seeDraftsRoute}>
                                 <AssignmentIcon sx={{
                                     color: 'white',
                                     fontSize: 56,

@@ -37,15 +37,17 @@ ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS `drurymirror`.`articles` ;
 
+-- isDraft: 0: Unfinished, 1: Draft (ready to be edited), 2: Edited (sent back to the author), 
+--          3: Fixed (sent to editor again), 4: Ready to publish (send to Editor-In-Chief), 5: Publish
 CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
-  `pid` INT NOT NULL AUTO_INCREMENT,
+  `aid` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(60) NOT NULL,
   `author` VARCHAR(45) NOT NULL,
   `headline` VARCHAR(50) NOT NULL,
   `body` VARCHAR(8000) NOT NULL,
-  `isDraft` bool NOT NULL,
+  `isDraft` INT NOT NULL,
   `createdDate` date NOT NULL,
-  PRIMARY KEY (`pid`))
+  PRIMARY KEY (`aid`))
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------

@@ -20,8 +20,11 @@ export default (req, res) => {
     //articleName = body.articleName
     //console.log("Article Name: ", articleName)
 
-    let id = 1
-    let getArticleQuery = ("SELECT headline, body FROM articles WHERE pid = ?;")
+    let id = req.body.id
+    let email = req.body.email
+    console.log(id)
+    console.log(email)
+    let getArticleQuery = ("SELECT headline, body FROM articles WHERE aid = ?;")
 
     conn.query(getArticleQuery, [id], (err, rows) => {
         if (err) {
