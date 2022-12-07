@@ -128,58 +128,57 @@ export function CommentViewer() {
             let article = getArticle;
             let comments = getComments;
 
-            var overall = document.createElement("textarea")
-            overall.setAttribute("readonly",true)
+            var overall = document.createElement("textarea");
+            overall.setAttribute("readonly", true);
             overall.innerHTML = comments.overallComments;
-            document.getElementById("overallComments").append(overall)
+            document.getElementById("overallComments").append(overall);
 
             comments = comments.comments.split(",");
             // console.log(article);
             document.getElementsByClassName("ql-editor")[0].innerHTML = article;
-            console.log("comments",comments);
+            console.log("comments", comments);
 
             let commentsArray = [];
             let inputArray = [];
             for (let i = 0; i < comments.length; i++) {
                 if (i % 2 == 0) {
-                    console.log("index of loop",i);
+                    console.log("index of loop", i);
                     commentsArray.push(comments[i]);
                 } else {
                     inputArray.push(comments[i]);
                 }
             }
-            for (let y = 0; y < commentsArray.length; y++){
+            for (let y = 0; y < commentsArray.length; y++) {
                 var label = document.createElement("Label");
                 label.setAttribute("for", input);
                 label.innerHTML = "Comment";
                 var input = document.createElement("textarea");
-                input.setAttribute("readonly",true)
+                input.setAttribute("readonly", true);
                 input.innerHTML = commentsArray[y];
                 var button = document.createElement("button");
                 button.innerHTML = "Resolve";
                 var box = document.createElement("div");
-                
+
                 button.onclick = resolve;
 
                 input.onmouseover = mouseover;
                 input.onmouseleave = mouseleave;
 
-                let tempid = inputArray[y]
-                let idnum = tempid.split("t")
-                console.log("num", idnum[1].toString())
+                let tempid = inputArray[y];
+                let idnum = tempid.split("t");
+                console.log("num", idnum[1].toString());
 
                 box.setAttribute("id", "div" + idnum[1]);
                 input.setAttribute("id", "input" + idnum[1]);
                 button.setAttribute("id", "button" + idnum[1]);
                 box.innerHTML = "<br></br>";
 
-                box.append(label, input, button)
+                box.append(label, input, button);
 
-                document.getElementById("comments").append(box)
+                document.getElementById("comments").append(box);
             }
             console.log("comments array", commentsArray);
             console.log("input array", inputArray);
-            
 
             // var label = document.createElement("label");
             // label.innerHTML = comments;
@@ -196,9 +195,11 @@ export function CommentViewer() {
         let tempCom = "span";
         let tempComId = tempCom.concat(num[1].toString());
 
-        document
-            .getElementById(tempComId)
-            .setAttribute("style", "background-color: blue");
+        if (document.getElementById(tempComId)) {
+            document
+                .getElementById(tempComId)
+                .setAttribute("style", "background-color: blue");
+        }
     };
 
     const mouseleave = async (event) => {
@@ -209,12 +210,14 @@ export function CommentViewer() {
         let tempCom = "span";
         let tempComId = tempCom.concat(num[1].toString());
 
-        document
-            .getElementById(tempComId)
-            .setAttribute(
-                "style",
-                "background-color: rgb(255,255,0); color:black;"
-            );
+        if (document.getElementById(tempComId)) {
+            document
+                .getElementById(tempComId)
+                .setAttribute(
+                    "style",
+                    "background-color: rgb(255,255,0); color:black;"
+                );
+        }
     };
 
     const resolve = async (event) => {
@@ -242,7 +245,9 @@ export function CommentViewer() {
         console.log(document.getElementById(tempSpanId));
 
         //Removes the span tags around the comment
-        document.getElementById(tempSpanId).removeAttribute("style");
+        if (document.getElementById(tempSpanId)) {
+            document.getElementById(tempSpanId).removeAttribute("style");
+        }
 
         //Removes the div that the button that is clicked is in
         document.getElementById(tempDivId).remove();
@@ -357,10 +362,10 @@ export function CommentViewer() {
                             />
                             <label>
                                 {/* Maybe explain better */}
-                                Check this box if the article completely
-                                review and all comments are resolved
-                                , if you want to come back to this
-                                article and comments, leave the box un-checked
+                                Check this box if the article completely review
+                                and all comments are resolved , if you want to
+                                come back to this article and comments, leave
+                                the box un-checked
                             </label>
                             <input id="checkbox" type="checkbox"></input>
                             <button type="submit">Save Edits</button>
