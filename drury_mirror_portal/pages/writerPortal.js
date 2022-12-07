@@ -32,7 +32,7 @@ export function writerPortal() {
      * highlight the function signature, open the command palette, type >add doc comment
      */
     const writeDraftRoute = async (event) => {
-        router.push("articleWriting");
+        // router.push("articleWriting");
         console.log("article id: ", event.currentTarget.id);
         router.push({
             pathname: "articleWriting",
@@ -41,7 +41,7 @@ export function writerPortal() {
     };
 
     const seeCommentsRoute = async (event) => {
-        router.push("commentViewer");
+        // router.push("commentViewer");
         console.log("article id: ", event.currentTarget.id);
         router.push({
             pathname: "commentViewer",

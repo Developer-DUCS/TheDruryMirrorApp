@@ -140,89 +140,89 @@ export function CommentViewer() {
     };
 
     useEffect(() => {
-        if (router.isReady) {
-            // Get the articles for the current user from the database
-            console.log("Use effect running");
-            const getArticleRoute = async () => {
-                const session = await getSession();
-                const id = parseInt(router.query.id);
-                console.log(id);
+        // if (router.isReady) {
+        // Get the articles for the current user from the database
+        console.log("Use effect running");
+        const getArticleRoute = async () => {
+            const session = await getSession();
+            const id = parseInt(router.query.id);
+            console.log(id);
 
-                if (!isNaN(id)) {
-                    let endpoint = "/api/getArticle";
+            if (!isNaN(id)) {
+                let endpoint = "/api/getArticle";
 
-                    // Make sure there is a session before making the API call
-                    if (session) {
-                        const data = {
-                            email: session.user.email,
-                            id: id,
-                        };
-                        let JSONdata = JSON.stringify(data);
-                        console.log("JSONdata", JSONdata);
-                        let options = {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            // Body of the request is the JSON data we created above.
-                            body: JSONdata,
-                        };
+                // Make sure there is a session before making the API call
+                if (session) {
+                    const data = {
+                        email: session.user.email,
+                        id: id,
+                    };
+                    let JSONdata = JSON.stringify(data);
+                    console.log("JSONdata", JSONdata);
+                    let options = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        // Body of the request is the JSON data we created above.
+                        body: JSONdata,
+                    };
 
-                        let response = await fetch(endpoint, options);
-                        let article = await response.json();
+                    let response = await fetch(endpoint, options);
+                    let article = await response.json();
 
-                        // Make sure the response was recieved before setting the articles
-                        if (article) {
-                            setArticle(article);
-                        }
+                    // Make sure the response was recieved before setting the articles
+                    if (article) {
+                        setArticle(article);
                     }
-                } else {
-                    console.log("id was NaN");
                 }
-            };
+            } else {
+                console.log("id was NaN");
+            }
+        };
 
-            const getCommentsRoute = async () => {
-                const session = await getSession();
-                const id = parseInt(router.query.id);
+        const getCommentsRoute = async () => {
+            const session = await getSession();
+            const id = parseInt(router.query.id);
 
-                if (!isNaN(id)) {
-                    let endpoint = "/api/getComments";
+            if (!isNaN(id)) {
+                let endpoint = "/api/getComments";
 
-                    // Make sure there is a session before making the API call
-                    if (session) {
-                        const data = {
-                            email: session.user.email,
-                            id: id,
-                        };
-                        let JSONdata = JSON.stringify(data);
-                        console.log("JSONdata", JSONdata);
-                        let options = {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            // Body of the request is the JSON data we created above.
-                            body: JSONdata,
-                        };
+                // Make sure there is a session before making the API call
+                if (session) {
+                    const data = {
+                        email: session.user.email,
+                        id: id,
+                    };
+                    let JSONdata = JSON.stringify(data);
+                    console.log("JSONdata", JSONdata);
+                    let options = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        // Body of the request is the JSON data we created above.
+                        body: JSONdata,
+                    };
 
-                        let response = await fetch(endpoint, options);
-                        let comments = await response.json();
+                    let response = await fetch(endpoint, options);
+                    let comments = await response.json();
 
-                        // Make sure the response was recieved before setting the articles
-                        if (comments) {
-                            setComments(comments);
-                        }
+                    // Make sure the response was recieved before setting the articles
+                    if (comments) {
+                        setComments(comments);
                     }
-                } else {
-                    console.log("id was NaN");
                 }
-            };
-            getArticleRoute();
-            getCommentsRoute();
-        } else {
-            console.log("Not ready yet");
-        }
-    }, [router.isReady]);
+            } else {
+                console.log("id was NaN");
+            }
+        };
+        getArticleRoute();
+        getCommentsRoute();
+        // } else {
+        //     console.log("Not ready yet");
+        // }
+    }, []); //router.isReady
 
     if (status === "authenticated") {
         return (
