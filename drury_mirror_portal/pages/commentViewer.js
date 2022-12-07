@@ -1,3 +1,17 @@
+// commentViewer.js
+// Page Description:
+//                  Page for Writer to see the edits and commons that a Copy Editor has made on their drafts.
+//Creation Date:
+//                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Dec. 1 2022
+//
+//Modificaiton Log:
+//                  !!!!ADD COMMENT BUG: CANT HANDLE A SINGLE HIGHLIGHTED SPACE IN THE TEXT!!!!
+//                  !!!!ADD COMMENT BUG: CAN'T COMMENT OVER AN EXIST COMMENT!!!!
+//                  !!!!RESOLVE BUG: REMOVING HIGHLIGHTED WORDS IN THE ARTICLE AND THE TRYING TO RESOLVE THROWS ERROR!!!!
+//                  TODO:: FIX NAMING CONVENTIONS
+//
+//
+
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/article.module.css";
 
