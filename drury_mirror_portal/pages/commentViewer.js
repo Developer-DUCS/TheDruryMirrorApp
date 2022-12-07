@@ -81,8 +81,6 @@ export function CommentViewer() {
         event.preventDefault();
         const id = parseInt(router.query.id);
 
-        console.log(value);
-
         event.preventDefault();
         let session = await getSession();
         //let editor = session.user.fname + " " + session.user.lname;
@@ -96,9 +94,7 @@ export function CommentViewer() {
         };
 
         // Send the data to the server in JSON format.
-        console.log(data);
         const JSONdata = JSON.stringify(data);
-        console.log(JSONdata);
 
         // API endpoint where we send form data.
         const endpoint = "/api/saveEdits";
@@ -136,13 +132,11 @@ export function CommentViewer() {
             comments = comments.comments.split(",");
             // console.log(article);
             document.getElementsByClassName("ql-editor")[0].innerHTML = article;
-            console.log("comments", comments);
 
             let commentsArray = [];
             let inputArray = [];
             for (let i = 0; i < comments.length; i++) {
                 if (i % 2 == 0) {
-                    console.log("index of loop", i);
                     commentsArray.push(comments[i]);
                 } else {
                     inputArray.push(comments[i]);
@@ -166,7 +160,6 @@ export function CommentViewer() {
 
                 let tempid = inputArray[y];
                 let idnum = tempid.split("t");
-                console.log("num", idnum[1].toString());
 
                 box.setAttribute("id", "div" + idnum[1]);
                 input.setAttribute("id", "input" + idnum[1]);
@@ -177,12 +170,6 @@ export function CommentViewer() {
 
                 document.getElementById("comments").append(box);
             }
-            console.log("comments array", commentsArray);
-            console.log("input array", inputArray);
-
-            // var label = document.createElement("label");
-            // label.innerHTML = comments;
-            //value = article
         } else {
         }
     };
@@ -224,11 +211,9 @@ export function CommentViewer() {
         console.log("resolved clicked");
         //Gets the id of the button that triggered the event
         let buttonId = event.path[0].id;
-        console.log(buttonId);
 
         //Splits the number from the id of the button
         let num = buttonId.split("n");
-        console.log(num[1].toString());
 
         //Uses the number from the button id to get the id of the div its in
         let tempDiv = "div";
@@ -237,12 +222,6 @@ export function CommentViewer() {
         //Uses the number from the button id to get the id of the span with the related comment
         let tempSpan = "span";
         let tempSpanId = tempSpan.concat(num[1].toString());
-
-        console.log(tempDivId);
-        console.log(tempSpanId);
-
-        console.log(document.getElementById(tempDivId));
-        console.log(document.getElementById(tempSpanId));
 
         //Removes the span tags around the comment
         if (document.getElementById(tempSpanId)) {
@@ -263,7 +242,6 @@ export function CommentViewer() {
         const getArticleRoute = async () => {
             const session = await getSession();
             const id = parseInt(router.query.id);
-            console.log(id);
 
             if (!isNaN(id)) {
                 let endpoint = "/api/getArticle";
@@ -275,7 +253,6 @@ export function CommentViewer() {
                         id: id,
                     };
                     let JSONdata = JSON.stringify(data);
-                    console.log("JSONdata", JSONdata);
                     let options = {
                         method: "POST",
                         headers: {
@@ -294,7 +271,6 @@ export function CommentViewer() {
                     }
                 }
             } else {
-                console.log("id was NaN");
             }
         };
 
@@ -312,7 +288,6 @@ export function CommentViewer() {
                         id: id,
                     };
                     let JSONdata = JSON.stringify(data);
-                    console.log("JSONdata", JSONdata);
                     let options = {
                         method: "POST",
                         headers: {
@@ -331,7 +306,6 @@ export function CommentViewer() {
                     }
                 }
             } else {
-                console.log("id was NaN");
             }
         };
         getArticleRoute();

@@ -1,10 +1,11 @@
 // writerPortal.js
 // Page Description:
-//                  The home page for the writer
+//                  A page for the writer to view the articles they can edit.
 //Creation Date:
 //                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022
 //
 //Modificaiton Log:
+//                  Changed it from being the home page to displaying a list of articles.
 //
 //
 
@@ -27,21 +28,18 @@ export function writerPortal() {
     };
 
     // Handle the write draft button
+    //
     /**
      * @param  {} event
      * highlight the function signature, open the command palette, type >add doc comment
      */
     const writeDraftRoute = async (event) => {
-        // router.push("articleWriting");
-        console.log("article id: ", event.currentTarget.id);
         router.push({
             pathname: "articleWriting",
-            query: { id: event.currentTarget.id },
         });
     };
 
     const seeCommentsRoute = async (event) => {
-        // router.push("commentViewer");
         console.log("article id: ", event.currentTarget.id);
         router.push({
             pathname: "commentViewer",
@@ -62,7 +60,6 @@ export function writerPortal() {
                     page: "writerPortal",
                 };
                 let JSONdata = JSON.stringify(data);
-                console.log("JSONdata", JSONdata);
                 let options = {
                     method: "POST",
                     headers: {
