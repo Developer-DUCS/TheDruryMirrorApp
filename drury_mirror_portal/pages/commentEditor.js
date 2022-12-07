@@ -101,7 +101,7 @@ const formats = [
 
 let commentId = 0;
 
-export function PageWithJSbasedForm() {
+export function CommentEditor() {
     const router = useRouter();
 
     // Put the article from the api in the left editor and handle the
@@ -504,4 +504,4 @@ export function PageWithJSbasedForm() {
     }
 }
 
-export default PageWithJSbasedForm;
+export default CommentEditor;

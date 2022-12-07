@@ -40,6 +40,15 @@ export function writerPortal() {
         });
     };
 
+    const seeCommentsRoute = async (event) => {
+        router.push("commentViewer");
+        console.log("article id: ", event.currentTarget.id);
+        router.push({
+            pathname: "commentViewer",
+            query: { id: event.currentTarget.id },
+        });
+    };
+
     useEffect(() => {
         // Get the articles for the current user from the database
         const getArticlesRoute = async () => {
@@ -141,7 +150,7 @@ export function writerPortal() {
                                         <button
                                             id={article.aid}
                                             className={styles.edit}
-                                            onClick={writeDraftRoute}
+                                            onClick={seeCommentsRoute}
                                         >
                                             See Comments
                                         </button>
