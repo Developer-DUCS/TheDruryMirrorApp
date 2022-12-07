@@ -113,31 +113,128 @@ export function CommentViewer() {
         if (getArticle != []) {
             let article = getArticle;
             let comments = getComments;
-            document.getElementById("overallComments").innerHTML +=
-                comments.overallComments;
+
+            var overall = document.createElement("textarea")
+            overall.setAttribute("readonly",true)
+            overall.innerHTML = comments.overallComments;
+            document.getElementById("overallComments").append(overall)
+
             comments = comments.comments.split(",");
-            console.log(article);
+            // console.log(article);
             document.getElementsByClassName("ql-editor")[0].innerHTML = article;
-            console.log(comments);
+            console.log("comments",comments);
 
             let commentsArray = [];
             let inputArray = [];
             for (let i = 0; i < comments.length; i++) {
                 if (i % 2 == 0) {
-                    console.log(i);
+                    console.log("index of loop",i);
                     commentsArray.push(comments[i]);
-                    console.log("comments array", commentsArray[i]);
                 } else {
                     inputArray.push(comments[i]);
                 }
             }
-            document.getElementById("comments").innerHTML += commentsArray;
+            for (let y = 0; y < commentsArray.length; y++){
+                var label = document.createElement("Label");
+                label.setAttribute("for", input);
+                label.innerHTML = "Comment";
+                var input = document.createElement("textarea");
+                input.setAttribute("readonly",true)
+                input.innerHTML = commentsArray[y];
+                var button = document.createElement("button");
+                button.innerHTML = "Resolve";
+                var box = document.createElement("div");
+                
+                button.onclick = resolve;
+
+                input.onmouseover = mouseover;
+                input.onmouseleave = mouseleave;
+
+                let tempid = inputArray[y]
+                let idnum = tempid.split("t")
+                console.log("num", idnum[1].toString())
+
+                box.setAttribute("id", "div" + idnum[1]);
+                input.setAttribute("id", "input" + idnum[1]);
+                button.setAttribute("id", "button" + idnum[1]);
+                box.innerHTML = "<br></br>";
+
+                box.append(label, input, button)
+
+                document.getElementById("comments").append(box)
+            }
+            console.log("comments array", commentsArray);
+            console.log("input array", inputArray);
+            
 
             // var label = document.createElement("label");
             // label.innerHTML = comments;
             //value = article
         } else {
         }
+    };
+
+    const mouseover = async (event) => {
+        let inputId = event.path[0].id;
+
+        let num = inputId.split("t");
+
+        let tempCom = "span";
+        let tempComId = tempCom.concat(num[1].toString());
+
+        document
+            .getElementById(tempComId)
+            .setAttribute("style", "background-color: blue");
+    };
+
+    const mouseleave = async (event) => {
+        let inputId = event.path[0].id;
+
+        let num = inputId.split("t");
+
+        let tempCom = "span";
+        let tempComId = tempCom.concat(num[1].toString());
+
+        document
+            .getElementById(tempComId)
+            .setAttribute(
+                "style",
+                "background-color: rgb(255,255,0); color:black;"
+            );
+    };
+
+    const resolve = async (event) => {
+        console.log("resolved clicked");
+        //Gets the id of the button that triggered the event
+        let buttonId = event.path[0].id;
+        console.log(buttonId);
+
+        //Splits the number from the id of the button
+        let num = buttonId.split("n");
+        console.log(num[1].toString());
+
+        //Uses the number from the button id to get the id of the div its in
+        let tempDiv = "div";
+        let tempDivId = tempDiv.concat(num[1].toString());
+
+        //Uses the number from the button id to get the id of the span with the related comment
+        let tempSpan = "span";
+        let tempSpanId = tempSpan.concat(num[1].toString());
+
+        console.log(tempDivId);
+        console.log(tempSpanId);
+
+        console.log(document.getElementById(tempDivId));
+        console.log(document.getElementById(tempSpanId));
+
+        //Removes the span tags around the comment
+        document.getElementById(tempSpanId).removeAttribute("style");
+
+        //Removes the div that the button that is clicked is in
+        document.getElementById(tempDivId).remove();
+
+        //Prevents the page from completely reloading
+        event.preventDefault();
     };
 
     useEffect(() => {
@@ -246,16 +343,16 @@ export function CommentViewer() {
                             />
                             <label>
                                 {/* Maybe explain better */}
-                                Check this box if the article is ready to be
-                                edited, if you want to come back to this
-                                article, leave the box un-checked
+                                Check this box if the article completely
+                                review and all comments are resolved
+                                , if you want to come back to this
+                                article and comments, leave the box un-checked
                             </label>
                             <input id="checkbox" type="checkbox"></input>
                             <button type="submit">Save Edits</button>
                         </form>
                         <p id="overallComments">overallComments: </p>
-                        <p id="comments">comments: </p>
-                        <br></br>
+                        <p id="comments"> </p>
                         <br></br>
 
                         <div id="notice" hidden>
