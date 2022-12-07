@@ -7,15 +7,54 @@ export default (req, res) => {
         const body = req.body;
 
         let articleString = body.article;
-        let editor = body.editor;
-        let email = body.email;
-        let isDraft = "2";
+        let isDraft = "";
         const id = body.id;
-        const overAllComments = body.overAllComments;
-        const comments = body.comments.toString();
 
-        let saveCommentsQuery =
-            "INSERT INTO comments (cid, email, editor, overAllComments, comments, createdDate) VALUES(?,?,?,?,?,NOW())";
+        // if (body.page) {
+
+        // }
+        const page = body.page;
+
+        if (page == "commentViewer") {
+            isDraft = "3";
+            let commentsQuery = "DELETE FROM comments WHERE cid = ?";
+
+            conn.query(commentsQuery, [id], (err, rows) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({
+                        error: err,
+                    });
+                } else {
+                    // ! check status code
+                    res.status(200).json({ msg: "Successful Deletion" });
+                }
+            });
+        } else {
+            let editor = body.editor;
+            let email = body.email;
+            isDraft = "2";
+            const overAllComments = body.overAllComments;
+            const comments = body.comments.toString();
+
+            let saveCommentsQuery =
+                "INSERT INTO comments (cid, email, editor, overAllComments, comments, createdDate) VALUES(?,?,?,?,?,NOW())";
+
+            conn.query(
+                saveCommentsQuery,
+                [id, email, editor, overAllComments, comments],
+                (err) => {
+                    //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
+                    if (err) {
+                        console.log("Something went wrong");
+                        console.log(err);
+                        res.status(500).json({ error: "Failed Insertion" });
+                    } else {
+                        res.status(201).json({ msg: "Successful Update" });
+                    }
+                }
+            );
+        }
 
         let updateArticleQuery =
             "UPDATE articles SET body = ?, isDraft = ? WHERE aid = ?";
@@ -30,21 +69,6 @@ export default (req, res) => {
                 res.status(201).json({ msg: "Successful Update" });
             }
         });
-
-        conn.query(
-            saveCommentsQuery,
-            [id, email, editor, overAllComments, comments],
-            (err) => {
-                //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
-                if (err) {
-                    console.log("Something went wrong");
-                    console.log(err);
-                    res.status(500).json({ error: "Failed Insertion" });
-                } else {
-                    res.status(201).json({ msg: "Successful Update" });
-                }
-            }
-        );
 
         // const result = ({
         //     query: 'INSERT INTO test(article) VALUES(?)',

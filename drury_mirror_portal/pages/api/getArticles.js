@@ -8,10 +8,6 @@ const conn = require("../../backend/mysqldb");
 
 export default async (req, res) => {
     console.log("called get article route");
-    // ! Shit doesn't work
-    // ? Does it work?
-    //// Done, don't need this
-    // * Highlighted comment
 
     // * Turbo console log
     // * select what to log
@@ -37,9 +33,12 @@ export default async (req, res) => {
         isDraft = "1";
     } else if (page == "writerPortal") {
         isDraft = "2";
+    } else if (page == "publishPage") {
+        isDraft = "4";
     }
 
     console.log(page);
+    console.log(isDraft);
 
     let getQuery =
         "SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? AND isDraft = ?";
@@ -47,13 +46,19 @@ export default async (req, res) => {
     let editQuery =
         "SELECT aid,author,headline,body,isDraft FROM articles WHERE email != ? AND isDraft = ?";
 
+    let publishQuery =
+        "SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? OR isDraft = ?";
+
     let query = "";
     if (page == "copyEditorPortal") {
         query = editQuery;
+    } else if (page == "publishPage") {
+        query = publishQuery;
     } else {
         query = getQuery;
     }
     conn.query(query, [email, isDraft], (err, rows) => {
+        console.log("QUREY:", query);
         console.log("here2");
 
         if (err) {
@@ -62,6 +67,8 @@ export default async (req, res) => {
         } else if (rows.length == 0) {
             return res.status(400).json({ msg: "Articles not found" });
         } else {
+            console.log("rows", rows);
+
             let articles = [];
             rows.forEach((row) => {
                 //console.log("row: ", row);

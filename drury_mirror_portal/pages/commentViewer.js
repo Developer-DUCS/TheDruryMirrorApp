@@ -78,6 +78,7 @@ export function CommentViewer() {
         const data = {
             article: value,
             id: id,
+            page: "commentViewer",
         };
 
         // Send the data to the server in JSON format.
@@ -86,7 +87,7 @@ export function CommentViewer() {
         console.log(JSONdata);
 
         // API endpoint where we send form data.
-        const endpoint = "/api/saveArticle";
+        const endpoint = "/api/saveEdits";
 
         // Form the request for sending data to the server.
         const options = {

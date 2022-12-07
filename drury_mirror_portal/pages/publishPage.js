@@ -1,23 +1,25 @@
-//Page Description:
-//                  Landing page for the copy editor after they log in to the site
+// NOT CREATED BY THOMAS NIELD
+
+// writerPortal.js
+// Page Description:
+//                  The home page for the writer
 //Creation Date:
-//                  By: Thomas Nield  Oct. 4 2022
+//                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022
 //
 //Modificaiton Log:
-//                  Implemented getStaticProps
 //
-
+//
 import styles from "../styles/article.module.css";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
+import { useState, useEffect } from "react";
 
-//Populates the page
-export function copyEditorPortal() {
-    const parse = require("html-react-parser");
+export function draftList() {
     const router = useRouter();
     const { status, data } = useSession();
     const [getArticles, setArticles] = useState([]);
+
+    const parse = require("html-react-parser");
 
     // Redirect the user to the log in screen
     const redirectToSignIn = (event) => {
@@ -25,43 +27,27 @@ export function copyEditorPortal() {
         router.push("/");
     };
 
-    // Handle the edit article button
-    const editArticleRoute = async (event) => {
+    // Handle the write draft button
+    const writeDraftRoute = async (event) => {
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         router.push({
-            pathname: "commentEditor",
+            pathname: "articleWriting",
             query: { id: event.currentTarget.id },
         });
     };
 
-    // Handle the write draft button
-    const writeDraftRoute = async (event) => {
-        router.push("articleWriting");
-    };
-
-    const readyToPublish = async (event) => {
+    const publishArticle = async (event) => {
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
-        // Get data from the form.
-        const data = {
+        let endpoint = "/api/publishArticle";
+        let data = {
             id: event.currentTarget.id,
-            page: "copyEditorPortal",
         };
-
-        // Send the data to the server in JSON format.
-        console.log(data);
-        const JSONdata = JSON.stringify(data);
-        console.log(JSONdata);
-
-        // API endpoint where we send form data.
-        const endpoint = "/api/readyToPublish";
-
-        // Form the request for sending data to the server.
-        const options = {
-            // The method is POST because we are sending data.
+        let JSONdata = JSON.stringify(data);
+        console.log("JSONdata", JSONdata);
+        let options = {
             method: "POST",
-            // Tell the server we're sending JSON.
             headers: {
                 "Content-Type": "application/json",
             },
@@ -69,26 +55,20 @@ export function copyEditorPortal() {
             body: JSONdata,
         };
 
-        // Send the form data to our forms API on Vercel and get a response.
-        const response = await fetch(endpoint, options);
-
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        const result = await response.json();
+        let response = await fetch(endpoint, options);
     };
 
     useEffect(() => {
         // Get the articles for the current user from the database
         const getArticlesRoute = async () => {
             const session = await getSession();
-
             let endpoint = "/api/getArticles";
 
             // Make sure there is a session before making the API call
             if (session) {
                 let data = {
                     email: session.user.email,
-                    page: "copyEditorPortal",
+                    page: "publishPage",
                 };
                 let JSONdata = JSON.stringify(data);
                 console.log("JSONdata", JSONdata);
@@ -102,15 +82,11 @@ export function copyEditorPortal() {
                 };
 
                 let response = await fetch(endpoint, options);
-                if (response.status != 200) {
+                if (response.status !== 200) {
                     console.log(response.status);
                     console.log(response.statusText);
                 } else {
                     let articles = await response.json();
-                    console.log(
-                        "🚀 ~ file: copyEditorPortal.js:68 ~ getArticlesRoute ~ articles",
-                        articles
-                    );
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
@@ -138,22 +114,30 @@ export function copyEditorPortal() {
             articles.push(article);
         }
     }
+
     filterArticles();
     console.log("aritcle 1:", articles[0]);
 
+    // Check if the user is authenticated
     if (status === "authenticated") {
+        console.log(data.user);
+        console.log(data.user.role);
+        const role = data.user.role;
+
         return (
             <>
-                <button
-                    className={styles.draftButton}
-                    onClick={() => signOut()}
-                >
-                    Log Out
-                </button>
+                <p id="article"></p>
                 <div className={styles.divWelcome}>
-                    <text className={styles.welcome}>
-                        Editable Article List
-                    </text>
+                    <p>
+                        {data.user.fname} {data.user.lname}
+                    </p>
+                    <text className={styles.welcome}>Draft List</text>
+                    <button
+                        className={styles.draftButton}
+                        onClick={() => signOut()}
+                    >
+                        Log Out
+                    </button>
                     <button
                         className={styles.draftButton}
                         onClick={writeDraftRoute}
@@ -170,23 +154,14 @@ export function copyEditorPortal() {
                                     <text className={styles.author}>
                                         By: {article.author}
                                     </text>
-                                    <text className={styles.body}>
-                                        {parse(article.body)}
-                                    </text>
+                                    <text>{parse(article.body)}</text>
                                     <div className={styles.buttons}>
                                         <button
                                             id={article.aid}
                                             className={styles.edit}
-                                            onClick={editArticleRoute}
+                                            onClick={publishArticle}
                                         >
-                                            Edit Article
-                                        </button>
-                                        <button
-                                            id={article.aid}
-                                            className={styles.publish}
-                                            onClick={readyToPublish}
-                                        >
-                                            Ready to Publish
+                                            Publish Article
                                         </button>
                                     </div>
                                 </li>
@@ -208,4 +183,4 @@ export function copyEditorPortal() {
     }
 }
 
-export default copyEditorPortal;
+export default draftList;

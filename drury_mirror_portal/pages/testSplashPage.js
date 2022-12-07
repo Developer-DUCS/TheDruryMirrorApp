@@ -64,6 +64,11 @@ export function testSplashPage({}) {
         router.push("managerPortal");
     };
 
+    const publishRoute = (event) => {
+        event.preventDefault();
+        router.push("publishPage");
+    };
+
     if (status === "authenticated") {
         console.log(data.user.role);
         console.log(data.user);
@@ -221,9 +226,7 @@ export function testSplashPage({}) {
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={() => {
-                                                alert("Clicked");
-                                            }}
+                                            onClick={publishRoute}
                                         >
                                             <PublishIcon
                                                 sx={{
