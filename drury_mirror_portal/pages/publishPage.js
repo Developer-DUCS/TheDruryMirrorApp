@@ -131,7 +131,7 @@ export function draftList() {
                     <p>
                         {data.user.fname} {data.user.lname}
                     </p>
-                    <text className={styles.welcome}>Draft List</text>
+                    <text className={styles.welcome}>Publish List</text>
                     <button
                         className={styles.draftButton}
                         onClick={() => signOut()}
@@ -169,7 +169,7 @@ export function draftList() {
                         </ul>
                     </div>
                 ) : (
-                    <p>You don't have any articles</p>
+                    <p>There are currently no articles that can be published</p>
                 )}
             </>
         );

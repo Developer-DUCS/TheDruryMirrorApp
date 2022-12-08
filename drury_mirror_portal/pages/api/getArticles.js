@@ -80,7 +80,11 @@ export default async (req, res) => {
                     body: row.body,
                     isDraft: row.isDraft,
                 };
-                articles.push(article);
+                if (page == "publishPage" && article.isDraft != "5") {
+                    console.log("skipped article:", article);
+                } else {
+                    articles.push(article);
+                }
             });
             //console.log(articles);
 
