@@ -22,23 +22,21 @@ export default function header() {
     };
 
     return (
-        <Box sx={{ height: "8vh", backgroundColor: "white", color: "black" }}>
-            
-            <Box xs={3}>
-                <Button variant="contained" color="error" onClick={writeArticle}>
-                    Write Article
+        <Grid container sx={{ height: "8vh", backgroundColor: "white", color: "black", display: "flex" }}>
+            <Grid item xs={4} sx={{marginTop: 1}}>
+                <Typography variant="h2" sx={{ color: "black", paddingLeft: 2 }}>
+                    Drury Mirror
+                </Typography>
+            </Grid>
+            <Grid item xs={5}></Grid>
+            <Grid item xs={3} sx={{marginTop: 1}}>
+                <Button sx={{color: "white", marginRight: 2}} variant="contained" color="primaryButton" onClick={logOut}>
+                    About Us
                 </Button>
-            </Box>
-            <Box xs={3}>
                 <Button variant="contained" color="error" onClick={logOut}>
                     Log Out
                 </Button>
-            </Box>
-            <Box xs={3}>
-                <Button variant="contained" color="error" onClick={logOut}>
-                    About Us
-                </Button>
-            </Box>
-        </Box>
+            </Grid>
+        </Grid>
     );
 }

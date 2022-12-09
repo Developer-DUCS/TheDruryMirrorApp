@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme, mainTheme } from "../styles/theme";
+import "../styles/globals.css";
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -19,6 +20,10 @@ export default function MyApp(props) {
 
   if (router.pathname == "/testSplashPage"){
     curTheme = theme;
+  }
+
+  if (router.pathname == "/about") {
+    curTheme = mainTheme;
   }
   
 

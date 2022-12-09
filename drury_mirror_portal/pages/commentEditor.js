@@ -25,9 +25,10 @@ import { withStyles } from "@mui/styles";
 
 // React and Next imports
 import React, { useState, Component } from "react";
+import { ReactDOM } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { createRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 
 // we import react-quill dynamically, to avoid including it in server-side
 // and we will render a loading state while the dynamic component is being loaded.
@@ -134,6 +135,7 @@ export async function getStaticProps() {
 }
 
 let commentId = 0;
+let allComments =[]
 
 export function PageWithJSbasedForm({ article }) {
     const router = useRouter();
@@ -222,32 +224,13 @@ export function PageWithJSbasedForm({ article }) {
             // ----------------------DECLARE OBJECTS-------------------------- //
 
             // React.createElement is the equivalent of document.createELement for React components
-            // - we pass the respective id for each element needed to rendered
-
-            const HighlightText = () => {
-                return (
-                    <>
-                        <Typography
-                            variant="body1"
-                            sx={{ m: 1, color: "white" }}
-                            onMouseEnter={mouseover}
-                            onMouseLeave={mouseleave}
-                        >
-                            Highlight Text
-                        </Typography>
-                    </>
-                );
-            };
-
-            // Create input element,  (Typography, props, children props)
-            var input = React.createElement(HighlightText, {
-                id: `input ${commentId}`,
-            });
 
             const styledCommentBox = () => {
                 return (
                     <>
                         <CssTextField
+                            onMouseEnter={mouseover}
+                            onMouseLeave={mouseleave}
                             variant="filled"
                             sx={{
                                 input: {
@@ -283,7 +266,6 @@ export function PageWithJSbasedForm({ article }) {
             // Creates label element, just a MUI typography element
             var label = React.createElement(LabelComponent, {
                 id: `label ${commentId}`,
-                for: input,
             });
 
             // Stateless functional component button used for "resolve"
@@ -314,7 +296,6 @@ export function PageWithJSbasedForm({ article }) {
                 {
                     id: `div ${commentId}`,
                 },
-                input,
                 label,
                 commentBox,
                 button
@@ -323,7 +304,28 @@ export function PageWithJSbasedForm({ article }) {
             // ----------------------RENDER OBJECTS-------------------------- //
             const rootID = document.getElementById("currentComments");
             const root = createRoot(rootID);
-            root.render(box);
+            
+            allComments.push(box)
+            root.render(allComments)
+
+            allComments.reverse();
+
+            // for(let i = 0; i < allComments.length; i++)
+            // {
+
+            // }
+            
+            //hydrateRoot(root)
+
+            //const commentsList = document.getElementById("commentsList");
+
+
+            // root.render(box);
+            
+            // rootID.append(box);
+
+
+            // rootID.append(label, commentBox, button);
 
             //Gets the index of the beginning of the highlighted text
             var index = value.indexOf(comment);
@@ -355,9 +357,6 @@ export function PageWithJSbasedForm({ article }) {
                 );
             }
 
-            //Append the element in page (in span).
-            let commentsContainer = document.getElementById("currentComments");
-            commentsContainer.append(box);
         } else {
             let notice = document.getElementById("notice");
             notice.hidden = false;
@@ -372,40 +371,6 @@ export function PageWithJSbasedForm({ article }) {
         let spanElement = document.getElementById(currentCommentID);
 
         spanElement.removeAttribute("style", "background-color: yellow");
-
-        //document.getElementById(`span ${commentId}`).remove();
-
-        // console.log("resolved clicked");
-        // //Gets the id of the button that triggered the event
-        // let buttonId = event.path[0].id;
-        // console.log(buttonId);
-
-        // //Splits the number from the id of the button
-        // let num = buttonId.split("n");
-        // console.log(num[1].toString());
-
-        // //Uses the number from the button id to get the id of the div its in
-        // let tempDiv = "div";
-        // let tempDivId = tempDiv.concat(num[1].toString());
-
-        // //Uses the number from the button id to get the id of the span with the related comment
-        // let tempSpan = "span";
-        // let tempSpanId = tempSpan.concat(num[1].toString());
-
-        // console.log(tempDivId);
-        // console.log(tempSpanId);
-
-        // console.log(document.getElementById(tempDivId));
-        // console.log(document.getElementById(tempSpanId));
-
-        // //Removes the span tags around the comment
-        // document.getElementById(tempSpanId).removeAttribute("style");
-
-        // //Removes the div that the button that is clicked is in
-        // document.getElementById(tempDivId).remove();
-
-        // //Prevents the page from completely reloading
-        // event.preventDefault();
     };
 
     const mouseover = async (event) => {
@@ -419,17 +384,6 @@ export function PageWithJSbasedForm({ article }) {
             "style",
             "background-color: blue; color: white;"
         );
-
-        // let inputId = event.path[0].id;
-
-        // let num = inputId.split("t");
-
-        // let tempCom = "span";
-        // let tempComId = tempCom.concat(num[1].toString());
-
-        // document
-        //     .getElementById(tempComId)
-        //     .setAttribute("style", "background-color: blue");
     };
 
     const mouseleave = async (event) => {
@@ -443,20 +397,6 @@ export function PageWithJSbasedForm({ article }) {
             "style",
             "background-color: rgb(255,255,0); color:black;"
         );
-
-        // let inputId = event.path[0].id;
-
-        // let num = inputId.split("t");
-
-        // let tempCom = "span";
-        // let tempComId = tempCom.concat(num[1].toString());
-
-        // document
-        //     .getElementById(tempComId)
-        //     .setAttribute(
-        //         "style",
-        //         "background-color: rgb(255,255,0); color:black;"
-        //     );
     };
 
     const submit = (event) => {
@@ -568,10 +508,15 @@ export function PageWithJSbasedForm({ article }) {
                         Submit Edits
                     </Button>
                     <Box id="commentsContainer">
-                        <Typography variant="h4" sx={{ margin: 1, marginTop: 2 }}>
+                        <Typography
+                            variant="h4"
+                            sx={{ margin: 1, marginTop: 2 }}
+                        >
                             Comments
                         </Typography>
-                        <div id="currentComments"></div>
+                        <div id="currentComments">
+                            {allComments}
+                        </div>
                     </Box>
                 </form>
             </div>
