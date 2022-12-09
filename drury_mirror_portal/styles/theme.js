@@ -26,7 +26,7 @@ export const mainTheme = createTheme({
       main:"#FEF9FB",
     },
     background: {
-      default: "#0E0E0E"
+      default: "#303030"
     }
   },
 });

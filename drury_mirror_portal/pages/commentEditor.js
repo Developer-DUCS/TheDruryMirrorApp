@@ -209,8 +209,8 @@ export function PageWithJSbasedForm({ article }) {
                     variant: "body1",
                     color: "white",
                     id: `input ${commentId}`,
-                    onmouseover: mouseover,
-                    onmouseleave: mouseleave,
+                    onMouseOver: mouseover,
+                    onMouseLeave: mouseleave,
                 },
                 "See Highlight"
             );
@@ -233,7 +233,7 @@ export function PageWithJSbasedForm({ article }) {
                 {
                     variant: "contained",
                     color: "secondary",
-                    onclick: { resolve },
+                    onClick: { resolve },
                     height: 5,
                     width: 5,
                     margin: 1,
@@ -331,32 +331,51 @@ export function PageWithJSbasedForm({ article }) {
     };
 
     const mouseover = async (event) => {
-        let inputId = event.path[0].id;
+        let currentCommentID = "span" + commentId;
 
-        let num = inputId.split("t");
+        console.log(document.getElementById(currentCommentID));
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
+        let spanElement = document.getElementById(currentCommentID);
 
-        document
-            .getElementById(tempComId)
+        spanElement
             .setAttribute("style", "background-color: blue");
+
+        // let inputId = event.path[0].id;
+
+        // let num = inputId.split("t");
+
+        // let tempCom = "span";
+        // let tempComId = tempCom.concat(num[1].toString());
+
+        // document
+        //     .getElementById(tempComId)
+        //     .setAttribute("style", "background-color: blue");
     };
 
     const mouseleave = async (event) => {
-        let inputId = event.path[0].id;
 
-        let num = inputId.split("t");
+        let currentCommentID = "span" + commentId;
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
+        console.log(document.getElementById(currentCommentID));
 
-        document
-            .getElementById(tempComId)
-            .setAttribute(
-                "style",
-                "background-color: rgb(255,255,0); color:black;"
-            );
+        let spanElement = document.getElementById(currentCommentID);
+
+        spanElement
+            .setAttribute("style", "background-color: rgb(255,255,0); color:black;");
+
+        // let inputId = event.path[0].id;
+
+        // let num = inputId.split("t");
+
+        // let tempCom = "span";
+        // let tempComId = tempCom.concat(num[1].toString());
+
+        // document
+        //     .getElementById(tempComId)
+        //     .setAttribute(
+        //         "style",
+        //         "background-color: rgb(255,255,0); color:black;"
+        //     );
     };
 
     const submit = (event) => {
@@ -451,8 +470,7 @@ export function PageWithJSbasedForm({ article }) {
                         <Typography variant="h4" sx={{ margin: 1 }}>
                             Comments
                         </Typography>
-                        <div id="currentComments">
-                        </div>
+                        <div id="currentComments"></div>
                     </div>
                 </form>
             </div>
