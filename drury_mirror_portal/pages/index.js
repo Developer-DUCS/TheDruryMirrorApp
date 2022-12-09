@@ -25,7 +25,7 @@ export default function LoginPage() {
 
         console.log(res);
 
-        console.log("STATUS: ", res.status);
+        // console.log("STATUS: ", res.status);
 
         if (res.ok) {
             router.push(res.url);

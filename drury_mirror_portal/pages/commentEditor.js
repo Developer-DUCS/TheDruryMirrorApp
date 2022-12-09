@@ -24,11 +24,12 @@ import { Button, Container, TextField, Box, Typography } from "@mui/material";
 import { withStyles } from "@mui/styles";
 
 // React and Next imports
-import React, { useState, Component } from "react";
 import { ReactDOM } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { createRoot, hydrateRoot } from "react-dom/client";
+import { useSession, signOut, getSession } from "next-auth/react";
+import React, { useState, useEffect } from "react";
 
 // we import react-quill dynamically, to avoid including it in server-side
 // and we will render a loading state while the dynamic component is being loaded.
@@ -104,49 +105,52 @@ const formats = [
 ];
 
 // Function to load the article in the let editor
-export async function getStaticProps() {
-    console.log("Getting Article");
+// export async function getStaticProps() {
+//     console.log("Getting Article");
 
-    // Get the article (todo: that the user clicked on)
-    const endpoint = "http://localhost:3000/api/getArticle";
+//     // Get the article (todo: that the user clicked on)
+//     const endpoint = "http://localhost:3000/api/getArticle";
 
-    const options = {
-        // The method is POST because we are sending data.
-        method: "GET",
-        // Tell the server we're sending JSON.
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
+//     const options = {
+//         // The method is POST because we are sending data.
+//         method: "GET",
+//         // Tell the server we're sending JSON.
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//     };
 
-    // Wait for the article to come back from the database
-    const data = await fetch(endpoint, options);
+//     // Wait for the article to come back from the database
+//     const data = await fetch(endpoint, options);
 
-    if (data.status == 200) {
-        console.log("recieving article");
+//     if (data.status == 200) {
+//         console.log("recieving article");
 
-        let article = await data.json();
-        return { props: { article } };
-    }
-    // else {
-    //     console.log("there was an error")
-    //     return { props: "{<p>test</p>}" }
-    // }
-}
+//         let article = await data.json();
+//         return { props: { article } };
+//     }
+//     // else {
+//     //     console.log("there was an error")
+//     //     return { props: "{<p>test</p>}" }
+//     // }
+// }
 
 let commentId = 0;
-let allComments =[]
+let allComments = [];
 
-export function PageWithJSbasedForm({ article }) {
+export function commentEditor() {
     const router = useRouter();
 
     // Put the article from the api in the left editor and handle the
     // changes that the copy editor makes
 
-    let [value = article, setValue] = useState();
+    let [value, setValue] = useState();
+    const [getArticle, setArticle] = useState([]);
+    const { status, data } = useSession();
 
-    // Handle the log out button
-    const logOut = async (event) => {
+    // Redirect the user to the
+    const redirectToSignIn = (event) => {
+        event.preventDefault();
         router.push("/");
     };
 
@@ -229,6 +233,7 @@ export function PageWithJSbasedForm({ article }) {
                 return (
                     <>
                         <CssTextField
+                            id={`input${commentId}`}
                             onMouseEnter={mouseover}
                             onMouseLeave={mouseleave}
                             variant="filled"
@@ -272,8 +277,9 @@ export function PageWithJSbasedForm({ article }) {
             const styledButton = () => {
                 return (
                     <Button
-                        onClick={() => {
-                            resolve();
+                        id={`button${commentId}`}
+                        onClick={(event) => {
+                            resolve(event);
                         }}
                         variant="contained"
                         color="secondary"
@@ -285,16 +291,14 @@ export function PageWithJSbasedForm({ article }) {
             };
 
             // Creates a button element
-            var button = React.createElement(styledButton, {
-                id: `button ${commentId}`,
-            });
+            var button = React.createElement(styledButton);
 
             // Box containing each component generated from "Add Comment" button
             // - each component is rendered whenever the box is rendered because they are children of the box
             var box = React.createElement(
                 Box,
                 {
-                    id: `div ${commentId}`,
+                    id: `div${commentId}`,
                 },
                 label,
                 commentBox,
@@ -304,28 +308,13 @@ export function PageWithJSbasedForm({ article }) {
             // ----------------------RENDER OBJECTS-------------------------- //
             const rootID = document.getElementById("currentComments");
             const root = createRoot(rootID);
-            
-            allComments.push(box)
-            root.render(allComments)
 
-            allComments.reverse();
+            //
+            // allComments.forEach(element => {
 
-            // for(let i = 0; i < allComments.length; i++)
-            // {
-
-            // }
-            
-            //hydrateRoot(root)
-
-            //const commentsList = document.getElementById("commentsList");
-
-
-            // root.render(box);
-            
-            // rootID.append(box);
-
-
-            // rootID.append(label, commentBox, button);
+            // });
+            console.log(box.props.id);
+            allComments.push(box);
 
             //Gets the index of the beginning of the highlighted text
             var index = value.indexOf(comment);
@@ -356,7 +345,6 @@ export function PageWithJSbasedForm({ article }) {
                             .innerHTML
                 );
             }
-
         } else {
             let notice = document.getElementById("notice");
             notice.hidden = false;
@@ -366,37 +354,95 @@ export function PageWithJSbasedForm({ article }) {
     };
 
     const resolve = async (event) => {
-        document.getElementById(`div ${commentId}`).remove();
-        let currentCommentID = "span" + commentId;
-        let spanElement = document.getElementById(currentCommentID);
+        // document.getElementById(`div ${commentId}`).remove();
+        let buttonId = event.target.id;
+        console.log(
+            "🚀 ~ file: commentEditor.js:360 ~ resolve ~ buttonId",
+            buttonId
+        );
+        //Splits the number from the id of the button
+        let num = buttonId.split("n");
 
-        spanElement.removeAttribute("style", "background-color: yellow");
+        //Uses the number from the button id to get the id of the div its in
+        let tempDiv = "div";
+        let tempDivId = tempDiv.concat(num[1].toString());
+
+        //Uses the number from the button id to get the id of the span with the related comment
+        let tempSpan = "span";
+        let tempSpanId = tempSpan.concat(num[1].toString());
+
+        //Removes the span tags around the comment
+        if (document.getElementById(tempSpanId)) {
+            document.getElementById(tempSpanId).removeAttribute("style");
+        }
+
+        //Removes the div that the button that is clicked is in
+        document.getElementById(tempDivId).remove();
+
+        //Prevents the page from completely reloading
+        event.preventDefault();
+        // let currentCommentID = "span" + commentId;
+        // let spanElement = document.getElementById(currentCommentID);
+
+        // if (spanElement) {
+        //     spanElement.removeAttribute("style", "background-color: yellow");
+        // }
     };
 
     const mouseover = async (event) => {
-        let currentCommentID = "span" + commentId;
+        let inputId = event.target.id;
 
-        console.log(document.getElementById(currentCommentID));
+        // let currentCommentID = "span" + commentId;
 
-        let spanElement = document.getElementById(currentCommentID);
-
-        spanElement.setAttribute(
-            "style",
-            "background-color: blue; color: white;"
+        let num = inputId.split("t");
+        console.log(
+            "🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
+            num[1]
         );
+
+        let tempCom = "span";
+        let tempComId = tempCom.concat(num[1].toString());
+        console.log(
+            "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
+            tempComId
+        );
+        console.log("here2");
+
+        if (document.getElementById(tempComId)) {
+            document
+                .getElementById(tempComId)
+                .setAttribute(
+                    "style",
+                    "background-color: rgb(0,0,255); color:black;"
+                );
+        } else {
+            console.log("HERE");
+        }
+
+        // console.log(document.getElementById(currentCommentID));
+
+        // let spanElement = document.getElementById(currentCommentID);
+
+        // spanElement.setAttribute(
+        //     "style",
+        //     "background-color: blue; color: white;"
+        // );
     };
 
     const mouseleave = async (event) => {
-        let currentCommentID = "span" + commentId;
+        let inputId = event.target.id;
 
-        console.log(document.getElementById(currentCommentID));
+        let num = inputId.split("t");
 
-        let spanElement = document.getElementById(currentCommentID);
+        let tempCom = "span";
+        let tempComId = tempCom.concat(num[1].toString());
 
-        spanElement.setAttribute(
-            "style",
-            "background-color: rgb(255,255,0); color:black;"
-        );
+        document
+            .getElementById(tempComId)
+            .setAttribute(
+                "style",
+                "background-color: rgb(255,255,0); color:black;"
+            );
     };
 
     const submit = (event) => {
@@ -424,104 +470,179 @@ export function PageWithJSbasedForm({ article }) {
         console.log(commentsArray);
     };
 
-    return (
-        // We pass the event to the handleSubmit() function on submit.
-        <Box className={styles2.divWriting} sx={{ height: "100%" }}>
-            <Button
-                sx={{
-                    position: "absolute",
-                    right: 35,
-                    top: 25,
-                }}
-                variant="contained"
-                color="error"
-                onClick={logOut}
-            >
-                Log Out
-            </Button>
+    const loadArticle = (event) => {
+        if (getArticle != []) {
+            let article = getArticle;
+            console.log(article);
+            document.getElementsByClassName("ql-editor")[0].innerHTML = article;
+            //value = article
+        } else {
+        }
+    };
 
-            <div id="quillEditor" className={styles.Editor}>
+    useEffect(() => {
+        console.log("here");
+
+        // Get the articles for the current user from the database
+        const getArticleRoute = async () => {
+            const session = await getSession();
+            const id = parseInt(router.query.id);
+            console.log(id);
+            console.log(id);
+
+            if (!isNaN(id)) {
+                let endpoint = "/api/getArticle";
+
+                // Make sure there is a session before making the API call
+                if (session) {
+                    const data = {
+                        email: session.user.email,
+                        id: id,
+                    };
+                    let JSONdata = JSON.stringify(data);
+                    console.log("JSONdata", JSONdata);
+                    let options = {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        // Body of the request is the JSON data we created above.
+                        body: JSONdata,
+                    };
+
+                    let response = await fetch(endpoint, options);
+                    let article = await response.json();
+
+                    // Make sure the response was recieved before setting the articles
+                    if (article) {
+                        setArticle(article);
+                    }
+                }
+            } else {
+                console.log("id was NaN");
+            }
+        };
+
+        getArticleRoute();
+    }, []);
+
+    if (status === "authenticated") {
+        return (
+            // We pass the event to the handleSubmit() function on submit.
+            <Box className={styles2.divWriting} sx={{ height: "100%" }}>
                 <Button
-                    size="small"
                     sx={{
-                        backgroundColor: "white",
-                        p: 1,
+                        position: "absolute",
+                        right: 35,
+                        top: 25,
                     }}
-                    onClick={addComment}
+                    variant="contained"
+                    color="error"
+                    onClick={() => signOut()}
                 >
-                    Add Comment
+                    Log Out
+                </Button>
+                <Button
+                    sx={{
+                        position: "absolute",
+                        right: 25,
+                        top: 25,
+                    }}
+                    variant="contained"
+                    color="error"
+                    onClick={loadArticle}
+                >
+                    Load Article
                 </Button>
 
-                <br></br>
-                <br></br>
-                <Box
-                    sx={{
-                        backgroundColor: "white",
-                    }}
-                >
-                    <QuillNoSSRWrapper
-                        id="article"
-                        modules={articleModules}
-                        value={value}
-                        onChange={setValue}
-                        formats={articleFormats}
-                        theme="snow"
-                    />
-                    <br></br>
-                    <br></br>
-                </Box>
-                <div id="notice" hidden>
-                    {/* make red */}
-                    <text>Please hightlight in the draft</text>
-                </div>
-            </div>
-
-            <div className={styles.comments}>
-                <form onSubmit={submit}>
-                    <Typography variant="h4" color="white" sx={{ m: 1 }}>
-                        Overall Comments
-                    </Typography>{" "}
-                    <TextField
-                        sx={{
-                            marginLeft: 1,
-                            marginTop: 0,
-                            input: {
-                                color: "black",
-                                background: "white",
-                                borderRadius: 1,
-                            },
-                        }}
-                        variant="filled"
-                        id="overAllComments"
-                    ></TextField>
-                    {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
-                    <br></br>
+                <div id="quillEditor" className={styles.Editor}>
                     <Button
-                        color="error"
-                        variant="contained"
-                        type="submit"
-                        onClick={() => {
-                            handleSubmit;
+                        size="small"
+                        sx={{
+                            backgroundColor: "white",
+                            p: 1,
                         }}
-                        sx={{ m: 1 }}
+                        onClick={addComment}
                     >
-                        Submit Edits
+                        Add Comment
                     </Button>
-                    <Box id="commentsContainer">
-                        <Typography
-                            variant="h4"
-                            sx={{ margin: 1, marginTop: 2 }}
-                        >
-                            Comments
-                        </Typography>
-                        <div id="currentComments">
-                            {allComments}
-                        </div>
+
+                    <br></br>
+                    <br></br>
+                    <Box
+                        sx={{
+                            backgroundColor: "white",
+                        }}
+                    >
+                        <QuillNoSSRWrapper
+                            id="article"
+                            modules={articleModules}
+                            value={value}
+                            onChange={setValue}
+                            formats={articleFormats}
+                            theme="snow"
+                        />
+                        <br></br>
+                        <br></br>
                     </Box>
-                </form>
-            </div>
-        </Box>
-    );
+                    <div id="notice" hidden>
+                        {/* make red */}
+                        <text>Please hightlight in the draft</text>
+                    </div>
+                </div>
+
+                <div className={styles.comments}>
+                    <form onSubmit={submit}>
+                        <Typography variant="h4" color="white" sx={{ m: 1 }}>
+                            Overall Comments
+                        </Typography>{" "}
+                        <TextField
+                            sx={{
+                                marginLeft: 1,
+                                marginTop: 0,
+                                input: {
+                                    color: "black",
+                                    background: "white",
+                                    borderRadius: 1,
+                                },
+                            }}
+                            variant="filled"
+                            id="overAllComments"
+                        ></TextField>
+                        {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
+                        <br></br>
+                        <Button
+                            color="error"
+                            variant="contained"
+                            type="submit"
+                            onClick={() => {
+                                handleSubmit;
+                            }}
+                            sx={{ m: 1 }}
+                        >
+                            Submit Edits
+                        </Button>
+                        <Box id="commentsContainer">
+                            <Typography
+                                variant="h4"
+                                sx={{ margin: 1, marginTop: 2 }}
+                            >
+                                Comments
+                            </Typography>
+                            <div id="currentComments">{allComments}</div>
+                        </Box>
+                    </form>
+                </div>
+            </Box>
+        );
+    } else {
+        return (
+            <>
+                <p>Please sign in</p>
+                <button onClick={redirectToSignIn}>Sign In</button>
+            </>
+        );
+    }
 }
 
-export default PageWithJSbasedForm;
+export default commentEditor;
