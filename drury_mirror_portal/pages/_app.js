@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme, mainTheme } from "../styles/theme";
+import "../styles/globals.css";
 
 import { SessionProvider } from "next-auth/react";
 
@@ -15,7 +16,11 @@ export default function MyApp({ Component, pageProps }) {
 
     let curTheme = theme;
 
-    if (router.pathname !== "/") {
+    if (router.pathname == "/testSplashPage") {
+        curTheme = theme;
+    }
+
+    if (router.pathname == "/about") {
         curTheme = mainTheme;
     }
 

@@ -1,5 +1,6 @@
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -23,12 +24,22 @@ export const mainTheme = createTheme({
       main:"#000"
     },
     primaryButton: {
-      main:"#FEF9FB",
+      main:"#4685F5",
     },
     background: {
       default: "#303030"
-    }
+    },
   },
+  typography:{
+    aboutHeader: {
+      fontFamily: 'Garamond-Regular',
+      fontSize: "48px",
+    },
+    aboutBody: {
+      fontFamily: 'BrownRegular',
+      fontSize: "18px"
+    }
+  }
 });
 
 let lightTheme = createTheme({

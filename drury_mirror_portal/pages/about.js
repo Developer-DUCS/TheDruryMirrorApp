@@ -10,7 +10,12 @@ export default function about(){
     return(
       <Box>
         <Header/>
-        <Typography variant="h4">About Us</Typography>
+        <Box sx={{marginLeft: "20%", marginTop: 3}}>
+          <Typography sx={{color: "white"}} variant="aboutHeader">Learn about our team and who we are.</Typography>
+        </Box>
+        <Box sx={{marginLeft: "20%", marginTop: 3}}>
+          <Typography sx={{color: "white"}} variant="aboutBody">This is our about page.</Typography>
+        </Box>
       </Box>
   )
 }

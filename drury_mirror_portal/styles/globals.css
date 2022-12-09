@@ -15,12 +15,32 @@ a {
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: AvantGarde;
+  src: url('/fonts/AVGARDN_2.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: BrownRegular;
+  src: url('/fonts/Brown-Regular.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: GaramondRegular;
+  src: url('/fonts/Garamond-Regular.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
   body {
-    color: white;
     background: black;
   }
 }
