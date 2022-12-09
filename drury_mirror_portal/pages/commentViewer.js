@@ -91,6 +91,7 @@ export function CommentViewer() {
             article: value,
             id: id,
             page: "commentViewer",
+            checked: document.getElementById("checkbox").checked,
         };
 
         // Send the data to the server in JSON format.

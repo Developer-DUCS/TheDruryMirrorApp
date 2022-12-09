@@ -21,23 +21,46 @@ export default (req, res) => {
             check = "0";
         }
 
-        let saveQuery =
-            "INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())";
+        let saveQuery = "";
 
-        conn.query(
-            saveQuery,
-            [email, author, testHeadline, articleString, check],
-            (err) => {
-                //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
-                if (err) {
-                    console.log("Something went wrong");
-                    console.log(err);
-                    res.status(500).json({ error: "Failed Insertion" });
-                } else {
-                    res.status(201).json({ msg: "Successful Insertion" });
+        if (body.aid) {
+            let isDraft = "1";
+            let aid = parseInt(body.aid);
+            saveQuery =
+                "UPDATE articles SET headline = ?, body = ?, isDraft = ? WHERE aid = ?";
+            conn.query(
+                saveQuery,
+                [testHeadline, articleString, isDraft, aid],
+                (err) => {
+                    //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
+                    if (err) {
+                        console.log("Something went wrong");
+                        console.log(err);
+                        res.status(500).json({ error: "Failed Insertion" });
+                    } else {
+                        res.status(201).json({ msg: "Successful Insertion" });
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            saveQuery =
+                "INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())";
+
+            conn.query(
+                saveQuery,
+                [email, author, testHeadline, articleString, check],
+                (err) => {
+                    //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
+                    if (err) {
+                        console.log("Something went wrong");
+                        console.log(err);
+                        res.status(500).json({ error: "Failed Insertion" });
+                    } else {
+                        res.status(201).json({ msg: "Successful Insertion" });
+                    }
+                }
+            );
+        }
 
         // const result = ({
         //     query: 'INSERT INTO test(article) VALUES(?)',

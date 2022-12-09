@@ -7,15 +7,16 @@ export default (req, res) => {
         const body = req.body;
 
         let articleString = body.article;
-        let isDraft = "";
+        let isDraft = "2";
         const id = body.id;
+        let checked = body.checked;
 
         // if (body.page) {
 
         // }
         const page = body.page;
 
-        if (page == "commentViewer") {
+        if (page == "commentViewer" && checked) {
             isDraft = "3";
             let commentsQuery = "DELETE FROM comments WHERE cid = ?";
 
@@ -30,10 +31,9 @@ export default (req, res) => {
                     res.status(200).json({ msg: "Successful Deletion" });
                 }
             });
-        } else {
+        } else if (page != "commentViewer") {
             let editor = body.editor;
             let email = body.email;
-            isDraft = "2";
             const overAllComments = body.overAllComments;
             const comments = body.comments.toString();
 

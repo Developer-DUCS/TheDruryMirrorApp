@@ -141,44 +141,83 @@ export default function articleWriting() {
         // Stop the form from submitting and refreshing the page.
         console.log(value);
         event.preventDefault();
+
         let session = await getSession();
         let author = session.user.fname + " " + session.user.lname;
         // console.log(event.target.check)
 
         // Get data from the form.
-        const data = {
-            email: session.user.email,
-            author: author,
-            article: value,
-            check: document.getElementById("checkbox").checked,
-        };
 
-        // Send the data to the server in JSON format.
-        console.log(data);
-        const JSONdata = JSON.stringify(data);
-        console.log(JSONdata);
+        if (router.query.id) {
+            const data = {
+                email: session.user.email,
+                author: author,
+                article: value,
+                check: document.getElementById("checkbox").checked,
+                aid: router.query.id,
+            };
 
-        // API endpoint where we send form data.
-        const endpoint = "/api/saveArticle";
+            // Send the data to the server in JSON format.
+            console.log(data);
+            const JSONdata = JSON.stringify(data);
+            console.log(JSONdata);
 
-        // Form the request for sending data to the server.
-        const options = {
-            // The method is POST because we are sending data.
-            method: "POST",
-            // Tell the server we're sending JSON.
-            headers: {
-                "Content-Type": "application/json",
-            },
-            // Body of the request is the JSON data we created above.
-            body: JSONdata,
-        };
+            // API endpoint where we send form data.
+            const endpoint = "/api/saveArticle";
 
-        // Send the form data to our forms API on Vercel and get a response.
-        const response = await fetch(endpoint, options);
+            // Form the request for sending data to the server.
+            const options = {
+                // The method is POST because we are sending data.
+                method: "POST",
+                // Tell the server we're sending JSON.
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // Body of the request is the JSON data we created above.
+                body: JSONdata,
+            };
 
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        const result = await response.json();
+            // Send the form data to our forms API on Vercel and get a response.
+            const response = await fetch(endpoint, options);
+
+            // Get the response data from server as JSON.
+            // If server returns the name submitted, that means the form works.
+            const result = await response.json();
+        } else {
+            const data = {
+                email: session.user.email,
+                author: author,
+                article: value,
+                check: document.getElementById("checkbox").checked,
+            };
+
+            // Send the data to the server in JSON format.
+            console.log(data);
+            const JSONdata = JSON.stringify(data);
+            console.log(JSONdata);
+
+            // API endpoint where we send form data.
+            const endpoint = "/api/saveArticle";
+
+            // Form the request for sending data to the server.
+            const options = {
+                // The method is POST because we are sending data.
+                method: "POST",
+                // Tell the server we're sending JSON.
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                // Body of the request is the JSON data we created above.
+                body: JSONdata,
+            };
+
+            // Send the form data to our forms API on Vercel and get a response.
+            const response = await fetch(endpoint, options);
+
+            // Get the response data from server as JSON.
+            // If server returns the name submitted, that means the form works.
+            const result = await response.json();
+        }
     };
 
     const loadArticle = (event) => {
