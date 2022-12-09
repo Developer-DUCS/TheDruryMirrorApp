@@ -1,5 +1,5 @@
 .entirePage {
-    background-color: black;
+    background-color: #303030;
 }
 
 .divWelcome{
@@ -61,6 +61,6 @@
 
 .divWriting{
     padding: 20px;
-    background-color: #0E0E0E;
+    background-color: #303030;
     height: 100vh;
 }

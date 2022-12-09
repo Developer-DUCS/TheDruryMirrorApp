@@ -12,19 +12,21 @@
 //
 //
 
+// Editor imports
 //import styles from '../styles/quillTestStyle.css'
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/quill.module.css";
 import styles2 from "../styles/article.module.css";
 import { styled } from "@mui/material/styles";
 
+// Styling (Material UI) imports
+import { Button, Container, TextField, Box, Typography } from "@mui/material";
+import { withStyles } from "@mui/styles";
+
+// React and Next imports
+import React, { useState, Component } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { Button, Container, TextField, Box, Typography } from "@mui/material";
-
-import React, { useState, Component } from "react";
-import { ReactDOM } from "react";
-import { REACT_LOADABLE_MANIFEST } from "next/dist/shared/lib/constants";
 import { createRoot } from "react-dom/client";
 
 // we import react-quill dynamically, to avoid including it in server-side
@@ -34,13 +36,33 @@ const QuillNoSSRWrapper = dynamic(import("react-quill"), {
     loading: () => <p>Loading ...</p>,
 });
 
-const colorProps = styled(Button)({
-    color: "white",
-    backgroundColor: "white",
-    "&:hover": {
-        backgroundColor: "grey",
+// Pulled from StackOverflow user "Hitesh Sahu" with modifications
+// - TextField component with style
+const CssTextField = withStyles({
+    root: {
+        "& .MuiFilledInput-root": {
+            background: "white",
+        },
+        "& label.Mui-focused": {
+            color: "black",
+        },
+        "& .MuiInput-underline:after": {
+            borderBottomColor: "black",
+            backgroundColor: "black",
+        },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: "black",
+            },
+            "&:hover fieldset": {
+                borderColor: "black",
+            },
+            "&.Mui-focused fieldset": {
+                borderColor: "black",
+            },
+        },
     },
-});
+})(TextField);
 
 const articleModules = {
     toolbar: [["bold", "italic", "underline", "strike"], [{ background: [] }]],
@@ -202,46 +224,91 @@ export function PageWithJSbasedForm({ article }) {
             // React.createElement is the equivalent of document.createELement for React components
             // - we pass the respective id for each element needed to rendered
 
+            const HighlightText = () => {
+                return (
+                    <>
+                        <Typography
+                            variant="body1"
+                            sx={{ m: 1, color: "white" }}
+                            onMouseEnter={mouseover}
+                            onMouseLeave={mouseleave}
+                        >
+                            Highlight Text
+                        </Typography>
+                    </>
+                );
+            };
+
             // Create input element,  (Typography, props, children props)
-            var input = React.createElement(
-                Typography,
-                {
-                    variant: "body1",
-                    color: "white",
-                    id: `input ${commentId}`,
-                    onMouseOver: mouseover,
-                    onMouseLeave: mouseleave,
-                },
-                "See Highlight"
-            );
+            var input = React.createElement(HighlightText, {
+                id: `input ${commentId}`,
+            });
+
+            const styledCommentBox = () => {
+                return (
+                    <>
+                        <CssTextField
+                            variant="filled"
+                            sx={{
+                                input: {
+                                    color: "black",
+                                    background: "white",
+                                    borderRadius: 1,
+                                },
+                            }}
+                        ></CssTextField>
+                        <br></br>
+                    </>
+                );
+            };
+
+            var commentBox = React.createElement(styledCommentBox, {
+                id: `input ${commentId}`,
+            });
+
+            // Label stateless functional component (SFC)
+            const LabelComponent = () => {
+                return (
+                    <>
+                        <Typography
+                            variant="body1"
+                            sx={{ color: "white", m: 1 }}
+                        >
+                            Label
+                        </Typography>
+                    </>
+                );
+            };
 
             // Creates label element, just a MUI typography element
-            var label = React.createElement(
-                Typography,
-                {
-                    variant: "body1",
-                    color: "white",
-                    id: `label ${commentId}`,
-                    for: input,
-                },
-                "Label"
-            );
+            var label = React.createElement(LabelComponent, {
+                id: `label ${commentId}`,
+                for: input,
+            });
+
+            // Stateless functional component button used for "resolve"
+            const styledButton = () => {
+                return (
+                    <Button
+                        onClick={() => {
+                            resolve();
+                        }}
+                        variant="contained"
+                        color="secondary"
+                        sx={{ margin: 2, marginLeft: 0 }}
+                    >
+                        Resolve
+                    </Button>
+                );
+            };
 
             // Creates a button element
-            var button = React.createElement(
-                Button,
-                {
-                    variant: "contained",
-                    color: "secondary",
-                    onClick: { resolve },
-                    height: 5,
-                    width: 5,
-                    margin: 1,
-                    id: `button ${commentId}`,
-                },
-                "Resolve"
-            );
+            var button = React.createElement(styledButton, {
+                id: `button ${commentId}`,
+            });
 
+            // Box containing each component generated from "Add Comment" button
+            // - each component is rendered whenever the box is rendered because they are children of the box
             var box = React.createElement(
                 Box,
                 {
@@ -249,6 +316,7 @@ export function PageWithJSbasedForm({ article }) {
                 },
                 input,
                 label,
+                commentBox,
                 button
             );
 
@@ -286,8 +354,10 @@ export function PageWithJSbasedForm({ article }) {
                             .innerHTML
                 );
             }
+
             //Append the element in page (in span).
-            textId.append(box);
+            let commentsContainer = document.getElementById("currentComments");
+            commentsContainer.append(box);
         } else {
             let notice = document.getElementById("notice");
             notice.hidden = false;
@@ -297,37 +367,45 @@ export function PageWithJSbasedForm({ article }) {
     };
 
     const resolve = async (event) => {
-        console.log("resolved clicked");
-        //Gets the id of the button that triggered the event
-        let buttonId = event.path[0].id;
-        console.log(buttonId);
+        document.getElementById(`div ${commentId}`).remove();
+        let currentCommentID = "span" + commentId;
+        let spanElement = document.getElementById(currentCommentID);
 
-        //Splits the number from the id of the button
-        let num = buttonId.split("n");
-        console.log(num[1].toString());
+        spanElement.removeAttribute("style", "background-color: yellow");
 
-        //Uses the number from the button id to get the id of the div its in
-        let tempDiv = "div";
-        let tempDivId = tempDiv.concat(num[1].toString());
+        //document.getElementById(`span ${commentId}`).remove();
 
-        //Uses the number from the button id to get the id of the span with the related comment
-        let tempSpan = "span";
-        let tempSpanId = tempSpan.concat(num[1].toString());
+        // console.log("resolved clicked");
+        // //Gets the id of the button that triggered the event
+        // let buttonId = event.path[0].id;
+        // console.log(buttonId);
 
-        console.log(tempDivId);
-        console.log(tempSpanId);
+        // //Splits the number from the id of the button
+        // let num = buttonId.split("n");
+        // console.log(num[1].toString());
 
-        console.log(document.getElementById(tempDivId));
-        console.log(document.getElementById(tempSpanId));
+        // //Uses the number from the button id to get the id of the div its in
+        // let tempDiv = "div";
+        // let tempDivId = tempDiv.concat(num[1].toString());
 
-        //Removes the span tags around the comment
-        document.getElementById(tempSpanId).removeAttribute("style");
+        // //Uses the number from the button id to get the id of the span with the related comment
+        // let tempSpan = "span";
+        // let tempSpanId = tempSpan.concat(num[1].toString());
 
-        //Removes the div that the button that is clicked is in
-        document.getElementById(tempDivId).remove();
+        // console.log(tempDivId);
+        // console.log(tempSpanId);
 
-        //Prevents the page from completely reloading
-        event.preventDefault();
+        // console.log(document.getElementById(tempDivId));
+        // console.log(document.getElementById(tempSpanId));
+
+        // //Removes the span tags around the comment
+        // document.getElementById(tempSpanId).removeAttribute("style");
+
+        // //Removes the div that the button that is clicked is in
+        // document.getElementById(tempDivId).remove();
+
+        // //Prevents the page from completely reloading
+        // event.preventDefault();
     };
 
     const mouseover = async (event) => {
@@ -337,8 +415,10 @@ export function PageWithJSbasedForm({ article }) {
 
         let spanElement = document.getElementById(currentCommentID);
 
-        spanElement
-            .setAttribute("style", "background-color: blue");
+        spanElement.setAttribute(
+            "style",
+            "background-color: blue; color: white;"
+        );
 
         // let inputId = event.path[0].id;
 
@@ -353,15 +433,16 @@ export function PageWithJSbasedForm({ article }) {
     };
 
     const mouseleave = async (event) => {
-
         let currentCommentID = "span" + commentId;
 
         console.log(document.getElementById(currentCommentID));
 
         let spanElement = document.getElementById(currentCommentID);
 
-        spanElement
-            .setAttribute("style", "background-color: rgb(255,255,0); color:black;");
+        spanElement.setAttribute(
+            "style",
+            "background-color: rgb(255,255,0); color:black;"
+        );
 
         // let inputId = event.path[0].id;
 
@@ -405,7 +486,7 @@ export function PageWithJSbasedForm({ article }) {
 
     return (
         // We pass the event to the handleSubmit() function on submit.
-        <div className={styles2.divWriting}>
+        <Box className={styles2.divWriting} sx={{ height: "100%" }}>
             <Button
                 sx={{
                     position: "absolute",
@@ -424,6 +505,7 @@ export function PageWithJSbasedForm({ article }) {
                     size="small"
                     sx={{
                         backgroundColor: "white",
+                        p: 1,
                     }}
                     onClick={addComment}
                 >
@@ -456,25 +538,44 @@ export function PageWithJSbasedForm({ article }) {
 
             <div className={styles.comments}>
                 <form onSubmit={submit}>
-                    <Typography variant="h4" color="white">
+                    <Typography variant="h4" color="white" sx={{ m: 1 }}>
                         Overall Comments
                     </Typography>{" "}
+                    <TextField
+                        sx={{
+                            marginLeft: 1,
+                            marginTop: 0,
+                            input: {
+                                color: "black",
+                                background: "white",
+                                borderRadius: 1,
+                            },
+                        }}
+                        variant="filled"
+                        id="overAllComments"
+                    ></TextField>
+                    {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
                     <br></br>
-                    <textarea id="overAllComments"></textarea> <br></br>
-                    <Typography variant="h4">Comments</Typography>
-                    <ul id="textId"></ul>
-                    <Button color="error" variant="contained" type="submit">
+                    <Button
+                        color="error"
+                        variant="contained"
+                        type="submit"
+                        onClick={() => {
+                            handleSubmit;
+                        }}
+                        sx={{ m: 1 }}
+                    >
                         Submit Edits
                     </Button>
-                    <div id="commentsContainer">
-                        <Typography variant="h4" sx={{ margin: 1 }}>
+                    <Box id="commentsContainer">
+                        <Typography variant="h4" sx={{ margin: 1, marginTop: 2 }}>
                             Comments
                         </Typography>
                         <div id="currentComments"></div>
-                    </div>
+                    </Box>
                 </form>
             </div>
-        </div>
+        </Box>
     );
 }
 
