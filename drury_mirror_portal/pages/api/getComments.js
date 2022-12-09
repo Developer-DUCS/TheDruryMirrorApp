@@ -21,9 +21,9 @@ export default (req, res) => {
     let email = req.body.email;
     console.log(id);
     console.log(email);
-    let getArticleQuery = "SELECT headline, body FROM articles WHERE aid = ?;";
+    let getCommentsQuery = "SELECT * FROM comments WHERE cid = ?;";
 
-    conn.query(getArticleQuery, [id], (err, rows) => {
+    conn.query(getCommentsQuery, [id], (err, rows) => {
         if (err) {
             console.log(err);
             return res.status(500).json({ error: err });
@@ -32,9 +32,15 @@ export default (req, res) => {
         } else {
             //console.log(rows[0].headline)
             //console.log(rows[0].body)
-            let article = rows[0].body;
-            console.log(article);
-            return res.status(200).json(article);
+            let overallComments = rows[0].overallComments;
+            let comments = rows[0].comments;
+            console.log("overAllComments: ", overallComments);
+            console.log("comments: ", comments);
+            let data = {
+                overallComments: overallComments,
+                comments: comments,
+            };
+            return res.status(200).json(data);
         }
     });
 };

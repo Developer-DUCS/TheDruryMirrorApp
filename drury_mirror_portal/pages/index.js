@@ -1,194 +1,107 @@
 //import Head from 'next/head'
 //import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Router, { useRouter } from 'next/router';
-import { MissingStaticPage } from 'next/dist/shared/lib/utils';
-import {TextField, Button, FormGroup, Grid, Typography } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import theme from '../styles/theme'
+import styles from "../styles/Home.module.css";
+import Router, { useRouter } from "next/router";
+import { MissingStaticPage } from "next/dist/shared/lib/utils";
+import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import theme from "../styles/theme";
+
+import { useSession, signIn, signOut } from "next-auth/react";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function LoginPage() {
     const router = useRouter();
+    const { status, data } = useSession();
     const handleSubmit = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
-        // Get data from the form.
-        const data = {
-            username: event.target.username.value,
+        const res = await signIn("credentials", {
+            redirect: true,
+            email: event.target.username.value,
             password: event.target.password.value,
+            callbackUrl: "/testSplashPage",
+        });
+
+        console.log(res);
+
+        console.log("STATUS: ", res.status);
+
+        if (res.ok) {
+            router.push(res.url);
+            console.log(res.status);
+        } else {
+            console.log(res.error);
         }
-
-        // Send the data to the server in JSON format.
-        //console.log(data)
-        const JSONdata = JSON.stringify(data)
-        //console.log(JSONdata)
-
-        const endpoint = 'api/login'
-
-        // Form the request for sending data to the server.
-        const options = {
-          // The method is POST because we are sending data.
-          method: 'POST',
-          // Tell the server we're sending JSON.
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          // Body of the request is the JSON data we created above.
-          body: JSONdata,
-      }
-  
-      // Send the form data to our forms API on Vercel and get a response.
-      const response = await fetch(endpoint, options)
-      console.log("response: ",response)
-      let user = await response.json()
-      console.log("response: ",response)
-      console.log("username: ",user.username)
-      console.log("role: ",user.role)
-
-      if (response.status == 200) {
-          if (user.role == "Writer") {
-              console.log("writer")
-              router.push('writerPortal')
-          }
-          else if (user.role == "Manager") {
-              router.push("managerPortal")
-          }
-          else if (user.role == "Admin") {
-              router.push("adminPortal")
-          }
-          else if (user.role == "Copy-Editor") {
-              router.push("copyEditorPortal")
-          }
-      }
-      else {
-        // TODO: Display message saying the username or password is incorrect
-      }
-    }
-
+    };
 
     return (
-      <>
-      <div className = {styles.formContainer}>
-        <form onSubmit={handleSubmit} className = {styles.formItem}>
-          <FormGroup className = {styles.formItem}>
-            <Grid container direction={'column'} spacing={2} justifyContent = "center" alignItems = "center" className = {styles.formContainer}>
-              <Grid item>
-                <Typography variant="h1">Drury Mirror</Typography>
-              </Grid>
-              <Grid item>
-                <TextField
-                  sx={{
-                    input: {
-                      color: "white",
-                    },
-                    label: {
-                      color: "white",
-                    },
-                  }}
-                  id="username" 
-                  name="username" 
-                  label="Username" 
-                  variant="standard" 
-                />
-              </Grid>
-              <Grid item>
-                <TextField 
-                  sx={{
-                    input: {
-                      color: "white",
-                    },
-                    label: {
-                      color: "white",
-                    }
-                  }}
-                  type="password" 
-                  id="password" 
-                  label="Password" 
-                  variant="standard" 
-                />
-              </Grid>
-              <Grid item>
-                <Button 
-                  color="contrast"
-                  sx={{color: "white"}}
-                  type="submit"
-                  variant="outline">Log in</Button>
-              </Grid>
-            </Grid>
-          </FormGroup>
-        </form>
-        <div className={styles.loginErrorMsg}>
-          <h3>Incorrect Username or Password</h3>
-        </div>
-      </div>
-      </>
-    )
+        <>
+            <div className={styles.formContainer}>
+                <form onSubmit={handleSubmit} className={styles.formItem}>
+                    <FormGroup className={styles.formItem}>
+                        <Grid
+                            container
+                            direction={"column"}
+                            spacing={2}
+                            justifyContent="center"
+                            alignItems="center"
+                            className={styles.formContainer}
+                        >
+                            <Grid item>
+                                <Typography variant="h1">
+                                    Drury Mirror
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    sx={{
+                                        input: {
+                                            color: "white",
+                                        },
+                                        label: {
+                                            color: "white",
+                                        },
+                                    }}
+                                    id="username"
+                                    name="username"
+                                    label="Username"
+                                    variant="standard"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    sx={{
+                                        input: {
+                                            color: "white",
+                                        },
+                                        label: {
+                                            color: "white",
+                                        },
+                                    }}
+                                    type="password"
+                                    id="password"
+                                    label="Password"
+                                    variant="standard"
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    color="contrast"
+                                    sx={{ color: "white" }}
+                                    type="submit"
+                                    variant="outline"
+                                >
+                                    Log in
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </FormGroup>
+                </form>
+                <div className={styles.loginErrorMsg}>
+                    <h3>Incorrect Username or Password</h3>
+                </div>
+            </div>
+        </>
+    );
 }
-
-
-
-// export default function Home() {
-//   return (
-//     <div className={styles.container}>
-//       <Head>
-//         <title>Create Next App</title>
-//         <meta name="description" content="Generated by create next app" />
-//         <link rel="icon" href="/favicon.ico" />
-//       </Head>
-
-//       <main className={styles.main}>
-//         <h1 className={styles.title}>
-//           Welcome to <a href="https://nextjs.org">Next.js!</a>
-//         </h1>
-
-//         <p className={styles.description}>
-//           Get started by editing{' '}
-//           <code className={styles.code}>pages/index.js</code>
-//         </p>
-
-//         <div className={styles.grid}>
-//           <a href="https://nextjs.org/docs" className={styles.card}>
-//             <h2>Documentation &rarr;</h2>
-//             <p>Find in-depth information about Next.js features and API.</p>
-//           </a>
-
-//           <a href="https://nextjs.org/learn" className={styles.card}>
-//             <h2>Learn &rarr;</h2>
-//             <p>Learn about Next.js in an interactive course with quizzes!</p>
-//           </a>
-
-//           <a
-//             href="https://github.com/vercel/next.js/tree/canary/examples"
-//             className={styles.card}
-//           >
-//             <h2>Examples &rarr;</h2>
-//             <p>Discover and deploy boilerplate example Next.js projects.</p>
-//           </a>
-
-//           <a
-//             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-//             className={styles.card}
-//           >
-//             <h2>Deploy &rarr;</h2>
-//             <p>
-//               Instantly deploy your Next.js site to a public URL with Vercel.
-//             </p>
-//           </a>
-//         </div>
-//       </main>
-
-//       <footer className={styles.footer}>
-//         <a
-//           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Powered by{' '}
-//           <span className={styles.logo}>
-//             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-//           </span>
-//         </a>
-//       </footer>
-//     </div>
-//   )
-// }
