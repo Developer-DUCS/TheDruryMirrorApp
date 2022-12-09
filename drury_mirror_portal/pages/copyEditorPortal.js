@@ -55,7 +55,7 @@ export function copyEditorPortal() {
         console.log(JSONdata);
 
         // API endpoint where we send form data.
-        const endpoint = "/api/readyToPublish";
+        const endpoint = "/api/publishArticle";
 
         // Form the request for sending data to the server.
         const options = {

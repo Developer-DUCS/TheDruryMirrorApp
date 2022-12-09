@@ -5,8 +5,14 @@ export default (req, res) => {
     try {
         console.log("Called Publish Article route");
         const body = req.body;
+        let isDraft = "";
 
-        let isDraft = "5";
+        if (body.page == "copyEditorPortal") {
+            isDraft = "4";
+        } else {
+            isDraft = "5";
+        }
+
         const id = body.id;
 
         let updateArticleQuery =

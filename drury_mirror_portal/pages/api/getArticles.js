@@ -44,7 +44,7 @@ export default async (req, res) => {
         "SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? AND isDraft = ?";
 
     let editQuery =
-        "SELECT aid,author,headline,body,isDraft FROM articles WHERE email != ? AND isDraft = ?";
+        "SELECT aid,author,headline,body,isDraft FROM articles WHERE email != ? AND (isDraft = 1 OR isDraft =3)";
 
     let publishQuery =
         "SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? OR isDraft = ?";
@@ -80,7 +80,7 @@ export default async (req, res) => {
                     body: row.body,
                     isDraft: row.isDraft,
                 };
-                if (page == "publishPage" && article.isDraft != "5") {
+                if (page == "publishPage" && article.isDraft != "4") {
                     console.log("skipped article:", article);
                 } else {
                     articles.push(article);
