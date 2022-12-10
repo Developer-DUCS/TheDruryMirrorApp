@@ -24,12 +24,12 @@ export default function header() {
     return (
         <Grid container sx={{ height: "8vh", backgroundColor: "white", color: "black", display: "flex" }}>
             <Grid item xs={4} sx={{marginTop: 1}}>
-                <Typography variant="h2" sx={{ color: "black", paddingLeft: 2 }}>
+                <Typography variant="logoHeader" sx={{ color: "black", paddingLeft: 2 }}>
                     Drury Mirror
                 </Typography>
             </Grid>
-            <Grid item xs={5}></Grid>
-            <Grid item xs={3} sx={{marginTop: 1}}>
+            <Grid item xs={6}></Grid>
+            <Grid item xs={2} sx={{marginTop: 1}}>
                 <Button sx={{color: "white", marginRight: 2}} variant="contained" color="primaryButton" onClick={logOut}>
                     About Us
                 </Button>

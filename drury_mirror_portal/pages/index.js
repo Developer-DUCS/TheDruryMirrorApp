@@ -49,7 +49,7 @@ export default function LoginPage() {
                             className={styles.formContainer}
                         >
                             <Grid item>
-                                <Typography variant="h1">
+                                <Typography variant="logoHeader">
                                     Drury Mirror
                                 </Typography>
                             </Grid>
@@ -57,10 +57,10 @@ export default function LoginPage() {
                                 <TextField
                                     sx={{
                                         input: {
-                                            color: "white",
+                                            color: "black",
                                         },
                                         label: {
-                                            color: "white",
+                                            color: "black",
                                         },
                                     }}
                                     id="username"
@@ -73,10 +73,10 @@ export default function LoginPage() {
                                 <TextField
                                     sx={{
                                         input: {
-                                            color: "white",
+                                            color: "black",
                                         },
                                         label: {
-                                            color: "white",
+                                            color: "black",
                                         },
                                     }}
                                     type="password"
@@ -88,7 +88,7 @@ export default function LoginPage() {
                             <Grid item>
                                 <Button
                                     color="contrast"
-                                    sx={{ color: "white" }}
+                                    sx={{ color: "black" }}
                                     type="submit"
                                     variant="outline"
                                 >

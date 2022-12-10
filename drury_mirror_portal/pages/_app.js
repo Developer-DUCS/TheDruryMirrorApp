@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme, mainTheme } from "../styles/theme";
-// import "../styles/globals.css";
+import { theme, mainTheme, aboutTheme} from "../styles/theme";
+import "../styles/globals.css";
 
 import { SessionProvider } from "next-auth/react";
 
@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }) {
     }
 
     if (router.pathname == "/about") {
-        curTheme = mainTheme;
+        curTheme = aboutTheme;
     }
 
     if (router.pathname == "/testSplashPage") {
