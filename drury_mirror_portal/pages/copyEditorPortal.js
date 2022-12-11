@@ -18,6 +18,8 @@ import {
     Typography,
     Card,
     Toolbar,
+    Box,
+    Stack,
 } from "@mui/material";
 
 import Header from "./header";
@@ -25,6 +27,8 @@ import Header from "./header";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
+
+
 
 //Populates the page
 export function copyEditorPortal() {
@@ -50,6 +54,9 @@ export function copyEditorPortal() {
     };
 
     const readyToPublish = async (event) => {
+
+
+
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         // Get data from the form.
@@ -84,6 +91,10 @@ export function copyEditorPortal() {
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         const result = await response.json();
+
+        //reload page upon click of button
+        router.reload();
+
     };
 
     useEffect(() => {
@@ -123,7 +134,7 @@ export function copyEditorPortal() {
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
-                        setArticles(articles);
+                        setArticles(articles.reverse());
                     }
                 }
             }
@@ -150,18 +161,20 @@ export function copyEditorPortal() {
     filterArticles();
     console.log("aritcle 1:", articles[0]);
 
-    if (status === "authenticated") {
+    const allowedRoles = ["Copy-Editor", "Editor-In-Chief"];
+
+    if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         return (
             <>
-                <Header sx={{marginBottom: 2}} />
+                <Header sx={{ marginBottom: 2 }} />
                 <Typography variant="copyEditorHeader" sx={{ m: 2 }}>
                     Article List
                 </Typography>
                 <br></br>
-                <Typography sx={{m: 2}} variant="userLabel">
-                        {data.user.fname} {data.user.lname}
-                    </Typography>
-                <Box sx={{marginTop: -2}}>
+                <Typography sx={{ m: 2 }} variant="userLabel">
+                    {data.user.fname} {data.user.lname}
+                </Typography>
+                <Box sx={{ marginTop: -2 }}>
                     {articles.map((article) => (
                         <Card
                             style={{
@@ -170,17 +183,26 @@ export function copyEditorPortal() {
                                 padding: 5,
                                 paddingLeft: 15,
                                 boxShadow: 4,
-                                backgroundColor: "#82858f"
+                                backgroundColor: "#82858f",
                             }}
                         >
-                            <Typography variant="headline" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="headline"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {article.headline}
                             </Typography>
                             <br></br>
-                            <Typography variant="author" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="author"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {article.author}
                             </Typography>
-                            <Typography variant="copyEditorBody" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="copyEditorBody"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {parse(article.body)}
                             </Typography>
                             <Button
@@ -216,10 +238,23 @@ export function copyEditorPortal() {
         );
     } else {
         return (
-        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-            <Typography variant = "h2" color = "black">Please sign in</Typography>
-            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
-        </Stack>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }

@@ -66,6 +66,9 @@ export function draftList() {
         };
 
         let response = await fetch(endpoint, options);
+
+        //reload page upon click of button
+        router.reload();
     };
 
     useEffect(() => {
@@ -100,7 +103,7 @@ export function draftList() {
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
-                        setArticles(articles);
+                        setArticles(articles.reverse());
                     }
                 }
             }
@@ -129,7 +132,9 @@ export function draftList() {
     console.log("aritcle 1:", articles[0]);
 
     // Check if the user is authenticated
-    if (status === "authenticated") {
+    const allowedRoles = ["Editor-In-Chief"];
+
+    if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         console.log(data.user);
         console.log(data.user.role);
         const role = data.user.role;
