@@ -26,13 +26,15 @@ export default function LoginPage() {
         console.log(res);
 
         // console.log("STATUS: ", res.status);
-
-        if (res.ok) {
-            router.push(res.url);
-            console.log(res.status);
-        } else {
-            console.log(res.error);
-        }
+        // res.ok = false;
+        try {
+            if (res.ok) {
+                router.push(res.url);
+                console.log(res.status);
+            } else {
+                console.log(res.error);
+            }
+        } catch (e) {}
     };
 
     return (
