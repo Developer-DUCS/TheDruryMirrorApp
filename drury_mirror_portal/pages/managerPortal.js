@@ -35,7 +35,7 @@ import {
 
 import { useRouter } from "next/router";
 
-import Header from "./header";
+import SplashHeader from "./SplashHeader";
 
 function managerPortal({ users }) {
     const router = useRouter();
@@ -347,7 +347,7 @@ function managerPortal({ users }) {
 
     return (
         <>
-            <Header />
+            <SplashHeader />
 
             <Box
                 sx={{

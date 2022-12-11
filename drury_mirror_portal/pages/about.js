@@ -64,11 +64,13 @@ export default function about() {
                         }}
                     >
                         <Grid item>
-                            <Card>
+                            <Card
+                                sx={{maxWidth: 210}}
+                            >
                                 <CardMedia
                                     component="img"
-                                    height="194"
-                                    image="/images/cup.PNG"
+                                    height="250"
+                                    image="/images/TN.jpg"
                                     alt="Paella dish"
                                 />
                                 <CardContent>
@@ -76,21 +78,40 @@ export default function about() {
                                         Thomas Nield
                                     </Typography>
                                     <br></br>
+                                    <br></br>
                                     <Typography
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Senior
+                                        Major: Computer Science
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Minor: Math & Cyber Risk Management
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Position: Technical Product Owner
                                     </Typography>
                                 </CardContent>
                             </Card>
                         </Grid>
                         <Grid item>
-                            <Card>
+                            <Card
+                                sx={{maxWidth: 210}}
+                            >
                                 <CardMedia
                                     component="img"
-                                    height="194"
-                                    image="/images/cup.PNG"
+                                    height="250"
+                                    image="/images/TO.jpg"
                                     alt="Paella dish"
                                 />
                                 <CardContent>
@@ -98,77 +119,151 @@ export default function about() {
                                         Thomas O'Brien
                                     </Typography>
                                     <br></br>
-                                    <Typography
-                                        sx={{ marginTop: 2 }}
-                                        variant="cardBody"
-                                    >
-                                        Senior
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image="/images/cup.PNG"
-                                    alt="Paella dish"
-                                />
-                                <CardContent>
-                                    <Typography variant="cardLabel">
-                                        Sam
-                                    </Typography>
                                     <br></br>
                                     <Typography
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Senior
+                                        Major: 
                                     </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image="/images/cup.PNG"
-                                    alt="Paella dish"
-                                />
-                                <CardContent>
-                                    <Typography variant="cardLabel">
-                                        Haley
-                                    </Typography>
+                                    <br></br>
                                     <br></br>
                                     <Typography
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Senior
+                                        Minor:
                                     </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                        <Grid item>
-                            <Card>
-                                <CardMedia
-                                    component="img"
-                                    height="194"
-                                    image="/images/cup.PNG"
-                                    alt="Paella dish"
-                                />
-                                <CardContent>
-                                    <Typography variant="cardLabel">
-                                        Daniel
-                                    </Typography>
+                                    <br></br>
                                     <br></br>
                                     <Typography
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Senior
+                                        Position: 
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item>
+                            <Card
+                                sx={{maxWidth: 210}}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    height="250"
+                                    image="/images/SR.jpg"
+                                    alt="Paella dish"
+                                />
+                                <CardContent>
+                                    <Typography variant="cardLabel">
+                                        Samuel Rudqvist
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Major: 
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Minor: 
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Position: 
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item>
+                            <Card
+                                sx={{maxWidth: 210}}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    height="250"
+                                    image="/images/HS.jpg"
+                                    alt="Paella dish"
+                                />
+                                <CardContent>
+                                    <Typography variant="cardLabel">
+                                        Haley Saylor
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Major: 
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Minor: 
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Position: 
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item>
+                            <Card
+                                sx={{maxWidth: 210}}
+                            >
+                                <CardMedia
+                                    component="img"
+                                    height="250"
+                                    image="/images/DB.jpg"
+                                    alt="Paella dish"
+                                />
+                                <CardContent>
+                                    <Typography variant="cardLabel">
+                                        Daniel Brinck
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Major: 
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Minor: 
+                                    </Typography>
+                                    <br></br>
+                                    <br></br>
+                                    <Typography
+                                        sx={{ marginTop: 2 }}
+                                        variant="cardBody"
+                                    >
+                                        Position: 
                                     </Typography>
                                 </CardContent>
                             </Card>

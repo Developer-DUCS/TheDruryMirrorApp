@@ -13,8 +13,17 @@ import styles from "../styles/article.module.css";
 import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { Button, Container, TextField, Box, Typography, Stack } from "@mui/material";
+import {
+    Button,
+    Container,
+    TextField,
+    Box,
+    Typography,
+    Stack,
+    Card
+} from "@mui/material";
 
+import Header from "./header";
 
 export function draftList() {
     const router = useRouter();
@@ -133,58 +142,82 @@ export function draftList() {
 
         return (
             <>
-                <p id="article"></p>
-                <div className={styles.divWelcome}>
-                    <p>
-                        {data.user.fname} {data.user.lname}
-                    </p>
-                    <text className={styles.welcome}>Publish List</text>
-                    <button
-                        className={styles.draftButton}
-                        onClick={() => signOut()}
-                    >
-                        Log Out
-                    </button>
-                    <button
-                        className={styles.draftButton}
-                        onClick={writeDraftRoute}
-                    >
-                        Write Draft
-                    </button>
-                </div>
-                {articles.length != 0 ? (
-                    <div className={styles.divArticle}>
-                        <ul>
-                            {articles.map((article) => (
-                                <li className={styles.indArticle}>
-                                    {article.headline}
-                                    <text className={styles.author}>
-                                        By: {article.author}
-                                    </text>
-                                    <text>{parse(article.body)}</text>
-                                    <div className={styles.buttons}>
-                                        <button
-                                            id={article.aid}
-                                            className={styles.edit}
-                                            onClick={publishArticle}
-                                        >
-                                            Publish Article
-                                        </button>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ) : (
-                    <p>There are currently no articles that can be published</p>
-                )}
+                <Header />
+
+                <Typography variant="copyEditorHeader" sx={{ m: 2 }}>
+                    Article List
+                </Typography>
+                <br></br>
+                <Typography sx={{ m: 2 }} variant="userLabel">
+                    {data.user.fname} {data.user.lname}
+                </Typography>
+                <Box sx={{ marginTop: -2 }}>
+                    {articles.map((article) => (
+                        <Card
+                            style={{
+                                margin: 15,
+                                marginTop: 30,
+                                padding: 5,
+                                paddingLeft: 15,
+                                boxShadow: 4,
+                                backgroundColor: "#82858f",
+                            }}
+                        >
+                            <Typography
+                                variant="headline"
+                                sx={{ color: "#F3f3f3" }}
+                            >
+                                {article.headline}
+                            </Typography>
+                            <br></br>
+                            <Typography
+                                variant="author"
+                                sx={{ color: "#F3f3f3" }}
+                            >
+                                {article.author}
+                            </Typography>
+                            <Typography
+                                variant="copyEditorBody"
+                                sx={{ color: "#F3f3f3" }}
+                            >
+                                {parse(article.body)}
+                            </Typography>
+                            <Button
+                                id={article.aid}
+                                variant="contained"
+                                onClick={publishArticle}
+                                sx={{
+                                    marginBottom: 1,
+                                    marginRight: 5,
+                                    color: "white",
+                                    backgroundColor: "#4685F5",
+                                }}
+                            >
+                                Publish Article
+                            </Button>
+                        </Card>
+                    ))}
+                </Box>
             </>
         );
     } else {
         return (
-            <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-                <Typography variant = "h2" color = "black">Please sign in</Typography>
-                <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
             </Stack>
         );
     }

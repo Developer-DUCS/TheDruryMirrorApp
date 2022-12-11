@@ -20,6 +20,10 @@ export default function Header() {
         router.push("/");
     };
 
+    const handleLogo = () => {
+        router.push("/testSplashPage")
+    }
+
     // Handle the write draft button
     const writeDraftRoute = async (event) => {
         event.preventDefault();
@@ -38,9 +42,9 @@ export default function Header() {
     return (
         <Grid container sx={{ height: "8vh", marginBottom: 2, backgroundColor: "white", color: "black", display: "flex" }}>
             <Grid item xs={3} sx={{marginTop: 1}}>
-                <Typography variant="logoHeader" sx={{ color: "black", paddingLeft: 2 }}>
+                <Button variant="text" sx={{fontSize: "20px", fontFamily: "Trajan"}} onClick={() => {handleLogo();}}>
                     Drury Mirror
-                </Typography>
+                </Button>
             </Grid>
             <Grid item xs={6}></Grid>
             <Grid item xs={3} sx={{marginTop: 1}}>
