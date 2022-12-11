@@ -247,7 +247,7 @@ export default function articleWriting() {
                         </Button>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <Container>
+                        {/* <Container>
                             <TextField
                                 variant="filled"
                                 size="small"
@@ -281,7 +281,7 @@ export default function articleWriting() {
                                 }}
                                 required
                             />
-                        </Container>
+                        </Container> */}
                         <Box
                             sx={{
                                 backgroundColor: "white",

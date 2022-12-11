@@ -155,44 +155,44 @@ export function commentEditor() {
     };
 
     // Handles the submit event from submit edits
-    const handleSubmit = async (event) => {
-        // Stop the form from submitting and refreshing the page.
-        event.preventDefault();
+    // const handleSubmit = async (event) => {
+    //     // Stop the form from submitting and refreshing the page.
+    //     event.preventDefault();
 
-        // Get data from the form.
-        const data = {
-            //first: event.target.first.value,
-            //last: event.target.last.value,
-            article: value,
-        };
+    //     // Get data from the form.
+    //     const data = {
+    //         //first: event.target.first.value,
+    //         //last: event.target.last.value,
+    //         article: value,
+    //     };
 
-        // Send the data to the server in JSON format.
-        console.log(data);
-        const JSONdata = JSON.stringify(data);
-        console.log(JSONdata);
+    //     // Send the data to the server in JSON format.
+    //     console.log(data);
+    //     const JSONdata = JSON.stringify(data);
+    //     console.log(JSONdata);
 
-        // API endpoint where we send form data.
-        const endpoint = "/api/saveArticle";
+    //     // API endpoint where we send form data.
+    //     const endpoint = "/api/saveArticle";
 
-        // Form the request for sending data to the server.
-        const options = {
-            // The method is POST because we are sending data.
-            method: "POST",
-            // Tell the server we're sending JSON.
-            headers: {
-                "Content-Type": "application/json",
-            },
-            // Body of the request is the JSON data we created above.
-            body: JSONdata,
-        };
+    //     // Form the request for sending data to the server.
+    //     const options = {
+    //         // The method is POST because we are sending data.
+    //         method: "POST",
+    //         // Tell the server we're sending JSON.
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         // Body of the request is the JSON data we created above.
+    //         body: JSONdata,
+    //     };
 
-        // Send the form data to our forms API on Vercel and get a response.
-        const response = await fetch(endpoint, options);
+    //     // Send the form data to our forms API on Vercel and get a response.
+    //     const response = await fetch(endpoint, options);
 
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        const result = await response.json();
-    };
+    //     // Get the response data from server as JSON.
+    //     // If server returns the name submitted, that means the form works.
+    //     const result = await response.json();
+    // };
 
     const addComment = async (event) => {
         console.log("pressed button");
@@ -237,6 +237,7 @@ export function commentEditor() {
                             onMouseEnter={mouseover}
                             onMouseLeave={mouseleave}
                             variant="filled"
+                            name="commentTest"
                             sx={{
                                 input: {
                                     color: "black",
@@ -251,7 +252,7 @@ export function commentEditor() {
             };
 
             var commentBox = React.createElement(styledCommentBox, {
-                id: `input ${commentId}`,
+                id: `input 5`,
             });
 
             // Label stateless functional component (SFC)
@@ -445,18 +446,28 @@ export function commentEditor() {
             );
     };
 
-    const submit = (event) => {
+    const submit = async (event) => {
         event.preventDefault();
-        let x = event.target.getElementsByTagName("textarea");
+        //let x = event.target.overAllComments.value;
+        const id = parseInt(router.query.id);
+        let x = event.target.commentTest;
+        console.log("🚀 ~ file: commentEditor.js:454 ~ submit ~ x", x);
         let y = x.length;
-        let i = 1;
+        let i = 0;
         let commentsArray = [];
-        let overAllComments = x[0].value;
+        // let overAllComments = x[0].value;
+        let overAllComments = event.target.overAllComments.value;
         console.log("OverAllComments:", overAllComments);
 
-        if (y > 1) {
-            while (y > 1) {
+        if (y > 0) {
+            console.log("here");
+            while (y > 0) {
+                console.log("here2");
+
                 if (x[i].value != null) {
+                    console.log("here3");
+                    console.log("x[i]", x[i].value);
+
                     let com = [x[i].value, x[i].id];
                     commentsArray.push(com);
                     y = y - 1;
@@ -467,7 +478,47 @@ export function commentEditor() {
             console.log("List was Empty");
         }
 
-        console.log(commentsArray);
+        event.preventDefault();
+        let session = await getSession();
+        let editor = session.user.fname + " " + session.user.lname;
+        // console.log(event.target.check)
+
+        // Get data from the form.
+        const data = {
+            email: session.user.email,
+            editor: editor,
+            article: value,
+            comments: commentsArray,
+            overAllComments: overAllComments,
+            id: id,
+        };
+
+        // Send the data to the server in JSON format.
+        console.log(data);
+        const JSONdata = JSON.stringify(data);
+        console.log(JSONdata);
+
+        // API endpoint where we send form data.
+        const endpoint = "/api/saveEdits1";
+
+        // Form the request for sending data to the server.
+        const options = {
+            // The method is POST because we are sending data.
+            method: "POST",
+            // Tell the server we're sending JSON.
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // Body of the request is the JSON data we created above.
+            body: JSONdata,
+        };
+
+        // Send the form data to our forms API on Vercel and get a response.
+        const response = await fetch(endpoint, options);
+
+        // Get the response data from server as JSON.
+        // If server returns the name submitted, that means the form works.
+        const result = await response.json();
     };
 
     const loadArticle = (event) => {
@@ -608,29 +659,30 @@ export function commentEditor() {
                             }}
                             variant="filled"
                             id="overAllComments"
+                            name="overAllComments"
                         ></TextField>
                         {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
                         <br></br>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            type="submit"
-                            onClick={() => {
-                                handleSubmit;
-                            }}
-                            sx={{ m: 1 }}
-                        >
-                            Submit Edits
-                        </Button>
                         <Box id="commentsContainer">
                             <Typography
                                 variant="h4"
-                                sx={{ margin: 1, marginTop: 2 }}
+                                sx={{ margin: 1, marginTop: 2, color: "white" }}
                             >
                                 Comments
                             </Typography>
                             <div id="currentComments">{allComments}</div>
                         </Box>
+                        <Button
+                            color="error"
+                            variant="contained"
+                            type="submit"
+                            // onClick={() => {
+                            //     submit;
+                            // }}
+                            sx={{ m: 1 }}
+                        >
+                            Submit Edits
+                        </Button>
                     </form>
                 </div>
             </Box>

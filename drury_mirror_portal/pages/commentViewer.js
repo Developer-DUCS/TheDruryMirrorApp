@@ -14,17 +14,50 @@
 
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/article.module.css";
+import styles2 from "../styles/article.module.css";
+import { Button, Container, TextField, Box, Typography } from "@mui/material";
+import { withStyles } from "@mui/styles";
+import { createRoot, hydrateRoot } from "react-dom/client";
 
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
 
 import React, { useState, useEffect } from "react";
+import { getElementById } from "domutils";
 
 const QuillNoSSRWrapper = dynamic(import("react-quill"), {
     ssr: false,
     loading: () => <p>Loading ...</p>,
 });
+
+// Pulled from StackOverflow user "Hitesh Sahu" with modifications
+// - TextField component with style
+const CssTextField = withStyles({
+    root: {
+        "& .MuiFilledInput-root": {
+            background: "white",
+        },
+        "& label.Mui-focused": {
+            color: "black",
+        },
+        "& .MuiInput-underline:after": {
+            borderBottomColor: "black",
+            backgroundColor: "black",
+        },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+                borderColor: "black",
+            },
+            "&:hover fieldset": {
+                borderColor: "black",
+            },
+            "&.Mui-focused fieldset": {
+                borderColor: "black",
+            },
+        },
+    },
+})(TextField);
 
 const articleModules = {
     toolbar: [["bold", "italic", "underline", "strike"], [{ background: [] }]],
@@ -63,6 +96,9 @@ const formats = [
     "list",
     "bullet",
 ];
+
+let commentId = 0;
+let allComments = [];
 
 export function CommentViewer() {
     let [value, setValue] = useState();
@@ -125,11 +161,12 @@ export function CommentViewer() {
             let article = getArticle;
             let comments = getComments;
 
-            var overall = document.createElement("textarea");
-            overall.setAttribute("readonly", true);
-            overall.innerHTML = comments.overallComments;
-            document.getElementById("overallComments").append(overall);
-
+            // var overall = document.createElement("textarea");
+            // overall.setAttribute("readonly", true);
+            // overall.innerHTML = comments.overallComments;
+            // document.getElementById("overallComments").append(overall);
+            document.getElementById("overAllComments").value =
+                comments.overallComments;
             comments = comments.comments.split(",");
             // console.log(article);
             document.getElementsByClassName("ql-editor")[0].innerHTML = article;
@@ -144,75 +181,108 @@ export function CommentViewer() {
                 }
             }
             for (let y = 0; y < commentsArray.length; y++) {
-                var label = document.createElement("Label");
-                label.setAttribute("for", input);
-                label.innerHTML = "Comment";
-                var input = document.createElement("textarea");
-                input.setAttribute("readonly", true);
-                input.innerHTML = commentsArray[y];
-                var button = document.createElement("button");
-                button.innerHTML = "Resolve";
-                var box = document.createElement("div");
-
-                button.onclick = resolve;
-
-                input.onmouseover = mouseover;
-                input.onmouseleave = mouseleave;
-
                 let tempid = inputArray[y];
                 let idnum = tempid.split("t");
+                const styledCommentBox = () => {
+                    return (
+                        <>
+                            <CssTextField
+                                id={`input${idnum[1]}`}
+                                onMouseEnter={mouseover}
+                                onMouseLeave={mouseleave}
+                                variant="filled"
+                                name="commentTest"
+                                value={commentsArray[y]}
+                                // input.innerHTML = commentsArray[y];
+                                sx={{
+                                    input: {
+                                        color: "black",
+                                        background: "white",
+                                        borderRadius: 1,
+                                    },
+                                }}
+                            ></CssTextField>
+                            <br></br>
+                        </>
+                    );
+                };
 
-                box.setAttribute("id", "div" + idnum[1]);
-                input.setAttribute("id", "input" + idnum[1]);
-                button.setAttribute("id", "button" + idnum[1]);
-                box.innerHTML = "<br></br>";
+                var commentBox = React.createElement(styledCommentBox, {
+                    id: `input 5`,
+                });
 
-                box.append(label, input, button);
+                // Label stateless functional component (SFC)
+                const LabelComponent = () => {
+                    return (
+                        <>
+                            <Typography
+                                variant="body1"
+                                sx={{ color: "white", m: 1 }}
+                            >
+                                Label
+                            </Typography>
+                        </>
+                    );
+                };
 
-                document.getElementById("comments").append(box);
+                // Creates label element, just a MUI typography element
+                var label = React.createElement(LabelComponent, {
+                    id: `label ${idnum[1]}`,
+                });
+
+                // Stateless functional component button used for "resolve"
+                const styledButton = () => {
+                    return (
+                        <Button
+                            id={`button${idnum[1]}`}
+                            onClick={(event) => {
+                                resolve(event);
+                            }}
+                            variant="contained"
+                            color="secondary"
+                            sx={{ margin: 2, marginLeft: 0 }}
+                        >
+                            Resolve
+                        </Button>
+                    );
+                };
+
+                // Creates a button element
+                var button = React.createElement(styledButton);
+
+                // Box containing each component generated from "Add Comment" button
+                // - each component is rendered whenever the box is rendered because they are children of the box
+                var box = React.createElement(
+                    Box,
+                    {
+                        id: `div${idnum[1]}`,
+                    },
+                    label,
+                    commentBox,
+                    button
+                );
+
+                // ----------------------RENDER OBJECTS-------------------------- //
+                const rootID = document.getElementById("currentComments");
+                const root = createRoot(rootID);
+
+                //
+                // allComments.forEach(element => {
+
+                // });
+                console.log(box.props.id);
+                allComments.push(box);
             }
         } else {
         }
     };
-
-    const mouseover = async (event) => {
-        let inputId = event.path[0].id;
-
-        let num = inputId.split("t");
-
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-
-        if (document.getElementById(tempComId)) {
-            document
-                .getElementById(tempComId)
-                .setAttribute("style", "background-color: blue");
-        }
-    };
-
-    const mouseleave = async (event) => {
-        let inputId = event.path[0].id;
-
-        let num = inputId.split("t");
-
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-
-        if (document.getElementById(tempComId)) {
-            document
-                .getElementById(tempComId)
-                .setAttribute(
-                    "style",
-                    "background-color: rgb(255,255,0); color:black;"
-                );
-        }
-    };
-
     const resolve = async (event) => {
-        console.log("resolved clicked");
-        //Gets the id of the button that triggered the event
-        let buttonId = event.path[0].id;
-
+        // document.getElementById(`div ${commentId}`).remove();
+        let buttonId = event.target.id;
+        console.log(
+            "🚀 ~ file: commentEditor.js:360 ~ resolve ~ buttonId",
+            buttonId
+        );
         //Splits the number from the id of the button
         let num = buttonId.split("n");
 
@@ -234,6 +304,79 @@ export function CommentViewer() {
 
         //Prevents the page from completely reloading
         event.preventDefault();
+        // let currentCommentID = "span" + commentId;
+        // let spanElement = document.getElementById(currentCommentID);
+
+        // if (spanElement) {
+        //     spanElement.removeAttribute("style", "background-color: yellow");
+        // }
+    };
+
+    const mouseover = async (event) => {
+        let inputId = event.target.id;
+
+        // let currentCommentID = "span" + commentId;
+
+        let num = inputId.split("t");
+        console.log(
+            "🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
+            num[1]
+        );
+
+        let tempCom = "span";
+        let tempComId = tempCom.concat(num[1].toString());
+        console.log(
+            "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
+            tempComId
+        );
+        console.log("here2");
+
+        if (document.getElementById(tempComId)) {
+            document
+                .getElementById(tempComId)
+                .setAttribute(
+                    "style",
+                    "background-color: rgb(0,0,255); color:black;"
+                );
+        } else {
+            console.log("HERE");
+        }
+
+        // console.log(document.getElementById(currentCommentID));
+
+        // let spanElement = document.getElementById(currentCommentID);
+
+        // spanElement.setAttribute(
+        //     "style",
+        //     "background-color: blue; color: white;"
+        // );
+    };
+
+    const mouseleave = async (event) => {
+        try {
+            let inputId = event.target.id;
+            console.log(
+                "🚀 ~ file: commentViewer.js:377 ~ mouseleave ~ inputId",
+                inputId
+            );
+
+            let num = inputId.split("t");
+
+            let tempCom = "span";
+
+            let tempComId = tempCom.concat(num[1].toString());
+
+            if (document.getElementById(tempComId)) {
+                document
+                    .getElementById(tempComId)
+                    .setAttribute(
+                        "style",
+                        "background-color: rgb(255,255,0); color:black;"
+                    );
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {
@@ -319,41 +462,103 @@ export function CommentViewer() {
     if (status === "authenticated") {
         return (
             <>
-                <button onClick={() => signOut()}>Log Out</button>
-                <button onClick={loadArticle}>Load Article</button>
+                <Button
+                    sx={{
+                        position: "absolute",
+                        right: 35,
+                        top: 25,
+                    }}
+                    variant="contained"
+                    color="error"
+                    onClick={() => signOut()}
+                >
+                    Log Out
+                </Button>
+                <Button
+                    sx={{
+                        position: "absolute",
+                        right: 25,
+                        top: 25,
+                    }}
+                    variant="contained"
+                    color="error"
+                    onClick={loadArticle}
+                >
+                    Load Article
+                </Button>
 
-                <div className={styles.editorDiv}>
-                    <div id="quillEditor" className={styles.Editor}>
-                        <br></br>
-                        <br></br>
-                        <form onSubmit={submit}>
-                            <QuillNoSSRWrapper
-                                id="article"
-                                modules={articleModules}
-                                value={value}
-                                onChange={setValue}
-                                formats={articleFormats}
-                                theme="snow"
-                            />
-                            <label>
-                                {/* Maybe explain better */}
-                                Check this box if the article completely review
-                                and all comments are resolved , if you want to
-                                come back to this article and comments, leave
-                                the box un-checked
-                            </label>
-                            <input id="checkbox" type="checkbox"></input>
-                            <button type="submit">Save Edits</button>
-                        </form>
-                        <p id="overallComments">overallComments: </p>
-                        <p id="comments"> </p>
-                        <br></br>
-
-                        <div id="notice" hidden>
-                            {/* make red */}
-                            <label>Please hightlight in the draft</label>
+                <div className={styles.comments}>
+                    <form onSubmit={submit}>
+                        <div id="quillEditor" className={styles.Editor}>
+                            <br></br>
+                            <br></br>
+                            <Box
+                                sx={{
+                                    backgroundColor: "white",
+                                }}
+                            >
+                                <QuillNoSSRWrapper
+                                    id="article"
+                                    modules={articleModules}
+                                    value={value}
+                                    onChange={setValue}
+                                    formats={articleFormats}
+                                    theme="snow"
+                                />
+                                <br></br>
+                                <br></br>
+                            </Box>
                         </div>
-                    </div>
+
+                        <label>
+                            {/* Maybe explain better */}
+                            Check this box if the article completely review and
+                            all comments are resolved , if you want to come back
+                            to this article and comments, leave the box
+                            un-checked
+                        </label>
+                        <input id="checkbox" type="checkbox"></input>
+                        <Button
+                            color="error"
+                            variant="contained"
+                            type="submit"
+                            // onClick={() => {
+                            //     submit;
+                            // }}
+                            sx={{ m: 1 }}
+                        >
+                            Submit Edits
+                        </Button>
+                    </form>
+                    <Typography variant="h4" color="white" sx={{ m: 1 }}>
+                        Overall Comments
+                    </Typography>{" "}
+                    <TextField
+                        sx={{
+                            marginLeft: 1,
+                            marginTop: 0,
+                            input: {
+                                color: "black",
+                                background: "white",
+                                borderRadius: 1,
+                            },
+                        }}
+                        variant="filled"
+                        id="overAllComments"
+                        name="overAllComments"
+                        aria-readonly
+                    ></TextField>
+                    {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
+                    <br></br>
+                    <Box id="commentsContainer">
+                        <Typography
+                            variant="h4"
+                            sx={{ margin: 1, marginTop: 2, color: "white" }}
+                        >
+                            Comments
+                        </Typography>
+                        <div id="currentComments">{allComments}</div>
+                    </Box>
                 </div>
             </>
         );
