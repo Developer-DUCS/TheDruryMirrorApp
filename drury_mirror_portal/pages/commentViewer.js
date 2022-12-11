@@ -217,7 +217,7 @@ export function CommentViewer() {
                                 // input.innerHTML = commentsArray[y];
                                 sx={{
                                     input: {
-                                        color: "white",
+                                        color: "black",
                                         background: "white",
                                         borderRadius: 1,
                                     },
@@ -284,16 +284,18 @@ export function CommentViewer() {
                 );
 
                 // ----------------------RENDER OBJECTS-------------------------- //
+                allComments.push(box);
+
                 const rootID = document.getElementById("currentComments");
-                const root = createRoot(rootID);
-                //root.render(allComments);
+
+                // const root = createRoot(rootID);
+                //render(rootID);
 
                 //
                 // allComments.forEach(element => {
 
                 // });
                 console.log(box.props.id);
-                allComments.push(box);
             }
         } else {
         }
@@ -344,24 +346,25 @@ export function CommentViewer() {
             "🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
             num[1]
         );
+        if (num[1]) {
+            let tempCom = "span";
+            let tempComId = tempCom.concat(num[1].toString());
+            console.log(
+                "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
+                tempComId
+            );
+            console.log("here2");
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-        console.log(
-            "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
-            tempComId
-        );
-        console.log("here2");
-
-        if (document.getElementById(tempComId)) {
-            document
-                .getElementById(tempComId)
-                .setAttribute(
-                    "style",
-                    "background-color: rgb(0,0,255); color:white;"
-                );
-        } else {
-            console.log("HERE");
+            if (document.getElementById(tempComId)) {
+                document
+                    .getElementById(tempComId)
+                    .setAttribute(
+                        "style",
+                        "background-color: rgb(0,0,255); color:white;"
+                    );
+            } else {
+                console.log("HERE");
+            }
         }
 
         // console.log(document.getElementById(currentCommentID));
@@ -383,18 +386,19 @@ export function CommentViewer() {
             );
 
             let num = inputId.split("t");
+            if (num[1]) {
+                let tempCom = "span";
 
-            let tempCom = "span";
+                let tempComId = tempCom.concat(num[1].toString());
 
-            let tempComId = tempCom.concat(num[1].toString());
-
-            if (document.getElementById(tempComId)) {
-                document
-                    .getElementById(tempComId)
-                    .setAttribute(
-                        "style",
-                        "background-color: rgb(255,255,0); color:black;"
-                    );
+                if (document.getElementById(tempComId)) {
+                    document
+                        .getElementById(tempComId)
+                        .setAttribute(
+                            "style",
+                            "background-color: rgb(255,255,0); color:black;"
+                        );
+                }
             }
         } catch (error) {
             console.log(error);
@@ -433,7 +437,7 @@ export function CommentViewer() {
 
                     // Make sure the response was recieved before setting the articles
                     if (article) {
-                        setArticle(article.reverse());
+                        setArticle(article);
                     }
                 }
             } else {
@@ -542,6 +546,39 @@ export function CommentViewer() {
                                 />
                             </Grid>
                         </Grid>
+                        <Typography
+                            variant="h4"
+                            color="white"
+                            sx={{ m: 1, marginTop: 2 }}
+                        >
+                            Overall Comments
+                        </Typography>{" "}
+                        <TextField
+                            sx={{
+                                marginLeft: 1,
+                                marginTop: 0,
+                                input: {
+                                    color: "white",
+                                    background: "white",
+                                    borderRadius: 1,
+                                },
+                            }}
+                            variant="filled"
+                            id="overAllComments"
+                            name="overAllComments"
+                            aria-readonly
+                        ></TextField>
+                        {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
+                        <br></br>
+                        <Box id="commentsContainer">
+                            <Typography
+                                variant="h4"
+                                sx={{ margin: 1, marginTop: 2, color: "white" }}
+                            >
+                                Comments
+                            </Typography>
+                            <div id="currentComments">{allComments}</div>
+                        </Box>
                         <Button
                             color="error"
                             variant="contained"
@@ -554,39 +591,6 @@ export function CommentViewer() {
                             Submit Edits
                         </Button>
                     </form>
-                    <Typography
-                        variant="h4"
-                        color="white"
-                        sx={{ m: 1, marginTop: 2 }}
-                    >
-                        Overall Comments
-                    </Typography>{" "}
-                    <TextField
-                        sx={{
-                            marginLeft: 1,
-                            marginTop: 0,
-                            input: {
-                                color: "white",
-                                background: "white",
-                                borderRadius: 1,
-                            },
-                        }}
-                        variant="filled"
-                        id="overAllComments"
-                        name="overAllComments"
-                        aria-readonly
-                    ></TextField>
-                    {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
-                    <br></br>
-                    <Box id="commentsContainer">
-                        <Typography
-                            variant="h4"
-                            sx={{ margin: 1, marginTop: 2, color: "white" }}
-                        >
-                            Comments
-                        </Typography>
-                        <div id="currentComments">{allComments}</div>
-                    </Box>
                 </div>
             </>
         );
