@@ -24,9 +24,7 @@ export default function MyApp({ Component, pageProps }) {
         curTheme = aboutTheme;
     }
 
-    if (router.pathname == "/testSplashPage") {
-        curTheme = theme;
-    }
+
 
     return (
         <React.Fragment>
