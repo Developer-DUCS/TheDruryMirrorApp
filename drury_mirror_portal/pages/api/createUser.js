@@ -11,14 +11,14 @@ export default (req, res) => {
     console.log(email);
 
     let createQuery =
-        "INSERT into users (email, password, roles, created, active) VALUES (?, ?, ?, NOW(), '1')";
+        "INSERT into users (fname, lname, email, password, roles, created, active) VALUES (?, ?, ?, ?, ?, NOW(), '1')";
 
     let existingQuery = "SELECT email FROM users WHERE email = ?";
 
     conn.query(existingQuery, [email], (err, rows) => {
         if (rows.length == 0) {
             console.log("no user found");
-            conn.query(createQuery, [email, password, roles], (err, rows) => {
+            conn.query(createQuery, [fname, lname, email, password, roles ], (err, rows) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: err });

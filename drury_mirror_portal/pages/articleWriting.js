@@ -4,15 +4,7 @@ import dynamic from "next/dynamic";
 import styles from "../styles/article.module.css";
 
 import { useRouter } from "next/router";
-import {
-    Button,
-    Container,
-    TextField,
-    Box,
-    Typography,
-    Checkbox,
-    Grid,
-} from "@mui/material";
+import { Button, Container, TextField, Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import React, { useState, useEffect } from "react";
@@ -340,10 +332,10 @@ export default function articleWriting() {
         );
     } else {
         return (
-            <>
-                <p>Please sign in</p>
-                <button onClick={redirectToSignIn}>Sign In</button>
-            </>
+        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
+            <Typography variant = "h2" color = "black">Please sign in</Typography>
+            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+        </Stack>
         );
     }
 }

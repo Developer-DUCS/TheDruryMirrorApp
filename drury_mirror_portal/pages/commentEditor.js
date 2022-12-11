@@ -20,7 +20,7 @@ import styles2 from "../styles/article.module.css";
 import { styled } from "@mui/material/styles";
 
 // Styling (Material UI) imports
-import { Button, Container, TextField, Box, Typography } from "@mui/material";
+import { Button, Container, TextField, Box, Typography, Stack } from "@mui/material";
 import { withStyles } from "@mui/styles";
 
 // React and Next imports
@@ -200,32 +200,32 @@ export function commentEditor() {
         console.log(commentId);
         //Grabs the cursor highlighted text
         var comment = window.getSelection().toString();
-        var comment2 = window.getSelection();
-        let start = comment2.anchorOffset;
+        // var comment2 = window.getSelection();
+        // let start = comment2.anchorOffset;
 
-        var selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            var range = selection.getRangeAt(0);
-            console.log(
-                "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
-                range
-            );
-            var documentFragment = range.cloneContents();
-            var myIndex = range.startOffset;
-            console.log(
-                "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
-                myIndex
-            );
-        }
-        console.log(documentFragment || "nothing selected");
+        // var selection = window.getSelection();
+        // if (selection.rangeCount > 0) {
+        //     var range = selection.getRangeAt(0);
+        //     console.log(
+        //         "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
+        //         range
+        //     );
+        //     var documentFragment = range.cloneContents();
+        //     var myIndex = range.startOffset;
+        //     console.log(
+        //         "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
+        //         myIndex
+        //     );
+        // }
+        // console.log(documentFragment || "nothing selected");
 
-        console.log(
-            "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
-            start
-        );
+        // console.log(
+        //     "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
+        //     start
+        // );
 
         //Identifies the index of the beginning of the comment
-        // let start = value.indexOf(comment);
+        let start = value.indexOf(comment);
 
         //empty arrays to fill and compare to check that the highlighted text or is not in the article
         let check = [];
@@ -438,7 +438,7 @@ export function commentEditor() {
                     .getElementById(tempComId)
                     .setAttribute(
                         "style",
-                        "background-color: rgb(0,0,255); color:black;"
+                        "background-color: rgb(0,0,255); color:white;"
                     );
             } else {
                 console.log("HERE");
@@ -606,7 +606,9 @@ export function commentEditor() {
         getArticleRoute();
     }, []);
 
-    if (status === "authenticated") {
+    const allowedRoles = ["Copy-Editor", "Editor-In-Chief"];
+
+    if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         return (
             // We pass the event to the handleSubmit() function on submit.
             <Box className={styles2.divWriting} sx={{ height: "100%" }}>
@@ -718,10 +720,10 @@ export function commentEditor() {
         );
     } else {
         return (
-            <>
-                <p>Please sign in</p>
-                <button onClick={redirectToSignIn}>Sign In</button>
-            </>
+        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
+            <Typography variant = "h2" color = "black">Please sign in</Typography>
+            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+        </Stack>
         );
     }
 }

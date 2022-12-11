@@ -18,7 +18,8 @@ import {
     Typography,
     Card,
     Toolbar,
-    Box
+    Box,
+    Stack,
 } from "@mui/material";
 
 import Header from "./header";
@@ -133,7 +134,7 @@ export function copyEditorPortal() {
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
-                        setArticles(articles);
+                        setArticles(articles.reverse());
                     }
                 }
             }
@@ -160,18 +161,20 @@ export function copyEditorPortal() {
     filterArticles();
     console.log("aritcle 1:", articles[0]);
 
-    if (status === "authenticated") {
+    const allowedRoles = ["Copy-Editor", "Editor-In-Chief"];
+
+    if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         return (
             <>
-                <Header sx={{marginBottom: 2}} />
+                <Header sx={{ marginBottom: 2 }} />
                 <Typography variant="copyEditorHeader" sx={{ m: 2 }}>
                     Article List
                 </Typography>
                 <br></br>
-                <Typography sx={{m: 2}} variant="userLabel">
-                        {data.user.fname} {data.user.lname}
-                    </Typography>
-                <Box sx={{marginTop: -2}}>
+                <Typography sx={{ m: 2 }} variant="userLabel">
+                    {data.user.fname} {data.user.lname}
+                </Typography>
+                <Box sx={{ marginTop: -2 }}>
                     {articles.map((article) => (
                         <Card
                             style={{
@@ -180,17 +183,26 @@ export function copyEditorPortal() {
                                 padding: 5,
                                 paddingLeft: 15,
                                 boxShadow: 4,
-                                backgroundColor: "#82858f"
+                                backgroundColor: "#82858f",
                             }}
                         >
-                            <Typography variant="headline" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="headline"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {article.headline}
                             </Typography>
                             <br></br>
-                            <Typography variant="author" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="author"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {article.author}
                             </Typography>
-                            <Typography variant="copyEditorBody" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="copyEditorBody"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {parse(article.body)}
                             </Typography>
                             <Button
@@ -226,10 +238,23 @@ export function copyEditorPortal() {
         );
     } else {
         return (
-            <>
-                <p>Please sign in</p>
-                <button onClick={redirectToSignIn}>Sign In</button>
-            </>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }

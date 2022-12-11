@@ -4,7 +4,7 @@ export default (req, res) => {
     console.log("called get user route");
     const body = req.body;
 
-    let getQuery = "SELECT email, password, roles, active FROM users";
+    let getQuery = "SELECT fname, lname, email, password, roles, active FROM users";
 
     conn.query(getQuery, (err, rows) => {
         if (err) {
@@ -21,6 +21,8 @@ export default (req, res) => {
                     password: row.password,
                     roles: row.roles,
                     active: row.active,
+                    fname: row.fname,
+                    lname: row.lname
                 };
                 if (user.roles != "Manager") {
                     users.push(user);
