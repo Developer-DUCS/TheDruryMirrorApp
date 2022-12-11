@@ -37,7 +37,7 @@ export default function about() {
                         the Computer Science department, we have developed a
                         website portal for the Drury Mirror to create, edit, and
                         publish articles for their brand new app. This allows
-                        Drury students to be informed and consume news
+                        Drury students to be informed and consume news.
                     </Typography>
                 </Box>
                 <Box sx={{ paddingLeft: "10%", marginTop: 4 }}>
