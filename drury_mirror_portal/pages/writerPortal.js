@@ -19,8 +19,14 @@ import {
     Grid,
     Typography,
     Card,
+    CardContent,
+    CardHeader,
+    CardMedia,
     Toolbar,
+    Box,
 } from "@mui/material";
+
+import Header from "./header";
 
 export function writerPortal() {
     const router = useRouter();
@@ -110,59 +116,41 @@ export function writerPortal() {
     if (status === "authenticated") {
         return (
             <>
-                <Toolbar sx={{ marginTop: "10px" }}>
-                    <Typography variant="h2" sx={{ flexGrow: 5 }}>
-                        Drury Mirror
-                    </Typography>
+                <Header/>
 
-                    <Button
-                        variant="contained"
-                        sx={{
-                            marginRight: 3,
-                            color: "white",
-                            backgroundColor: "#4685F5",
-                        }}
-                        onClick={writeDraftRoute}
-                    >
-                        Write Draft
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => signOut()}
-                    >
-                        Log Out
-                    </Button>
-                </Toolbar>
-
-                <Typography variant="h2" sx={{ marginLeft: 3 }}>
+                <Typography variant="copyEditorHeader" sx={{ m: 2 }}>
                     Article List
                 </Typography>
-                <div>
+                <br></br>
+                <Typography sx={{m: 2}} variant="userLabel">
+                        {data.user.fname} {data.user.lname}
+                    </Typography>
+                <Box sx={{marginTop: -2}}>
                     {articles.map((article) => (
                         <Card
                             style={{
-                                backgroundColor: "#41414B",
                                 margin: 15,
+                                marginTop: 30,
                                 padding: 5,
                                 paddingLeft: 15,
-                                boxShadow: 2,
+                                boxShadow: 4,
+                                backgroundColor: "#82858f"
                             }}
                         >
-                            <Typography variant="h3">
+                            <Typography variant="headline" sx={{color: "#F3f3f3"}}>
                                 {article.headline}
                             </Typography>
-                            <Typography variant="h5">
-                                By: {article.author}
+                            <br></br>
+                            <Typography variant="author" sx={{color: "#F3f3f3"}}>
+                                {article.author}
                             </Typography>
-                            <Typography variant="h5">
+                            <Typography variant="copyEditorBody" sx={{color: "#F3f3f3"}}>
                                 {parse(article.body)}
                             </Typography>
                             <Button
                                 id={article.aid}
-                                onClick={seeCommentsRoute}
                                 variant="contained"
+                                onClick={editArticleRoute}
                                 sx={{
                                     marginBottom: 1,
                                     marginRight: 5,
@@ -170,11 +158,24 @@ export function writerPortal() {
                                     backgroundColor: "#4685F5",
                                 }}
                             >
-                                See Comments
+                                Edit Article
+                            </Button>
+                            <Button
+                                id={article.aid}
+                                variant="contained"
+                                onClick={readyToPublish}
+                                sx={{
+                                    marginBottom: 1,
+                                    marginRight: 5,
+                                    color: "white",
+                                    backgroundColor: "#4685F5",
+                                }}
+                            >
+                                Ready to Publish
                             </Button>
                         </Card>
                     ))}
-                </div>
+                </Box>
             </>
         );
     } else {

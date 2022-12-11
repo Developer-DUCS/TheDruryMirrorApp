@@ -14,6 +14,14 @@
     font-size: xxx-large;
 }
 
+.comments{
+    display: "flex";
+    padding: 10px;
+    padding-top: 2.3%;
+    background-color: #303030;
+    height: 100vh;
+}
+
 .draftButton{
     float: right;
     padding: 1%;
@@ -60,7 +68,6 @@
 }
 
 .divWriting{
-    padding: 20px;
     background-color: #303030;
     height: 100vh;
 }

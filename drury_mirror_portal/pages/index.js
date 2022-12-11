@@ -49,7 +49,7 @@ export default function LoginPage() {
                             className={styles.formContainer}
                         >
                             <Grid item>
-                                <Typography variant="logoHeader">
+                                <Typography variant="logo">
                                     Drury Mirror
                                 </Typography>
                             </Grid>

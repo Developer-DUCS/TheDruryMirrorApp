@@ -15,7 +15,15 @@
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/article.module.css";
 import styles2 from "../styles/article.module.css";
-import { Button, Container, TextField, Box, Typography } from "@mui/material";
+import {
+    Button,
+    Container,
+    TextField,
+    Box,
+    Typography,
+    Checkbox,
+    Grid,
+} from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { createRoot, hydrateRoot } from "react-dom/client";
 
@@ -25,6 +33,8 @@ import { useSession, signOut, getSession } from "next-auth/react";
 
 import React, { useState, useEffect } from "react";
 import { getElementById } from "domutils";
+
+import Header from "./header";
 
 const QuillNoSSRWrapper = dynamic(import("react-quill"), {
     ssr: false,
@@ -39,21 +49,21 @@ const CssTextField = withStyles({
             background: "white",
         },
         "& label.Mui-focused": {
-            color: "black",
+            color: "white",
         },
         "& .MuiInput-underline:after": {
-            borderBottomColor: "black",
-            backgroundColor: "black",
+            borderBottomcolor: "white",
+            backgroundcolor: "white",
         },
         "& .MuiOutlinedInput-root": {
             "& fieldset": {
-                borderColor: "black",
+                bordercolor: "white",
             },
             "&:hover fieldset": {
-                borderColor: "black",
+                bordercolor: "white",
             },
             "&.Mui-focused fieldset": {
-                borderColor: "black",
+                bordercolor: "white",
             },
         },
     },
@@ -196,7 +206,7 @@ export function CommentViewer() {
                                 // input.innerHTML = commentsArray[y];
                                 sx={{
                                     input: {
-                                        color: "black",
+                                        color: "white",
                                         background: "white",
                                         borderRadius: 1,
                                     },
@@ -462,36 +472,18 @@ export function CommentViewer() {
     if (status === "authenticated") {
         return (
             <>
-                <Button
-                    sx={{
-                        position: "absolute",
-                        right: 35,
-                        top: 25,
-                    }}
-                    variant="contained"
-                    color="error"
-                    onClick={() => signOut()}
-                >
-                    Log Out
-                </Button>
-                <Button
-                    sx={{
-                        position: "absolute",
-                        right: 25,
-                        top: 25,
-                    }}
-                    variant="contained"
-                    color="error"
-                    onClick={loadArticle}
-                >
-                    Load Article
-                </Button>
-
+                <Header />
                 <div className={styles.comments}>
+                    <Button
+                        sx={{ marginLeft: 0, marginBottom: 3}}
+                        variant="contained"
+                        color="error"
+                        onClick={loadArticle}
+                    >
+                        Load Article
+                    </Button>
                     <form onSubmit={submit}>
                         <div id="quillEditor" className={styles.Editor}>
-                            <br></br>
-                            <br></br>
                             <Box
                                 sx={{
                                     backgroundColor: "white",
@@ -509,15 +501,35 @@ export function CommentViewer() {
                                 <br></br>
                             </Box>
                         </div>
-
-                        <label>
-                            {/* Maybe explain better */}
-                            Check this box if the article completely review and
-                            all comments are resolved , if you want to come back
-                            to this article and comments, leave the box
-                            un-checked
-                        </label>
-                        <input id="checkbox" type="checkbox"></input>
+                        <Grid
+                            container
+                            sx={{
+                                marginTop: 4,
+                                display: "flex",
+                                flexDirection: "row",
+                            }}
+                        >
+                            <Grid item>
+                                <Typography
+                                    sx={{ color: "white", marginLeft: 1 }}
+                                >
+                                    {/* Maybe explain better */}
+                                    Ready for Edits
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Checkbox
+                                    id="checkbox"
+                                    color="error"
+                                    sx={{
+                                        color: "white",
+                                        marginTop: -1,
+                                        marginLeft: 1,
+                                        bordercolor: "white",
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
                         <Button
                             color="error"
                             variant="contained"
@@ -525,12 +537,12 @@ export function CommentViewer() {
                             // onClick={() => {
                             //     submit;
                             // }}
-                            sx={{ m: 1 }}
+                            sx={{ m: 1}}
                         >
                             Submit Edits
                         </Button>
                     </form>
-                    <Typography variant="h4" color="white" sx={{ m: 1 }}>
+                    <Typography variant="h4" color="white" sx={{ m: 1, marginTop: 2 }}>
                         Overall Comments
                     </Typography>{" "}
                     <TextField
@@ -538,7 +550,7 @@ export function CommentViewer() {
                             marginLeft: 1,
                             marginTop: 0,
                             input: {
-                                color: "black",
+                                color: "white",
                                 background: "white",
                                 borderRadius: 1,
                             },

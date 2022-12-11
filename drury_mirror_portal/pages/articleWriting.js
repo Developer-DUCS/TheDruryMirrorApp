@@ -4,11 +4,21 @@ import dynamic from "next/dynamic";
 import styles from "../styles/article.module.css";
 
 import { useRouter } from "next/router";
-import { Button, Container, TextField, Box } from "@mui/material";
+import {
+    Button,
+    Container,
+    TextField,
+    Box,
+    Typography,
+    Checkbox,
+    Grid,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import React, { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
+
+import Header from "./header";
 
 //import parse from 'html-react-parser';
 
@@ -221,24 +231,9 @@ export default function articleWriting() {
             <>
                 <div className={styles.divWriting}>
                     <div>
+                        <Header />
                         <Button
-                            sx={{
-                                position: "absolute",
-                                right: 35,
-                                top: 25,
-                            }}
-                            variant="contained"
-                            color="error"
-                            onClick={() => signOut()}
-                        >
-                            Log Out
-                        </Button>
-                        <Button
-                            sx={{
-                                position: "absolute",
-                                right: 25,
-                                top: 25,
-                            }}
+                            sx={{ m: 2 }}
                             variant="contained"
                             color="error"
                             onClick={loadArticle}
@@ -299,17 +294,36 @@ export default function articleWriting() {
                         </Box>
                         <br></br>
                         <br></br>
-                        <label>
-                            {/* Maybe explain better */}
-                            Check this box if the article is ready to be edited,
-                            if you want to come back to this article, leave the
-                            box un-checked
-                        </label>
-                        <input id="checkbox" type="checkbox"></input>
+                        <Grid
+                            container
+                            sx={{ display: "flex", flexDirection: "row" }}
+                        >
+                            <Grid item>
+                                <Typography
+                                    sx={{ color: "white", marginLeft: 2 }}
+                                >
+                                    {/* Maybe explain better */}
+                                    Ready for Edits
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Checkbox
+                                    id="checkbox"
+                                    color="error"
+                                    sx={{
+                                        color: "white",
+                                        marginTop: -1,
+                                        marginLeft: 1,
+                                        borderColor: "white",
+                                    }}
+                                />
+                            </Grid>
+                        </Grid>
+                        {/* <input id="checkbox" type="checkbox"></input> */}
 
                         <Button
                             sx={{
-                                marginLeft: 2,
+                                m: 2,
                             }}
                             color="error"
                             variant="contained"

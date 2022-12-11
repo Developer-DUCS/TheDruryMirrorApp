@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import {
     ThemeProvider,
     Typography,
+    Box,
+    Button,
     IconButton,
     Stack,
     Container,
@@ -76,15 +78,57 @@ export function testSplashPage() {
 
         return (
             <div>
-                <Typography variant="h2" sx={{ flexGrow: 5 }}>
-                    Drury Mirror Web Portal
+                <Typography
+                    variant="splashHeader"
+                    sx={{ display: "flex", justifyContent: "center" }}
+                >
+                    Drury Mirror
                 </Typography>
-                <Typography variant="h3" sx={{ flexGrow: 5 }}>
-                    Welcome {data.user.fname} {data.user.lname} <br></br>
-                    {data.user.email} <br></br>
-                    Role: {role} <br></br>
+                <Typography
+                    variant="splashSubheader"
+                    sx={{ display: "flex", justifyContent: "center" }}
+                >
+                    Web Portal
                 </Typography>
-                <button onClick={() => signOut()}>Sign out</button>
+                <Grid
+                    container
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignContent: "space-around",
+                        flexDirection: "column",
+                    }}
+                >
+                    <Grid item>
+                        <Typography
+                            variant="spashBody"
+                            sx={{
+                                width: "20%",
+                            }}
+                        >
+                            Welcome, {data.user.fname} {data.user.lname}.
+                        </Typography>
+                    </Grid>
+                    <Grid
+                        item
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignContent: "space-around",
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() => {
+                                signOut();
+                            }}
+                            sx={{ marginTop: 2 }}
+                        >
+                            Sign Out
+                        </Button>
+                    </Grid>
+                </Grid>
                 <Grid container direction="column" spacing={3}>
                     <Grid
                         container
@@ -114,7 +158,7 @@ export function testSplashPage() {
                                             />
                                         </IconButton>
                                     </Buttonavatar>
-                                    <Typography variant="h5">
+                                    <Typography variant="buttonLabel">
                                         Write Article
                                     </Typography>
                                 </Stack>
@@ -144,7 +188,7 @@ export function testSplashPage() {
                                             />
                                         </IconButton>
                                     </Buttonavatar>
-                                    <Typography variant="h5">
+                                    <Typography variant="buttonLabel">
                                         See Edits
                                     </Typography>
                                 </Stack>
@@ -173,7 +217,7 @@ export function testSplashPage() {
                                             />
                                         </IconButton>
                                     </Buttonavatar>
-                                    <Typography variant="h5">
+                                    <Typography variant="buttonLabel">
                                         Edit Articles
                                     </Typography>
                                 </Stack>
@@ -203,7 +247,9 @@ export function testSplashPage() {
                                             />
                                         </IconButton>
                                     </Buttonavatar>
-                                    <Typography variant="h5">Drafts</Typography>
+                                    <Typography variant="buttonLabel">
+                                        Drafts
+                                    </Typography>
                                 </Stack>
                             </Grid>
                         ) : (
@@ -236,7 +282,7 @@ export function testSplashPage() {
                                             />
                                         </IconButton>
                                     </Buttonavatar>
-                                    <Typography variant="h5">
+                                    <Typography variant="buttonLabel">
                                         Publish Articles
                                     </Typography>
                                 </Stack>
@@ -262,7 +308,7 @@ export function testSplashPage() {
                                         />
                                     </IconButton>
                                 </Buttonavatar>
-                                <Typography variant="h5">
+                                <Typography variant="buttonLabel">
                                     Upload Articles
                                 </Typography>
                             </Stack>
@@ -287,7 +333,7 @@ export function testSplashPage() {
                                             />
                                         </IconButton>
                                     </Buttonavatar>
-                                    <Typography variant="h5">
+                                    <Typography variant="buttonLabel">
                                         Site Settings
                                     </Typography>
                                 </Stack>

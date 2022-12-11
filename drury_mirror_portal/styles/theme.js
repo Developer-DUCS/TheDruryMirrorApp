@@ -12,12 +12,55 @@ export const theme = createTheme({
     background: {
       default: "#F3F3F3"
     },
+    primaryButton: {
+      main:"#4685F5",
+    },
   },
   typography:{
-    logoHeader: {
+    splashHeader: {
+      fontFamily: "Trajan",
+      fontSize: "58px",
+    },
+    splashSubheader: {
+      fontFamily: "Trajan",
+      fontSize: "42px",
+    },
+    splashBody: {
+      fontFamily: "AvantGarde",
+      fontSize: "24px",
+    },
+    buttonLabel: {
+      fontFamily: "BrownRegular",
+      fontSize: "24px"
+    },
+    logo: {
       fontFamily: "Trajan",
       fontSize: "72px",
-    }
+    },
+    logoHeader: {
+      fontFamily: "Trajan",
+      fontSize: "28px",
+    },
+    userLabel: {
+      fontFamily: "BrownRegular",
+      fontSize: "22px",
+    },
+    copyEditorHeader: {
+      fontFamily: "Trajan",
+      fontSize: "24px",
+    },
+    copyEditorBody: {
+      fontFamily: "AvantGarde",
+      fontSize: "18px",
+    },
+    headline: {
+      fontFamily: "AvantGarde",
+      fontSize: "24px",
+    },
+    author: {
+      fontFamily: "AvantGarde",
+      fontSize: "18px",
+    },
   }
 });
 
@@ -115,23 +158,23 @@ theme.typography.h1 = {
 }
 theme.typography.h2 = {
   fontSize: '2rem',
-  color: "#fff",
+  color: "black",
   fontFamily: 'Garamond-Regular',
 }
 theme.typography.h3 = {
   fontSize: '1.25rem',
-  color: "#fff",
+  color: "black",
   fontFamily: 'Garamond-Regular',
 }
 theme.typography.h5={
   fontSize: '1rem',
-  color: "#fff",
+  color: "black",
   fontFamily: 'Garamond-Regular',
   fontWeight: 50,
 }
 theme.typography.paragraph={
   fontSize: '1rem',
-  color: "#fff",
+  color: "black",
   fontFamily: 'Garamond-Regular',
   fontWeight: 30,
 }

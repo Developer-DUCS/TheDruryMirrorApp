@@ -18,7 +18,10 @@ import {
     Typography,
     Card,
     Toolbar,
+    Box
 } from "@mui/material";
+
+import Header from "./header";
 
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -45,11 +48,6 @@ export function copyEditorPortal() {
             pathname: "commentEditor",
             query: { id: event.currentTarget.id },
         });
-    };
-
-    // Handle the write draft button
-    const writeDraftRoute = async (event) => {
-        router.push("articleWriting");
     };
 
     const readyToPublish = async (event) => {
@@ -156,53 +154,34 @@ export function copyEditorPortal() {
     if (status === "authenticated") {
         return (
             <>
-                <Toolbar sx={{ marginTop: "10px" }}>
-                    <Typography variant="h2" sx={{ flexGrow: 5 }}>
-                        Drury Mirror
-                    </Typography>
-
-                    <Button
-                        variant="contained"
-                        sx={{
-                            marginRight: 3,
-                            color: "white",
-                            backgroundColor: "#4685F5",
-                        }}
-                        onClick={writeDraftRoute}
-                    >
-                        Write Draft
-                    </Button>
-
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => signOut()}
-                    >
-                        Log Out
-                    </Button>
-                </Toolbar>
-
-                <Typography variant="h2" sx={{ marginLeft: 3 }}>
+                <Header sx={{marginBottom: 2}} />
+                <Typography variant="copyEditorHeader" sx={{ m: 2 }}>
                     Article List
                 </Typography>
-                <div>
+                <br></br>
+                <Typography sx={{m: 2}} variant="userLabel">
+                        {data.user.fname} {data.user.lname}
+                    </Typography>
+                <Box sx={{marginTop: -2}}>
                     {articles.map((article) => (
                         <Card
                             style={{
-                                backgroundColor: "#41414B",
                                 margin: 15,
+                                marginTop: 30,
                                 padding: 5,
                                 paddingLeft: 15,
-                                boxShadow: 2,
+                                boxShadow: 4,
+                                backgroundColor: "#82858f"
                             }}
                         >
-                            <Typography variant="h3">
+                            <Typography variant="headline" sx={{color: "#F3f3f3"}}>
                                 {article.headline}
                             </Typography>
-                            <Typography variant="h5">
+                            <br></br>
+                            <Typography variant="author" sx={{color: "#F3f3f3"}}>
                                 {article.author}
                             </Typography>
-                            <Typography variant="h5">
+                            <Typography variant="copyEditorBody" sx={{color: "#F3f3f3"}}>
                                 {parse(article.body)}
                             </Typography>
                             <Button
@@ -233,7 +212,7 @@ export function copyEditorPortal() {
                             </Button>
                         </Card>
                     ))}
-                </div>
+                </Box>
             </>
         );
     } else {

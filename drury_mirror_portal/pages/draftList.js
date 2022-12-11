@@ -12,6 +12,22 @@ import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+import {
+    TextField,
+    Button,
+    FormGroup,
+    Grid,
+    Typography,
+    Card,
+    CardContent,
+    CardHeader,
+    CardMedia,
+    Toolbar,
+    Box,
+} from "@mui/material";
+
+import Header from "./header";
+
 export function draftList() {
     const router = useRouter();
     const { status, data } = useSession();
@@ -103,25 +119,15 @@ export function draftList() {
 
         return (
             <>
+                <Header />
                 <p id="article"></p>
-                <div className={styles.divWelcome}>
-                    <p>
+                <Box sx={{marginLeft: "15%"}}>
+                    <Typography sx={{m: 1, marginLeft: 0}} variant="userLabel">
                         {data.user.fname} {data.user.lname}
-                    </p>
-                    <text className={styles.welcome}>Draft List</text>
-                    <button
-                        className={styles.draftButton}
-                        onClick={() => signOut()}
-                    >
-                        Log Out
-                    </button>
-                    <button
-                        className={styles.draftButton}
-                        onClick={writeDraftRoute}
-                    >
-                        Write Draft
-                    </button>
-                </div>
+                    </Typography>
+                    <br></br>
+                    <Typography sx={{m: 1, marginLeft: 0}}  variant="userLabel">Drafts</Typography>
+                </Box>
                 {articles.length != 0 ? (
                     <div className={styles.divArticle}>
                         <ul>
@@ -146,7 +152,15 @@ export function draftList() {
                         </ul>
                     </div>
                 ) : (
-                    <p>You don't have any articles</p>
+                    <>
+                        <Card sx={{marginTop: 2, marginLeft: "15%", width: "30%"}}>
+                            <CardContent>
+                                <Typography>
+                                    You don't have any articles.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </>
                 )}
             </>
         );
