@@ -20,8 +20,18 @@ import styles2 from "../styles/article.module.css";
 import { styled } from "@mui/material/styles";
 
 // Styling (Material UI) imports
-import { Button, Container, TextField, Box, Typography, Stack } from "@mui/material";
+import {
+    Button,
+    Container,
+    TextField,
+    Box,
+    Typography,
+    Stack,
+    Grid,
+} from "@mui/material";
 import { withStyles } from "@mui/styles";
+
+import Header from "./header";
 
 // React and Next imports
 import { ReactDOM } from "react";
@@ -611,119 +621,127 @@ export function commentEditor() {
     if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         return (
             // We pass the event to the handleSubmit() function on submit.
-            <Box className={styles2.divWriting} sx={{ height: "100%" }}>
+            <Box className={styles2.divWriting} sx={{ height: "100%", backgroundColor: "#303030" }}>
+                <Header />
                 <Button
-                    sx={{
-                        position: "absolute",
-                        right: 35,
-                        top: 25,
-                    }}
-                    variant="contained"
-                    color="error"
-                    onClick={() => signOut()}
-                >
-                    Log Out
-                </Button>
-                <Button
-                    sx={{
-                        position: "absolute",
-                        right: 25,
-                        top: 25,
-                    }}
+                    sx={{ marginLeft: 2, marginBottom: 2 }}
                     variant="contained"
                     color="error"
                     onClick={loadArticle}
                 >
                     Load Article
                 </Button>
-
-                <div id="quillEditor" className={styles.Editor}>
+                <br></br>
+                <Grid Container sx={{display: "flex", width: "100%", flexDirection: "row"}}>
+                    <Grid item sx={{width: "60%", marginLeft: 2}}>
                     <Button
                         size="small"
                         sx={{
                             backgroundColor: "white",
                             p: 1,
+                            marginBottom: 1,
                         }}
                         onClick={addComment}
                     >
                         Add Comment
                     </Button>
+                        <Box id="quillEditor">
 
-                    <br></br>
-                    <br></br>
-                    <Box
-                        sx={{
-                            backgroundColor: "white",
-                        }}
-                    >
-                        <QuillNoSSRWrapper
-                            id="article"
-                            modules={articleModules}
-                            value={value}
-                            onChange={setValue}
-                            formats={articleFormats}
-                            theme="snow"
-                        />
-                        <br></br>
-                        <br></br>
-                    </Box>
-                    <div id="notice" hidden>
-                        {/* make red */}
-                        <text>Please hightlight in the draft</text>
-                    </div>
-                </div>
-
-                <div className={styles.comments}>
-                    <form onSubmit={submit}>
-                        <Typography variant="h4" color="white" sx={{ m: 1 }}>
-                            Overall Comments
-                        </Typography>{" "}
-                        <TextField
-                            sx={{
-                                marginLeft: 1,
-                                marginTop: 0,
-                                input: {
-                                    color: "black",
-                                    background: "white",
-                                    borderRadius: 1,
-                                },
-                            }}
-                            variant="filled"
-                            id="overAllComments"
-                            name="overAllComments"
-                        ></TextField>
-                        {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
-                        <br></br>
-                        <Box id="commentsContainer">
+                            <Box
+                                sx={{
+                                    backgroundColor: "white", marginTop: 1
+                                }}
+                            >
+                                <QuillNoSSRWrapper
+                                    id="article"
+                                    modules={articleModules}
+                                    value={value}
+                                    onChange={setValue}
+                                    formats={articleFormats}
+                                    theme="snow"
+                                />
+                                <br></br>
+                                <br></br>
+                            </Box>
+                            <div id="notice" hidden>
+                                {/* make red */}
+                                <text>Please hightlight in the draft</text>
+                            </div>
+                        </Box>
+                    </Grid>
+                    <Grid item sx={{width: "40%", marginLeft: 2}} >
+                        <form onSubmit={submit}>
                             <Typography
                                 variant="h4"
-                                sx={{ margin: 1, marginTop: 2, color: "white" }}
+                                color="white"
+                                sx={{ m: 1 }}
                             >
-                                Comments
-                            </Typography>
-                            <div id="currentComments">{allComments}</div>
-                        </Box>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            type="submit"
-                            // onClick={() => {
-                            //     submit;
-                            // }}
-                            sx={{ m: 1 }}
-                        >
-                            Submit Edits
-                        </Button>
-                    </form>
-                </div>
+                                Overall Comments
+                            </Typography>{" "}
+                            <TextField
+                                sx={{
+                                    marginLeft: 1,
+                                    marginTop: 0,
+                                    input: {
+                                        color: "black",
+                                        background: "white",
+                                        borderRadius: 1,
+                                    },
+                                }}
+                                variant="filled"
+                                id="overAllComments"
+                                name="overAllComments"
+                            ></TextField>
+                            {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
+                            <br></br>
+                            <Box id="commentsContainer">
+                                <Typography
+                                    variant="h4"
+                                    sx={{
+                                        margin: 1,
+                                        marginTop: 2,
+                                        color: "white",
+                                    }}
+                                >
+                                    Comments
+                                </Typography>
+                                <div id="currentComments">{allComments}</div>
+                            </Box>
+                            <Button
+                                color="error"
+                                variant="contained"
+                                type="submit"
+                                // onClick={() => {
+                                //     submit;
+                                // }}
+                                sx={{ m: 1 }}
+                            >
+                                Submit Edits
+                            </Button>
+                        </form>
+                    </Grid>
+                </Grid>
             </Box>
         );
     } else {
         return (
-        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-            <Typography variant = "h2" color = "black">Please sign in</Typography>
-            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
-        </Stack>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }

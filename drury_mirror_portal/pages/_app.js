@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme, mainTheme, aboutTheme} from "../styles/theme";
+import { theme, mainTheme, aboutTheme, editorTheme} from "../styles/theme";
 import "../styles/globals.css";
 
 import { SessionProvider } from "next-auth/react";
@@ -24,7 +24,17 @@ export default function MyApp({ Component, pageProps }) {
         curTheme = aboutTheme;
     }
 
+    if (router.pathname == "/commentViewer") {
+        curTheme = editorTheme;
+    }
 
+    if (router.pathname == "/commentEditor") {
+        curTheme = editorTheme;
+    }
+
+    if (router.pathname == "/articleWriting") {
+        curTheme = editorTheme;
+    }
 
     return (
         <React.Fragment>
