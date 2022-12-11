@@ -19,6 +19,7 @@ import {
     Card,
     Toolbar,
     Box,
+    Stack,
 } from "@mui/material";
 
 import Header from "./header";
@@ -124,7 +125,7 @@ export function copyEditorPortal() {
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
-                        setArticles(articles);
+                        setArticles(articles.reverse());
                     }
                 }
             }

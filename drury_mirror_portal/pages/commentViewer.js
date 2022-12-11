@@ -421,7 +421,7 @@ export function CommentViewer() {
 
                     // Make sure the response was recieved before setting the articles
                     if (article) {
-                        setArticle(article);
+                        setArticle(article.reverse());
                     }
                 }
             } else {
