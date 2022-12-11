@@ -28,6 +28,8 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
 
+
+
 //Populates the page
 export function copyEditorPortal() {
     const parse = require("html-react-parser");
@@ -52,6 +54,9 @@ export function copyEditorPortal() {
     };
 
     const readyToPublish = async (event) => {
+
+
+
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         // Get data from the form.
@@ -86,6 +91,10 @@ export function copyEditorPortal() {
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         const result = await response.json();
+
+        //reload page upon click of button
+        router.reload();
+
     };
 
     useEffect(() => {
@@ -125,7 +134,7 @@ export function copyEditorPortal() {
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
-                        setArticles(articles);
+                        setArticles(articles.reverse());
                     }
                 }
             }

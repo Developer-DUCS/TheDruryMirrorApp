@@ -167,6 +167,9 @@ export function CommentViewer() {
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         const result = await response.json();
+
+        //reload the page after submit
+        router.reload();
     };
 
     const loadArticle = (event) => {
@@ -430,7 +433,7 @@ export function CommentViewer() {
 
                     // Make sure the response was recieved before setting the articles
                     if (article) {
-                        setArticle(article);
+                        setArticle(article.reverse());
                     }
                 }
             } else {

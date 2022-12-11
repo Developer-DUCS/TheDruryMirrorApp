@@ -545,6 +545,9 @@ export function commentEditor() {
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         const result = await response.json();
+
+        //reload page upon submit
+        router.reload();
     };
 
     const loadArticle = (event) => {

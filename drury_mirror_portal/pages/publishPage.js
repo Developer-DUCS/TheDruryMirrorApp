@@ -58,6 +58,9 @@ export function draftList() {
         };
 
         let response = await fetch(endpoint, options);
+
+        //reload page upon click of button
+        router.reload();
     };
 
     useEffect(() => {
@@ -92,7 +95,7 @@ export function draftList() {
 
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
-                        setArticles(articles);
+                        setArticles(articles.reverse());
                     }
                 }
             }

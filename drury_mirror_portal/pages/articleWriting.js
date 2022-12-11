@@ -169,6 +169,9 @@ export default function articleWriting() {
             // If server returns the name submitted, that means the form works.
             const result = await response.json();
         }
+
+        // reload page upon submit
+        router.reload();
     };
 
     useEffect(() => {
