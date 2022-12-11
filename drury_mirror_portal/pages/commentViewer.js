@@ -197,6 +197,7 @@ export function CommentViewer() {
             for (let y = 0; y < commentsArray.length; y++) {
                 let tempid = inputArray[y];
                 let idnum = tempid.split("t");
+                console.log("comment: ", commentsArray[y]);
                 const styledCommentBox = () => {
                     return (
                         <>
@@ -279,6 +280,7 @@ export function CommentViewer() {
                 // ----------------------RENDER OBJECTS-------------------------- //
                 const rootID = document.getElementById("currentComments");
                 const root = createRoot(rootID);
+                //root.render(box);
 
                 //
                 // allComments.forEach(element => {
@@ -350,7 +352,7 @@ export function CommentViewer() {
                 .getElementById(tempComId)
                 .setAttribute(
                     "style",
-                    "background-color: rgb(0,0,255); color:black;"
+                    "background-color: rgb(0,0,255); color:white;"
                 );
         } else {
             console.log("HERE");
