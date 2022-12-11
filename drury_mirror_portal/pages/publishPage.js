@@ -20,6 +20,7 @@ import {
     Box,
     Typography,
     Stack,
+    Card
 } from "@mui/material";
 
 import Header from "./header";
