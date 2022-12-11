@@ -13,6 +13,8 @@ import styles from "../styles/article.module.css";
 import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
+import { Button, Container, TextField, Box, Typography, Stack } from "@mui/material";
+
 
 export function draftList() {
     const router = useRouter();
@@ -177,10 +179,10 @@ export function draftList() {
         );
     } else {
         return (
-            <>
-                <p>Please sign in</p>
-                <button onClick={redirectToSignIn}>Sign In</button>
-            </>
+            <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
+                <Typography variant = "h2" color = "black">Please sign in</Typography>
+                <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+            </Stack>
         );
     }
 }

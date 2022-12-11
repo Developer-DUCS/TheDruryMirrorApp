@@ -39,11 +39,11 @@ export const theme = createTheme({
     },
     logoHeader: {
       fontFamily: "Trajan",
-      fontSize: "28px",
+      fontSize: "32px",
     },
     userLabel: {
       fontFamily: "BrownRegular",
-      fontSize: "22px",
+      fontSize: "20px",
     },
     copyEditorHeader: {
       fontFamily: "Trajan",
@@ -60,6 +60,10 @@ export const theme = createTheme({
     author: {
       fontFamily: "AvantGarde",
       fontSize: "18px",
+    },
+    managerPortalLabel: {
+      fontFamily: "BrownRegular",
+      fontSize: "24px",
     },
   }
 });
