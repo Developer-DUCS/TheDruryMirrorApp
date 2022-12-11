@@ -312,7 +312,7 @@ export function testSplashPage() {
                                         </IconButton>
                                     </Buttonavatar>
                                     <Typography variant="buttonLabel">
-                                        Site Settings
+                                        User Settings
                                     </Typography>
                                 </Stack>
                             </Grid>
