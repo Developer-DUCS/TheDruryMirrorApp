@@ -30,6 +30,7 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
+    Checkbox,
 } from "@mui/material";
 
 import { useRouter } from "next/router";
@@ -211,6 +212,7 @@ function managerPortal({ users }) {
         },
         "& .MuiInputBase-input": {
             borderRadius: 4,
+            width: 100,
             position: "relative",
             backgroundColor: theme.palette.background.paper,
             border: "1px solid #ced4da",
@@ -244,13 +246,19 @@ function managerPortal({ users }) {
             <CardContent sx={{ paddingBottom: 0 }}>
                 <Grid container direction="column">
                     <Grid item xs={6}>
-                        <Typography variant="userLabel" sx={{ marginBottom: 0.5 }}>
+                        <Typography
+                            variant="userLabel"
+                            sx={{ marginBottom: 0.5 }}
+                        >
                             Email
                         </Typography>
                         <Typography variant="body1" sx={{ marginBottom: 2 }}>
                             {props.email}
                         </Typography>
-                        <Typography variant="userLabel" sx={{ marginBottom: 0.5 }}>
+                        <Typography
+                            variant="userLabel"
+                            sx={{ marginBottom: 0.5 }}
+                        >
                             Password
                         </Typography>
                         <Typography variant="body1" sx={{ marginBottom: 2 }}>
@@ -266,7 +274,24 @@ function managerPortal({ users }) {
                                 Change Role
                             </Typography>
                             <br></br>
-                            <select
+                            <Select
+                                autoWidth
+                                defaultValue={props.roles}
+                                labelId="roles"
+                                id="roles"
+                                name="roles"
+                                input={<CustomInput />}
+                                label="Roles"
+                                sx={{ margin: 1, marginLeft: 0 }}
+                            >
+                                <MenuItem value={"Writer"}>Writer</MenuItem>
+                                <MenuItem value={"Editor"}>Editor</MenuItem>
+                                <MenuItem value={"Copy-Editor"}>
+                                    Copy-Editor
+                                </MenuItem>
+                                <MenuItem value={"Admin"}>Admin</MenuItem>
+                            </Select>
+                            {/* <select
                                 name="role"
                                 required
                                 defaultValue={props.roles}
@@ -275,24 +300,28 @@ function managerPortal({ users }) {
                                 <option value="Editor">Editor</option>
                                 <option value="Copy-Editor">Copy-Editor</option>
                                 <option value="Admin">Admin</option>
-                            </select>{" "}
+                            </select>{" "} */}
                             <br></br>
-                            <Button variant="contained" size="small" color="error" type="submit">Change Role</Button>
+                            <Button
+                                sx={{ marginTop: 2 }}
+                                variant="contained"
+                                size="small"
+                                color="error"
+                                type="submit"
+                            >
+                                Change Role
+                            </Button>
                             {/* <button type="submit">Change Role</button> */}
                         </form>
-                        <Typography
-                            variant="body2"
-                            sx={{ marginBottom: 0.5, marginTop: 2 }}
-                        >
-                            Set Active
-                        </Typography>
-                        <input
-                            name={props.email}
-                            type="checkbox"
-                            required
-                            defaultChecked={props.active}
-                            onChange={handleActive}
-                        ></input>
+                        <Box sx={{marginTop: 2, marginRight: 2}}>
+                          <Typography
+                              variant="userLabel"
+                              sx={{ marginBottom: 0.5 }}
+                          >
+                              Set Active
+                          </Typography>
+                          <Checkbox sx={{marginTop: -0.5}} color="error" name={props.email} required defaultChecked={props.active} onChange={handleActive} />
+                        </Box>
                     </Grid>
                 </Grid>
             </CardContent>
@@ -300,7 +329,7 @@ function managerPortal({ users }) {
                 name={props.email}
                 sx={{
                     position: "relative",
-                    marginTop: "20px",
+                    marginTop: "18px",
                     marginLeft: "16px",
                     marginBottom: "20px",
                 }}
