@@ -56,6 +56,9 @@ export function draftList() {
         };
 
         let response = await fetch(endpoint, options);
+
+        //reload page upon click of button
+        router.reload();
     };
 
     useEffect(() => {
