@@ -16,7 +16,16 @@ import "react-quill/dist/quill.snow.css";
 import styles from "../styles/article.module.css";
 import styles2 from "../styles/article.module.css";
 
-import { Button, Container, TextField, Box, Typography, Stack } from "@mui/material";
+import {
+    Button,
+    Container,
+    TextField,
+    Box,
+    Typography,
+    Stack,
+    Grid,
+    Checkbox,
+} from "@mui/material";
 
 import { withStyles } from "@mui/styles";
 import { createRoot, hydrateRoot } from "react-dom/client";
@@ -274,7 +283,7 @@ export function CommentViewer() {
                 // ----------------------RENDER OBJECTS-------------------------- //
                 const rootID = document.getElementById("currentComments");
                 const root = createRoot(rootID);
-                //root.render(box);
+                //root.render(allComments);
 
                 //
                 // allComments.forEach(element => {
@@ -580,9 +589,22 @@ export function CommentViewer() {
         );
     } else {
         return (
-            <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-                <Typography variant = "h2" color = "black">Please sign in</Typography>
-                <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
             </Stack>
         );
     }
