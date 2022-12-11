@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import styles from "../styles/article.module.css";
 
 import { useRouter } from "next/router";
-import { Button, Container, TextField, Box } from "@mui/material";
+import { Button, Container, TextField, Box, Stack, Grid, Typography, Checkbox } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import React, { useState, useEffect } from "react";
@@ -169,6 +169,9 @@ export default function articleWriting() {
             // If server returns the name submitted, that means the form works.
             const result = await response.json();
         }
+
+        // reload page upon submit
+        router.reload();
     };
 
     useEffect(() => {

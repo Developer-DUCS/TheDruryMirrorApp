@@ -200,32 +200,32 @@ export function commentEditor() {
         console.log(commentId);
         //Grabs the cursor highlighted text
         var comment = window.getSelection().toString();
-        var comment2 = window.getSelection();
-        let start = comment2.anchorOffset;
+        // var comment2 = window.getSelection();
+        // let start = comment2.anchorOffset;
 
-        var selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            var range = selection.getRangeAt(0);
-            console.log(
-                "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
-                range
-            );
-            var documentFragment = range.cloneContents();
-            var myIndex = range.startOffset;
-            console.log(
-                "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
-                myIndex
-            );
-        }
-        console.log(documentFragment || "nothing selected");
+        // var selection = window.getSelection();
+        // if (selection.rangeCount > 0) {
+        //     var range = selection.getRangeAt(0);
+        //     console.log(
+        //         "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
+        //         range
+        //     );
+        //     var documentFragment = range.cloneContents();
+        //     var myIndex = range.startOffset;
+        //     console.log(
+        //         "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
+        //         myIndex
+        //     );
+        // }
+        // console.log(documentFragment || "nothing selected");
 
-        console.log(
-            "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
-            start
-        );
+        // console.log(
+        //     "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
+        //     start
+        // );
 
         //Identifies the index of the beginning of the comment
-        // let start = value.indexOf(comment);
+        let start = value.indexOf(comment);
 
         //empty arrays to fill and compare to check that the highlighted text or is not in the article
         let check = [];
@@ -438,7 +438,7 @@ export function commentEditor() {
                     .getElementById(tempComId)
                     .setAttribute(
                         "style",
-                        "background-color: rgb(0,0,255); color:black;"
+                        "background-color: rgb(0,0,255); color:white;"
                     );
             } else {
                 console.log("HERE");
@@ -545,6 +545,9 @@ export function commentEditor() {
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         const result = await response.json();
+
+        //reload page upon submit
+        router.reload();
     };
 
     const loadArticle = (event) => {
@@ -603,7 +606,9 @@ export function commentEditor() {
         getArticleRoute();
     }, []);
 
-    if (status === "authenticated") {
+    const allowedRoles = ["Copy-Editor", "Editor-In-Chief"];
+
+    if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         return (
             // We pass the event to the handleSubmit() function on submit.
             <Box className={styles2.divWriting} sx={{ height: "100%" }}>
