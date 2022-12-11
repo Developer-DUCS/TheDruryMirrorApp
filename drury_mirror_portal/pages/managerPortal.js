@@ -51,6 +51,8 @@ function managerPortal({ users }) {
 
         // Get data from the form.
         const data = {
+            fname: event.target.fname.value,
+            lname: event.target.lname.value,
             email: event.target.email.value,
             password: event.target.password.value,
             roles: event.target.roles.value,
@@ -498,7 +500,7 @@ function managerPortal({ users }) {
                     <Accordion sx={{ margin: 1 }}>
                         <AccordionSummary>
                             <Typography variant="userLabel">
-                                {user.email}
+                                {user.fname} {user.lname}
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
