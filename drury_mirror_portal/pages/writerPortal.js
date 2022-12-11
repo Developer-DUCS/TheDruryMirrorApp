@@ -116,16 +116,16 @@ export function writerPortal() {
     if (status === "authenticated") {
         return (
             <>
-                <Header/>
+                <Header />
 
                 <Typography variant="copyEditorHeader" sx={{ m: 2 }}>
                     Article List
                 </Typography>
                 <br></br>
-                <Typography sx={{m: 2}} variant="userLabel">
-                        {data.user.fname} {data.user.lname}
-                    </Typography>
-                <Box sx={{marginTop: -2}}>
+                <Typography sx={{ m: 2 }} variant="userLabel">
+                    {data.user.fname} {data.user.lname}
+                </Typography>
+                <Box sx={{ marginTop: -2 }}>
                     {articles.map((article) => (
                         <Card
                             style={{
@@ -134,23 +134,32 @@ export function writerPortal() {
                                 padding: 5,
                                 paddingLeft: 15,
                                 boxShadow: 4,
-                                backgroundColor: "#82858f"
+                                backgroundColor: "#82858f",
                             }}
                         >
-                            <Typography variant="headline" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="headline"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {article.headline}
                             </Typography>
                             <br></br>
-                            <Typography variant="author" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="author"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {article.author}
                             </Typography>
-                            <Typography variant="copyEditorBody" sx={{color: "#F3f3f3"}}>
+                            <Typography
+                                variant="copyEditorBody"
+                                sx={{ color: "#F3f3f3" }}
+                            >
                                 {parse(article.body)}
                             </Typography>
                             <Button
                                 id={article.aid}
                                 variant="contained"
-                                onClick={editArticleRoute}
+                                onClick={seeCommentsRoute}
                                 sx={{
                                     marginBottom: 1,
                                     marginRight: 5,
@@ -159,19 +168,6 @@ export function writerPortal() {
                                 }}
                             >
                                 Edit Article
-                            </Button>
-                            <Button
-                                id={article.aid}
-                                variant="contained"
-                                onClick={readyToPublish}
-                                sx={{
-                                    marginBottom: 1,
-                                    marginRight: 5,
-                                    color: "white",
-                                    backgroundColor: "#4685F5",
-                                }}
-                            >
-                                Ready to Publish
                             </Button>
                         </Card>
                     ))}
