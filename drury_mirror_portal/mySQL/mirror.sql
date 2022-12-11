@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
   `email` VARCHAR(60) NOT NULL,
   `author` VARCHAR(45) NOT NULL,
   `headline` VARCHAR(50) NOT NULL,
-  `body` VARCHAR(8000) NOT NULL,
+  `body` MEDIUMTEXT NOT NULL,
   `isDraft` INT NOT NULL,
   `createdDate` date NOT NULL,
   PRIMARY KEY (`aid`))

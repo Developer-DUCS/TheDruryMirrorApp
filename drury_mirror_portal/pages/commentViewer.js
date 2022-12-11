@@ -170,6 +170,10 @@ export function CommentViewer() {
         if (getArticle != []) {
             let article = getArticle;
             let comments = getComments;
+            console.log(
+                "🚀 ~ file: commentViewer.js:173 ~ loadArticle ~ comments",
+                comments
+            );
 
             // var overall = document.createElement("textarea");
             // overall.setAttribute("readonly", true);
@@ -475,7 +479,7 @@ export function CommentViewer() {
                 <Header />
                 <div className={styles.comments}>
                     <Button
-                        sx={{ marginLeft: 0, marginBottom: 3}}
+                        sx={{ marginLeft: 0, marginBottom: 3 }}
                         variant="contained"
                         color="error"
                         onClick={loadArticle}
@@ -537,12 +541,16 @@ export function CommentViewer() {
                             // onClick={() => {
                             //     submit;
                             // }}
-                            sx={{ m: 1}}
+                            sx={{ m: 1 }}
                         >
                             Submit Edits
                         </Button>
                     </form>
-                    <Typography variant="h4" color="white" sx={{ m: 1, marginTop: 2 }}>
+                    <Typography
+                        variant="h4"
+                        color="white"
+                        sx={{ m: 1, marginTop: 2 }}
+                    >
                         Overall Comments
                     </Typography>{" "}
                     <TextField

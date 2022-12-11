@@ -499,7 +499,7 @@ export function commentEditor() {
         console.log(JSONdata);
 
         // API endpoint where we send form data.
-        const endpoint = "/api/saveEdits1";
+        const endpoint = "/api/saveEdits";
 
         // Form the request for sending data to the server.
         const options = {
