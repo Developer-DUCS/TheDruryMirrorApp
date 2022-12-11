@@ -4,7 +4,11 @@
 //              By: Haley Saylor Nov. 18 2022
 //Modification Log:
 
+// Next and React Imports
 import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/react";
+
+// Material UI and Styling Imports
 import {
     ThemeProvider,
     Typography,
@@ -26,7 +30,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import { styled } from "@mui/material/styles";
 
-import { useSession, signOut } from "next-auth/react";
+// Component Imports
+import SplashHeader from "./SplashHeader";
 
 const Buttonavatar = styled(Avatar)({
     backgroundColor: "#0E0E0E",
@@ -78,55 +83,28 @@ export function testSplashPage() {
 
         return (
             <div>
-                <Typography
-                    variant="splashHeader"
-                    sx={{ display: "flex", justifyContent: "center" }}
-                >
-                    Drury Mirror
-                </Typography>
-                <Typography
-                    variant="splashSubheader"
-                    sx={{ display: "flex", justifyContent: "center" }}
-                >
-                    Web Portal
-                </Typography>
+                <SplashHeader />
                 <Grid
                     container
                     sx={{
                         display: "flex",
                         justifyContent: "center",
-                        alignContent: "space-around",
+                        alignContent: "left",
                         flexDirection: "column",
                     }}
                 >
-                    <Grid item>
+                    <Grid item sx={{marginTop: 3}}>
                         <Typography
                             variant="spashBody"
                             sx={{
                                 width: "20%",
+                                m: 5,
+                                marginLeft: 8,
+                                fontSize: "36px"
                             }}
                         >
                             Welcome, {data.user.fname} {data.user.lname}.
                         </Typography>
-                    </Grid>
-                    <Grid
-                        item
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignContent: "space-around",
-                        }}
-                    >
-                        <Button
-                            variant="contained"
-                            color="error"
-                            onClick={() => {
-                                signOut();
-                            }}
-                            sx={{ marginTop: 2 }}
-                        >
-                            Sign Out
-                        </Button>
                     </Grid>
                 </Grid>
                 <Grid container direction="column" spacing={3}>
@@ -135,7 +113,7 @@ export function testSplashPage() {
                         item
                         direction="row"
                         justifyContent="center"
-                        sx={{ marginTop: 10 }}
+                        sx={{ marginTop: 8 }}
                     >
                         {role === "Writer" ||
                         role === "Copy-Editor" ||
@@ -291,7 +269,7 @@ export function testSplashPage() {
                             <></>
                         )}
 
-                        <Grid item xs={2}>
+                        {/* <Grid item xs={2}>
                             <Stack alignItems="center" justifyContent="center">
                                 <Buttonavatar>
                                     <IconButton
@@ -312,7 +290,7 @@ export function testSplashPage() {
                                     Upload Articles
                                 </Typography>
                             </Stack>
-                        </Grid>
+                        </Grid> */}
 
                         {role === "Manager" ? (
                             <Grid item xs={2}>
@@ -347,10 +325,10 @@ export function testSplashPage() {
         );
     } else {
         return (
-            <>
-                <p>Please sign in</p>
-                <button onClick={redirectToSignIn}>Sign In</button>
-            </>
+        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
+            <Typography variant = "h2" color = "black">Please sign in</Typography>
+            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+        </Stack>
         );
     }
 }

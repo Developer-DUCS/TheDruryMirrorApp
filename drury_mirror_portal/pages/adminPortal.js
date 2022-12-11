@@ -6,7 +6,7 @@
 //Landing page for the admin after they log in to the site
 
 import styles from "../styles/article.module.css";
-import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
+import { TextField, Button, FormGroup, Grid, Typography, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 
 import Toolbar from "@mui/material/Toolbar";

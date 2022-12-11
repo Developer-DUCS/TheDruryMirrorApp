@@ -20,7 +20,7 @@ import styles2 from "../styles/article.module.css";
 import { styled } from "@mui/material/styles";
 
 // Styling (Material UI) imports
-import { Button, Container, TextField, Box, Typography } from "@mui/material";
+import { Button, Container, TextField, Box, Typography, Stack } from "@mui/material";
 import { withStyles } from "@mui/styles";
 
 // React and Next imports
@@ -200,9 +200,32 @@ export function commentEditor() {
         console.log(commentId);
         //Grabs the cursor highlighted text
         var comment = window.getSelection().toString();
+        var comment2 = window.getSelection();
+        let start = comment2.anchorOffset;
+
+        var selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            var range = selection.getRangeAt(0);
+            console.log(
+                "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
+                range
+            );
+            var documentFragment = range.cloneContents();
+            var myIndex = range.startOffset;
+            console.log(
+                "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
+                myIndex
+            );
+        }
+        console.log(documentFragment || "nothing selected");
+
+        console.log(
+            "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
+            start
+        );
 
         //Identifies the index of the beginning of the comment
-        let start = value.indexOf(comment);
+        // let start = value.indexOf(comment);
 
         //empty arrays to fill and compare to check that the highlighted text or is not in the article
         let check = [];
@@ -211,6 +234,7 @@ export function commentEditor() {
         //iterates through the article where the comment should be and adds it to an array
         for (let i = start; i < value.length; i++) {
             check.push(value.charAt(i));
+
             if (i == start + comment.length - 1) {
                 console.log(check.toString());
                 break;
@@ -400,24 +424,25 @@ export function commentEditor() {
             "🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
             num[1]
         );
+        if (num[1]) {
+            let tempCom = "span";
+            let tempComId = tempCom.concat(num[1].toString());
+            console.log(
+                "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
+                tempComId
+            );
+            console.log("here2");
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-        console.log(
-            "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
-            tempComId
-        );
-        console.log("here2");
-
-        if (document.getElementById(tempComId)) {
-            document
-                .getElementById(tempComId)
-                .setAttribute(
-                    "style",
-                    "background-color: rgb(0,0,255); color:black;"
-                );
-        } else {
-            console.log("HERE");
+            if (document.getElementById(tempComId)) {
+                document
+                    .getElementById(tempComId)
+                    .setAttribute(
+                        "style",
+                        "background-color: rgb(0,0,255); color:black;"
+                    );
+            } else {
+                console.log("HERE");
+            }
         }
 
         // console.log(document.getElementById(currentCommentID));
@@ -434,16 +459,17 @@ export function commentEditor() {
         let inputId = event.target.id;
 
         let num = inputId.split("t");
+        if (num[1]) {
+            let tempCom = "span";
+            let tempComId = tempCom.concat(num[1].toString());
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-
-        document
-            .getElementById(tempComId)
-            .setAttribute(
-                "style",
-                "background-color: rgb(255,255,0); color:black;"
-            );
+            document
+                .getElementById(tempComId)
+                .setAttribute(
+                    "style",
+                    "background-color: rgb(255,255,0); color:black;"
+                );
+        }
     };
 
     const submit = async (event) => {
@@ -689,10 +715,10 @@ export function commentEditor() {
         );
     } else {
         return (
-            <>
-                <p>Please sign in</p>
-                <button onClick={redirectToSignIn}>Sign In</button>
-            </>
+        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
+            <Typography variant = "h2" color = "black">Please sign in</Typography>
+            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
+        </Stack>
         );
     }
 }
