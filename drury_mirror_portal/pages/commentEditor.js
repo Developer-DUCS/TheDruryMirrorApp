@@ -400,24 +400,25 @@ export function commentEditor() {
             "🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
             num[1]
         );
+        if (num[1]) {
+            let tempCom = "span";
+            let tempComId = tempCom.concat(num[1].toString());
+            console.log(
+                "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
+                tempComId
+            );
+            console.log("here2");
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-        console.log(
-            "🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
-            tempComId
-        );
-        console.log("here2");
-
-        if (document.getElementById(tempComId)) {
-            document
-                .getElementById(tempComId)
-                .setAttribute(
-                    "style",
-                    "background-color: rgb(0,0,255); color:black;"
-                );
-        } else {
-            console.log("HERE");
+            if (document.getElementById(tempComId)) {
+                document
+                    .getElementById(tempComId)
+                    .setAttribute(
+                        "style",
+                        "background-color: rgb(0,0,255); color:black;"
+                    );
+            } else {
+                console.log("HERE");
+            }
         }
 
         // console.log(document.getElementById(currentCommentID));
@@ -434,16 +435,17 @@ export function commentEditor() {
         let inputId = event.target.id;
 
         let num = inputId.split("t");
+        if (num[1]) {
+            let tempCom = "span";
+            let tempComId = tempCom.concat(num[1].toString());
 
-        let tempCom = "span";
-        let tempComId = tempCom.concat(num[1].toString());
-
-        document
-            .getElementById(tempComId)
-            .setAttribute(
-                "style",
-                "background-color: rgb(255,255,0); color:black;"
-            );
+            document
+                .getElementById(tempComId)
+                .setAttribute(
+                    "style",
+                    "background-color: rgb(255,255,0); color:black;"
+                );
+        }
     };
 
     const submit = async (event) => {
