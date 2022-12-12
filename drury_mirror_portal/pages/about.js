@@ -120,7 +120,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: Software Engineering, Business
+                                        Major: Software Engineering & Business
                                         Management
                                     </Typography>
                                     <br></br>
@@ -199,7 +199,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: Major: Software Engineering &
+                                        Major: Software Engineering &
                                         Writing
                                     </Typography>
                                     <br></br>
@@ -208,7 +208,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Minor: Minor: Fine Arts
+                                        Minor: Fine Arts
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -216,7 +216,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Position: Position: Developer
+                                        Position: Developer
                                     </Typography>
                                 </CardContent>
                             </Card>
@@ -239,7 +239,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: Major: Cyber-Risk Management &
+                                        Major: Cyber-Risk Management &
                                         Computer Software Engineering
                                     </Typography>
                                     <br></br>
@@ -248,7 +248,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Minor: Minor: N/A
+                                        Minor: N/A
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -256,7 +256,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Position: Position: Scrum Coach
+                                        Position: Scrum Coach
                                     </Typography>
                                 </CardContent>
                             </Card>
