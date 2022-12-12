@@ -32,6 +32,7 @@ import { styled } from "@mui/material/styles";
 
 // Component Imports
 import SplashHeader from "./SplashHeader";
+import Footer from "./Footer";
 
 const Buttonavatar = styled(Avatar)({
     backgroundColor: "#0E0E0E",

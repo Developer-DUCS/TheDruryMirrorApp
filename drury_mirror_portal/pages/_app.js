@@ -9,6 +9,8 @@ import "../styles/globals.css";
 
 import { SessionProvider } from "next-auth/react";
 
+import Footer from "./Footer";
+
 export default function MyApp({ Component, pageProps }) {
     // const { Component, pageProps } = props;
     const router = useRouter();
@@ -49,6 +51,7 @@ export default function MyApp({ Component, pageProps }) {
                 <CssBaseline />
                 <SessionProvider session={pageProps.session}>
                     <Component {...pageProps} />
+                    <Footer/>
                 </SessionProvider>
             </ThemeProvider>
         </React.Fragment>
