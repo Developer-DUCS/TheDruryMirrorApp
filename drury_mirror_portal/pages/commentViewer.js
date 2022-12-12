@@ -558,7 +558,7 @@ export function CommentViewer() {
                                 marginLeft: 1,
                                 marginTop: 0,
                                 input: {
-                                    color: "white",
+                                    color: "black",
                                     background: "white",
                                     borderRadius: 1,
                                 },
