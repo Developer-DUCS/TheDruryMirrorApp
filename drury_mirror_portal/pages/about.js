@@ -15,12 +15,12 @@ import {
 
 import { useRouter } from "next/router";
 
-import Header from "./header";
+import SplashHeader from "./SplashHeader";
 
 export default function about() {
     return (
         <Box sx={{ height: "100%", backgroundColor: "#F3F3F3" }}>
-            <Header />
+            <SplashHeader />
             <Box sx={{ height: "100%", backgroundColor: "#F3F3F3" }}>
                 <Box sx={{ marginLeft: "10%", paddingTop: 3, width: "50%" }}>
                     <Typography sx={{ color: "black" }} variant="aboutHeader">

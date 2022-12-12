@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
-
 import {
     TextField,
     Button,
@@ -123,39 +122,93 @@ export function draftList() {
             <>
                 <Header />
                 <p id="article"></p>
-                <Box sx={{marginLeft: "15%"}}>
-                    <Typography sx={{m: 1, marginLeft: 0}} variant="userLabel">
+                <Box sx={{ marginLeft: "15%" }}>
+                    <Typography
+                        sx={{ m: 1, marginLeft: 0 }}
+                        variant="userLabel"
+                    >
                         {data.user.fname} {data.user.lname}
                     </Typography>
                     <br></br>
-                    <Typography sx={{m: 1, marginLeft: 0}}  variant="userLabel">Drafts</Typography>
+                    <Typography
+                        sx={{ m: 1, marginLeft: 0 }}
+                        variant="userLabel"
+                    >
+                        Drafts
+                    </Typography>
                 </Box>
                 {articles.length != 0 ? (
                     <div className={styles.divArticle}>
                         <ul>
                             {articles.map((article) => (
-                                <li className={styles.indArticle}>
-                                    {article.headline}
-                                    <text className={styles.author}>
-                                        By: {article.author}
-                                    </text>
-                                    <text>{parse(article.body)}</text>
-                                    <div className={styles.buttons}>
-                                        <button
-                                            id={article.aid}
-                                            className={styles.edit}
-                                            onClick={writeDraftRoute}
-                                        >
-                                            Keep Writing
-                                        </button>
-                                    </div>
-                                </li>
+                                <Card
+                                    style={{
+                                        margin: 15,
+                                        marginTop: 30,
+                                        padding: 5,
+                                        paddingLeft: 15,
+                                        boxShadow: 4,
+                                        backgroundColor: "#82858f",
+                                    }}
+                                >
+                                    <Typography
+                                        variant="headline"
+                                        sx={{ color: "#F3f3f3" }}
+                                    >
+                                        {article.headline}
+                                    </Typography>
+                                    <br></br>
+                                    <Typography
+                                        variant="author"
+                                        sx={{ color: "#F3f3f3" }}
+                                    >
+                                        {article.author}
+                                    </Typography>
+                                    <Typography
+                                        variant="copyEditorBody"
+                                        sx={{ color: "#F3f3f3" }}
+                                    >
+                                        {parse(article.body)}
+                                    </Typography>
+                                    <Button
+                                        id={article.aid}
+                                        variant="contained"
+                                        onClick={editArticleRoute}
+                                        sx={{
+                                            marginBottom: 1,
+                                            marginRight: 5,
+                                            color: "white",
+                                            backgroundColor: "#4685F5",
+                                        }}
+                                    >
+                                        Edit Article
+                                    </Button>
+                                    <Button
+                                        id={article.aid}
+                                        variant="contained"
+                                        onClick={readyToPublish}
+                                        sx={{
+                                            marginBottom: 1,
+                                            marginRight: 5,
+                                            color: "white",
+                                            backgroundColor: "#4685F5",
+                                        }}
+                                    >
+                                        Ready to Publish
+                                    </Button>
+                                </Card>
                             ))}
                         </ul>
                     </div>
                 ) : (
                     <>
-                        <Card sx={{marginTop: 2, marginLeft: "15%", width: "30%"}}>
+                        <Card
+                            sx={{
+                                marginTop: 2,
+                                marginLeft: "15%",
+                                width: "30%",
+                            }}
+                        >
                             <CardContent>
                                 <Typography>
                                     You don't have any articles.
@@ -168,10 +221,23 @@ export function draftList() {
         );
     } else {
         return (
-        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-            <Typography variant = "h2" color = "black">Please sign in</Typography>
-            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
-        </Stack>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }
