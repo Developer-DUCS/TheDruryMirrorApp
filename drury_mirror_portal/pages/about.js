@@ -64,9 +64,7 @@ export default function about() {
                         }}
                     >
                         <Grid item>
-                            <Card
-                                sx={{maxWidth: 210}}
-                            >
+                            <Card sx={{ maxWidth: 210 }}>
                                 <CardMedia
                                     component="img"
                                     height="250"
@@ -105,9 +103,7 @@ export default function about() {
                             </Card>
                         </Grid>
                         <Grid item>
-                            <Card
-                                sx={{maxWidth: 210}}
-                            >
+                            <Card sx={{ maxWidth: 210 }}>
                                 <CardMedia
                                     component="img"
                                     height="250"
@@ -124,7 +120,8 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: Software Engineering, Business Management
+                                        Major: Software Engineering, Business
+                                        Management
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -146,9 +143,7 @@ export default function about() {
                             </Card>
                         </Grid>
                         <Grid item>
-                            <Card
-                                sx={{maxWidth: 210}}
-                            >
+                            <Card sx={{ maxWidth: 210 }}>
                                 <CardMedia
                                     component="img"
                                     height="250"
@@ -165,7 +160,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: 
+                                        Major: Computer Science
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -173,7 +168,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Minor: 
+                                        Minor: Cyber Risk Management
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -181,15 +176,13 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Position: 
+                                        Position: Developer
                                     </Typography>
                                 </CardContent>
                             </Card>
                         </Grid>
                         <Grid item>
-                            <Card
-                                sx={{maxWidth: 210}}
-                            >
+                            <Card sx={{ maxWidth: 210 }}>
                                 <CardMedia
                                     component="img"
                                     height="250"
@@ -206,7 +199,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: 
+                                        Major:
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -214,7 +207,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Minor: 
+                                        Minor:
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -222,15 +215,13 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Position: 
+                                        Position:
                                     </Typography>
                                 </CardContent>
                             </Card>
                         </Grid>
                         <Grid item>
-                            <Card
-                                sx={{maxWidth: 210}}
-                            >
+                            <Card sx={{ maxWidth: 210 }}>
                                 <CardMedia
                                     component="img"
                                     height="250"
@@ -247,7 +238,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: 
+                                        Major:
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -255,7 +246,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Minor: 
+                                        Minor:
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -263,7 +254,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Position: 
+                                        Position:
                                     </Typography>
                                 </CardContent>
                             </Card>
