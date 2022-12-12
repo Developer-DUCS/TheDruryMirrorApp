@@ -206,7 +206,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Major: 
+                                        Major: Software Engineering & Writing
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -214,7 +214,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Minor: 
+                                        Minor: Fine Arts
                                     </Typography>
                                     <br></br>
                                     <br></br>
@@ -222,7 +222,7 @@ export default function about() {
                                         sx={{ marginTop: 2 }}
                                         variant="cardBody"
                                     >
-                                        Position: 
+                                        Position: Developer
                                     </Typography>
                                 </CardContent>
                             </Card>
