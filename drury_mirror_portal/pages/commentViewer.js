@@ -497,14 +497,20 @@ export function CommentViewer() {
                 >
                     Load Article
                 </Button>
-                <Grid Container sx={{display: "flex", width: "100%", flexDirection: "row"}}>
-                    <Grid item sx={{width: "60%", marginLeft: 2}}>
-
+                <Grid
+                    Container
+                    sx={{
+                        display: "flex",
+                        width: "100%",
+                        flexDirection: "row",
+                    }}
+                >
+                    <Grid item sx={{ width: "60%", marginLeft: 2 }}>
                         <Box id="quillEditor">
-
                             <Box
                                 sx={{
-                                    backgroundColor: "white", marginTop: 1
+                                    backgroundColor: "white",
+                                    marginTop: 1,
                                 }}
                             >
                                 <QuillNoSSRWrapper
@@ -524,7 +530,7 @@ export function CommentViewer() {
                             </div>
                         </Box>
                     </Grid>
-                    <Grid item sx={{width: "40%", marginLeft: 2}} >
+                    <Grid item sx={{ width: "40%", marginLeft: 2 }}>
                         <form onSubmit={submit}>
                             <Typography
                                 variant="h4"
@@ -562,6 +568,18 @@ export function CommentViewer() {
                                 </Typography>
                                 <div id="currentComments">{allComments}</div>
                             </Box>
+                            <Grid item>
+                                <Checkbox
+                                    id="checkbox"
+                                    color="error"
+                                    sx={{
+                                        color: "white",
+                                        marginTop: -1,
+                                        marginLeft: 1,
+                                        borderColor: "white",
+                                    }}
+                                />
+                            </Grid>
                             <Button
                                 color="error"
                                 variant="contained"
@@ -576,8 +594,10 @@ export function CommentViewer() {
                         </form>
                     </Grid>
                 </Grid>
-                </>);
-                {/* <div className={styles.comments}>
+            </>
+        );
+        {
+            /* <div className={styles.comments}>
                     
                     <form onSubmit={submit}>
                         <div id="quillEditor" className={styles.Editor}>
@@ -610,70 +630,71 @@ export function CommentViewer() {
                                 <Typography
                                     sx={{ color: "white", marginLeft: 1 }}
                                 >
-                                    {/* Maybe explain better */}
-                                    // Ready for Edits
-                //                 </Typography>
-                //             </Grid>
-                //             <Grid item>
-                //                 <Checkbox
-                //                     id="checkbox"
-                //                     color="error"
-                //                     sx={{
-                //                         color: "white",
-                //                         marginTop: -1,
-                //                         marginLeft: 1,
-                //                         bordercolor: "white",
-                //                     }}
-                //                 />
-                //             </Grid>
-                //         </Grid>
-                //         <Typography
-                //             variant="h4"
-                //             color="white"
-                //             sx={{ m: 1, marginTop: 2 }}
-                //         >
-                //             Overall Comments
-                //         </Typography>{" "}
-                //         <TextField
-                //             sx={{
-                //                 marginLeft: 1,
-                //                 marginTop: 0,
-                //                 input: {
-                //                     color: "black",
-                //                     background: "white",
-                //                     borderRadius: 1,
-                //                 },
-                //             }}
-                //             variant="filled"
-                //             id="overAllComments"
-                //             name="overAllComments"
-                //             aria-readonly
-                //         ></TextField>
-                //         {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
-                //         <br></br>
-                //         <Box id="commentsContainer">
-                //             <Typography
-                //                 variant="h4"
-                //                 sx={{ margin: 1, marginTop: 2, color: "white" }}
-                //             >
-                //                 Comments
-                //             </Typography>
-                //             <div id="currentComments">{allComments}</div>
-                //         </Box>
-                //         <Button
-                //             color="error"
-                //             variant="contained"
-                //             type="submit"
-                //             // onClick={() => {
-                //             //     submit;
-                //             // }}
-                //             sx={{ m: 1 }}
-                //         >
-                //             Submit Edits
-                //         </Button>
-                //     </form>
-                // </div> */}
-            
+                                    {/* Maybe explain better */
+        }
+        // Ready for Edits
+        //                 </Typography>
+        //             </Grid>
+        //             <Grid item>
+        //                 <Checkbox
+        //                     id="checkbox"
+        //                     color="error"
+        //                     sx={{
+        //                         color: "white",
+        //                         marginTop: -1,
+        //                         marginLeft: 1,
+        //                         bordercolor: "white",
+        //                     }}
+        //                 />
+        //             </Grid>
+        //         </Grid>
+        //         <Typography
+        //             variant="h4"
+        //             color="white"
+        //             sx={{ m: 1, marginTop: 2 }}
+        //         >
+        //             Overall Comments
+        //         </Typography>{" "}
+        //         <TextField
+        //             sx={{
+        //                 marginLeft: 1,
+        //                 marginTop: 0,
+        //                 input: {
+        //                     color: "black",
+        //                     background: "white",
+        //                     borderRadius: 1,
+        //                 },
+        //             }}
+        //             variant="filled"
+        //             id="overAllComments"
+        //             name="overAllComments"
+        //             aria-readonly
+        //         ></TextField>
+        //         {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
+        //         <br></br>
+        //         <Box id="commentsContainer">
+        //             <Typography
+        //                 variant="h4"
+        //                 sx={{ margin: 1, marginTop: 2, color: "white" }}
+        //             >
+        //                 Comments
+        //             </Typography>
+        //             <div id="currentComments">{allComments}</div>
+        //         </Box>
+        //         <Button
+        //             color="error"
+        //             variant="contained"
+        //             type="submit"
+        //             // onClick={() => {
+        //             //     submit;
+        //             // }}
+        //             sx={{ m: 1 }}
+        //         >
+        //             Submit Edits
+        //         </Button>
+        //     </form>
+        // </div> */}
+
         // );
     } else {
         return (

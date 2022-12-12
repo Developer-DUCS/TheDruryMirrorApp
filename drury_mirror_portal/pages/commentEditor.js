@@ -621,7 +621,10 @@ export function commentEditor() {
     if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
         return (
             // We pass the event to the handleSubmit() function on submit.
-            <Box className={styles2.divWriting} sx={{ height: "100%", backgroundColor: "#303030" }}>
+            <Box
+                className={styles2.divWriting}
+                sx={{ height: "100%", backgroundColor: "#303030" }}
+            >
                 <Header />
                 <Button
                     sx={{ marginLeft: 2, marginBottom: 2 }}
@@ -632,24 +635,31 @@ export function commentEditor() {
                     Load Article
                 </Button>
                 <br></br>
-                <Grid Container sx={{display: "flex", width: "100%", flexDirection: "row"}}>
-                    <Grid item sx={{width: "60%", marginLeft: 2}}>
-                    <Button
-                        size="small"
-                        sx={{
-                            backgroundColor: "white",
-                            p: 1,
-                            marginBottom: 1,
-                        }}
-                        onClick={addComment}
-                    >
-                        Add Comment
-                    </Button>
+                <Grid
+                    Container
+                    sx={{
+                        display: "flex",
+                        width: "100%",
+                        flexDirection: "row",
+                    }}
+                >
+                    <Grid item sx={{ width: "60%", marginLeft: 2 }}>
+                        <Button
+                            size="small"
+                            sx={{
+                                backgroundColor: "white",
+                                p: 1,
+                                marginBottom: 1,
+                            }}
+                            onClick={addComment}
+                        >
+                            Add Comment
+                        </Button>
                         <Box id="quillEditor">
-
                             <Box
                                 sx={{
-                                    backgroundColor: "white", marginTop: 1
+                                    backgroundColor: "white",
+                                    marginTop: 1,
                                 }}
                             >
                                 <QuillNoSSRWrapper
@@ -665,11 +675,13 @@ export function commentEditor() {
                             </Box>
                             <div id="notice" hidden>
                                 {/* make red */}
-                                <text>Please hightlight in the draft</text>
+                                <Typography variant="h3" color="red">
+                                    Please hightlight in the draft
+                                </Typography>
                             </div>
                         </Box>
                     </Grid>
-                    <Grid item sx={{width: "40%", marginLeft: 2}} >
+                    <Grid item sx={{ width: "40%", marginLeft: 2 }}>
                         <form onSubmit={submit}>
                             <Typography
                                 variant="h4"
