@@ -287,11 +287,12 @@ function managerPortal({ users }) {
                                 sx={{ margin: 1, marginLeft: 0 }}
                             >
                                 <MenuItem value={"Writer"}>Writer</MenuItem>
-                                <MenuItem value={"Editor"}>Editor</MenuItem>
                                 <MenuItem value={"Copy-Editor"}>
                                     Copy-Editor
                                 </MenuItem>
-                                <MenuItem value={"Admin"}>Admin</MenuItem>
+                                <MenuItem value={"Editor-In-Chief"}>
+                                    Editor-In-Chief
+                                </MenuItem>
                             </Select>
                             {/* <select
                                 name="role"
@@ -315,14 +316,21 @@ function managerPortal({ users }) {
                             </Button>
                             {/* <button type="submit">Change Role</button> */}
                         </form>
-                        <Box sx={{marginTop: 2, marginRight: 2}}>
-                          <Typography
-                              variant="userLabel"
-                              sx={{ marginBottom: 0.5 }}
-                          >
-                              Set Active
-                          </Typography>
-                          <Checkbox sx={{marginTop: -0.5}} color="error" name={props.email} required defaultChecked={props.active} onChange={handleActive} />
+                        <Box sx={{ marginTop: 2, marginRight: 2 }}>
+                            <Typography
+                                variant="userLabel"
+                                sx={{ marginBottom: 0.5 }}
+                            >
+                                Set Active
+                            </Typography>
+                            <Checkbox
+                                sx={{ marginTop: -0.5 }}
+                                color="error"
+                                name={props.email}
+                                required
+                                defaultChecked={props.active}
+                                onChange={handleActive}
+                            />
                         </Box>
                     </Grid>
                 </Grid>
@@ -380,6 +388,59 @@ function managerPortal({ users }) {
                                             flexDirection: "row",
                                         }}
                                     >
+                                        <Grid item xs={4}>
+                                            <Typography
+                                                variant="managerPortalLabel"
+                                                sx={{
+                                                    margin: 1,
+                                                    marginBottom: 0,
+                                                }}
+                                            >
+                                                First Name
+                                            </Typography>
+                                            <TextField
+                                                type="text"
+                                                id="fname"
+                                                label="First name"
+                                                name="fname"
+                                                variant="filled"
+                                                sx={{
+                                                    label: { color: "black" },
+                                                    input: { color: "black" },
+                                                    border: "1px solid black",
+                                                    borderRadius: "5px",
+                                                    margin: 1,
+                                                }}
+                                            ></TextField>
+                                            <br></br>
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <Typography
+                                                variant="managerPortalLabel"
+                                                sx={{
+                                                    margin: 1,
+                                                    marginBottom: 0,
+                                                }}
+                                            >
+                                                Last Name
+                                            </Typography>
+                                            <TextField
+                                                type="text"
+                                                id="lname"
+                                                label="Last name"
+                                                name="lname"
+                                                variant="filled"
+                                                sx={{
+                                                    label: { color: "black" },
+                                                    input: { color: "black" },
+                                                    border: "1px solid black",
+                                                    borderRadius: "5px",
+                                                    margin: 1,
+                                                }}
+                                            ></TextField>
+                                            <br></br>
+                                        </Grid>
+
                                         <Grid item xs={4}>
                                             <Typography
                                                 variant="managerPortalLabel"
@@ -458,27 +519,30 @@ function managerPortal({ users }) {
                                                 <MenuItem value={"Writer"}>
                                                     Writer
                                                 </MenuItem>
-                                                <MenuItem value={"Editor"}>
-                                                    Editor
-                                                </MenuItem>
+
                                                 <MenuItem value={"Copy-Editor"}>
                                                     Copy-Editor
                                                 </MenuItem>
-                                                <MenuItem value={"Admin"}>
-                                                    Admin
+                                                <MenuItem
+                                                    value={"Editor-In-Chief"}
+                                                >
+                                                    Editor-In-Chief
                                                 </MenuItem>
                                             </Select>
                                         </Grid>
                                     </Grid>
-                                    <Button
-                                        variant="contained"
-                                        color="primaryButton"
-                                        type="submit"
-                                        size="medium"
-                                        sx={{ margin: 1, color: "white" }}
-                                    >
-                                        Create User
-                                    </Button>
+                                    <Grid item xs={4}>
+                                        <Button
+                                            variant="contained"
+                                            color="primaryButton"
+                                            type="submit"
+                                            size="medium"
+                                            sx={{ margin: 1, color: "white" }}
+                                        >
+                                            Create User
+                                        </Button>
+                                    </Grid>
+
                                     <br></br>
                                 </form>
                             </FormGroup>

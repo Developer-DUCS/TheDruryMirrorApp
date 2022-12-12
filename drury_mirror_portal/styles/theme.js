@@ -68,6 +68,73 @@ export const theme = createTheme({
   }
 });
 
+export const editorTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#fffee",
+    },
+    contrast:{
+      main:"#fff"
+    },
+    background: {
+      default: "#303030"
+    },
+    primaryButton: {
+      main:"#4685F5",
+    },
+  },
+  typography:{
+    splashHeader: {
+      fontFamily: "Trajan",
+      fontSize: "58px",
+    },
+    splashSubheader: {
+      fontFamily: "Trajan",
+      fontSize: "42px",
+    },
+    splashBody: {
+      fontFamily: "AvantGarde",
+      fontSize: "24px",
+    },
+    buttonLabel: {
+      fontFamily: "BrownRegular",
+      fontSize: "24px"
+    },
+    logo: {
+      fontFamily: "Trajan",
+      fontSize: "72px",
+    },
+    logoHeader: {
+      fontFamily: "Trajan",
+      fontSize: "32px",
+    },
+    userLabel: {
+      fontFamily: "BrownRegular",
+      fontSize: "20px",
+    },
+    copyEditorHeader: {
+      fontFamily: "Trajan",
+      fontSize: "24px",
+    },
+    copyEditorBody: {
+      fontFamily: "AvantGarde",
+      fontSize: "18px",
+    },
+    headline: {
+      fontFamily: "AvantGarde",
+      fontSize: "24px",
+    },
+    author: {
+      fontFamily: "AvantGarde",
+      fontSize: "18px",
+    },
+    managerPortalLabel: {
+      fontFamily: "BrownRegular",
+      fontSize: "24px",
+    },
+  }
+});
+
 export const mainTheme = createTheme({
   palette: {
     primary: {

@@ -28,8 +28,6 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
 
-
-
 //Populates the page
 export function copyEditorPortal() {
     const parse = require("html-react-parser");
@@ -54,9 +52,6 @@ export function copyEditorPortal() {
     };
 
     const readyToPublish = async (event) => {
-
-
-
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         // Get data from the form.
@@ -94,7 +89,6 @@ export function copyEditorPortal() {
 
         //reload page upon click of button
         router.reload();
-
     };
 
     useEffect(() => {
@@ -201,7 +195,13 @@ export function copyEditorPortal() {
                             </Typography>
                             <Typography
                                 variant="copyEditorBody"
-                                sx={{ color: "#F3f3f3" }}
+                                sx={{
+                                    color: "#F3f3f3",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: "2",
+                                }}
                             >
                                 {parse(article.body)}
                             </Typography>
