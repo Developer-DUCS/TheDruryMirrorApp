@@ -7,6 +7,8 @@ import {
     Card,
     Toolbar,
     Box,
+    AppBar,
+    ToolBar,
 } from "@mui/material";
 
 import React, { useState } from "react";
@@ -19,11 +21,10 @@ export default function Footer() {
             sx={{
                 height: "6vh",
                 backgroundColor: "white",
-                display: "flex",
                 width: "100%",
                 position: "fixed",
                 bottom: 0,
-                width: "100%",
+                display: "flex",
                 justifyContent: "center",
                 alignContent: "center",
                 alignItems: "center",

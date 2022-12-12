@@ -51,7 +51,7 @@ export default function MyApp({ Component, pageProps }) {
                 <CssBaseline />
                 <SessionProvider session={pageProps.session}>
                     <Component {...pageProps} />
-                    <Footer/>
+                    {/* //<Footer/> */}
                 </SessionProvider>
             </ThemeProvider>
         </React.Fragment>
