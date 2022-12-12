@@ -20,7 +20,7 @@ import {
     Box,
     Typography,
     Stack,
-    Card
+    Card,
 } from "@mui/material";
 
 import Header from "./header";
@@ -178,7 +178,13 @@ export function draftList() {
                             </Typography>
                             <Typography
                                 variant="copyEditorBody"
-                                sx={{ color: "#F3f3f3" }}
+                                sx={{
+                                    color: "#F3f3f3",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: "2",
+                                }}
                             >
                                 {parse(article.body)}
                             </Typography>
