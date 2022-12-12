@@ -173,7 +173,7 @@ export function draftList() {
                                     <Button
                                         id={article.aid}
                                         variant="contained"
-                                        onClick={editArticleRoute}
+                                        onClick={writeDraftRoute}
                                         sx={{
                                             marginBottom: 1,
                                             marginRight: 5,
@@ -181,20 +181,7 @@ export function draftList() {
                                             backgroundColor: "#4685F5",
                                         }}
                                     >
-                                        Edit Article
-                                    </Button>
-                                    <Button
-                                        id={article.aid}
-                                        variant="contained"
-                                        onClick={readyToPublish}
-                                        sx={{
-                                            marginBottom: 1,
-                                            marginRight: 5,
-                                            color: "white",
-                                            backgroundColor: "#4685F5",
-                                        }}
-                                    >
-                                        Ready to Publish
+                                        Keep Writing
                                     </Button>
                                 </Card>
                             ))}
