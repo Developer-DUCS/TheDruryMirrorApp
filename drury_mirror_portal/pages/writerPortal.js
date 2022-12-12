@@ -24,7 +24,7 @@ import {
     CardHeader,
     CardMedia,
     Toolbar,
-    Stack
+    Stack,
 } from "@mui/material";
 
 import Header from "./header";
@@ -153,7 +153,13 @@ export function writerPortal() {
                             </Typography>
                             <Typography
                                 variant="copyEditorBody"
-                                sx={{ color: "#F3f3f3" }}
+                                sx={{
+                                    color: "#F3f3f3",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: "2",
+                                }}
                             >
                                 {parse(article.body)}
                             </Typography>
@@ -177,10 +183,23 @@ export function writerPortal() {
         );
     } else {
         return (
-        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-            <Typography variant = "h2" color = "black">Please sign in</Typography>
-            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
-        </Stack>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+            >
+                <Typography variant="h2" color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}
+                >
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }
