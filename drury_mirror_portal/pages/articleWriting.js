@@ -1,10 +1,30 @@
+// ----------------------------------------------
+//
+// articleWriting.js
+// - writing page for "writers" role
+//
+// TODO:
+// - Thumbnail image upload to Contentful as a media asset
+// - Headline input textfield
+//
+// ----------------------------------------------
+
 //import styles from '../styles/quillTestStyle.css'
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import styles from "../styles/article.module.css";
 
 import { useRouter } from "next/router";
-import { Button, Container, TextField, Box, Stack, Grid, Typography, Checkbox } from "@mui/material";
+import {
+    Button,
+    Container,
+    TextField,
+    Box,
+    Stack,
+    Grid,
+    Typography,
+    Checkbox,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import React, { useState, useEffect } from "react";
@@ -68,6 +88,7 @@ export default function articleWriting() {
     // Handles the contents of the article editor.
     let [value, setValue] = useState();
     const [getArticle, setArticle] = useState([]);
+    const [getHeadline, setHeadline] = useState("");
     const { status, data } = useSession();
 
     const router = useRouter();
@@ -94,37 +115,35 @@ export default function articleWriting() {
         event.preventDefault();
 
         let session = await getSession();
-        let author = session.user.fname + " " + session.user.lname;
-        // console.log(event.target.check)
+        let author =
+            session.userdata.payload.payload.fname["en-US"] +
+            " " +
+            session.userdata.payload.payload.lname["en-US"];
 
-        // Get data from the form.
-
+        // Get data from the form
         if (router.query.id) {
             const data = {
-                email: session.user.email,
+                email: session.userdata.payload.payload.email["en-US"],
                 author: author,
                 article: value,
                 check: document.getElementById("checkbox").checked,
                 aid: router.query.id,
             };
 
-            // Send the data to the server in JSON format.
+            // Send the data to the server in JSON format
             console.log(data);
             const JSONdata = JSON.stringify(data);
             console.log(JSONdata);
 
-            // API endpoint where we send form data.
-            const endpoint = "/api/saveArticle";
+            // API endpoint where we send form data
+            const endpoint = "/api/conentful/SaveArticle";
 
-            // Form the request for sending data to the server.
+            // Form the request for sending data to the server
             const options = {
-                // The method is POST because we are sending data.
                 method: "POST",
-                // Tell the server we're sending JSON.
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // Body of the request is the JSON data we created above.
                 body: JSONdata,
             };
 
@@ -132,46 +151,43 @@ export default function articleWriting() {
             const response = await fetch(endpoint, options);
 
             // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
             const result = await response.json();
+            console.log(
+                "🚀 ~ file: articleWriting.js:143 ~ handleSubmit ~ result",
+                result
+            );
         } else {
             const data = {
-                email: session.user.email,
+                email: session.userdata.payload.payload.email["en-US"],
                 author: author,
                 article: value,
                 check: document.getElementById("checkbox").checked,
             };
 
-            // Send the data to the server in JSON format.
             console.log(data);
             const JSONdata = JSON.stringify(data);
             console.log(JSONdata);
 
-            // API endpoint where we send form data.
-            const endpoint = "/api/saveArticle";
+            const endpoint = "/api/conentful/SaveArticle";
 
             // Form the request for sending data to the server.
             const options = {
-                // The method is POST because we are sending data.
                 method: "POST",
-                // Tell the server we're sending JSON.
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // Body of the request is the JSON data we created above.
                 body: JSONdata,
             };
 
-            // Send the form data to our forms API on Vercel and get a response.
+            // Send the form data to our forms API on Vercel and get a response
             const response = await fetch(endpoint, options);
 
-            // Get the response data from server as JSON.
-            // If server returns the name submitted, that means the form works.
+            // Get the response data from server as JSON
             const result = await response.json();
         }
 
         // reload page upon submit
-        router.reload();
+        // router.reload();
     };
 
     useEffect(() => {
@@ -227,12 +243,30 @@ export default function articleWriting() {
                 <div className={styles.divWriting}>
                     <div>
                         <Header />
+                        <Typography
+                            variant="h5"
+                            sx={{ m: 2, marginBottom: 0, color: "white" }}>
+                            Headline
+                        </Typography>
+                        <TextField
+                            variant="filled"
+                            value={getHeadline}
+                            onChange={(e) => {
+                                setHeadline(e.target.value);
+                            }}
+                            style={{
+                                backgroundColor: "white",
+                                color: "black",
+                                borderRadius: 3,
+                                width: "40%",
+                            }}
+                            sx={{ m: 2 }}></TextField>
+                        <br></br>
                         <Button
                             sx={{ m: 2 }}
                             variant="contained"
                             color="error"
-                            onClick={loadArticle}
-                        >
+                            onClick={loadArticle}>
                             Load Article
                         </Button>
                     </div>
@@ -276,8 +310,7 @@ export default function articleWriting() {
                             sx={{
                                 backgroundColor: "white",
                                 margin: 2,
-                            }}
-                        >
+                            }}>
                             <QuillNoSSRWrapper
                                 id="article"
                                 modules={modules}
@@ -291,12 +324,10 @@ export default function articleWriting() {
                         <br></br>
                         <Grid
                             container
-                            sx={{ display: "flex", flexDirection: "row" }}
-                        >
+                            sx={{ display: "flex", flexDirection: "row" }}>
                             <Grid item>
                                 <Typography
-                                    sx={{ color: "white", marginLeft: 2 }}
-                                >
+                                    sx={{ color: "white", marginLeft: 2 }}>
                                     {/* Maybe explain better */}
                                     Ready for Edits
                                 </Typography>
@@ -322,8 +353,7 @@ export default function articleWriting() {
                             }}
                             color="error"
                             variant="contained"
-                            type="submit"
-                        >
+                            type="submit">
                             Submit
                         </Button>
                     </form>
@@ -332,10 +362,23 @@ export default function articleWriting() {
         );
     } else {
         return (
-        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-            <Typography variant = "h2" color = "black">Please sign in</Typography>
-            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
-        </Stack>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center">
+                <Typography
+                    variant="h2"
+                    color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}>
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }

@@ -59,33 +59,30 @@ function managerPortal({ users }) {
         };
 
         // Send the data to the server in JSON format.
-        //console.log(data)
         const JSONdata = JSON.stringify(data);
-        //console.log(JSONdata)
 
-        const endpoint = "api/createUser";
+        const endpoint = "api/contentful/CreateUser";
 
-        // Form the request for sending data to the server.
         const options = {
-            // The method is POST because we are sending data.
             method: "POST",
-            // Tell the server we're sending JSON.
             headers: {
                 "Content-Type": "application/json",
             },
-            // Body of the request is the JSON data we created above.
             body: JSONdata,
         };
 
         // Send the form data to our forms API on Vercel and get a response.
         const response = await fetch(endpoint, options);
         console.log("response: ", response);
+        
         if (response.status == 201) {
             console.log("User Created");
-            router.reload(window.location);
+            //router.reload(window.location);
         } else {
             // TODO: Display message saying the username or password is incorrect
+            console.log("🚀 Response Error", response.json())
         }
+
     };
 
     // Handle the deletion of a user
@@ -246,33 +243,42 @@ function managerPortal({ users }) {
     const UserCard = (props) => (
         <>
             <CardContent sx={{ paddingBottom: 0 }}>
-                <Grid container direction="column">
-                    <Grid item xs={6}>
+                <Grid
+                    container
+                    direction="column">
+                    <Grid
+                        item
+                        xs={6}>
                         <Typography
                             variant="userLabel"
-                            sx={{ marginBottom: 0.5 }}
-                        >
+                            sx={{ marginBottom: 0.5 }}>
                             Email
                         </Typography>
-                        <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                        <Typography
+                            variant="body1"
+                            sx={{ marginBottom: 2 }}>
                             {props.email}
                         </Typography>
                         <Typography
                             variant="userLabel"
-                            sx={{ marginBottom: 0.5 }}
-                        >
+                            sx={{ marginBottom: 0.5 }}>
                             Password
                         </Typography>
-                        <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                        <Typography
+                            variant="body1"
+                            sx={{ marginBottom: 2 }}>
                             {props.password}
                         </Typography>
                     </Grid>
-                    <Grid item xs={6}>
-                        <form name={props.email} onSubmit={handleRole}>
+                    <Grid
+                        item
+                        xs={6}>
+                        <form
+                            name={props.email}
+                            onSubmit={handleRole}>
                             <Typography
                                 variant="userLabel"
-                                sx={{ marginBottom: 0.5 }}
-                            >
+                                sx={{ marginBottom: 0.5 }}>
                                 Change Role
                             </Typography>
                             <br></br>
@@ -284,8 +290,7 @@ function managerPortal({ users }) {
                                 name="roles"
                                 input={<CustomInput />}
                                 label="Roles"
-                                sx={{ margin: 1, marginLeft: 0 }}
-                            >
+                                sx={{ margin: 1, marginLeft: 0 }}>
                                 <MenuItem value={"Writer"}>Writer</MenuItem>
                                 <MenuItem value={"Copy-Editor"}>
                                     Copy-Editor
@@ -310,8 +315,7 @@ function managerPortal({ users }) {
                                 variant="contained"
                                 size="small"
                                 color="error"
-                                type="submit"
-                            >
+                                type="submit">
                                 Change Role
                             </Button>
                             {/* <button type="submit">Change Role</button> */}
@@ -319,8 +323,7 @@ function managerPortal({ users }) {
                         <Box sx={{ marginTop: 2, marginRight: 2 }}>
                             <Typography
                                 variant="userLabel"
-                                sx={{ marginBottom: 0.5 }}
-                            >
+                                sx={{ marginBottom: 0.5 }}>
                                 Set Active
                             </Typography>
                             <Checkbox
@@ -346,8 +349,7 @@ function managerPortal({ users }) {
                 color="error"
                 size="small"
                 variant="contained"
-                onClick={handleDelete}
-            >
+                onClick={handleDelete}>
                 Delete User
             </Button>
         </>
@@ -363,8 +365,7 @@ function managerPortal({ users }) {
                     width: "70%",
                     height: "auto",
                     paddingBottom: "0px",
-                }}
-            >
+                }}>
                 <Accordion>
                     <AccordionSummary>
                         <Typography variant="userLabel">Create User</Typography>
@@ -377,8 +378,7 @@ function managerPortal({ users }) {
                                 margin: "auto",
                                 width: "70%",
                                 height: "auto",
-                            }}
-                        >
+                            }}>
                             <FormGroup sx={{ margin: "auto" }}>
                                 <form onSubmit={handleSubmit}>
                                     <Grid
@@ -386,16 +386,16 @@ function managerPortal({ users }) {
                                         sx={{
                                             display: "flex",
                                             flexDirection: "row",
-                                        }}
-                                    >
-                                        <Grid item xs={4}>
+                                        }}>
+                                        <Grid
+                                            item
+                                            xs={4}>
                                             <Typography
                                                 variant="managerPortalLabel"
                                                 sx={{
                                                     margin: 1,
                                                     marginBottom: 0,
-                                                }}
-                                            >
+                                                }}>
                                                 First Name
                                             </Typography>
                                             <TextField
@@ -410,18 +410,18 @@ function managerPortal({ users }) {
                                                     border: "1px solid black",
                                                     borderRadius: "5px",
                                                     margin: 1,
-                                                }}
-                                            ></TextField>
+                                                }}></TextField>
                                             <br></br>
                                         </Grid>
-                                        <Grid item xs={4}>
+                                        <Grid
+                                            item
+                                            xs={4}>
                                             <Typography
                                                 variant="managerPortalLabel"
                                                 sx={{
                                                     margin: 1,
                                                     marginBottom: 0,
-                                                }}
-                                            >
+                                                }}>
                                                 Last Name
                                             </Typography>
                                             <TextField
@@ -436,19 +436,19 @@ function managerPortal({ users }) {
                                                     border: "1px solid black",
                                                     borderRadius: "5px",
                                                     margin: 1,
-                                                }}
-                                            ></TextField>
+                                                }}></TextField>
                                             <br></br>
                                         </Grid>
 
-                                        <Grid item xs={4}>
+                                        <Grid
+                                            item
+                                            xs={4}>
                                             <Typography
                                                 variant="managerPortalLabel"
                                                 sx={{
                                                     margin: 1,
                                                     marginBottom: 0,
-                                                }}
-                                            >
+                                                }}>
                                                 Email
                                             </Typography>
                                             <TextField
@@ -463,18 +463,18 @@ function managerPortal({ users }) {
                                                     border: "1px solid black",
                                                     borderRadius: "5px",
                                                     margin: 1,
-                                                }}
-                                            ></TextField>
+                                                }}></TextField>
                                             <br></br>
                                         </Grid>
-                                        <Grid item xs={4}>
+                                        <Grid
+                                            item
+                                            xs={4}>
                                             <Typography
                                                 variant="managerPortalLabel"
                                                 sx={{
                                                     margin: 1,
                                                     marginBottom: 0,
-                                                }}
-                                            >
+                                                }}>
                                                 Password
                                             </Typography>
                                             <TextField
@@ -489,17 +489,17 @@ function managerPortal({ users }) {
                                                     border: "1px solid black",
                                                     borderRadius: "5px",
                                                     margin: 1,
-                                                }}
-                                            ></TextField>
+                                                }}></TextField>
                                         </Grid>
-                                        <Grid item xs={4}>
+                                        <Grid
+                                            item
+                                            xs={4}>
                                             <Typography
                                                 variant="managerPortalLabel"
                                                 sx={{
                                                     margin: 1,
                                                     marginBottom: 0,
-                                                }}
-                                            >
+                                                }}>
                                                 Roles
                                             </Typography>
                                             <br></br>
@@ -511,9 +511,10 @@ function managerPortal({ users }) {
                                                 name="roles"
                                                 input={<CustomInput />}
                                                 label="Roles"
-                                                sx={{ margin: 1 }}
-                                            >
-                                                <MenuItem value="none" disabled>
+                                                sx={{ margin: 1 }}>
+                                                <MenuItem
+                                                    value="none"
+                                                    disabled>
                                                     Choose Role
                                                 </MenuItem>
                                                 <MenuItem value={"Writer"}>
@@ -524,21 +525,21 @@ function managerPortal({ users }) {
                                                     Copy-Editor
                                                 </MenuItem>
                                                 <MenuItem
-                                                    value={"Editor-In-Chief"}
-                                                >
+                                                    value={"Editor-In-Chief"}>
                                                     Editor-In-Chief
                                                 </MenuItem>
                                             </Select>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={4}>
+                                    <Grid
+                                        item
+                                        xs={4}>
                                         <Button
                                             variant="contained"
                                             color="primaryButton"
                                             type="submit"
                                             size="medium"
-                                            sx={{ margin: 1, color: "white" }}
-                                        >
+                                            sx={{ margin: 1, color: "white" }}>
                                             Create User
                                         </Button>
                                     </Grid>
@@ -555,9 +556,10 @@ function managerPortal({ users }) {
                 sx={{
                     width: "70%",
                     margin: "auto",
-                }}
-            >
-                <Typography variant="h3" sx={{ margin: 2 }}>
+                }}>
+                <Typography
+                    variant="h3"
+                    sx={{ margin: 2 }}>
                     User List
                 </Typography>
                 {users.map((user) => (
@@ -576,15 +578,13 @@ function managerPortal({ users }) {
                                     height: "auto",
                                     margin: 2,
                                     paddingBottom: "0px",
-                                }}
-                            >
+                                }}>
                                 {
                                     <UserCard
                                         email={user.email}
                                         password={user.password}
                                         roles={user.roles}
-                                        active={user.active}
-                                    ></UserCard>
+                                        active={user.active}></UserCard>
                                 }
                             </Card>
                         </AccordionDetails>

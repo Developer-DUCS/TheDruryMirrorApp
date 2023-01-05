@@ -80,7 +80,12 @@ export function testSplashPage() {
     if (status === "authenticated") {
         console.log(data.user.role);
         console.log(data.user);
-        const role = data.user.role;
+
+        const userData = data.user.payload.payload;
+        console.log("Role \n" + userData.userRoles["en-US"])
+        
+        const role = userData.userRoles["en-US"];
+        console.log("🚀 ~ file: testSplashPage.js:88 ~ testSplashPage ~ role", role)
 
         return (
             <div>
@@ -92,43 +97,45 @@ export function testSplashPage() {
                         justifyContent: "center",
                         alignContent: "left",
                         flexDirection: "column",
-                    }}
-                >
-                    <Grid item sx={{marginTop: 3}}>
+                    }}>
+                    <Grid
+                        item
+                        sx={{ marginTop: 3 }}>
                         <Typography
                             variant="spashBody"
                             sx={{
                                 width: "20%",
                                 m: 5,
                                 marginLeft: 8,
-                                fontSize: "36px"
-                            }}
-                        >
-                            Welcome, {data.user.fname} {data.user.lname}.
+                                fontSize: "36px",
+                            }}>
+                            Welcome, {userData.fname["en-US"]} {userData.lname["en-US"]}.
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container direction="column" spacing={3}>
+                <Grid
+                    container
+                    direction="column"
+                    spacing={3}>
                     <Grid
                         container
                         item
                         direction="row"
                         justifyContent="center"
-                        sx={{ marginTop: 8 }}
-                    >
+                        sx={{ marginTop: 8 }}>
                         {role === "Writer" ||
                         role === "Copy-Editor" ||
                         role === "Editor-In-Chief" ? (
-                            <Grid item xs={2}>
+                            <Grid
+                                item
+                                xs={2}>
                                 <Stack
                                     alignItems="center"
-                                    justifyContent="center"
-                                >
+                                    justifyContent="center">
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={writeDraftRoute}
-                                        >
+                                            onClick={writeDraftRoute}>
                                             <CreateIcon
                                                 sx={{
                                                     color: "white",
@@ -149,16 +156,16 @@ export function testSplashPage() {
                         {role === "Writer" ||
                         role === "Copy-Editor" ||
                         role === "Editor-In-Chief" ? (
-                            <Grid item xs={2}>
+                            <Grid
+                                item
+                                xs={2}>
                                 <Stack
                                     alignItems="center"
-                                    justifyContent="center"
-                                >
+                                    justifyContent="center">
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={mySeeEditsRoute}
-                                        >
+                                            onClick={mySeeEditsRoute}>
                                             <AssignmentTurnedInIcon
                                                 sx={{
                                                     color: "white",
@@ -178,16 +185,16 @@ export function testSplashPage() {
 
                         {role === "Copy-Editor" ||
                         role === "Editor-In-Chief" ? (
-                            <Grid item xs={2}>
+                            <Grid
+                                item
+                                xs={2}>
                                 <Stack
                                     alignItems="center"
-                                    justifyContent="center"
-                                >
+                                    justifyContent="center">
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={editArticleRoute}
-                                        >
+                                            onClick={editArticleRoute}>
                                             <BorderColorIcon
                                                 sx={{
                                                     color: "white",
@@ -208,16 +215,16 @@ export function testSplashPage() {
                         {role === "Writer" ||
                         role === "Copy-Editor" ||
                         role === "Editor-In-Chief" ? (
-                            <Grid item xs={2}>
+                            <Grid
+                                item
+                                xs={2}>
                                 <Stack
                                     alignItems="center"
-                                    justifyContent="center"
-                                >
+                                    justifyContent="center">
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={seeDraftsRoute}
-                                        >
+                                            onClick={seeDraftsRoute}>
                                             <AssignmentIcon
                                                 sx={{
                                                     color: "white",
@@ -240,19 +247,18 @@ export function testSplashPage() {
                         container
                         item
                         direction="row"
-                        justifyContent="center"
-                    >
+                        justifyContent="center">
                         {role === "Editor-In-Chief" || role == "Manager" ? (
-                            <Grid item xs={2}>
+                            <Grid
+                                item
+                                xs={2}>
                                 <Stack
                                     alignItems="center"
-                                    justifyContent="center"
-                                >
+                                    justifyContent="center">
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={publishRoute}
-                                        >
+                                            onClick={publishRoute}>
                                             <PublishIcon
                                                 sx={{
                                                     color: "white",
@@ -294,16 +300,16 @@ export function testSplashPage() {
                         </Grid> */}
 
                         {role === "Manager" ? (
-                            <Grid item xs={2}>
+                            <Grid
+                                item
+                                xs={2}>
                                 <Stack
                                     alignItems="center"
-                                    justifyContent="center"
-                                >
+                                    justifyContent="center">
                                     <Buttonavatar>
                                         <IconButton
                                             size="large"
-                                            onClick={siteSettingsRoute}
-                                        >
+                                            onClick={siteSettingsRoute}>
                                             <SettingsIcon
                                                 sx={{
                                                     color: "white",
@@ -326,10 +332,23 @@ export function testSplashPage() {
         );
     } else {
         return (
-        <Stack display = "flex" spacing = {2} justifyContent="center" alignItems="center">
-            <Typography variant = "h2" color = "black">Please sign in</Typography>
-            <Button variant= "contained" color = "error" onClick={redirectToSignIn}>Sign In</Button>
-        </Stack>
+            <Stack
+                display="flex"
+                spacing={2}
+                justifyContent="center"
+                alignItems="center">
+                <Typography
+                    variant="h2"
+                    color="black">
+                    Please sign in
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={redirectToSignIn}>
+                    Sign In
+                </Button>
+            </Stack>
         );
     }
 }

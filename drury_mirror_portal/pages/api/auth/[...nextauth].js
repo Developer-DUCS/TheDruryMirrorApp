@@ -1,79 +1,80 @@
+// ----------------------------------------------------------------
+//
 // [...nextauth].js
-// any route directed to this path will go to this endpoint?
-
+// - Uses NextAuth npm module to authorize user on login, then stores user data in sessions
+//
+// ----------------------------------------------------------------
+//
 //
 
 import NextAuth from "next-auth";
-//import { CredentialsProvider } from 'next-auth'
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export default NextAuth({
     providers: [
         CredentialsProvider({
-            name: "Credentials",
+            name: "credentials",
             async authorize(credentials, req) {
-                const payload = {
-                    email: credentials.email,
+
+                // Retrieve auth credentials
+                let userData = {
+                    username: credentials.username,
                     password: credentials.password,
                 };
 
-                const res = await fetch("http://localhost:3000/api/login", {
+                let payload = JSON.stringify(userData);
+                console.log("Payload: \n" + payload)
+
+                // Set options...
+                const options = {
                     method: "POST",
-                    body: JSON.stringify(payload),
                     headers: {
                         "Content-Type": "application/json",
-                        //tenant: credentials.tenantKey,
                         "Accept-Language": "en-US",
                     },
-                });
+                    body: payload,
+                };
+                
+                const endpoint = "http://localhost:3000/api/contentful/LoginUser";
+                //const endpoint = "/api/GetClasses";
 
-                const user = await res.json();
-                if (!res.ok) {
-                    console.log("HERE");
+                // 1. Fetch to backend, see if user exists and matches
+                let res = await fetch(endpoint, options);
 
-                    throw new Error(user.exception);
-                }
-                // If no error and we have user data, return it
-                console.log("RES:", res.ok);
-                if (res.ok && user) {
-                    // return {email: user.email, role: user.role};
-                    console.log("USER EMAIL: ", user.email);
-                    console.log("USER: ", user);
-                    // if (token.role == "Writer") {
-                    //     user.url = "articleWriting"
-                    // }
+                // 2. Capture response data (should be .payload)
+                let data = await res.json();
+
+                // 3. If response is okay, return user data
+                if (data.message === "Success") {
+                    let user = data;
                     return user;
                 }
+                else{
+                    return null;
+                }
 
-                // Return null if user data could not be retrieved
-                return null;
-            },
+            }
         }),
+
     ],
+    secret: "secret",
+    pages: {
+        signIn: "/Login",
+    },
     callbacks: {
-        session: async ({ session, token }) => {
-            if (session?.user) {
-                //console.log(session.user)
-                session.user.id = token.uid;
-                (session.user.fname = token.fname),
-                    (session.user.lname = token.lname),
-                    (session.user.role = token.role);
-            }
-            return session;
-        },
-        jwt: async ({ user, token }) => {
+        async jwt({ token, user }) {
+
             if (user) {
-                token.uid = user.id;
-                (token.fname = user.fname), (token.lname = user.lname);
-                token.role = user.role;
-                //console.log(user)
+                token.payload = user;
             }
-            // console.log("token: ",token)
 
             return token;
         },
-    },
 
-    // openssl rand -base64 32
-    secret: "3567LZkUcpWtaNOYUh5OdDiRckn2n7pbViPR1coOc3s=",
+        async session({ session, token }) {
+            session.user.payload = token.payload;
+
+            return session;
+        },
+    },
 });

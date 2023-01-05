@@ -18,7 +18,7 @@ export default function LoginPage() {
 
         const res = await signIn("credentials", {
             redirect: true,
-            email: event.target.username.value,
+            username: event.target.username.value,
             password: event.target.password.value,
             callbackUrl: "/testSplashPage",
         });
