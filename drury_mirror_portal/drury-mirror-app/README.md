@@ -16,7 +16,7 @@ npm run dev
 This runs the **Capacitor** dev environment for the ios and android platforms
 
 Next, run your desired platform device
-1. If you made any big changes and don't have [live reload]() set up, do 
+1. If you made any big changes and don't have [live reload](https://dev.to/k4u5h4l/configure-next-js-for-cross-platform-development-with-capacitor-js-ai2) set up, do 
     ```bash
     npx cap sync
     ``` 
