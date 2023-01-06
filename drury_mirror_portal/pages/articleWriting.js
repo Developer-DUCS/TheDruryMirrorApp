@@ -24,8 +24,9 @@ import {
     Grid,
     Typography,
     Checkbox,
+    IconButton,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import UploadIcon from "@mui/icons-material/Upload";
 
 import React, { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
@@ -109,6 +110,30 @@ export default function articleWriting() {
         }
     };
 
+    // Stores the base64 image details
+    const [imageData, setImageData] = useState("")
+
+    function uploadFileHandler() {
+        // Open a file explorer for a user that only accepts image files
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+        fileInput.click();
+
+        // When the user selects an image, send the image to the server using the uploadHandler API endpoint
+        fileInput.addEventListener("change", async (event) => {
+            // 1. Convert file into base64 object
+            const file = event.target.files[0]
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                console.log("RESULT", reader.result);
+                setImageData(reader.result)
+                console.log("🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ imageData", imageData)
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
     const handleSubmit = async (event) => {
         // Stop the form from submitting and refreshing the page.
         console.log(value);
@@ -116,10 +141,13 @@ export default function articleWriting() {
         console.log("User Data: \n" + JSON.stringify(data));
         let session = await getSession();
         let author =
-        data.user.payload.payload.fname["en-US"] +
-        " " +
-        data.user.payload.payload.lname["en-US"];
-        console.log("🚀 ~ file: articleWriting.js:119 ~ handleSubmit ~ author", author)
+            data.user.payload.payload.fname["en-US"] +
+            " " +
+            data.user.payload.payload.lname["en-US"];
+        console.log(
+            "🚀 ~ file: articleWriting.js:119 ~ handleSubmit ~ author",
+            author
+        );
 
         // Get data from the form
         if (router.query.id) {
@@ -132,6 +160,7 @@ export default function articleWriting() {
                 author: author,
                 article: value,
                 readyForEdits: readyForEdits,
+                thumbnailImage: selectedFile,
                 aid: router.query.id,
             };
 
@@ -141,7 +170,7 @@ export default function articleWriting() {
             console.log(JSONdata);
 
             // API endpoint where we send form data
-            const endpoint = "/api/conentful/SaveArticle";
+            const endpoint = "/api/contentful/SaveArticle";
 
             // Form the request for sending data to the server
             const options = {
@@ -163,7 +192,10 @@ export default function articleWriting() {
             );
         } else {
             console.log(
-                "Is Checked: " + document.getElementById("checkbox").checked + " " + data.user.payload.payload.email["en-US"]
+                "Is Checked: " +
+                    document.getElementById("checkbox").checked +
+                    " " +
+                    data.user.payload.payload.email["en-US"]
             );
             let readyForEdits = document.getElementById("checkbox").checked;
 
@@ -171,6 +203,7 @@ export default function articleWriting() {
                 email: data.user.payload.payload.email["en-US"],
                 author: author,
                 article: value,
+                thumbnailImage: selectedFile,
                 readyForEdits: readyForEdits,
             };
 
@@ -253,6 +286,32 @@ export default function articleWriting() {
                 <div className={styles.divWriting}>
                     <div>
                         <Header />
+                        <IconButton
+                            style={{
+                                border: "2px solid black",
+                                borderRadius: 2,
+                                backgroundColor: "#B63831",
+                                color: "white",
+                            }}
+                            sx={{ borderRadius: 2, m: 2, p: 1 }}
+                            onClick={() => {
+                                uploadFileHandler();
+                            }}>
+                            <UploadIcon />
+                            Upload!
+                        </IconButton>
+                        <Box>
+                            <Typography sx={{ m: 1, color: "white" }}>
+                                Image Preview:
+                            </Typography>
+                            <img src={imageData} width={200} />
+                        </Box>
+                        <div>
+                            <img
+                                src=""
+                                id="articleThumbnail"
+                            />
+                        </div>
                         <Typography
                             variant="h5"
                             sx={{ m: 2, marginBottom: 0, color: "white" }}>

@@ -1,13 +1,13 @@
 // --------------------------------------------------
 //
-// CreateUser.js
-// - Creates a new Entry with a Content Model type of User
-// - Info parsed from inputs on Manager.js
+// SaveArticle.js
+// - Creates a new Entry with a Content Model type of Article
+// - Info parsed from inputs on articleWriting.js
 //
 // Contentful Documentation: https://www.contentful.com/help/adding-new-entry/
 //
 // Modification Log:
-// 01 04 - Thomas O. created CreateUser.js
+// 01 04 - Thomas O. created SaveArticle.js
 //
 // TODO: 
 // - Thumbnail (prevents current articles from publishing)
@@ -23,6 +23,31 @@ const client = contentful.createClient({
     accessToken: "CFPAT-r1ZzcvV18KpPzLm7dhrNJlMngdzJf-xlYlgcw6QfIe4",
 });
 
+async function uploadImage(file) {
+
+  // Get the space for the specified SPACE_ID
+  let spaceID = process.env.CONTENTFUL_SPACE_ID;
+  const space = await client.getSpace(spaceID);
+
+  // Create a new asset for the file
+  const asset = await space.createAsset({
+    fields: {
+      file: {
+        fileName: file.name,
+        contentType: file.type,
+        file: file,
+      },
+    },
+  });
+
+  // Publish the asset
+  asset.publish();
+
+  // Return the asset's URL
+  return asset.fields.file.url;
+}
+
+
 export default (req, res) => {
     let body = req.body
     let spaceID = process.env.CONTENTFUL_SPACE_ID;
@@ -32,6 +57,7 @@ export default (req, res) => {
     let author = body.author;
     let testHeadline = "Test Headline";
     let email = body.email;
+    let thumbnailImage = body.thumbnailImage
 
     // Headline: "Test Headline New Article Saved Recently"
     let headlineWords = testHeadline.split(" ") // now "[Test, Headline, New, Article, Saved, Recently]"
@@ -78,7 +104,7 @@ export default (req, res) => {
 
     // Now: "Test-Headline-New-Article-Saved"
 
-    // TODO: Thumbnail upload
+    // TODO: Thumbnail upload 6 1184
 
     // Create entry
     // - gets space via space ID
