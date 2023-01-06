@@ -9,7 +9,9 @@
 // Modification Log:
 // 01 04 - Thomas O. created CreateUser.js
 //
-//
+// TODO: 
+// - Thumbnail (prevents current articles from publishing)
+// - Upload Button for Thumbnail
 //
 // --------------------------------------------------
 
@@ -22,15 +24,61 @@ const client = contentful.createClient({
 });
 
 export default (req, res) => {
+    let body = req.body
     let spaceID = process.env.CONTENTFUL_SPACE_ID;
 
-    let check = body.check;
+    let readyForEdits = body.readyForEdits;
     let articleString = body.article;
     let author = body.author;
     let testHeadline = "Test Headline";
     let email = body.email;
 
-    // TODO: Thumbnail, Headline
+    // Headline: "Test Headline New Article Saved Recently"
+    let headlineWords = testHeadline.split(" ") // now "[Test, Headline, New, Article, Saved, Recently]"
+    let slug = "";
+
+    // Limits slug to five words
+    if( headlineWords.length == 5){
+        for (let i = 0; i < 5; i++) {
+            const element = headlineWords[i];
+            if(i == 4) slug += element;
+            if(i < 5) slug += element + "-";
+        }
+    }
+
+    if( headlineWords.length == 4){
+        for (let i = 0; i < 4; i++) {
+            const element = headlineWords[i];
+            if(i == 3) slug += element;
+            if(i < 4) slug += element + "-";
+        }
+    }
+
+    if( headlineWords.length == 3){
+        for (let i = 0; i < 3; i++) {
+            const element = headlineWords[i];
+            if(i == 2) slug += element;
+            if(i < 3) slug += element + "-";
+        }
+    }
+
+    if( headlineWords.length == 2){
+        for (let i = 0; i < 2; i++) {
+            const element = headlineWords[i];
+            if(i == 1) slug += element;
+            if(i < 2) slug += element + "-";
+        }
+    }
+    if( headlineWords.length == 1){
+        for (let i = 0; i < 1; i++) {
+            const element = headlineWords[i];
+            if(i < 5) slug += element + "-";
+        }
+    }
+
+    // Now: "Test-Headline-New-Article-Saved"
+
+    // TODO: Thumbnail upload
 
     // Create entry
     // - gets space via space ID
@@ -39,21 +87,23 @@ export default (req, res) => {
     client
         .getSpace(spaceID)
         .then((space) => space.getEnvironment("master"))
-        .then((environment) =>
+        .then((environment) => {
+            const date = new Date()
+            let dateTime = date.getDate();
             environment.createEntry("article", {
                 fields: {
                     author: { "en-US": `${author}` },
                     authorEmail: { "en-US": `${email}` },
                     headline: { "en-US": `${testHeadline}` },
                     body: { "en-US": `${articleString}` },
-                    thumbnail: { "en-US": `${dateTime}` },
-                    status: { "en-US": `${roles}` },
-                    creationDate: { "en-US": `${roles}` },
                     status: { "en-US": 0 },
+                    creationDate: { "en-US": `${dateTime}` },
                     comments: { "en-US": { comments: [{}] } },
+                    slug: { "en-US": `${slug}` },
+                    check: { "en-US": `${readyForEdits}` },
                 },
-            })
-        )
+            });
+        })
         .then((entry) => {
             console.log("Entry Made: \n" + JSON.stringify(entry));
 

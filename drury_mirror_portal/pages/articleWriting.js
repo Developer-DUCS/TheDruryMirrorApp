@@ -113,20 +113,25 @@ export default function articleWriting() {
         // Stop the form from submitting and refreshing the page.
         console.log(value);
         event.preventDefault();
-
+        console.log("User Data: \n" + JSON.stringify(data));
         let session = await getSession();
         let author =
-            session.userdata.payload.payload.fname["en-US"] +
-            " " +
-            session.userdata.payload.payload.lname["en-US"];
+        data.user.payload.payload.fname["en-US"] +
+        " " +
+        data.user.payload.payload.lname["en-US"];
+        console.log("🚀 ~ file: articleWriting.js:119 ~ handleSubmit ~ author", author)
 
         // Get data from the form
         if (router.query.id) {
+            console.log(
+                "Is Checked: " + document.getElementById("checkbox").checked
+            );
+            let readyForEdits = document.getElementById("checkbox").checked;
             const data = {
-                email: session.userdata.payload.payload.email["en-US"],
+                email: data.user.payload.payload.email["en-US"],
                 author: author,
                 article: value,
-                check: document.getElementById("checkbox").checked,
+                readyForEdits: readyForEdits,
                 aid: router.query.id,
             };
 
@@ -157,18 +162,23 @@ export default function articleWriting() {
                 result
             );
         } else {
-            const data = {
-                email: session.userdata.payload.payload.email["en-US"],
+            console.log(
+                "Is Checked: " + document.getElementById("checkbox").checked + " " + data.user.payload.payload.email["en-US"]
+            );
+            let readyForEdits = document.getElementById("checkbox").checked;
+
+            const articleData = {
+                email: data.user.payload.payload.email["en-US"],
                 author: author,
                 article: value,
-                check: document.getElementById("checkbox").checked,
+                readyForEdits: readyForEdits,
             };
 
-            console.log(data);
-            const JSONdata = JSON.stringify(data);
+            console.log(articleData);
+            const JSONdata = JSON.stringify(articleData);
             console.log(JSONdata);
 
-            const endpoint = "/api/conentful/SaveArticle";
+            const endpoint = "/api/contentful/SaveArticle";
 
             // Form the request for sending data to the server.
             const options = {
@@ -206,7 +216,7 @@ export default function articleWriting() {
                 // Make sure there is a session before making the API call
                 if (session) {
                     const data = {
-                        email: session.user.email,
+                        email: data.user.payload.payload.email["en-US"],
                         id: id,
                     };
                     let JSONdata = JSON.stringify(data);
