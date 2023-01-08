@@ -2,7 +2,7 @@
 
 1. Android Studio
 2. Android SDK
-3. Pixel 3a API 33a x86 x64 (Android Device)
+3. Pixel 3a API 33a x86 x64 (Android Virtual Device)
 4. Mac Users: install XCode
 
 ## Running
