@@ -21,25 +21,30 @@ import {
     Typography,
     IconButton,
     Grid,
+    Box
 } from "@mui/material";
 
 export default function ArticleFeed() {
     const [getArticles, setArticles] = useState([]);
+    const [getMessage, setMessage] = useState("");
 
     useEffect(() => {
         async function FetchArticles() {
             // API endpoint where we send form data.
             const endpoint = "/api/GetArticles";
 
+            let payload = {
+                message: "Sending request...,"
+            }
+
+            let JSONdata = JSON.stringify(payload);
+
             // Form the request for sending data to the server.
             const options = {
-                // The method is POST because we are sending data.
                 method: "POST",
-                // Tell the server we're sending JSON.
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // Body of the request is the JSON data we created above.
                 body: JSONdata,
             };
 
@@ -48,12 +53,41 @@ export default function ArticleFeed() {
             const resData = await response.json();
             if (response.status == 200) {
                 setArticles(resData.data);
-            }
-            else{
-                console.log("Error: \n" + response.msg + " \n \n" + response.error)
+            } else {
+                console.log(
+                    "Error: \n" + response.msg + " \n \n" + response.error
+                );
+                setMessage(
+                    "Error: \n" +
+                        JSON.stringify(response.msg) +
+                        " \n \n" +
+                        JSON.stringify(response.error)
+                );
             }
         }
+
+        FetchArticles();
     }, []);
 
-    return <div></div>;
+    const Feed = () => {
+        if (getMessage != "") {
+            return (
+            <Box>
+                <Typography sx={{color: "black", fontSize: "20px"}}>
+                    Cards:
+                </Typography>
+            </Box>
+            );
+        } else {
+            return <Typography sx={{color: "black"}}>{getMessage}</Typography>;
+        }
+    };
+
+    return (
+        <Box sx={{marginTop: 30}}>
+            <Box sx={{marginTop: 30}}>
+                <Feed />
+            </Box>
+        </Box>
+    );
 }

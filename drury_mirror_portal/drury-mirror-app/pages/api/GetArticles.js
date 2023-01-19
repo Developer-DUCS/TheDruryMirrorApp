@@ -9,17 +9,6 @@ export default async (req, res) => {
     // TODO: install tabnine
 
     let isDraft = "0";
-    const test = 2;
-
-    if (page == "draftList") {
-        isDraft = "0";
-    } else if (page == "copyEditorPortal") {
-        isDraft = "1";
-    } else if (page == "writerPortal") {
-        isDraft = "2";
-    } else if (page == "publishPage") {
-        isDraft = "4";
-    }
 
     let getQuery =
         "SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? AND isDraft = ?";
@@ -46,11 +35,7 @@ export default async (req, res) => {
                     isDraft: row.isDraft,
                 };
 
-                if (page == "publishPage" && article.isDraft != "4") {
-                    console.log("skipped article:", article);
-                } else {
-                    articles.push(article);
-                }
+                articles.push(article);
             });
 
             return res.status(200).json(articles);
