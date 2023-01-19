@@ -21,12 +21,20 @@ Next, run your desired platform device
     npx cap sync
     ``` 
     to "sync" builds between your code and Android Studio's gradle build
-2. 
+2.
 
 ```bash
 Android: npx cap run android
 iPhone: npx cap run iphone
 ```
+
+## Developing on Different WiFis
+
+You may need to change **capacitor.config.json** server -> url on different WiFis. Use your local WiFi address, find this by doing
+```bash
+ipconfig
+```
+In your command prompt.
 
 ## Useful Docs
 
