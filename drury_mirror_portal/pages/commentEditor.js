@@ -206,33 +206,26 @@ export function commentEditor() {
 
     const addComment = async (event) => {
         console.log("pressed button");
-        commentId = commentId + 1;
-        console.log(commentId);
+        //commentId = commentId + 1;
+        //console.log(commentId);
         //Grabs the cursor highlighted text
-        var comment = window.getSelection().toString();
-        // var comment2 = window.getSelection();
-        // let start = comment2.anchorOffset;
+        let comment = window.getSelection().toString();
 
-        // var selection = window.getSelection();
-        // if (selection.rangeCount > 0) {
-        //     var range = selection.getRangeAt(0);
-        //     console.log(
-        //         "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
-        //         range
-        //     );
-        //     var documentFragment = range.cloneContents();
-        //     var myIndex = range.startOffset;
-        //     console.log(
-        //         "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
-        //         myIndex
-        //     );
-        // }
-        // console.log(documentFragment || "nothing selected");
+        let testComment = window.getSelection().toString();
 
-        // console.log(
-        //     "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
-        //     start
-        // );
+        let textObj = window.getSelection();
+
+        console.log("Window Selection Obj",value.getRangeAt(textObj));
+
+        //The problem with what we were just trying is that it only finds the range of that 
+        //selected portion of the article. We need to know where in the article that comment is
+
+
+
+
+
+
+
 
         //Identifies the index of the beginning of the comment
         let start = value.indexOf(comment);
@@ -256,10 +249,20 @@ export function commentEditor() {
             com.push(comment[x]);
         }
         console.log(com.toString());
+        console.log("Start", start)
+        let end = start + comment.length;
+        console.log("End", end)
 
         //compares the two arrays to check if highlighted text is in article
-        if (check.toString() === com.toString()) {
+        if (value.indexOf(comment) == start & start + comment.length == end) {
+            
+            console.log("Start", value.indexOf(comment), start)
+            console.log("End", start + comment.length, end)
+
+            // check.toString() === com.toString()
+
             // ----------------------DECLARE OBJECTS-------------------------- //
+
 
             // React.createElement is the equivalent of document.createELement for React components
 
@@ -365,6 +368,9 @@ export function commentEditor() {
             );
 
             //Adds <span></span> tags to highlight the text in the article
+            console.log("Start: " , value.substring(index, index+range+2))
+            // console.log("End: " , value.substring(range))
+            
             if (index >= 0) {
                 document.getElementsByClassName("ql-editor")[0].innerHTML =
                     value.substring(0, index) +
@@ -374,13 +380,14 @@ export function commentEditor() {
                     value.substring(index, index + range) +
                     "</span>" +
                     value.substring(index + range);
-                console.log(
-                    "ql-editor: " +
-                        document.getElementsByClassName("ql-editor")[0]
-                            .innerHTML
-                );
+                // console.log(
+                //     "ql-editor: " +
+                //         document.getElementsByClassName("ql-editor")[0]
+                //             .innerHTML
+                // );
             }
         } else {
+            console.log("Notice called");
             let notice = document.getElementById("notice");
             notice.hidden = false;
             await new Promise((r) => setTimeout(r, 3000));
