@@ -204,10 +204,12 @@ export function commentEditor() {
 	//     const result = await response.json();
 	// };
 
+	let totalComments = 0;
+
 	const addComment = async (event) => {
-		console.log("pressed button");
-		//commentId = commentId + 1;
-		//console.log(commentId);
+		console.log("pressed add comment button");
+		commentId = commentId + 1;
+		console.log(commentId);
 		//Grabs the cursor highlighted text
 		let comment = window.getSelection().toString();
 
@@ -275,6 +277,7 @@ export function commentEditor() {
 		if (1 == 1) {
 			console.log("Start1", start);
 			console.log("End1", start + comment.length, end);
+			totalComments += 1;
 
 			// check.toString() === com.toString()
 
@@ -372,11 +375,14 @@ export function commentEditor() {
 
 			//Gets the index of the beginning of the highlighted text
 			var index = value.indexOf(comment);
+
 			index = start + 3; // + 3 cuz of <p>
 
 			//Gets the length of the highlight text
 			var range = comment.length;
 			range = end - start;
+
+			console.log("Value.length: " + value.length);
 
 			console.log(
 				" Starting at index: " +
@@ -389,6 +395,29 @@ export function commentEditor() {
 			console.log("Start: ", value.substring(index, index + range + 2));
 			// console.log("End: " , value.substring(range))
 
+			// if (index >= 0) {
+			// 	// document.getElementsByClassName("ql-editor")[0].innerHTML =
+			// 	// 	value.substring(0, index) +
+			// 	// 	"<span id=span" +
+			// 	// 	commentId +
+			// 	// 	' style="background-color: rgb(255, 255, 0); color:black;">' +
+			// 	// 	value.substring(index, index + range) +
+			// 	// 	"</span>" +
+			// 	// 	value.substring(index + range);
+			// 	let currArticle =
+			// 		document.getElementsByClassName("ql-editor")[0].innerHTML;
+			// 	currArticle.innerHTML.indexOf(end) += "</span>";
+
+			// 	currArticle.innerHTML[index] +=
+			// 		"<span id=span" +
+			// 		commentId +
+			// 		' style="background-color: rgb(255, 255, 0); color:black;">';
+			// 	// console.log(
+			// 	//     "ql-editor: " +
+			// 	//         document.getElementsByClassName("ql-editor")[0]
+			// 	//             .innerHTML
+			// 	// );
+			// }
 			if (index >= 0) {
 				document.getElementsByClassName("ql-editor")[0].innerHTML =
 					value.substring(0, index) +
