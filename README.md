@@ -25,7 +25,7 @@ Next, run your desired platform device
 
 ```bash
 Android: npx cap run android
-iPhone: npx cap run iphone
+iPhone: npx cap run iOS
 ```
 
 ## Useful Docs
