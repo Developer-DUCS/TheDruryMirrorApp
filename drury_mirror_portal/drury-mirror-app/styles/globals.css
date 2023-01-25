@@ -86,13 +86,7 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+background-color: white;
 }
 
 a {
@@ -117,6 +111,13 @@ a {
 @font-face {
   font-family: Garamond-Regular;
   src: url("../Lib/Fonts/Garamond-Regular.ttf");
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Brown-Regular;
+  src: url("../Lib/Fonts/Brown-Regular.ttf");
   format: ("woff2");
   font-display: swap;
 }

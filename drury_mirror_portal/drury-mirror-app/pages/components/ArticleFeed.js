@@ -21,12 +21,14 @@ import {
     Typography,
     IconButton,
     Grid,
-    Box
+    Box,
+    Card,
+    CardContent,
 } from "@mui/material";
 
 export default function ArticleFeed() {
+    const [getMessage, setMessage] = useState("null");
     const [getArticles, setArticles] = useState([]);
-    const [getMessage, setMessage] = useState("");
 
     useEffect(() => {
         async function FetchArticles() {
@@ -34,8 +36,8 @@ export default function ArticleFeed() {
             const endpoint = "/api/GetArticles";
 
             let payload = {
-                message: "Sending request...,"
-            }
+                message: "Sending request...,",
+            };
 
             let JSONdata = JSON.stringify(payload);
 
@@ -52,7 +54,8 @@ export default function ArticleFeed() {
             const response = await fetch(endpoint, options);
             const resData = await response.json();
             if (response.status == 200) {
-                setArticles(resData.data);
+                setArticles(resData);
+                setMessage(JSON.stringify(getArticles));
             } else {
                 console.log(
                     "Error: \n" + response.msg + " \n \n" + response.error
@@ -69,25 +72,45 @@ export default function ArticleFeed() {
         FetchArticles();
     }, []);
 
+    const ArticleCard = (props) => {
+        return (
+            <Card sx={{height: "150px"}}>
+                <CardContent>
+                    <Typography sx={{ color: "black", fontFamily: "Brown-Regular", fontSize: "24px", fontWeight: "bold" }}>
+                        {props.article.headline}
+                    </Typography>
+                </CardContent>
+            </Card>
+        );
+    };
+
     const Feed = () => {
-        if (getMessage != "") {
-            return (
-            <Box>
-                <Typography sx={{color: "black", fontSize: "20px"}}>
-                    Cards:
-                </Typography>
+        getArticles.reverse();
+        return (
+            <Box sx={{display: "flex", alignContent: "center", justifyContent: "center"}}>
+                <Grid
+                    container
+                    sx={{width: "80%", display: "flex", alignContent: "center", justifyContent: "center"}}
+                    spacing={3}>
+                    {getArticles.map((item) => (
+                        <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            md={4}
+                            lg={3}
+                            key={item.key}>
+                            <ArticleCard article={item} />
+                        </Grid>
+                    ))}
+                </Grid>
             </Box>
-            );
-        } else {
-            return <Typography sx={{color: "black"}}>{getMessage}</Typography>;
-        }
+        );
     };
 
     return (
-        <Box sx={{marginTop: 30}}>
-            <Box sx={{marginTop: 30}}>
-                <Feed />
-            </Box>
+        <Box sx={{ marginTop: 10 }}>
+            <Feed />
         </Box>
     );
 }

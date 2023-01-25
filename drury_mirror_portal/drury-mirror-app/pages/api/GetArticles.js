@@ -11,19 +11,19 @@ export default async (req, res) => {
     let isDraft = "0";
 
     let getQuery =
-        "SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? AND isDraft = ?";
+        "SELECT aid,author,headline,body,isDraft FROM articles";
     
     let query = getQuery;
 
-    conn.query(query, [email, isDraft], (err, rows) => {
+    conn.query(query, (err, rows) => {
         if (err) {
 
             console.log("error", err);
             
             return res.status(500).json({ error: err, msg: "SQL Fetching Error" });
         } else if (rows.length == 0) {
-
-            return res.status(400).json({ msg: "Articles not found" });
+            console.log("No articles")
+            return res.status(400).json({ msg: "No articles matching query." });
         } else {
             let articles = [];
             rows.forEach((row) => {
