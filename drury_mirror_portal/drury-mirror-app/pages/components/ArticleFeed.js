@@ -13,6 +13,18 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
+import Header from "./Header";
+import NavBar from "./NavBar";
+
+import { Virtuoso } from "react-virtuoso";
+import {
+    IonAvatar,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonPage,
+} from "@ionic/react";
+
 // Styling
 import {
     AppBar,
@@ -74,9 +86,15 @@ export default function ArticleFeed() {
 
     const ArticleCard = (props) => {
         return (
-            <Card sx={{height: "150px"}}>
+            <Card sx={{ height: "150px", m: 5, width: "80%" }}>
                 <CardContent>
-                    <Typography sx={{ color: "black", fontFamily: "Brown-Regular", fontSize: "24px", fontWeight: "bold" }}>
+                    <Typography
+                        sx={{
+                            color: "black",
+                            fontFamily: "Brown-Regular",
+                            fontSize: "24px",
+                            fontWeight: "bold",
+                        }}>
                         {props.article.headline}
                     </Typography>
                 </CardContent>
@@ -84,33 +102,26 @@ export default function ArticleFeed() {
         );
     };
 
-    const Feed = () => {
-        getArticles.reverse();
-        return (
-            <Box sx={{display: "flex", alignContent: "center", justifyContent: "center"}}>
-                <Grid
-                    container
-                    sx={{width: "80%", display: "flex", alignContent: "center", justifyContent: "center"}}
-                    spacing={3}>
-                    {getArticles.map((item) => (
-                        <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            md={4}
-                            lg={3}
-                            key={item.key}>
-                            <ArticleCard article={item} />
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
-        );
-    };
-
     return (
         <Box sx={{ marginTop: 10 }}>
-            <Feed />
+            <IonPage>
+                <Header />
+                <IonContent>
+                    <Virtuoso
+                        style={{ height: "100%" }}
+                        data={getArticles}
+                        itemContent={(index, article) => {
+                            return (
+                                <ArticleCard
+                                    key={index}
+                                    article={article}
+                                />
+                            );
+                        }}
+                    />
+                </IonContent>
+                <NavBar />
+            </IonPage>
         </Box>
     );
 }
