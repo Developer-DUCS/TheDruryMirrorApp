@@ -1,3 +1,13 @@
+// AboutUsSplashPage
+// Page Description:
+//                 The splash page that displays on the about us page. Removes about us button from normal splash page
+//Creation Date:
+//                  By: Daniel Brinck,  Jan. 23, 2023
+//
+//Modificaiton Log:
+//
+//
+
 import {
     TextField,
     Button,
@@ -30,11 +40,6 @@ export default function SplashHeader() {
         });
     };
 
-    // Handle the About Us button
-    const handleAbout = () => {
-        router.push("/about");
-    };
-
     // Sends user back to splash page when clicking mirror logo
     const handleHome = () => {
         router.push("/testSplashPage")
@@ -54,15 +59,7 @@ export default function SplashHeader() {
             }}
         >
             <Grid item xs={1}>
-                <Button
-                    sx={{ color: "white", marginRight: 2 }}
-                    variant="contained"
-                    color="primaryButton"
-                    onClick={handleAbout}
-                >
-                    About Us
-                </Button>
-            </Grid>
+            </Grid> 
             <Grid item xs={7}>
                 <Typography
                     variant="logoHeader"
