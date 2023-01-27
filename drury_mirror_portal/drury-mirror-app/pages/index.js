@@ -19,7 +19,7 @@ import { Typography, Box } from '@mui/material';
 export default function Home() {
 
 	return (
-		<Box sx={{backgroundColor: "white"}}>
+		<Box sx={{backgroundColor: "#e0dcdc"}}>
 			<Header/>
 			<ArticleFeed/>
 			<NavBar/>

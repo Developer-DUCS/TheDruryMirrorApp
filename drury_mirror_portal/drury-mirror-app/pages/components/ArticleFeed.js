@@ -102,26 +102,23 @@ export default function ArticleFeed() {
         );
     };
 
+    const ArticleFeed = () => {
+        return (
+            <Box>
+                {
+                    getArticles.map((item) => {
+                        <ArticleCard article={item} key={item.key}/>
+                    })
+                }
+            </Box>
+         );
+    }
+
     return (
-        <Box sx={{ marginTop: 10 }}>
-            <IonPage>
-                <Header />
-                <IonContent>
-                    <Virtuoso
-                        style={{ height: "100%" }}
-                        data={getArticles}
-                        itemContent={(index, article) => {
-                            return (
-                                <ArticleCard
-                                    key={index}
-                                    article={article}
-                                />
-                            );
-                        }}
-                    />
-                </IonContent>
-                <NavBar />
-            </IonPage>
+        <Box sx={{ marginTop: 10, backgroundColor: "#e0dcdc" }}>
+            <Header />
+                <ArticleFeed/>
+            <NavBar />
         </Box>
     );
 }
