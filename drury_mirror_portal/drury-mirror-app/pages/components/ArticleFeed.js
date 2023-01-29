@@ -86,7 +86,7 @@ export default function ArticleFeed() {
 
     const ArticleCard = (props) => {
         return (
-            <Card sx={{ height: "150px", m: 5, width: "80%" }}>
+            <Card sx={{ height: "150px", m: "auto", marginBottom: 2, marginTop: 2, width: "85%", background: "lightgrey" }}>
                 <CardContent>
                     <Typography
                         sx={{
@@ -105,19 +105,36 @@ export default function ArticleFeed() {
     const ArticleFeed = () => {
         return (
             <Box>
-                {
-                    getArticles.map((item) => {
-                        <ArticleCard article={item} key={item.key}/>
-                    })
-                }
+                {getArticles.map((item) => {
+                    <ArticleCard
+                        article={item}
+                        key={item.key}
+                    />;
+                })}
             </Box>
-         );
-    }
+        );
+    };
 
     return (
         <Box sx={{ marginTop: 10, backgroundColor: "#e0dcdc" }}>
             <Header />
-                <ArticleFeed/>
+            <IonPage>
+                <IonContent>
+                    <Virtuoso
+                        style={{ height: "100%" }}
+                        totalCount={getArticles.length}
+                        data={getArticles}
+                        itemContent={(index, article) => {
+                            return (
+                                <ArticleCard
+                                    article={article}
+                                    key={index}
+                                />
+                            );
+                        }}
+                    />
+                </IonContent>
+            </IonPage>
             <NavBar />
         </Box>
     );

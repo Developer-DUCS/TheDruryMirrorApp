@@ -29,7 +29,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export default function NavBar() {
     return (
-        <div style={{ position: "fixed", top: 0, width: "100%" }}>
+        <div style={{ position: "absolute", top: 0, width: "100%" }}>
             <AppBar
                 position="static"
                 sx={{ backgroundColor: "#BC2932", height: "55px" }}>

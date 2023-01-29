@@ -5,6 +5,7 @@
 .next
 ../next
 /.pnp
+/drury-mirror-app
 .pnp.js
 
 # testing
