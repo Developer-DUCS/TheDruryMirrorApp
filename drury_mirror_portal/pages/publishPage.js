@@ -145,7 +145,7 @@ export function draftList() {
 				<Header />
 
 				<Typography variant="copyEditorHeader" sx={{ m: 2 }}>
-					Article List
+					Publish Articles
 				</Typography>
 				<br></br>
 				<Typography sx={{ m: 2 }} variant="userLabel">

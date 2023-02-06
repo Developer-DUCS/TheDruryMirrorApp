@@ -150,6 +150,12 @@ export function commentEditor() {
 		console.log(commentId);
 		//Grabs the cursor highlighted text
 		var comment = window.getSelection().toString();
+		var textObj = window.getSelection();
+		var test = textObj.focusNode.parentElement;
+		console.log(
+			"🚀 ~ file: commentEditor.js:155 ~ addComment ~ test",
+			test
+		);
 		// var comment2 = window.getSelection();
 		// let start = comment2.anchorOffset;
 
