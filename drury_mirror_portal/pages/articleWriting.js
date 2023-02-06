@@ -1,18 +1,23 @@
+// Editor
 //import styles from '../styles/quillTestStyle.css'
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import styles from "../styles/article.module.css";
 
-import { useRouter } from "next/router";
+// Styling, MUI
 import { Button, Container, TextField, Box, Stack, Grid, Typography, Checkbox } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 
+// React, Next, system stuff
 import React, { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
+
+
+// Components
 import Header from "./header";
-
-//import parse from 'html-react-parser';
 
 // we import react-quill dynamically, to avoid including it in server-side
 // and we will render a loading state while the dynamic component is being loaded.
@@ -21,6 +26,7 @@ const QuillNoSSRWrapper = dynamic(import("react-quill"), {
     loading: () => <p>Loading ...</p>,
 });
 
+// Modules, options, etc. for the editor
 const modules = {
     toolbar: [
         [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -41,6 +47,7 @@ const modules = {
         matchVisual: false,
     },
 };
+
 /*
  * Quill editor formats
  * See https://quilljs.com/docs/formats/
@@ -65,9 +72,11 @@ const formats = [
 ];
 
 export default function articleWriting() {
-    // Handles the contents of the article editor.
+
+    // Handles the contents of the article editor
     let [value, setValue] = useState();
     const [getArticle, setArticle] = useState([]);
+    const [getImageData, setImageData] = useState("");
     const { status, data } = useSession();
 
     const router = useRouter();
@@ -106,6 +115,7 @@ export default function articleWriting() {
                 article: value,
                 check: document.getElementById("checkbox").checked,
                 aid: router.query.id,
+                imageData: getImageData,
             };
 
             // Send the data to the server in JSON format.
@@ -140,6 +150,7 @@ export default function articleWriting() {
                 author: author,
                 article: value,
                 check: document.getElementById("checkbox").checked,
+                imageData: getImageData,
             };
 
             // Send the data to the server in JSON format.
@@ -220,6 +231,29 @@ export default function articleWriting() {
         getArticleRoute();
     }, []);
 
+    // UploadFileHandler()
+    // - Converts the file uploaded into base 64
+    function uploadFileHandler() {
+        // Open a file explorer for a user that only accepts image files
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+        fileInput.click();
+    
+        // When the user selects an image, send the image to the server using the uploadHandler API endpoint
+        fileInput.addEventListener("change", async (event) => {
+            // 1. Convert file into base64 object
+            const file = event.target.files[0]
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                console.log("RESULT", reader.result);
+                setImageData(reader.result)
+                console.log("🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ imageData", getImageData)
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
     if (status === "authenticated") {
         return (
             // We pass the event to the handleSubmit() function on submit.
@@ -237,41 +271,15 @@ export default function articleWriting() {
                         </Button>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        {/* <Container>
-                            <TextField
-                                variant="filled"
-                                size="small"
-                                label="First Name"
-                                id="first"
-                                name="first"
-                                sx={{
-                                    input: {
-                                        color: "white",
-                                    },
-                                    label: {
-                                        color: "white",
-                                    },
-                                    marginLeft: -1,
-                                }}
-                                required
-                            />
-                            <TextField
-                                variant="filled"
-                                size="small"
-                                label="Last Name"
-                                id="last"
-                                name="last"
-                                sx={{
-                                    input: {
-                                        color: "white",
-                                    },
-                                    label: {
-                                        color: "white",
-                                    },
-                                }}
-                                required
-                            />
-                        </Container> */}
+                        <Button
+                            sx={{ m: 2 }}
+                            variant="contained"
+                            color="error"
+                            onClick={() => { uploadFileHandler(); }}
+                            startIcon={<DriveFolderUploadIcon/>}
+                        >
+                            Upload Thumbnail
+                        </Button>
                         <Box
                             sx={{
                                 backgroundColor: "white",
@@ -339,23 +347,3 @@ export default function articleWriting() {
         );
     }
 }
-
-// export default function Home() {
-//     return (
-//         <>
-//             <div>
-//                 <div className="px-6 py-4">
-//                     <form id="textEditor" action="#" method="post">
-//                         <label htmlFor="first">First name:</label><br></br>
-//                         <input type="text" id="first" name="first" /><br></br>
-//                         <label htmlFor="last">Last name:</label><br></br>
-//                         <input type="text" id="last" name="last" /><br></br>
-//                         <QuillNoSSRWrapper modules={modules} formats={formats} theme="snow" />
-//                         <button type="submit">Submit</button>
-//                     </form>
-//                 </div>
-//             </div>
-
-//         </>
-//     )
-// }

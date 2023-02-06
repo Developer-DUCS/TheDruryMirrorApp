@@ -14,6 +14,7 @@ export default (req, res) => {
         let author = body.author;
         let testHeadline = "Test Headline";
         let email = body.email;
+        let imageData = body.imageData;
 
         if (check) {
             check = "1";
@@ -34,7 +35,7 @@ export default (req, res) => {
                 (err) => {
                     //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
                     if (err) {
-                        console.log("Something went wrong");
+                        console.log("Connection Query Error");
                         console.log(err);
                         res.status(500).json({ error: "Failed Insertion" });
                     } else {
@@ -44,11 +45,11 @@ export default (req, res) => {
             );
         } else {
             saveQuery =
-                "INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())";
+                "INSERT INTO articles(email, author, headline, body, isDraft, thumbnailImage, createdDate) VALUES(?, ?, ?, ?, ?, ?, NOW())";
 
             conn.query(
                 saveQuery,
-                [email, author, testHeadline, articleString, check],
+                [email, author, testHeadline, articleString, check, imageData],
                 (err) => {
                     //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
                     if (err) {
@@ -56,19 +57,12 @@ export default (req, res) => {
                         console.log(err);
                         res.status(500).json({ error: "Failed Insertion" });
                     } else {
+                        console.log("Success");
                         res.status(201).json({ msg: "Successful Insertion" });
                     }
                 }
             );
         }
-
-        // const result = ({
-        //     query: 'INSERT INTO test(article) VALUES(?)',
-        //     values: articleString
-        // });
-        // res.status(201).json({msg: "Insertion Successful"});
-        // console.log("here");
-        // console.log(result);
     } catch (error) {
         console.log(error);
     }
