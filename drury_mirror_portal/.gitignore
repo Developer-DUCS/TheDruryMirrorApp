@@ -8,7 +8,11 @@
 # testing
 /coverage
 
+# mobile app
+/drury-mirror-app
+
 # next.js
+/drury-mirror-app/.next
 /.next/
 /out/
 
