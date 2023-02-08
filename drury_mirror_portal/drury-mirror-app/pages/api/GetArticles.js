@@ -37,7 +37,7 @@ export default async (req, res) => {
 
     let isDraft = "0";
 
-    let getQuery = "SELECT aid,author,headline,isDraft FROM articles";
+    let getQuery = "SELECT aid, author, headline, isDraft, body, thumbnailImage FROM articles";
 
     let query = getQuery;
 
@@ -60,12 +60,13 @@ export default async (req, res) => {
                     headline: row.headline,
                     body: row.body,
                     isDraft: row.isDraft,
+                    thumbnailImage: row.thumbnailImage,
                 };
 
                 articles.push(article);
             });
 
-            createArticleIndices(articles);
+            //createArticleIndices(articles);
 
             return res.status(200).json(articles);
         }

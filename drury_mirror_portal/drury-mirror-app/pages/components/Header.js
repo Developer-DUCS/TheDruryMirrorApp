@@ -57,7 +57,7 @@ export default function NavBar() {
     }
 
     return (
-        <div style={{ position: "absolute", top: 0, width: "100%" }}>
+        <div style={{ position: "absolute", top: 0, width: "100%", marginBottom: 10 }}>
             <AppBar
                 position="fixed"
                 sx={{ backgroundColor: "#BC2932", height: { getHeight } }}>

@@ -12,7 +12,9 @@
 // System stuff
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
+// Components
 import Header from "./Header";
 import NavBar from "./NavBar";
 
@@ -24,6 +26,9 @@ import {
     IonLabel,
     IonPage,
 } from "@ionic/react";
+
+//
+import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 
 // Styling
 import {
@@ -84,57 +89,111 @@ export default function ArticleFeed() {
         FetchArticles();
     }, []);
 
+    function truncateString(str) {
+        let truncated = str.slice(0, 25);
+        if (str.length > 25) {
+            truncated += "...";
+        }
+        return truncated;
+    }
+
     const ArticleCard = (props) => {
+        let thumbnail;
+
+        if (props.article.thumbnailImage) {
+            thumbnail = (
+                <Image
+                    alt="thumbnail"
+                    src={`data:image;base64,${props.article.thumbnailImage}`}
+                    width="80"
+                    height="80"
+                />
+            );
+        } else {
+            thumbnail = (
+                <Image
+                    alt="thumbnail"
+                    src={DUIcon.src}
+                    width="80"
+                    height="80"
+                />
+            );
+        }
+
+        let newHeadline = truncateString(props.article.headline);
+
         return (
-            <Card sx={{ height: "150px", m: "auto", marginBottom: 2, marginTop: 2, width: "85%", background: "lightgrey" }}>
+            <Card
+                sx={{
+                    height: "120px",
+                    m: "auto",
+                    marginBottom: 2,
+                    marginTop: 2,
+                    width: "85%",
+                    background: "#F0F0F0",
+                }}>
                 <CardContent>
-                    <Typography
-                        sx={{
-                            color: "black",
-                            fontFamily: "Brown-Regular",
-                            fontSize: "24px",
-                            fontWeight: "bold",
-                        }}>
-                        {props.article.headline}
-                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "row" }}>
+                        <Box
+                            item
+                            sx={{  }}>
+                            {thumbnail}
+                        </Box>
+                        <Box item sx={{marginLeft: 1}}>
+                            <Typography
+                                sx={{
+                                    color: "black",
+                                    fontFamily: "Brown-Regular",
+                                    fontSize: "20px",
+                                    fontWeight: "bold",
+                                    width: "80%",
+                                }}>
+                                {newHeadline}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: "black",
+                                    fontFamily: "Brown-Regular",
+                                    fontSize: "18px",
+                                    width: "60%",
+                                }}>
+                                By {props.article.author}
+                            </Typography>
+                        </Box>
+                    </Box>
                 </CardContent>
             </Card>
         );
     };
 
-    const ArticleFeed = () => {
+    const Feed = () => {
         return (
-            <Box>
-                {getArticles.map((item) => {
-                    <ArticleCard
-                        article={item}
-                        key={item.key}
-                    />;
-                })}
+            <Box sx={{ marginTop: 10 }}>
+                <IonPage>
+                    <IonContent>
+                        <Box sx={{ marginTop: 6 }}></Box>
+                        <Virtuoso
+                            totalCount={getArticles.length}
+                            data={getArticles}
+                            itemContent={(index, article) => {
+                                return (
+                                    <ArticleCard
+                                        article={article}
+                                        key={index}
+                                    />
+                                );
+                            }}
+                        />
+                    </IonContent>
+                </IonPage>
             </Box>
         );
     };
 
     return (
-        <Box sx={{ marginTop: 10, backgroundColor: "#e0dcdc" }}>
+        <Box>
             <Header />
-            <IonPage>
-                <IonContent>
-                    <Virtuoso
-                        style={{ height: "100%" }}
-                        totalCount={getArticles.length}
-                        data={getArticles}
-                        itemContent={(index, article) => {
-                            return (
-                                <ArticleCard
-                                    article={article}
-                                    key={index}
-                                />
-                            );
-                        }}
-                    />
-                </IonContent>
-            </IonPage>
+            <Feed />
             <NavBar />
         </Box>
     );
