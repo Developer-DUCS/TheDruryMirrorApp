@@ -45,6 +45,54 @@ const QuillNoSSRWrapper = dynamic(import("react-quill"), {
 	loading: () => <p>Loading ...</p>,
 });
 
+// * Look into this
+// const QuillNoSSRWrapper = dynamic(
+// 	async function () {
+// 		const module = await import("react-quill");
+// 		const Clipboard = await import("react-quill/dist/quill.clipboard.js");
+
+// 		module.Quill.register("modules/clipboard", Clipboard, true);
+
+// 		return module;
+// 	},
+// 	{
+// 		ssr: false,
+// 		loading: () => <p>Loading ...</p>,
+// 	}
+// );
+
+// * Look into this
+// * https://www.npmjs.com/package/react-quilljs
+
+// * Also look into this
+// const QuillNoSSRWrapper = dynamic(async function() {
+// 	const module = await import("react-quill");
+// 	const Clipboard = await import("react-quill/dist/quill.clipboard");
+
+// 	module.Quill.register("modules/clipboard", Clipboard.default, true);
+
+// 	const { Quill, Delta } = module;
+
+// 	const customConverter = {
+// 	  filter: 'span',
+// 	  replacement: function(content, node) {
+// 		let attributes = '';
+// 		if (node.hasAttribute('id')) {
+// 		  attributes += ` id="${node.getAttribute('id')}"`;
+// 		}
+
+// 		return `<span${attributes}>${content}</span>`;
+// 	  },
+// 	};
+
+// 	Quill.register(customConverter, true);
+
+// 	return module;
+//   }, {
+// 	ssr: false,
+// 	loading: () => <p>Loading ...</p>,
+//   });
+
 // Pulled from StackOverflow user "Hitesh Sahu" with modifications
 // - TextField component with style
 const CssTextField = withStyles({
@@ -78,6 +126,16 @@ const articleModules = {
 	clipboard: {
 		// toggle to add extra line breaks when pasting HTML:
 		matchVisual: false,
+		// Added this to try to get the id of the span tags back
+		// matchers: [
+		// 	[
+		// 		"span",
+		// 		function (node, delta) {
+		// 			delta.attributes.id = node.getAttribute("id");
+		// 			return delta;
+		// 		},
+		// 	],
+		// ],
 	},
 };
 
@@ -223,6 +281,9 @@ export function CommentViewer() {
 			//myArticle = myArticle.toString();
 			// !  setValue seems to be removing the id on the span tag ! //
 			setValue(myArticle);
+
+			// setValue(QuillNoSSRWrapper.clipboard.convert(myArticle));
+			// QuillNoSSRWrapper.clipboard.convert(myArticle);
 		}
 	}, [getArticle]);
 
@@ -352,6 +413,11 @@ export function CommentViewer() {
 	};
 
 	const resolve = async (event) => {
+		// * Consider this as an alternate solution
+		// var span = document.getElementById("mySpanId");
+		// var parent = span.parentNode;
+		// parent.removeChild(span);
+
 		// document.getElementById(`div ${commentId}`).remove();
 		let buttonId = event.target.id;
 		console.log(
