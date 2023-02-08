@@ -145,114 +145,193 @@ export function commentEditor() {
 	}, [getArticle]);
 
 	const addComment = async (event) => {
-		// Increment the commentId count
+		console.log("pressed button");
 		commentId = commentId + 1;
-
-		// Get the range of the current selection
-		var range = window.getSelection().getRangeAt(0);
-
-		// Get the text content of the current selection
-		// the length of this needs to be determined
-		let textContent = window.getSelection().toString();
-
-		// Create a new span element
-		var span = document.createElement("span");
-		span.style.backgroundColor = "yellow";
-
-		// Create the new id for the new span element
-		let id = "span" + commentId;
-		span.id = id;
-
-		// Wrap the selected content in the span element
-		span.appendChild(range.extractContents());
-
-		// Replace the selected content with the span element
-		range.insertNode(span);
-
-		const styledCommentBox = () => {
-			return (
-				<>
-					<CssTextField
-						id={`input${commentId}`}
-						onMouseEnter={mouseover}
-						onMouseLeave={mouseleave}
-						variant="filled"
-						name="commentTest"
-						sx={{
-							input: {
-								color: "black",
-								background: "white",
-								borderRadius: 1,
-							},
-						}}
-					></CssTextField>
-					<br></br>
-				</>
-			);
-		};
-
-		var commentBox = React.createElement(styledCommentBox, {
-			id: `input 5`,
-		});
-
-		// Label stateless functional component (SFC)
-		const LabelComponent = () => {
-			return (
-				<>
-					<Typography variant="body1" sx={{ color: "white", m: 1 }}>
-						{textContent}
-					</Typography>
-				</>
-			);
-		};
-
-		// Creates label element, just a MUI typography element
-		var label = React.createElement(LabelComponent, {
-			id: `label ${commentId}`,
-		});
-
-		// Stateless functional component button used for "resolve"
-		const styledButton = () => {
-			return (
-				<Button
-					id={`button${commentId}`}
-					onClick={(event) => {
-						resolve(event);
-					}}
-					variant="contained"
-					color="secondary"
-					sx={{ margin: 2, marginLeft: 0 }}
-				>
-					Delete
-				</Button>
-			);
-		};
-
-		// Creates a button element
-		var button = React.createElement(styledButton);
-
-		// Box containing each component generated from "Add Comment" button
-		// - each component is rendered whenever the box is rendered because they are children of the box
-		var box = React.createElement(
-			Box,
-			{
-				id: `div${commentId}`,
-			},
-			label,
-			commentBox,
-			button
+		console.log(commentId);
+		//Grabs the cursor highlighted text
+		var comment = window.getSelection().toString();
+		var textObj = window.getSelection();
+		var test = textObj.focusNode.parentElement;
+		console.log(
+			"🚀 ~ file: commentEditor.js:155 ~ addComment ~ test",
+			test
 		);
+		// var comment2 = window.getSelection();
+		// let start = comment2.anchorOffset;
 
-		// ----------------------RENDER OBJECTS-------------------------- //
-		const rootID = document.getElementById("currentComments");
-		const root = createRoot(rootID);
+		// var selection = window.getSelection();
+		// if (selection.rangeCount > 0) {
+		//     var range = selection.getRangeAt(0);
+		//     console.log(
+		//         "🚀 ~ file: commentEditor.js:209 ~ addComment ~ range",
+		//         range
+		//     );
+		//     var documentFragment = range.cloneContents();
+		//     var myIndex = range.startOffset;
+		//     console.log(
+		//         "🚀 ~ file: commentEditor.js:215 ~ addComment ~ myIndex",
+		//         myIndex
+		//     );
+		// }
+		// console.log(documentFragment || "nothing selected");
 
-		//
-		// allComments.forEach(element => {
+		// console.log(
+		//     "🚀 ~ file: commentEditor.js:204 ~ addComment ~ start",
+		//     start
+		// );
 
-		// });
-		console.log(box.props.id);
-		allComments.push(box);
+		//Identifies the index of the beginning of the comment
+		let start = value.indexOf(comment);
+
+		//empty arrays to fill and compare to check that the highlighted text or is not in the article
+		let check = [];
+		let com = [];
+
+		//iterates through the article where the comment should be and adds it to an array
+		for (let i = start; i < value.length; i++) {
+			check.push(value.charAt(i));
+
+			if (i == start + comment.length - 1) {
+				console.log(check.toString());
+				break;
+			}
+		}
+
+		//adds the comment into an array
+		for (let x = 0; x < comment.length; x++) {
+			com.push(comment[x]);
+		}
+		console.log(com.toString());
+
+		//compares the two arrays to check if highlighted text is in article
+		if (check.toString() === com.toString()) {
+			// ----------------------DECLARE OBJECTS-------------------------- //
+
+			// React.createElement is the equivalent of document.createELement for React components
+
+			const styledCommentBox = () => {
+				return (
+					<>
+						<CssTextField
+							id={`input${commentId}`}
+							onMouseEnter={mouseover}
+							onMouseLeave={mouseleave}
+							variant="filled"
+							name="commentTest"
+							sx={{
+								input: {
+									color: "black",
+									background: "white",
+									borderRadius: 1,
+								},
+							}}
+						></CssTextField>
+						<br></br>
+					</>
+				);
+			};
+
+			var commentBox = React.createElement(styledCommentBox, {
+				id: `input 5`,
+			});
+
+			// Label stateless functional component (SFC)
+			const LabelComponent = () => {
+				return (
+					<>
+						<Typography
+							variant="body1"
+							sx={{ color: "white", m: 1 }}
+						>
+							Label
+						</Typography>
+					</>
+				);
+			};
+
+			// Creates label element, just a MUI typography element
+			var label = React.createElement(LabelComponent, {
+				id: `label ${commentId}`,
+			});
+
+			// Stateless functional component button used for "resolve"
+			const styledButton = () => {
+				return (
+					<Button
+						id={`button${commentId}`}
+						onClick={(event) => {
+							resolve(event);
+						}}
+						variant="contained"
+						color="secondary"
+						sx={{ margin: 2, marginLeft: 0 }}
+					>
+						Resolve
+					</Button>
+				);
+			};
+
+			// Creates a button element
+			var button = React.createElement(styledButton);
+
+			// Box containing each component generated from "Add Comment" button
+			// - each component is rendered whenever the box is rendered because they are children of the box
+			var box = React.createElement(
+				Box,
+				{
+					id: `div${commentId}`,
+				},
+				label,
+				commentBox,
+				button
+			);
+
+			// ----------------------RENDER OBJECTS-------------------------- //
+			const rootID = document.getElementById("currentComments");
+			const root = createRoot(rootID);
+
+			//
+			// allComments.forEach(element => {
+
+			// });
+			console.log(box.props.id);
+			allComments.push(box);
+
+			//Gets the index of the beginning of the highlighted text
+			var index = value.indexOf(comment);
+
+			//Gets the length of the highlight text
+			var range = comment.length;
+
+			console.log(
+				" Starting at index: " +
+					index +
+					" Length of highlighted comment: " +
+					range
+			);
+
+			//Adds <span></span> tags to highlight the text in the article
+			if (index >= 0) {
+				document.getElementsByClassName("ql-editor")[0].innerHTML =
+					value.substring(0, index) +
+					"<span id=span" +
+					commentId +
+					' style="background-color: rgb(255, 255, 0); color:black;">' +
+					value.substring(index, index + range) +
+					"</span>" +
+					value.substring(index + range);
+				console.log(
+					"ql-editor: " +
+						document.getElementsByClassName("ql-editor")[0]
+							.innerHTML
+				);
+			}
+		} else {
+			let notice = document.getElementById("notice");
+			notice.hidden = false;
+			await new Promise((r) => setTimeout(r, 3000));
+			notice.hidden = true;
+		}
 	};
 
 	const resolve = async (event) => {
