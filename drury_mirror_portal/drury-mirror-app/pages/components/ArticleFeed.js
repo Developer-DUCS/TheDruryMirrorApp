@@ -146,7 +146,7 @@ export default function ArticleFeed() {
                                     fontFamily: "Brown-Regular",
                                     fontSize: "20px",
                                     fontWeight: "bold",
-                                    width: "80%",
+                                    width: "90%",
                                 }}>
                                 {newHeadline}
                             </Typography>
@@ -155,7 +155,6 @@ export default function ArticleFeed() {
                                     color: "black",
                                     fontFamily: "Brown-Regular",
                                     fontSize: "18px",
-                                    width: "60%",
                                 }}>
                                 By {props.article.author}
                             </Typography>
@@ -184,6 +183,7 @@ export default function ArticleFeed() {
                                 );
                             }}
                         />
+                        <Box sx={{ marginBottom: 9 }}></Box>
                     </IonContent>
                 </IonPage>
             </Box>
