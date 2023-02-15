@@ -51,12 +51,12 @@ export default function Header() {
             }}>
             <Grid
                 item
-                xs={4}
+                xs={3}
                 sx={{ marginTop: 1 }}>
                 <Button
                     variant="text"
                     sx={{
-                        fontSize: { lg: "18px", md: "16px", sm: "14px" },
+                        fontSize: { lg: "18px", md: "16px", sm: "6px" },
                         fontFamily: "Trajan",
                     }}
                     onClick={() => {
@@ -67,13 +67,21 @@ export default function Header() {
             </Grid>
             <Grid
                 item
-                xs={8}
+                xs></Grid>
+            <Grid
+                item
+                xs
                 sx={{
                     marginTop: 1,
-                    fontSize: { lg: "16px", md: "14px", sm: "12px" },
+                    fontSize: { lg: "16px", md: "12px", sm: "6px" },
                 }}>
                 <Button
-                    sx={{ color: "white", marginRight: 2, fontSize: { lg: "16px", md: "14px", sm: "12px" } }}
+                    sx={{
+                        color: "white",
+                        marginRight: 2,
+                        fontSize: { lg: "16px", md: "12px", sm: "6px" },
+                        height: { lg: "40px", md: "30px", sm: "20px" },
+                    }}
                     variant="contained"
                     color="primaryButton"
                     onClick={writeDraftRoute}>
@@ -83,7 +91,8 @@ export default function Header() {
                     sx={{
                         color: "white",
                         marginRight: 2,
-                        fontSize: { lg: "16px", md: "14px", sm: "12px" },
+                        fontSize: { lg: "16px", md: "12px", sm: "6px" },
+                        height: { lg: "40px", md: "30px", sm: "20px" },
                     }}
                     variant="contained"
                     color="primaryButton"
@@ -93,7 +102,10 @@ export default function Header() {
                 <Button
                     variant="outlined"
                     color="error"
-                    sx={{ fontSize: { lg: "16px", md: "14px", sm: "12px" } }}
+                    sx={{
+                        fontSize: { lg: "16px", md: "12px", sm: "6px" },
+                        height: { lg: "40px", md: "30px", sm: "20px" },
+                    }}
                     onClick={logOut}>
                     Log Out
                 </Button>
