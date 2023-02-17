@@ -10,9 +10,10 @@
 // ---------------------------------------------------
 
 // System stuff
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { debounce } from 'lodash';
 
 // Components
 import Header from "./Header";
@@ -26,8 +27,8 @@ import {
     IonLabel,
     IonPage,
 } from "@ionic/react";
+import SearchIcon from "@mui/icons-material/Search";
 
-//
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 
 // Styling
@@ -41,11 +42,83 @@ import {
     Box,
     Card,
     CardContent,
+    TextField
 } from "@mui/material";
 
 export default function ArticleFeed() {
+
+    // For error handling
     const [getMessage, setMessage] = useState("null");
     const [getArticles, setArticles] = useState([]);
+
+    // For searcb bar display property
+    const [getDisplay, setDisplay] = useState("none");
+
+    // For search value
+    const [getSearchTerm, setSearchTerm] = useState('');
+
+    // To adjust header height
+    const [getHeight, setHeight] = useState("55px");
+
+    // To adjust card margin (search header expanded)
+    const [getPaddingTop, setPaddingTop] = useState("50px");
+    
+    // On search click, set display property to block or none respectively
+    function onSearchButtonClick() {
+        if (getDisplay == "none") {
+            setDisplay("flex");
+        }
+        if (getDisplay == "flex") {
+            setDisplay("none");
+        }
+        if (getHeight == "55px") {
+            setHeight("100px");
+        }
+        if (getPaddingTop == "50px") {
+            setPaddingTop("135px");
+        }
+        if (getPaddingTop == "135px") {
+            setPaddingTop("50px");
+        }
+    }
+    
+    // handleSearch - debounce function
+    // - Calls the last onChange event from SearchBar
+    // - Prevents database-lookup everytime user inputs a letter rapidly (fast typers)
+    const handleSearch = debounce(async (getSearchTerm) => {
+        
+        let payload = {
+            searchText: getSearchTerm
+        };
+
+        let JSONdata = JSON.stringify(payload);
+        
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSONdata,
+        };
+
+        const response = await fetch('/api/GetArticleData', options)
+
+        const data = await response.json();
+
+        if(data){
+            console.log("🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data", data);
+            setArticles(data)
+        }
+
+    }, 500);
+    
+    // handleInputChange
+    // - handles the input change from textfield
+    // - react friendly
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+        handleSearch(event.target.value);
+    };
 
     useEffect(() => {
         async function FetchArticles() {
@@ -89,6 +162,8 @@ export default function ArticleFeed() {
         FetchArticles();
     }, []);
 
+    // truncateString
+    // - shortens headlines so they fit on cards
     function truncateString(str) {
         let truncated = str.slice(0, 25);
         if (str.length > 25) {
@@ -97,6 +172,8 @@ export default function ArticleFeed() {
         return truncated;
     }
 
+    // Article Card - stateless functional component
+    // - Creates a MUI card component from props with article data
     const ArticleCard = (props) => {
         let thumbnail;
 
@@ -119,7 +196,7 @@ export default function ArticleFeed() {
                 />
             );
         }
-
+        
         let newHeadline = truncateString(props.article.headline);
 
         return (
@@ -136,10 +213,12 @@ export default function ArticleFeed() {
                     <Box sx={{ display: "flex", flexDirection: "row" }}>
                         <Box
                             item
-                            sx={{  }}>
+                            sx={{}}>
                             {thumbnail}
                         </Box>
-                        <Box item sx={{marginLeft: 1}}>
+                        <Box
+                            item
+                            sx={{ marginLeft: 1 }}>
                             <Typography
                                 sx={{
                                     color: "black",
@@ -164,36 +243,106 @@ export default function ArticleFeed() {
             </Card>
         );
     };
-
-    const Feed = () => {
-        return (
-            <Box sx={{ marginTop: 10 }}>
-                <IonPage>
-                    <IonContent>
-                        <Box sx={{ marginTop: 6 }}></Box>
-                        <Virtuoso
-                            totalCount={getArticles.length}
-                            data={getArticles}
-                            itemContent={(index, article) => {
-                                return (
-                                    <ArticleCard
-                                        article={article}
-                                        key={index}
-                                    />
-                                );
-                            }}
-                        />
-                        <Box sx={{ marginBottom: 9 }}></Box>
-                    </IonContent>
-                </IonPage>
-            </Box>
-        );
-    };
-
+    
     return (
         <Box>
-            <Header />
-            <Feed />
+            <Box>
+                <Box
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        width: "100%",
+                        marginBottom: 10,
+                    }}
+                    >
+                    <AppBar
+                        position="fixed"
+                        sx={{
+                            backgroundColor: "#BC2932",
+                            height: { getHeight },
+                        }}>
+                        <Toolbar
+                            sx={{ display: "flex", flexDirection: "column" }}>
+                            <Grid container>
+                                <Grid
+                                    xs={11}
+                                    item>
+                                    <Link href="/">
+                                        <Button
+                                            variant="text"
+                                            sx={{
+                                                color: "white",
+                                                fontSize: "24px",
+                                                justifyContent: "space-around",
+                                                fontFamily: "TrajanPro-Regular",
+                                            }}>
+                                            Drury Mirror
+                                        </Button>
+                                    </Link>
+                                </Grid>
+                                <Grid
+                                    xs={1}
+                                    item
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "space-around",
+                                    }}>
+                                    <IconButton
+                                        edge="start"
+                                        onClick={() => {
+                                            onSearchButtonClick();
+                                        }}
+                                        sx={{ color: "white", display: "flex" }}
+                                        aria-label="menu">
+                                        <SearchIcon />
+                                    </IconButton>
+                                </Grid>
+                            </Grid>
+                            <TextField
+                                variant="filled"
+                                value={getSearchTerm}
+                                onChange={handleInputChange}
+                                sx={{
+                                    display: getDisplay,
+                                    m: 1,
+                                    marginTop: 0,
+                                    width: "99%",
+                                    backgroundColor: "white",
+                                    color: "black",
+                                    borderRadius: 1,
+                                    inputProps: {
+                                        width: "99%",
+                                        backgroundColor: "white",
+                                        color: "black",
+                                        borderRadius: 1,
+                                        border: "0px black solid",
+                                    },
+                                }}
+                            />
+                        </Toolbar>
+                    </AppBar>
+                </Box>
+                <Box>
+                    <IonPage>
+                        <IonContent>
+                            <Box sx={{ paddingTop: getPaddingTop }}></Box>
+                            <Virtuoso
+                                totalCount={getArticles.length}
+                                data={getArticles}
+                                itemContent={(index, article) => {
+                                    return (
+                                        <ArticleCard
+                                            article={article}
+                                            key={index}
+                                        />
+                                    );
+                                }}
+                            />
+                            <Box sx={{ marginBottom: 9 }}></Box>
+                        </IonContent>
+                    </IonPage>
+                </Box>
+            </Box>
             <NavBar />
         </Box>
     );

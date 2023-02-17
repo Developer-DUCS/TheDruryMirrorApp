@@ -20,7 +20,6 @@ export default function Home() {
 
 	return (
 		<Box sx={{backgroundColor: "#e0dcdc"}}>
-			<Header/>
 			<ArticleFeed/>
 			<NavBar/>
 		</Box>
