@@ -27,9 +27,6 @@ import {
     IonLabel,
     IonPage,
 } from "@ionic/react";
-import SearchIcon from "@mui/icons-material/Search";
-
-import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 
 // Styling
 import {
@@ -44,8 +41,58 @@ import {
     CardContent,
     TextField
 } from "@mui/material";
+import { makeStyles } from '@material-ui/core/styles';
+
+import SearchIcon from "@mui/icons-material/Search";
+
+import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 
 export default function ArticleFeed() {
+
+    const articleStyles = makeStyles((theme) => ({
+        container: {
+            display: 'flex',
+            flexDirection: 'row',
+            height: 'auto',
+            width: 'auto',
+            marginBottom: 5,
+            borderRadius: 5,
+            boxShadow: '0px 4px 5px rgba(0, 0, 0, 1)',
+            backgroundColor: 'white',
+        },
+        column: {
+            width: 'auto',
+            height: 'auto',
+            display: 'flex',
+        },
+        featuredImage: {
+            width: 120,
+            height: 120,
+            borderRadius: 5,
+            margin: theme.spacing(1),
+        },
+        headline: {
+            fontFamily: 'AvantGarde',
+            fontSize: 16,
+            width: 200,
+            margin: theme.spacing(1),
+            marginBottom: 0,
+        },
+        author: {
+            fontFamily: 'AvantGarde',
+            fontSize: 12,
+            width: 150,
+            margin: theme.spacing(1),
+            marginBottom: theme.spacing(2),
+        },
+        subtitle: {
+            fontFamily: 'AvantGarde',
+            fontSize: 12,
+            margin: theme.spacing(1),
+            marginTop: 0,
+            width: 200,
+        },
+    }));
 
     // For error handling
     const [getMessage, setMessage] = useState("null");
@@ -200,44 +247,23 @@ export default function ArticleFeed() {
         let newHeadline = truncateString(props.article.headline);
 
         return (
-            <Card
-                sx={{
-                    height: "120px",
-                    m: "auto",
-                    marginBottom: 2,
-                    marginTop: 2,
-                    width: "85%",
-                    background: "#F0F0F0",
-                }}>
+            <Card style={articleStyles.container} sx={{m: 2, marginBottom: 3}}>
                 <CardContent>
-                    <Box sx={{ display: "flex", flexDirection: "row" }}>
-                        <Box
-                            item
-                            sx={{}}>
-                            {thumbnail}
-                        </Box>
-                        <Box
-                            item
-                            sx={{ marginLeft: 1 }}>
-                            <Typography
-                                sx={{
-                                    color: "black",
-                                    fontFamily: "Brown-Regular",
-                                    fontSize: "20px",
-                                    fontWeight: "bold",
-                                    width: "90%",
-                                }}>
-                                {newHeadline}
-                            </Typography>
-                            <Typography
-                                sx={{
-                                    color: "black",
-                                    fontFamily: "Brown-Regular",
-                                    fontSize: "18px",
-                                }}>
-                                By {props.article.author}
-                            </Typography>
-                        </Box>
+                    <Box style={articleStyles.column}>
+                            <Box style={articleStyles.featuredImage}>
+                                {thumbnail}
+                            </Box>
+                            <Box style={articleStyles.column}>
+                                <Typography sx={{fontSize: 24, fontFamily: "AvantGrande"}}>
+                                    {newHeadline}
+                                </Typography>
+                                <Typography sx={{fontSize: 16, fontFamily: "AvantGrande"}}>
+                                    By {props.article.author}
+                                </Typography>
+                                <Typography style={articleStyles.subtitle}>
+                                    {props.subtitle}
+                                </Typography>
+                            </Box>
                     </Box>
                 </CardContent>
             </Card>
@@ -245,7 +271,7 @@ export default function ArticleFeed() {
     };
     
     return (
-        <Box>
+        <Box sx={{backgroundColor: "#F3F3F3"}}>
             <Box>
                 <Box
                     style={{
@@ -299,25 +325,27 @@ export default function ArticleFeed() {
                                 </Grid>
                             </Grid>
                             <TextField
-                                variant="filled"
                                 value={getSearchTerm}
                                 onChange={handleInputChange}
+                                variant="standard"
                                 sx={{
+                                    borderWidth: 0,
                                     display: getDisplay,
                                     m: 1,
+                                    p: 1,
+                                    borderRadius: 5,
                                     marginTop: 0,
                                     width: "99%",
                                     backgroundColor: "white",
                                     color: "black",
-                                    borderRadius: 1,
+                                    disabledUnderline: true,
                                     inputProps: {
                                         width: "99%",
                                         backgroundColor: "white",
-                                        color: "black",
-                                        borderRadius: 1,
-                                        border: "0px black solid",
+                                        disabledUnderline: true,
                                     },
                                 }}
+                                
                             />
                         </Toolbar>
                     </AppBar>
