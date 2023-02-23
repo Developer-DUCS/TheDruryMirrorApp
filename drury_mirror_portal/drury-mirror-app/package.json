@@ -20,6 +20,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@next/font": "13.1.1",
+    "dom-parser-react": "^0.3.0",
     "ionicons": "^6.0.4",
     "lodash": "^4.17.21",
     "mysql2": "^3.0.1",
@@ -27,6 +28,7 @@
     "next-transpile-modules": "^10.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-html-parser": "^2.0.2",
     "react-virtuoso": "^4.0.5"
   },
   "devDependencies": {

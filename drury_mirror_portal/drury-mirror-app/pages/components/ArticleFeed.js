@@ -167,6 +167,8 @@ export default function ArticleFeed() {
         handleSearch(event.target.value);
     };
 
+    // useFffect
+    // - used to fetch initial article data
     useEffect(() => {
         async function FetchArticles() {
             // API endpoint where we send form data.
@@ -248,24 +250,26 @@ export default function ArticleFeed() {
 
         return (
             <Card style={articleStyles.container} sx={{m: 2, marginBottom: 3}}>
-                <CardContent>
-                    <Box style={articleStyles.column}>
-                            <Box style={articleStyles.featuredImage}>
-                                {thumbnail}
-                            </Box>
-                            <Box style={articleStyles.column}>
-                                <Typography sx={{fontSize: 24, fontFamily: "AvantGrande"}}>
-                                    {newHeadline}
-                                </Typography>
-                                <Typography sx={{fontSize: 16, fontFamily: "AvantGrande"}}>
-                                    By {props.article.author}
-                                </Typography>
-                                <Typography style={articleStyles.subtitle}>
-                                    {props.subtitle}
-                                </Typography>
-                            </Box>
-                    </Box>
-                </CardContent>
+                <Link href={`/articles/[${props.article.aid}]`}>
+                    <CardContent>
+                        <Box style={articleStyles.column}>
+                                <Box style={articleStyles.featuredImage}>
+                                    {thumbnail}
+                                </Box>
+                                <Box style={articleStyles.column}>
+                                    <Typography sx={{fontSize: 24, fontFamily: "AvantGrande", color: "black"}}>
+                                        {newHeadline}
+                                    </Typography>
+                                    <Typography sx={{fontSize: 16, fontFamily: "AvantGrande", color: "black"}}>
+                                        By {props.article.author}
+                                    </Typography>
+                                    <Typography style={articleStyles.subtitle}>
+                                        {props.subtitle}
+                                    </Typography>
+                                </Box>
+                        </Box>
+                    </CardContent>
+                </Link>
             </Card>
         );
     };

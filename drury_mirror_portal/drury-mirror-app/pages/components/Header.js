@@ -65,6 +65,7 @@ export default function NavBar() {
                     <Grid container>
                         <Grid
                             xs={11}
+                            sx={{marginLeft: -2}}
                             item>
                             <Link href="/">
                                 <Button

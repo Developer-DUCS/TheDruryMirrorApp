@@ -6,14 +6,8 @@
 // Modification Log:
 //  9/28/2022: Created file and got it to connect. (Samuel R, Thomas N, Daniel B)
 
-//Sam's hat syas "Simulated Wheat 8"
-
 const mysql = require("mysql2"); // Needed mysql2 for the authentication handshake to work
 const config = require("./mysqlConfig.json"); // Configuration file for the mysql connection
-//import mysql from 'serverless-mysql';
-//const mysql = require('serverless-mysql');
-
-//console.log(config.sams_local_db[0]);
 
 // Connection variable that holds the configuration details
 // var connThomasUbuntu = mysql.createConnection ({
