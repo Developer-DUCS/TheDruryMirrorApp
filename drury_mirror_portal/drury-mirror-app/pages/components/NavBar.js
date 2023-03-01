@@ -22,6 +22,13 @@ import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 import LanguageIcon from "@mui/icons-material/Language";
 import PublicIcon from "@mui/icons-material/Public";
 import RoomIcon from "@mui/icons-material/Room";
+
+import SvgIcon from '@mui/material/SvgIcon';
+import {ReactComponent as DUicon} from "../../Lib/DU-Icon.svg"
+import { Icon } from "@material-ui/core";
+
+
+
 export default function NavBar() {
     return (
         <div style={{ position: "fixed", bottom: 1, width: "100%" }}>
@@ -46,7 +53,7 @@ export default function NavBar() {
                             }}
                             aria-label="menu">
                             <QueryBuilderIcon />
-                            <Typography sx={{ color: "white", m: 0 }}>
+                            <Typography sx={{ color: "white", m: 0, fontSize: "14px" }}>
                                 Recent
                             </Typography>
                         </IconButton>
@@ -63,8 +70,8 @@ export default function NavBar() {
                             }}
                             aria-label="menu">
                             <LanguageIcon />
-                            <Typography sx={{ color: "white", m: 0 }}>
-                                International
+                            <Typography sx={{ color: "white", m: 0, fontSize: "14px" }}>
+                                Global
                             </Typography>
                         </IconButton>
                     </Link>
@@ -80,7 +87,7 @@ export default function NavBar() {
                             }}
                             aria-label="menu">
                             <PublicIcon />
-                            <Typography sx={{ color: "white", m: 0}}>
+                            <Typography sx={{ color: "white", m: 0, fontSize: "14px"}}>
                                 National
                             </Typography>
                         </IconButton>
@@ -97,7 +104,7 @@ export default function NavBar() {
                             }}
                             aria-label="menu">
                             <RoomIcon />
-                            <Typography sx={{ color: "white", m: 0 }}>
+                            <Typography sx={{ color: "white", m: 0, fontSize: "14px" }}>
                                 Local
                             </Typography>
                         </IconButton>
