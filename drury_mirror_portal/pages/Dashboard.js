@@ -1,5 +1,5 @@
 //Page Description:
-//              Testing Splash page functionality
+//              The Dashboard for the webportal
 //Creation Date:
 //              By: Haley Saylor Nov. 18 2022
 //Modification Log:
@@ -40,7 +40,7 @@ const Buttonavatar = styled(Avatar)({
     height: 100,
 });
 
-export function testSplashPage() {
+export function dashboard() {
     const router = useRouter();
     const { status, data } = useSession();
 
@@ -334,4 +334,4 @@ export function testSplashPage() {
     }
 }
 
-export default testSplashPage;
+export default dashboard;

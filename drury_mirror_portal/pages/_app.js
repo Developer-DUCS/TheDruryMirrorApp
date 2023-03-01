@@ -18,7 +18,7 @@ export default function MyApp({ Component, pageProps }) {
 
     let curTheme = theme;
 
-    if (router.pathname == "/testSplashPage") {
+    if (router.pathname == "/Dashboard") {
         curTheme = theme;
     }
 
