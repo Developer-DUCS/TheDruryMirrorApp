@@ -26,7 +26,7 @@ const config = require("./mysqlConfig.json"); // Configuration file for the mysq
 // OR include configuration options
 
 // Change the myUser variable to your username
-var myUser = "sam";
+var myUser = "thomasN";
 // let db = "";
 // if (myUser == "sam") {
 // 	db = mysql.createConnection({
@@ -118,16 +118,30 @@ import mysql from "serverless-mysql";
 // 		password: config.sam_local_db[0].password,
 // 		database: config.sam_local_db[0].database,
 // 		port: config.sam_local_db[0].port,
-const db = mysql({
-	config: {
-		host: config.sam_local_db[0].host,
-		user: config.sam_local_db[0].user,
-		password: config.sam_local_db[0].password,
-		database: config.sam_local_db[0].database,
-		port: config.sam_local_db[0].port,
-	},
+let db = ""
+if(myUser == "sam"){
+	db = mysql({
+		config: {
+			host: config.sam_local_db[0].host,
+			user: config.sam_local_db[0].user,
+			password: config.sam_local_db[0].password,
+			database: config.sam_local_db[0].database,
+			port: config.sam_local_db[0].port,
+		},
 	library: mysql2,
 });
+} else if (myUser == "thomasN") {
+	db = mysql({
+		config: {
+			host: config.thomasN_local_db[0].host,
+			user: config.thomasN_local_db[0].user,
+			password: config.thomasN_local_db[0].password,
+			database: config.thomasN_local_db[0].database,
+			port: config.thomasN_local_db[0].port,
+		},
+	library: mysql2,
+});
+}
 
 export default async function executeQuery({ query, values }) {
 	try {
