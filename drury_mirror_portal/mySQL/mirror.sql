@@ -33,7 +33,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table thomas.comments
+-- Table `drurymirror`.`comments`
 -- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `drurymirror`.`comments` ;
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`comments` (
 ENGINE = InnoDB;
  
 -- -----------------------------------------------------
--- Table `thomas`.`article`
+-- Table `drurymirror`.`article`
 -- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `drurymirror`.`articles` ;
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `thomas`.`unfinished`
+-- Table `drurymirror`.`unfinished`
 -- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `drurymirror`.`unfinished` ;
@@ -82,6 +82,10 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`unfinished` (
   `createdDate` date NOT NULL,
   PRIMARY KEY (`fid`))
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `drurymirror`.`sessions`
+-- -----------------------------------------------------
 
 DROP TABLE IF EXISTS `drurymirror.sessions`;
 
@@ -98,18 +102,23 @@ CREATE TABLE IF NOT EXISTS `drurymirror.sessions`
   )
 ENGINE = InnoDB;
 
-
-
 -- -----------------------------------------------------
--- Table `thomas`.`article`
+-- Table `drurymirror`.`tokens`
 -- -----------------------------------------------------
 
--- DROP TABLE IF EXISTS `drurymirror`.`comments` ;
+DROP TABLE IF EXISTS `drurymirror.tokens`;
 
--- Need to discuss what the this table will have and how the ID's work
-
--- CREATE TABLE IF NOT EXISTS `thomas`.`comments`
-
+-- forgot_password_token row is a placeholder for the tokens used to reset passwords
+-- when a new password is made the token will be stored and overwritten when another
+-- new password is made.
+CREATE TABLE IF NOT EXISTS `drurymirror.tokens`
+  (
+    `id`                            INT NOT NULL AUTO_INCREMENT,
+    `email`                         INTEGER NOT NULL,
+    `forgot_password_token`         VARCHAR(255) NOT NULL
+    PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
