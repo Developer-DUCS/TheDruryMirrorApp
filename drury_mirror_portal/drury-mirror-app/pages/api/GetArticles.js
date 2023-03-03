@@ -41,6 +41,8 @@ export default async (req, res) => {
 
     let query = getQuery;
 
+    conn.connect()
+
     conn.query(query, (err, rows) => {
         if (err) {
             console.log("error", err);
@@ -54,15 +56,18 @@ export default async (req, res) => {
         } else {
             let articles = [];
             rows.forEach((row) => {
+
                 let article = {
                     aid: row.aid,
                     author: row.author,
                     headline: row.headline,
                     body: row.body,
                     isDraft: row.isDraft,
-                    thumbnailImage: row.thumbnailImage,
+                    thumbnailImageData: row.thumbnailImage,
                 };
 
+                console.log(article.thumbnailImageData);
+                
                 articles.push(article);
             });
 

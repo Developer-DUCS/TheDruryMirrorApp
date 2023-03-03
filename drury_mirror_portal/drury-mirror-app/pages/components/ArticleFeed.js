@@ -13,6 +13,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { Buffer } from 'buffer';
 import { debounce } from 'lodash';
 
 // Components
@@ -224,13 +225,18 @@ export default function ArticleFeed() {
     // Article Card - stateless functional component
     // - Creates a MUI card component from props with article data
     const ArticleCard = (props) => {
+        
         let thumbnail;
+        
+        if (props.article.thumbnailImageData) {
 
-        if (props.article.thumbnailImage) {
+            const imageData = Buffer.from(props.article.thumbnailImageData).toString('base64');
+            const imageType = Buffer.from(props.article.imageType).toString('base64');
+
             thumbnail = (
                 <Image
                     alt="thumbnail"
-                    src={`data:image;base64,${props.article.thumbnailImage}`}
+                    src={`data:${imageType};base64,${imageData}`}
                     width="80"
                     height="80"
                 />
