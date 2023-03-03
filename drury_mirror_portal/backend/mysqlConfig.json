@@ -1,4 +1,14 @@
 {
+    
+    "deployment_db": [
+        {
+            "host": "10.170.1.33",
+            "user": "sam",
+            "password": "Letmein!22",
+            "database": "drurymirror",
+            "port": "3306"
+        }
+    ],
     "thomas_ubuntu_db": [
         {
             "host": "10.15.6.126",
