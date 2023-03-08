@@ -11,6 +11,7 @@ import {
 
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { useSession, signOut } from "next-auth/react";
 // import { signOut } from "next-auth/client";
 
 export default function Header() {

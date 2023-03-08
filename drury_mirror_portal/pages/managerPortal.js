@@ -199,10 +199,10 @@ export default function managerPortal() {
 	const handleRole = async (event) => {
 		event.preventDefault();
 		console.log(event.target.name);
-		console.log(event.target.role.value);
+		console.log(event.target.roles.value);
 		let data = {
 			email: event.target.name,
-			role: event.target.role.value,
+			role: event.target.roles.value,
 		};
 
 		const JSONdata = JSON.stringify(data);

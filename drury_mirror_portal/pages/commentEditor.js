@@ -422,8 +422,11 @@ export function commentEditor() {
 		// If server returns the name submitted, that means the form works.
 		const result = await response.json();
 
+		// * Add a message displaying if the edits were submitted
+		// * before redirecting back to the list
+
 		//reload page upon submit
-		router.reload();
+		router.back();
 	};
 
 	useEffect(() => {

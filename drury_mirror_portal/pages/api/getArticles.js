@@ -73,6 +73,14 @@ export default async (req, res) => {
 	} else if (result.length == 0) {
 		return res.status(400).json({ error: "No articles found" });
 	} else {
+		let articles = [];
+		for (let i = 0; i < result.length; i++) {
+			if (page == "publishPage" && result[i].isDraft != "4") {
+				console.log("skipping article");
+			} else {
+				articles.push(result[i]);
+			}
+		}
 		return res.status(200).json(result);
 	}
 
