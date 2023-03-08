@@ -15,6 +15,7 @@ export default (req, res) => {
         let testHeadline = "Test Headline";
         let email = body.email;
         let imageData = body.imageData;
+        let imageType = body.imageType;
 
         if (check) {
             check = "1";
@@ -45,11 +46,11 @@ export default (req, res) => {
             );
         } else {
             saveQuery =
-                "INSERT INTO articles(email, author, headline, body, isDraft, thumbnailImage, createdDate) VALUES(?, ?, ?, ?, ?, ?, NOW())";
+                "INSERT INTO articles(email, author, headline, body, isDraft, imageType, thumbnailImage, createdDate) VALUES(?, ?, ?, ?, ?, ?, NOW())";
 
             conn.query(
                 saveQuery,
-                [email, author, testHeadline, articleString, check, imageData],
+                [email, author, testHeadline, articleString, check, imageType, imageData],
                 (err) => {
                     //console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
                     if (err) {

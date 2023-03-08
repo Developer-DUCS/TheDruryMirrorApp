@@ -77,6 +77,7 @@ export default function articleWriting() {
     let [value, setValue] = useState();
     const [getArticle, setArticle] = useState([]);
     const [getImageData, setImageData] = useState("");
+    const [getImageType, setImageType] = useState("");
     const { status, data } = useSession();
 
     const router = useRouter();
@@ -115,6 +116,7 @@ export default function articleWriting() {
                 article: value,
                 check: document.getElementById("checkbox").checked,
                 aid: router.query.id,
+                imageType: getImageType,
                 imageData: getImageData,
             };
 
@@ -128,13 +130,10 @@ export default function articleWriting() {
 
             // Form the request for sending data to the server.
             const options = {
-                // The method is POST because we are sending data.
                 method: "POST",
-                // Tell the server we're sending JSON.
                 headers: {
                     "Content-Type": "application/json",
                 },
-                // Body of the request is the JSON data we created above.
                 body: JSONdata,
             };
 
@@ -144,6 +143,7 @@ export default function articleWriting() {
             // Get the response data from server as JSON.
             // If server returns the name submitted, that means the form works.
             const result = await response.json();
+            
         } else {
             const data = {
                 email: session.user.email,
@@ -151,6 +151,7 @@ export default function articleWriting() {
                 article: value,
                 check: document.getElementById("checkbox").checked,
                 imageData: getImageData,
+                imageType: getImageType,
             };
 
             // Send the data to the server in JSON format.
@@ -246,8 +247,9 @@ export default function articleWriting() {
             const file = event.target.files[0]
             var reader = new FileReader();
             reader.onloadend = function () {
-                console.log("RESULT", reader.result);
+                console.log("RESULT", reader.type);
                 setImageData(reader.result)
+                setImageType(render.type);
                 console.log("🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ imageData", getImageData)
             };
             reader.readAsDataURL(file);
