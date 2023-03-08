@@ -68,6 +68,21 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
+-- Table `drurymirror`.`tags`
+-- -----------------------------------------------------
+  DROP TABLE IF EXISTS `drurymirror`.`tags` ;
+
+  CREATE TABLE IF NOT EXISTS `drurymirror`.`tags` (
+    `tid` INT NOT NULL,
+    `local` bool,
+    `national` bool,
+    `international` bool,
+    PRIMARY KEY (`tid`),
+    FOREIGN KEY (`tid`)
+      REFERENCES `drurymirror`.`articles` (`aid`)
+    )
+  ENGINE = InnoDB;
+-- -----------------------------------------------------
 -- Table `drurymirror`.`unfinished`
 -- -----------------------------------------------------
 
@@ -115,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `drurymirror.tokens`
   (
     `id`                            INT NOT NULL AUTO_INCREMENT,
     `email`                         INTEGER NOT NULL,
-    `forgot_password_token`         VARCHAR(255) NOT NULL
+    `forgot_password_token`         VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`)
   )
 ENGINE = InnoDB;
