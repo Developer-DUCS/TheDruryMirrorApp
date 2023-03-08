@@ -43,7 +43,7 @@ export default async (req, res) => {
 				return res.status(500).json({ error: result.error });
 			} else {
 				console.log("Successfully deleted comments");
-				res.status(200).json({ msg: "Successfully deleted comments" });
+				//res.status(200).json({ msg: "Successfully deleted comments" });
 			}
 		} else if (page != "commentViewer") {
 			let editor = body.editor;
@@ -80,7 +80,8 @@ export default async (req, res) => {
 					.status(500)
 					.json({ error: "There was an error saving the comments" });
 			} else {
-				res.status(200).json({ msg: "Successful Update" });
+				// res.status(200).json({ msg: "Successful Update" });
+				console.log("Successfully updated the comments");
 			}
 		}
 
@@ -107,7 +108,8 @@ export default async (req, res) => {
 			console.log(result.error);
 			return res.status(500).json({ error: "Failed Insertion" });
 		} else {
-			res.status(201).json({ msg: "Successful Update" });
+			console.log("Successfully updated the article");
+			return res.status(200).json({ msg: "Successful Update" });
 		}
 
 		// const result = ({

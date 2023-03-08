@@ -21,7 +21,7 @@ export default async (req, res) => {
 
 	let id = req.body.id;
 	let email = req.body.email;
-	console.log(id);
+	console.log("id", id);
 	console.log(email);
 	let getArticleQuery = "SELECT headline, body FROM articles WHERE aid = ?;";
 

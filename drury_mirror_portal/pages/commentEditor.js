@@ -125,6 +125,7 @@ export function commentEditor() {
 
 	let [value, setValue] = useState();
 	const [getArticle, setArticle] = useState([]);
+	const [isError, setIsError] = useState(null);
 	const { status, data } = useSession();
 
 	// Redirect the user to the
@@ -417,16 +418,33 @@ export function commentEditor() {
 
 		// Send the form data to our forms API on Vercel and get a response.
 		const response = await fetch(endpoint, options);
+		console.log(
+			"🚀 ~ file: commentEditor.js:421 ~ submit ~ response:",
+			response
+		);
 
 		// Get the response data from server as JSON.
 		// If server returns the name submitted, that means the form works.
 		const result = await response.json();
+		console.log(
+			"🚀 ~ file: commentEditor.js:425 ~ submit ~ result:",
+			result
+		);
 
-		// * Add a message displaying if the edits were submitted
-		// * before redirecting back to the list
-
+		if (response.ok) {
+			// show message and wait for 2 seconds before going back
+			setIsError(false);
+			setTimeout(() => {
+				router.back();
+			}, 2000);
+		} else {
+			setIsError(true);
+			// * Add a message displaying that the edits were NOT submitted
+			// * before redirecting back to the list
+		}
+		// 👇️ clear all input values in the form
+		// event.target.reset();
 		//reload page upon submit
-		router.back();
 	};
 
 	useEffect(() => {
@@ -589,6 +607,34 @@ export function commentEditor() {
 								Submit Edits
 							</Button>
 						</form>
+						{isError === true && (
+							<div>
+								<Typography
+									variant="h4"
+									sx={{
+										margin: 1,
+										marginTop: 2,
+										color: "red",
+									}}
+								>
+									There was a problem saving the edits
+								</Typography>
+							</div>
+						)}
+						{isError === false && (
+							<div>
+								<Typography
+									variant="h4"
+									sx={{
+										margin: 1,
+										marginTop: 2,
+										color: "green",
+									}}
+								>
+									Successfully Saved the Edits
+								</Typography>
+							</div>
+						)}
 					</Grid>
 				</Grid>
 			</Box>

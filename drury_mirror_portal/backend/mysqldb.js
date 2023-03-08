@@ -152,7 +152,7 @@ export default async function executeQuery({ query, values }) {
 		db.quit();
 		return results;
 	} catch (error) {
-		console.log("error here");
+		console.log("error in executeQuery");
 		return { error };
 	}
 }
