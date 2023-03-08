@@ -143,7 +143,7 @@ export default function articleWriting() {
             // Get the response data from server as JSON.
             // If server returns the name submitted, that means the form works.
             const result = await response.json();
-            
+
         } else {
             const data = {
                 email: session.user.email,
@@ -235,6 +235,7 @@ export default function articleWriting() {
     // UploadFileHandler()
     // - Converts the file uploaded into base 64
     function uploadFileHandler() {
+        
         // Open a file explorer for a user that only accepts image files
         const fileInput = document.createElement("input");
         fileInput.type = "file";
@@ -243,15 +244,20 @@ export default function articleWriting() {
     
         // When the user selects an image, send the image to the server using the uploadHandler API endpoint
         fileInput.addEventListener("change", async (event) => {
+            
             // 1. Convert file into base64 object
             const file = event.target.files[0]
+            
             var reader = new FileReader();
+            
             reader.onloadend = function () {
-                console.log("RESULT", reader.type);
-                setImageData(reader.result)
-                setImageType(render.type);
-                console.log("🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ imageData", getImageData)
+                console.log("RESULT", file.type);
+                setImageData(reader.result);
+                setImageType(file.type);
+                console.log("🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ getImageType", getImageType)
             };
+                console.log("🚀 ~ file: articleWriting.js:259 ~ fileInput.addEventListener ~ setImageData:", getImageData);
+
             reader.readAsDataURL(file);
         });
     }
