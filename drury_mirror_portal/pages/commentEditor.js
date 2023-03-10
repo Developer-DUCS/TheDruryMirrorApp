@@ -204,44 +204,76 @@ export function commentEditor() {
 	//     const result = await response.json();
 	// };
 
+	let totalComments = 0;
+
 	const addComment = async (event) => {
-		console.log("pressed button");
-		//commentId = commentId + 1;
+		//console.log("pressed add comment button");
+		commentId = commentId + 1;
 		//console.log(commentId);
 		//Grabs the cursor highlighted text
 		let comment = window.getSelection().toString();
 
-		let testComment = window.getSelection().toString();
-
 		let textObj = window.getSelection();
 
+		let test = document.getElementsByClassName("ql-editor")[0].innerHTML;
+		
+		let testarray = [];
+		let testarray2 = [];
+
+		for (let i = 0; i < test.length; i++){
+			testarray.push(test[i]);
+			testarray2.push(i);
+		}
+		console.log("testarray", testarray);
+		console.log("testarray2", testarray2);
+
+		let stringt = "";
+		let tlist = [];
+		let clist = [];
+		let tstart = value.indexOf(comment);
+		let tend = tstart + comment.length;
+
+		for (let i = tstart; i < tend; i++){
+			stringt += testarray[i]
+			tlist.push(i);
+			clist.push(testarray[i]);
+		}
+
+		console.log("stringt", stringt);
+		console.log("tlist", tlist);
+		console.log("clist", clist);
+
+		let ctest = test[0].valueOf();
+
+		let ctest2 = test.indexOf();
+		//console.log( ctest2)
+
+		let ztest = test[test.length - 1].valueOf();
+
+		console.log("Article: ", test)
+		console.log("start: ", ctest)
+		console.log( "end: ", ztest)
+
 		let myRange = window.getSelection().getRangeAt(0);
-		console.log(
-			"🚀 ~ file: commentEditor.js:219 ~ addComment ~ myRange",
-			myRange
-		);
+		// console.log(
+		// 	"🚀 ~ file: commentEditor.js:219 ~ addComment ~ myRange",
+		// 	myRange
+		// );
 
 		let commentStart = myRange.startOffset;
-		commentStart = textObj.anchorOffset;
-		console.log(
-			"🚀 ~ file: commentEditor.js:225 ~ addComment ~ commentStart",
-			commentStart
-		);
+		commentStart = textObj.focusNode.parentElement //grabs the innerHTML
+		//let testing  = commentStart.length()
+		console.log("CommentStart:", commentStart)
+
 		let commentEnd = myRange.endOffset;
 		commentEnd = textObj.focusOffset;
-		console.log(
-			"🚀 ~ file: commentEditor.js:227 ~ addComment ~ commentEnd",
-			commentEnd
-		);
-
-		console.log("Window Selection Obj", textObj);
 
 		//The problem with what we were just trying is that it only finds the range of that
 		//selected portion of the article. We need to know where in the article that comment is
 
 		//Identifies the index of the beginning of the comment
-		// let start = value.indexOf(comment);
-		let start = commentStart;
+		let start = value.indexOf(comment);
+		//let start = commentStart;
 
 		//empty arrays to fill and compare to check that the highlighted text or is not in the article
 		let check = [];
@@ -263,18 +295,19 @@ export function commentEditor() {
 		}
 		console.log(com.toString());
 		console.log("Start", start);
-		// let end = start + comment.length;
-		let end = commentEnd;
+		let end = start + comment.length;
+		//let end = commentEnd;
 		console.log("End", end);
 
 		//compares the two arrays to check if highlighted text is in article
-		// if (
-		// 	(value.indexOf(comment) == start) &
-		// 	(start + comment.length == end)
-		// ) {
-		if (1 == 1) {
-			console.log("Start1", start);
-			console.log("End1", start + comment.length, end);
+		if (
+			(value.indexOf(comment) == start) &
+			(start + comment.length == end)
+		) {
+		// if (1 == 1) {
+		// 	console.log("Start1", start);
+		// 	console.log("End1", start + comment.length, end);
+		// 	totalComments += 1;
 
 			// check.toString() === com.toString()
 
@@ -371,12 +404,16 @@ export function commentEditor() {
 			allComments.push(box);
 
 			//Gets the index of the beginning of the highlighted text
-			var index = value.indexOf(comment);
-			index = start + 3; // + 3 cuz of <p>
+			//var index = value.indexOf(comment);
+			var index = tlist[0]
+
+			//index = start + 3; // + 3 cuz of <p>
 
 			//Gets the length of the highlight text
 			var range = comment.length;
 			range = end - start;
+
+			console.log("Value.length: " + value.length);
 
 			console.log(
 				" Starting at index: " +
@@ -387,8 +424,32 @@ export function commentEditor() {
 
 			//Adds <span></span> tags to highlight the text in the article
 			console.log("Start: ", value.substring(index, index + range + 2));
+			console.log("New index:", index)
 			// console.log("End: " , value.substring(range))
 
+			// if (index >= 0) {
+			// 	// document.getElementsByClassName("ql-editor")[0].innerHTML =
+			// 	// 	value.substring(0, index) +
+			// 	// 	"<span id=span" +
+			// 	// 	commentId +
+			// 	// 	' style="background-color: rgb(255, 255, 0); color:black;">' +
+			// 	// 	value.substring(index, index + range) +
+			// 	// 	"</span>" +
+			// 	// 	value.substring(index + range);
+			// 	let currArticle =
+			// 		document.getElementsByClassName("ql-editor")[0].innerHTML;
+			// 	currArticle.innerHTML.indexOf(end) += "</span>";
+
+			// 	currArticle.innerHTML[index] +=
+			// 		"<span id=span" +
+			// 		commentId +
+			// 		' style="background-color: rgb(255, 255, 0); color:black;">';
+			// 	// console.log(
+			// 	//     "ql-editor: " +
+			// 	//         document.getElementsByClassName("ql-editor")[0]
+			// 	//             .innerHTML
+			// 	// );
+			// }
 			if (index >= 0) {
 				document.getElementsByClassName("ql-editor")[0].innerHTML =
 					value.substring(0, index) +
