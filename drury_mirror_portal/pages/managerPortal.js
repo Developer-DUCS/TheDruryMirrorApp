@@ -12,6 +12,7 @@
 import Table from "react-bootstrap/Table";
 import styles from "../styles/article.module.css";
 import { styled } from "@mui/material/styles";
+import cryptoRandomString from 'crypto-random-string';
 
 import {
     Typography,
@@ -168,6 +169,43 @@ function managerPortal({ users }) {
         }
     };
 
+
+    // Handle Reset Password
+    const handleReset = async (event) => {
+        event.preventDefault();
+        console.log("reset pressed");
+        var randompass = cryptoRandomString({length: 12, type: 'base64'});;
+        console.log("new password has been set to: " + randompass)
+        console.log(event.target.name)
+        let data = {
+            password: randompass,
+            email: event.target.name
+            
+        };
+    
+
+        const JSONdata = JSON.stringify(data);
+
+        const endpoint = "api/resetPassword"
+
+        // Form the request for sending data to the server.
+        const options = {
+        // The method is POST because we are sending data.
+            method: "POST",
+            // Tell the server we're sending JSON.
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // Body of the request is the JSON data we created above.
+            body: JSONdata,
+        };
+
+        // Wait for the response to see if the user was deleted
+        const response = await fetch(endpoint, options);
+        console.log("response: ", response);
+
+    };
+
     // Handle role changes
     const handleRole = async (event) => {
         event.preventDefault();
@@ -257,18 +295,31 @@ function managerPortal({ users }) {
                         <Typography variant="body1" sx={{ marginBottom: 2 }}>
                             {props.email}
                         </Typography>
-                        <Typography
-                            variant="userLabel"
-                            sx={{ marginBottom: 0.5 }}
-                        >
-                            Password
-                        </Typography>
-                        <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                            {props.password}
-                        </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <form name={props.email} onSubmit={handleRole}>
+                        <form onSubmit={handleReset}>
+                            <Typography
+                                variant="userLabel"
+                                sx={{ marginBottom: 0.5 }}
+                            >
+                                Reset Password
+                            </Typography>
+                            <br></br>
+                            <Button
+                                sx={{ marginTop: 2 }}
+                                variant="contained"
+                                size="small"
+                                color="error"
+                                name={props.email}
+                                type="submit"
+                                
+                            >
+                                Reset Password
+                            </Button>
+                        </form>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <form onSubmit={handleRole}>
                             <Typography
                                 variant="userLabel"
                                 sx={{ marginBottom: 0.5 }}
