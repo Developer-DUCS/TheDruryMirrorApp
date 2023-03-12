@@ -347,9 +347,6 @@ export function commentEditor() {
 	};
 
 	const submit = async (event) => {
-		// ! We might need to get the indeces of the span elements here
-		// ! and save them in the database so that we can put them back
-		// ! after loading the article in the commentViewer
 		event.preventDefault();
 		//let x = event.target.overAllComments.value;
 		const id = parseInt(router.query.id);

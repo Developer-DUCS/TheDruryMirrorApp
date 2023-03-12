@@ -176,6 +176,7 @@ export function CommentViewer() {
 	let [value, setValue] = useState();
 	const [getArticle, setArticle] = useState([]);
 	const [getComments, setComments] = useState();
+	const [isError, setIsError] = useState(null);
 	const [overallComments, setOverallComments] = useState("");
 	const { status, data } = useSession();
 	const router = useRouter();
@@ -303,6 +304,8 @@ export function CommentViewer() {
 			//myArticle = myArticle.toString();
 
 			// Set the value for the overall comments
+			console.log("COMMENTS: ", comments);
+			console.log("OVERALL: ", comments.overallComments);
 			setOverallComments(comments.overallComments);
 
 			comments = comments.comments.split(",");
@@ -412,12 +415,24 @@ export function CommentViewer() {
 		// Send the form data to our forms API on Vercel and get a response.
 		const response = await fetch(endpoint, options);
 
+		if (response.ok) {
+			// show message and wait for 2 seconds before going back
+			setIsError(false);
+			setTimeout(() => {
+				router.back();
+			}, 2000);
+		} else {
+			setIsError(true);
+			// * Add a message displaying that the edits were NOT submitted
+			// * before redirecting back to the list
+		}
+
 		// Get the response data from server as JSON.
 		// If server returns the name submitted, that means the form works.
 		const result = await response.json();
 
 		//reload the page after submit
-		router.reload();
+		// router.reload();
 	};
 
 	const resolve = async (event) => {
@@ -651,6 +666,34 @@ export function CommentViewer() {
 								Submit Edits
 							</Button>
 						</form>
+						{isError === true && (
+							<div>
+								<Typography
+									variant="h4"
+									sx={{
+										margin: 1,
+										marginTop: 2,
+										color: "red",
+									}}
+								>
+									There was a problem saving the edits
+								</Typography>
+							</div>
+						)}
+						{isError === false && (
+							<div>
+								<Typography
+									variant="h4"
+									sx={{
+										margin: 1,
+										marginTop: 2,
+										color: "green",
+									}}
+								>
+									Successfully Saved the Edits
+								</Typography>
+							</div>
+						)}
 					</Grid>
 				</Grid>
 			</>

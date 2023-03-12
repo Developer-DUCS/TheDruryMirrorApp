@@ -38,16 +38,19 @@ export default async (req, res) => {
 	} else if (getCommentsResult.length == 0) {
 		return res.status(400).json({ msg: "Comments not found" });
 	} else {
-		let overAllComments = getCommentsResult[0].overAllComments;
+		// console.log(getCommentsResult);
+		// console.log(getCommentsResult[0]);
+		// console.log(getCommentsResult[0].email);
+		let overallComments = getCommentsResult[0].overallComments;
 		let comments = getCommentsResult[0].comments;
 		console.log(
 			"🚀 ~ file: getComments.js:44 ~ overAllComments:",
-			overAllComments
+			overallComments
 		);
 		console.log("🚀 ~ file: getComments.js:45 ~ comments:", comments);
 
 		let data = {
-			overAllComments: overAllComments,
+			overallComments: overallComments,
 			comments: comments,
 		};
 		return res.status(200).json(data);
