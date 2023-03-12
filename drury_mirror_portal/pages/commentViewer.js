@@ -280,7 +280,15 @@ export function CommentViewer() {
 
 			//myArticle = myArticle.toString();
 			// !  setValue seems to be removing the id on the span tag ! //
-			setValue(myArticle);
+			// setValue(myArticle);
+
+			// Make sure the editor is loaded before putting the article in it
+			const editor = document.querySelector(".ql-editor");
+
+			if (editor) {
+				console.log("THE EDITOR IS LOADED");
+				editor.innerHTML = myArticle;
+			}
 
 			// setValue(QuillNoSSRWrapper.clipboard.convert(myArticle));
 			// QuillNoSSRWrapper.clipboard.convert(myArticle);
@@ -506,11 +514,15 @@ export function CommentViewer() {
 				inputId
 			);
 
-			let num = inputId.split("t");
+			let num = inputId.split("d");
 			if (num[1]) {
 				let tempCom = "span";
 
 				let tempComId = tempCom.concat(num[1].toString());
+				console.log(
+					"🚀 ~ file: commentViewer.js:522 ~ mouseleave ~ tempComId:",
+					tempComId
+				);
 
 				if (document.getElementById(tempComId)) {
 					document
@@ -519,6 +531,8 @@ export function CommentViewer() {
 							"style",
 							"background-color: rgb(255,255,0); color:black;"
 						);
+				} else {
+					console.log("didn't work");
 				}
 			}
 		} catch (error) {
