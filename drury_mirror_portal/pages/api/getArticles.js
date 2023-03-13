@@ -8,7 +8,7 @@ import executeQuery from "../../backend/mysqldb";
 const conn = require("../../backend/mysqldb");
 
 export default async (req, res) => {
-	console.log("called get article route");
+	console.log("called get articles route");
 
 	// * Turbo console log
 	// * select what to log
@@ -21,6 +21,12 @@ export default async (req, res) => {
 	console.log("🚀 ~ file: getArticles.js:24 ~ page", page);
 	let isDraft = "0";
 	const test = 2;
+
+	const articleType = req.body.articleType;
+
+	if (articleType) {
+		console.log("Article type: " + articleType);
+	}
 
 	console.log("email", email);
 	console.log("email.length", email.length);
@@ -47,22 +53,45 @@ export default async (req, res) => {
 	let editQuery =
 		"SELECT aid,author,headline,body,isDraft FROM articles WHERE email != ? AND (isDraft = 1 OR isDraft =3)";
 
+	// let publishQuery =
+	// 	"SELECT aid,author,headline,body,isDraft FROM articles WHERE isDraft = ?";
 	let publishQuery =
 		"SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? OR isDraft = ?";
 
+	let getPublished =
+		"SELECT aid,author,headline,body,isDraft FROM articles WHERE isDraft = ?";
+
 	let query = "";
+	let result = [];
+
 	if (page == "copyEditorPortal") {
 		query = editQuery;
-	} else if (page == "publishPage") {
+		result = await executeQuery({
+			query: query,
+			values: [email, isDraft],
+		});
+	} else if (page == "publishPage" && articleType != "published") {
 		query = publishQuery;
+		result = await executeQuery({
+			query: query,
+			values: [email, isDraft],
+		});
+	} else if (page == "publishPage" && articleType == "published") {
+		console.log("here...");
+		query = getPublished;
+		isDraft = "5";
+		result = await executeQuery({
+			query: query,
+			values: isDraft,
+		});
 	} else {
 		query = getQuery;
+		result = await executeQuery({
+			query: query,
+			values: [email, isDraft],
+		});
 	}
 
-	const result = await executeQuery({
-		query: query,
-		values: [email, isDraft],
-	});
 	console.log("🚀 ~ file: getArticles.js:66 ~ result:", result);
 
 	if (result.error) {
@@ -75,11 +104,12 @@ export default async (req, res) => {
 	} else {
 		let articles = [];
 		for (let i = 0; i < result.length; i++) {
-			if (page == "publishPage" && result[i].isDraft != "4") {
-				console.log("skipping article");
-			} else {
-				articles.push(result[i]);
-			}
+			// if (page == "publishPage" && result[i].isDraft != "4") {
+			// 	console.log("skipping article");
+			// } else {
+			// 	articles.push(result[i]);
+			// }
+			articles.push(result[i]);
 		}
 		return res.status(200).json(result);
 	}

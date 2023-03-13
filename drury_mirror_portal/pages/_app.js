@@ -8,7 +8,7 @@ import { theme, mainTheme, aboutTheme, editorTheme } from "../styles/theme";
 import "../styles/globals.css";
 
 import { SessionProvider } from "next-auth/react";
-
+import { NextUIProvider } from "@nextui-org/react";
 import Footer from "./Footer";
 
 // // To show the page is loading
@@ -58,8 +58,10 @@ export default function MyApp({ Component, pageProps }) {
 			<ThemeProvider theme={curTheme}>
 				<CssBaseline />
 				<SessionProvider session={pageProps.session}>
-					<Component {...pageProps} />
-					{/* //<Footer/> */}
+					<NextUIProvider>
+						<Component {...pageProps} />
+						{/* //<Footer/> */}
+					</NextUIProvider>
 				</SessionProvider>
 			</ThemeProvider>
 		</React.Fragment>

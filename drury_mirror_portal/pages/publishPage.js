@@ -12,7 +12,8 @@
 import styles from "../styles/article.module.css";
 import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { Dropdown } from "@nextui-org/react";
 import {
 	Button,
 	Container,
@@ -29,6 +30,14 @@ export function draftList() {
 	const router = useRouter();
 	const { status, data } = useSession();
 	const [getArticles, setArticles] = useState([]);
+
+	// Keep track of the dropdown state
+	const [selected, setSelected] = useState(new Set(["unpublished"]));
+
+	const selectedValue = useMemo(
+		() => Array.from(selected).join(", ").replaceAll("_", " "),
+		[selected]
+	);
 
 	const parse = require("html-react-parser");
 
@@ -74,44 +83,45 @@ export function draftList() {
 
 	useEffect(() => {
 		// Get the articles for the current user from the database
-		const getArticlesRoute = async () => {
-			const session = await getSession();
-			let endpoint = "/api/getArticles";
+		getArticlesRoute();
+	}, [selected]);
 
-			// Make sure there is a session before making the API call
-			if (session) {
-				let data = {
-					email: session.user.email,
-					page: "publishPage",
-				};
-				let JSONdata = JSON.stringify(data);
-				console.log("JSONdata", JSONdata);
-				let options = {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					// Body of the request is the JSON data we created above.
-					body: JSONdata,
-				};
+	const getArticlesRoute = async () => {
+		const session = await getSession();
+		let endpoint = "/api/getArticles";
 
-				let response = await fetch(endpoint, options);
-				if (response.status !== 200) {
-					console.log(response.status);
-					console.log(response.statusText);
-				} else {
-					let articles = await response.json();
+		// Make sure there is a session before making the API call
+		if (session) {
+			let data = {
+				email: session.user.email,
+				page: "publishPage",
+				articleType: selectedValue,
+			};
+			let JSONdata = JSON.stringify(data);
+			console.log("JSONdata", JSONdata);
+			let options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				// Body of the request is the JSON data we created above.
+				body: JSONdata,
+			};
 
-					// Make sure the response was received before setting the articles
-					if (articles) {
-						setArticles(articles.reverse());
-					}
+			let response = await fetch(endpoint, options);
+			if (response.status !== 200) {
+				console.log(response.status);
+				console.log(response.statusText);
+			} else {
+				let articles = await response.json();
+
+				// Make sure the response was received before setting the articles
+				if (articles) {
+					setArticles(articles.reverse());
 				}
 			}
-		};
-
-		getArticlesRoute();
-	}, []);
+		}
+	};
 
 	// Populate the articles array to display the articles on the page
 	let articles = [];
@@ -151,8 +161,32 @@ export function draftList() {
 				<Typography sx={{ m: 2 }} variant="userLabel">
 					{data.user.fname} {data.user.lname}
 				</Typography>
+
+				<Dropdown>
+					<Dropdown.Button
+						flat
+						color="primary"
+						css={{ tt: "capitalize" }}
+					>
+						{selectedValue}
+					</Dropdown.Button>
+					<Dropdown.Menu
+						aria-label="Single selection actions"
+						color="primary"
+						disallowEmptySelection
+						selectionMode="single"
+						selectedKeys={selected}
+						// onSelectionChange={setSelected}
+						onSelectionChange={setSelected}
+					>
+						<Dropdown.Item key="unpublished">
+							Unpublished
+						</Dropdown.Item>
+						<Dropdown.Item key="published">Published</Dropdown.Item>
+					</Dropdown.Menu>
+				</Dropdown>
 				<Box sx={{ marginTop: -2 }}>
-					{articles.map((article) => (
+					{getArticles.map((article) => (
 						<Card
 							style={{
 								margin: 15,
