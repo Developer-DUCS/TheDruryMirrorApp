@@ -7,12 +7,19 @@ export default async (req, res) => {
 	try {
 		console.log("Called Publish Article route");
 		const body = req.body;
+		const action = req.body.action;
+		console.log("Action: " + action);
 		let isDraft = "";
 
 		if (body.page == "copyEditorPortal") {
 			isDraft = "4";
 		} else {
 			isDraft = "5";
+		}
+
+		if (action == "unpublishButton") {
+			console.log("ACTION: " + action);
+			isDraft = "4";
 		}
 
 		const id = body.id;

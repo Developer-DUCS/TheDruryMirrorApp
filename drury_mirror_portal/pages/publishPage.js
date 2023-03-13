@@ -59,10 +59,12 @@ export function draftList() {
 
 	const publishArticle = async (event) => {
 		event.preventDefault();
-		console.log("article id: ", event.currentTarget.id);
+		console.log("article id: ", event.target.id);
+		console.log("Button Name: ", event.target.name);
 		let endpoint = "/api/publishArticle";
 		let data = {
-			id: event.currentTarget.id,
+			id: event.target.id,
+			action: event.target.name,
 		};
 		let JSONdata = JSON.stringify(data);
 		console.log("JSONdata", JSONdata);
@@ -145,6 +147,47 @@ export function draftList() {
 	// Check if the user is authenticated
 	const allowedRoles = ["Editor-In-Chief"];
 
+	function renderButtons(aid) {
+		if (selectedValue === "unpublished") {
+			return (
+				<Button
+					id={aid}
+					name="publishButton"
+					variant="contained"
+					onClick={publishArticle}
+					sx={{
+						marginBottom: 1,
+						marginRight: 5,
+						color: "white",
+						backgroundColor: "#4685F5",
+					}}
+				>
+					Publish Article
+				</Button>
+			);
+		} else if (selectedValue === "published") {
+			return (
+				<Button
+					id={aid}
+					name="unpublishButton"
+					variant="contained"
+					onClick={publishArticle}
+					sx={{
+						marginBottom: 1,
+						marginRight: 5,
+						color: "white",
+						backgroundColor: "#F44336",
+					}}
+				>
+					Unpublish Article
+				</Button>
+			);
+		} else {
+			console.log("returned null");
+			return null;
+		}
+	}
+
 	if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
 		console.log(data.user);
 		console.log(data.user.role);
@@ -222,7 +265,8 @@ export function draftList() {
 							>
 								{parse(article.body)}
 							</Typography>
-							<Button
+
+							{/* <Button
 								id={article.aid}
 								variant="contained"
 								onClick={publishArticle}
@@ -234,7 +278,8 @@ export function draftList() {
 								}}
 							>
 								Publish Article
-							</Button>
+							</Button> */}
+							{renderButtons(article.aid)}
 						</Card>
 					))}
 				</Box>
