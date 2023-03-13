@@ -77,10 +77,7 @@ ENGINE = InnoDB;
     `local` bool,
     `national` bool,
     `international` bool,
-    PRIMARY KEY (`tid`),
-    FOREIGN KEY (`tid`)
-      REFERENCES `drurymirror`.`articles` (`aid`)
-    )
+    PRIMARY KEY (`tid`))
   ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `drurymirror`.`unfinished`

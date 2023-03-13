@@ -14,6 +14,8 @@ import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useState, useEffect, useMemo } from "react";
 import { Dropdown } from "@nextui-org/react";
+//import { TagSelect} from "./NextUISelect";
+import dynamic from "next/dynamic";
 import {
 	Button,
 	Container,
@@ -39,6 +41,8 @@ export function draftList() {
 		[selected]
 	);
 
+	const TagSelect = dynamic(() => import("./NextUISelect"));
+
 	const parse = require("html-react-parser");
 
 	// Redirect the user to the log in screen
@@ -61,6 +65,7 @@ export function draftList() {
 		event.preventDefault();
 		console.log("article id: ", event.target.id);
 		console.log("Button Name: ", event.target.name);
+		console.log("Tag DropDown Value: ", );
 		let endpoint = "/api/publishArticle";
 		let data = {
 			id: event.target.id,
@@ -222,9 +227,7 @@ export function draftList() {
 						// onSelectionChange={setSelected}
 						onSelectionChange={setSelected}
 					>
-						<Dropdown.Item key="unpublished">
-							Unpublished
-						</Dropdown.Item>
+						<Dropdown.Item key="unpublished">Unpublished</Dropdown.Item>
 						<Dropdown.Item key="published">Published</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
@@ -279,6 +282,7 @@ export function draftList() {
 							>
 								Publish Article
 							</Button> */}
+							<TagSelect />
 							{renderButtons(article.aid)}
 						</Card>
 					))}
