@@ -1,0 +1,24 @@
+.editorDiv{
+    padding: 20px;
+    background-color: white;
+    height: 100vh;
+}
+
+.Editor{
+    height: "50%";
+    width: 50%;
+    padding: 10px;
+}
+
+.comments{
+    display: "flex";
+    height: "50%";
+    width: 50%;
+    padding: 10px;
+    padding-top: 2.3%;
+}
+
+.button{
+   float: right;
+   
+}
