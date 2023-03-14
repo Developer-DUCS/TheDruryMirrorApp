@@ -8,6 +8,7 @@ export default async (req, res) => {
 		console.log("Called Publish Article route");
 		const body = req.body;
 		const action = req.body.action;
+		const tags = req.body.tags;
 		console.log("Action: " + action);
 		let isDraft = "";
 

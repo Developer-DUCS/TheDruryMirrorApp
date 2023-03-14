@@ -41,6 +41,14 @@ export function draftList() {
 		[selected]
 	);
 
+	// // For the tag dropdown
+	// const [tags, setTags] = useState(new Set([""]));
+
+	// const selectedTags = useMemo(
+	// 	() => Array.from(tags).join(", ").replaceAll("_", " "),
+	// 	[tags]
+	// );
+
 	const TagSelect = dynamic(() => import("./NextUISelect"));
 
 	const parse = require("html-react-parser");
@@ -63,12 +71,24 @@ export function draftList() {
 
 	const publishArticle = async (event) => {
 		event.preventDefault();
-		console.log("article id: ", event.target.id);
-		console.log("Button Name: ", event.target.name);
-		console.log("Tag DropDown Value: ", );
+		console.log(
+			"EVENT: ",
+			event.target[0].getElementsByTagName("div")[0].innerHTML
+		);
+
+		console.log("article id: ", event.target[1].id);
+		console.log("Button Name: ", event.target[1].name);
+		console.log("Tag DropDown Value: ");
+
+		let tags = event.target[0].getElementsByTagName("div")[0].innerHTML;
+		console.log(
+			"🚀 ~ file: publishPage.js:78 ~ publishArticle ~ tags:",
+			tags
+		);
 		let endpoint = "/api/publishArticle";
 		let data = {
 			id: event.target.id,
+			tags: tags,
 			action: event.target.name,
 		};
 		let JSONdata = JSON.stringify(data);
@@ -85,7 +105,7 @@ export function draftList() {
 		let response = await fetch(endpoint, options);
 
 		//reload page upon click of button
-		router.reload();
+		// router.reload();
 	};
 
 	useEffect(() => {
@@ -159,7 +179,8 @@ export function draftList() {
 					id={aid}
 					name="publishButton"
 					variant="contained"
-					onClick={publishArticle}
+					type="submit"
+					// onClick={publishArticle}
 					sx={{
 						marginBottom: 1,
 						marginRight: 5,
@@ -176,7 +197,8 @@ export function draftList() {
 					id={aid}
 					name="unpublishButton"
 					variant="contained"
-					onClick={publishArticle}
+					type="submit"
+					// onClick={publishArticle}
 					sx={{
 						marginBottom: 1,
 						marginRight: 5,
@@ -227,7 +249,9 @@ export function draftList() {
 						// onSelectionChange={setSelected}
 						onSelectionChange={setSelected}
 					>
-						<Dropdown.Item key="unpublished">Unpublished</Dropdown.Item>
+						<Dropdown.Item key="unpublished">
+							Unpublished
+						</Dropdown.Item>
 						<Dropdown.Item key="published">Published</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
@@ -282,8 +306,11 @@ export function draftList() {
 							>
 								Publish Article
 							</Button> */}
-							<TagSelect />
-							{renderButtons(article.aid)}
+							<form onSubmit={publishArticle}>
+								<TagSelect articleID={article.aid} />
+
+								{renderButtons(article.aid)}
+							</form>
 						</Card>
 					))}
 				</Box>
