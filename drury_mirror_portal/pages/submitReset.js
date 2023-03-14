@@ -22,7 +22,7 @@ import { useState } from "react";
 export default function confirmReset() {
     const router = useRouter();
     
-    const [isError, setIsError] = useState(false);
+    const [isError, setIsError] = useState(null);
     const handleReset = (event) => {
             event.preventDefault();
 
