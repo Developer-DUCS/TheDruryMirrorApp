@@ -1,0 +1,38 @@
+{
+  "name": "drury_mirror_portal",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.12",
+    "@mui/styles": "^5.10.10",
+    "@next/font": "^13.0.2",
+    "@sendgrid/mail": "^7.7.0",
+    "crypto-js": "^4.1.1",
+    "crypto-random-string": "^5.0.0",
+    "html-react-parser": "^3.0.4",
+    "mysql2": "^2.3.3",
+    "next": "12.3.1",
+    "next-auth": "^4.16.4",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "18.2.0",
+    "react-quill": "^2.0.0",
+    "react-table": "^7.8.0",
+    "reactstrap": "^9.1.4",
+    "serverless-mysql": "^1.5.4",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1"
+  }
+}
