@@ -56,11 +56,13 @@ export default async (req, res) => {
 	// let publishQuery =
 	// 	"SELECT aid,author,headline,body,isDraft FROM articles WHERE isDraft = ?";
 	let publishQuery =
-		"SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? OR isDraft = ?";
+		"SELECT aid,author,headline,body,isDraft FROM articles WHERE isDraft = ?";
 
 	let getPublished =
 		"SELECT aid,author,headline,body,isDraft FROM articles WHERE isDraft = ?";
 
+	let getTags =
+		"SELECT tid, local, national, international FROM tags WHERE tid = ?";
 	let query = "";
 	let result = [];
 
@@ -74,7 +76,7 @@ export default async (req, res) => {
 		query = publishQuery;
 		result = await executeQuery({
 			query: query,
-			values: [email, isDraft],
+			values: [isDraft],
 		});
 	} else if (page == "publishPage" && articleType == "published") {
 		console.log("here...");
@@ -99,19 +101,39 @@ export default async (req, res) => {
 		return res
 			.status(500)
 			.json({ error: "There was an error loading the articles" });
-	} else if (result.length == 0) {
-		return res.status(400).json({ error: "No articles found" });
-	} else {
+	}
+	// ! Check that this being commented out does not breaking anything
+	// else if (result.length == 0) {
+	// 	return res.status(400).json({ error: "No articles found" });
+	// }
+	else {
 		let articles = [];
+		let tagsList = [];
 		for (let i = 0; i < result.length; i++) {
 			// if (page == "publishPage" && result[i].isDraft != "4") {
 			// 	console.log("skipping article");
 			// } else {
 			// 	articles.push(result[i]);
 			// }
+			if (articleType == "published") {
+				let tags = await executeQuery({
+					query: getTags,
+					values: result[i].aid,
+				});
+				if (tags.error) {
+					console.log(tags.error);
+				} else {
+					tagsList.push(tags);
+				}
+			}
 			articles.push(result[i]);
 		}
-		return res.status(200).json(result);
+		if (articleType == "published") {
+			return res.status(200).json({ result: result, tagsList: tagsList });
+		} else {
+			console.log(tagsList);
+			return res.status(200).json(result, tagsList);
+		}
 	}
 
 	// conn.query(query, [email, isDraft], (err, rows) => {

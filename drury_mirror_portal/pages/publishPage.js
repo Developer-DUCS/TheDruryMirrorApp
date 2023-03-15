@@ -35,6 +35,8 @@ export function draftList() {
 
 	// Keep track of the dropdown state
 	const [selected, setSelected] = useState(new Set(["unpublished"]));
+	// let allTags = [];
+	const [getTags, setTags] = useState([]);
 
 	const selectedValue = useMemo(
 		() => Array.from(selected).join(", ").replaceAll("_", " "),
@@ -87,9 +89,9 @@ export function draftList() {
 		);
 		let endpoint = "/api/publishArticle";
 		let data = {
-			id: event.target.id,
+			id: event.target[1].id,
 			tags: tags,
-			action: event.target.name,
+			action: event.target[1].name,
 		};
 		let JSONdata = JSON.stringify(data);
 		console.log("JSONdata", JSONdata);
@@ -105,7 +107,7 @@ export function draftList() {
 		let response = await fetch(endpoint, options);
 
 		//reload page upon click of button
-		// router.reload();
+		router.reload();
 	};
 
 	useEffect(() => {
@@ -136,11 +138,38 @@ export function draftList() {
 			};
 
 			let response = await fetch(endpoint, options);
+			console.log(
+				"🚀 ~ file: publishPage.js:139 ~ getArticlesRoute ~ response:",
+				response
+			);
 			if (response.status !== 200) {
 				console.log(response.status);
 				console.log(response.statusText);
 			} else {
-				let articles = await response.json();
+				let articles = [];
+				let tags = [];
+				if (selectedValue == "published") {
+					let data = await response.json();
+					articles = data.result;
+					tags = data.tagsList;
+					console.log(
+						"🚀 ~ file: publishPage.js:153 ~ getArticlesRoute ~ tags:",
+						tags
+					);
+					tags.reverse();
+					console.log(
+						"🚀 ~ file: publishPage.js:158 ~ getArticlesRoute ~ tags:",
+						tags
+					);
+					setTags(tags);
+				} else {
+					articles = await response.json();
+				}
+
+				console.log(
+					"🚀 ~ file: publishPage.js:144 ~ getArticlesRoute ~ articles:",
+					articles
+				);
 
 				// Make sure the response was received before setting the articles
 				if (articles) {
@@ -307,7 +336,10 @@ export function draftList() {
 								Publish Article
 							</Button> */}
 							<form onSubmit={publishArticle}>
-								<TagSelect articleID={article.aid} />
+								<TagSelect
+									articleID={article.aid}
+									tags={getTags}
+								/>
 
 								{renderButtons(article.aid)}
 							</form>

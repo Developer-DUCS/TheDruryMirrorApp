@@ -7,8 +7,11 @@ export default async (req, res) => {
 	try {
 		console.log("Called Publish Article route");
 		const body = req.body;
+		console.log("🚀 ~ file: publishArticle.js:10 ~ body:", body);
 		const action = req.body.action;
 		const tags = req.body.tags;
+		console.log("🚀 ~ file: publishArticle.js:12 ~ tags:", tags);
+		console.log("🚀 ~ file: publishArticle.js:12 ~ tags:", typeof tags);
 		console.log("Action: " + action);
 		let isDraft = "";
 
@@ -22,11 +25,34 @@ export default async (req, res) => {
 			console.log("ACTION: " + action);
 			isDraft = "4";
 		}
+		const compareTags = ["local", "national", "international"];
+		var array = tags.split(", ");
+		console.log("🚀 ~ file: publishArticle.js:29 ~ array:", array);
+		// let local = false
+		// let national = false
+		// let international = false
+		// for (let i = 0; i < compareTags.length; i++) {
+		// 	if (array.includes(compareTags[i])) {
+		// 		console.log("Match");
 
+		// 	}
+		// }
+		const [local, national, international] = compareTags.map((tag) =>
+			array.includes(tag)
+		);
+		console.log(
+			"🚀 ~ file: publishArticle.js:42 ~ local, national, international:",
+			local,
+			national,
+			international
+		);
 		const id = body.id;
 
 		let updateArticleQuery =
 			"UPDATE articles SET isDraft = ? WHERE aid = ?";
+
+		let setTagsQuery =
+			"INSERT INTO tags(tid, local, national, international) VALUES(?,?,?,?)";
 
 		const updateArticleResult = await executeQuery({
 			query: updateArticleQuery,
@@ -39,7 +65,19 @@ export default async (req, res) => {
 			);
 			return res.status(500).json({ error: "Failed Update" });
 		} else {
-			return res.status(201).json({ msg: "Successful Update" });
+			const setTagsResult = await executeQuery({
+				query: setTagsQuery,
+				values: [id, local, national, international],
+			});
+			if (setTagsResult.error) {
+				console.log(
+					"🚀 ~ file: publishArticle.js:64 ~ setTagsResult.error:",
+					setTagsResult.error
+				);
+				return res.status(500).json({ error: "Failed Tags" });
+			} else {
+				return res.status(201).json({ msg: "Successful Update" });
+			}
 		}
 
 		conn.query(updateArticleQuery, [isDraft, id], (err) => {
