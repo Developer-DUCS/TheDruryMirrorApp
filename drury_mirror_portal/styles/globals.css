@@ -1,0 +1,73 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: Trajan;
+  src: url('/fonts/TrajanPro3Regular.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: AvantGarde;
+  src: url('/fonts/AVGARDN_2.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: BrownRegular;
+  src: url('/fonts/Brown-Regular.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: BrownBold;
+  src: url('/fonts/Brown-Bold.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: GaramondRegular;
+  src: url('/fonts/Garamond-Regular.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HelveticaNeue-Medium;
+  src: url('/fonts/HelveticaNeue-Medium.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: HelveticaNeue-Medium-Italics;
+  src: url('/fonts/HelveticaNeue-Medium-Italics.ttf');
+  format: ("woff2");
+  font-display: swap;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    background: black;
+  }
+} */
