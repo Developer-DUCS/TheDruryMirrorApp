@@ -559,58 +559,58 @@ export function CommentViewer() {
 		return (
 			<>
 				<Header />
-
-				<Grid
-					Container
-					sx={{
-						display: "flex",
-						width: "100%",
-						flexDirection: "row",
-					}}
-				>
-					<Grid item sx={{ width: "60%", marginLeft: 2 }}>
-						<Box id="quillEditor">
-							<Box
-								sx={{
-									backgroundColor: "white",
-									marginTop: 1,
-								}}
-							>
-								<QuillNoSSRWrapper
-									id="article"
-									modules={articleModules}
-									value={value}
-									onChange={setValue}
-									formats={articleFormats}
-									theme="snow"
-								/>
-								<br></br>
-								<br></br>
+				<div className={styles.comments}>
+					<Grid
+						Container
+						sx={{
+							display: "flex",
+							width: "100%",
+							flexDirection: "row",
+						}}
+					>
+						<Grid item sx={{ width: "60%", marginLeft: 2 }}>
+							<Box id="quillEditor">
+								<Box
+									sx={{
+										backgroundColor: "white",
+										marginTop: 1,
+									}}
+								>
+									<QuillNoSSRWrapper
+										id="article"
+										modules={articleModules}
+										value={value}
+										onChange={setValue}
+										formats={articleFormats}
+										theme="snow"
+									/>
+									<br></br>
+									<br></br>
+								</Box>
+								<div id="notice" hidden>
+									{/* make red */}
+									<text>Please hightlight in the draft</text>
+								</div>
 							</Box>
-							<div id="notice" hidden>
-								{/* make red */}
-								<text>Please hightlight in the draft</text>
-							</div>
-						</Box>
-					</Grid>
-					<Grid item sx={{ width: "40%", marginLeft: 2 }}>
-						<form onSubmit={submit}>
-							<Typography
-								variant="h4"
-								color="white"
-								sx={{ m: 1 }}
-							>
-								Overall Comments
-							</Typography>{" "}
-							{/* <p>{overallComments}</p> */}
-							<Typography
-								variant="body1"
-								color="white"
-								sx={{ m: 1 }}
-							>
-								{overallComments}
-							</Typography>{" "}
-							{/* <TextField
+						</Grid>
+						<Grid item sx={{ width: "40%", marginLeft: 2 }}>
+							<form onSubmit={submit}>
+								<Typography
+									variant="h4"
+									color="white"
+									sx={{ m: 1 }}
+								>
+									Overall Comments
+								</Typography>{" "}
+								{/* <p>{overallComments}</p> */}
+								<Typography
+									variant="body1"
+									color="white"
+									sx={{ m: 1 }}
+								>
+									{overallComments}
+								</Typography>{" "}
+								{/* <TextField
 								sx={{
 									marginLeft: 1,
 									marginTop: 0,
@@ -627,75 +627,78 @@ export function CommentViewer() {
 								
 								{overallComments}
 							</TextField> */}
-							{/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
-							<br></br>
-							<Box id="commentsContainer">
-								<Typography
-									variant="h4"
-									sx={{
-										margin: 1,
-										marginTop: 2,
-										color: "white",
-									}}
-								>
-									Comments
-								</Typography>
-								<div id="currentComments">{allComments}</div>
-							</Box>
-							<Grid item>
-								<Checkbox
-									id="checkbox"
+								{/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
+								<br></br>
+								<Box id="commentsContainer">
+									<Typography
+										variant="h4"
+										sx={{
+											margin: 1,
+											marginTop: 2,
+											color: "white",
+										}}
+									>
+										Comments
+									</Typography>
+									<div id="currentComments">
+										{allComments}
+									</div>
+								</Box>
+								<Grid item>
+									<Checkbox
+										id="checkbox"
+										color="error"
+										sx={{
+											color: "white",
+											marginTop: -1,
+											marginLeft: 1,
+											borderColor: "white",
+										}}
+									/>
+								</Grid>
+								<Button
 									color="error"
-									sx={{
-										color: "white",
-										marginTop: -1,
-										marginLeft: 1,
-										borderColor: "white",
-									}}
-								/>
-							</Grid>
-							<Button
-								color="error"
-								variant="contained"
-								type="submit"
-								// onClick={() => {
-								//     submit;
-								// }}
-								sx={{ m: 1 }}
-							>
-								Submit Edits
-							</Button>
-						</form>
-						{isError === true && (
-							<div>
-								<Typography
-									variant="h4"
-									sx={{
-										margin: 1,
-										marginTop: 2,
-										color: "red",
-									}}
+									variant="contained"
+									type="submit"
+									// onClick={() => {
+									//     submit;
+									// }}
+									sx={{ m: 1 }}
 								>
-									There was a problem saving the edits
-								</Typography>
-							</div>
-						)}
-						{isError === false && (
-							<div>
-								<Typography
-									variant="h4"
-									sx={{
-										margin: 1,
-										marginTop: 2,
-										color: "green",
-									}}
-								>
-									Successfully Saved the Edits
-								</Typography>
-							</div>
-						)}
+									Submit Edits
+								</Button>
+							</form>
+							{isError === true && (
+								<div>
+									<Typography
+										variant="h4"
+										sx={{
+											margin: 1,
+											marginTop: 2,
+											color: "red",
+										}}
+									>
+										There was a problem saving the edits
+									</Typography>
+								</div>
+							)}
+							{isError === false && (
+								<div>
+									<Typography
+										variant="h4"
+										sx={{
+											margin: 1,
+											marginTop: 2,
+											color: "green",
+										}}
+									>
+										Successfully Saved the Edits
+									</Typography>
+								</div>
+							)}
+						</Grid>
 					</Grid>
-				</Grid>
+				</div>
 			</>
 		);
 		{
