@@ -20,7 +20,7 @@ export default function LoginPage() {
             redirect: true,
             email: event.target.username.value,
             password: event.target.password.value,
-            callbackUrl: "/testSplashPage",
+            callbackUrl: "/Dashboard",
         });
 
         console.log(res);
