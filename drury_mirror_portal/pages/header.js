@@ -55,7 +55,10 @@ export default function Header() {
 			<Grid item xs={3} sx={{ marginTop: 1 }}>
 				<Button
 					variant="text"
-					sx={{ fontSize: "20px", fontFamily: "Trajan" }}
+					sx={{
+						fontSize: { lg: "18px", md: "16px", sm: "6px" },
+						fontFamily: "Trajan",
+					}}
 					onClick={() => {
 						handleLogo();
 					}}
@@ -63,10 +66,22 @@ export default function Header() {
 					Drury Mirror
 				</Button>
 			</Grid>
-			<Grid item xs={6}></Grid>
-			<Grid item xs={3} sx={{ marginTop: 1 }}>
+			<Grid item xs></Grid>
+			<Grid
+				item
+				xs
+				sx={{
+					marginTop: 1,
+					fontSize: { lg: "16px", md: "12px", sm: "6px" },
+				}}
+			>
 				<Button
-					sx={{ color: "white", marginRight: 2 }}
+					sx={{
+						color: "white",
+						marginRight: 2,
+						fontSize: { lg: "16px", md: "12px", sm: "6px" },
+						height: { lg: "40px", md: "30px", sm: "20px" },
+					}}
 					variant="contained"
 					color="primaryButton"
 					onClick={writeDraftRoute}
@@ -74,7 +89,12 @@ export default function Header() {
 					Write Draft
 				</Button>
 				<Button
-					sx={{ color: "white", marginRight: 2 }}
+					sx={{
+						color: "white",
+						marginRight: 2,
+						fontSize: { lg: "16px", md: "12px", sm: "6px" },
+						height: { lg: "40px", md: "30px", sm: "20px" },
+					}}
 					variant="contained"
 					color="primaryButton"
 					onClick={handleAbout}
@@ -84,6 +104,10 @@ export default function Header() {
 				<Button
 					variant="outlined"
 					color="error"
+					sx={{
+						fontSize: { lg: "16px", md: "12px", sm: "6px" },
+						height: { lg: "40px", md: "30px", sm: "20px" },
+					}}
 					onClick={() => signOut()}
 				>
 					Log Out
