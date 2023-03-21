@@ -109,18 +109,25 @@ export default function LoginPage() {
                         </Grid>
                     </FormGroup>
                 </form>
-                <form onSubmit={handleReset}>
-
-                    <Button
-                        sx={{ marginTop: 2 }}
-                        variant="contained"
-                        size="small"
-                        color="error"
-                        type="submit"
-    
+                <form onSubmit={handleReset} className={styles.formItem}>
+                    <Grid
+                        container
+                        direction={"column"}
+                        spacing={25}
+                        justifyContent="center"
+                        alignItems="center"
                     >
-                        Forgot Password?
-                    </Button>
+                        <Button
+                            sx={{ marginTop: 2 }}
+                            variant="contained"
+                            size="small"
+                            color="error"
+                            type="submit"
+        
+                        >
+                            Forgot Password?
+                        </Button>
+                    </Grid>
                 </form>
                 <div className={styles.loginErrorMsg}>
                     <h3>Incorrect Username or Password</h3>

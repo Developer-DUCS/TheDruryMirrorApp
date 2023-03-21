@@ -21,7 +21,7 @@ export default (req, res) => {
         from: 'developerducs@gmail.com', // Change to your verified sender
         subject: 'Password Reset',
         text: 'Good afternoon! Use the following steps to reset your password!',
-        html: '<strong>Good afternoon! Use the following steps to reset your password!</strong> <a href="http://localhost:3000/submitReset"> Click here to reset </a>',
+        html: '<strong>Good afternoon! Use the following steps to reset your password! Click the link to go to the reset page</strong> <a href="http://localhost:3000/submitReset"> Click here to reset </a>',
     }
     sgMail
     .send(msg)
