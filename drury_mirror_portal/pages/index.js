@@ -37,6 +37,15 @@ export default function LoginPage() {
         } catch (e) {}
     };
 
+    const handleReset = async (event) => {
+        event.preventDefault();
+        router.push("/forgotPassword")
+
+        console.log("reset button pushed")
+    };
+
+    
+
     return (
         <>
             <div className={styles.formContainer}>
@@ -99,6 +108,26 @@ export default function LoginPage() {
                             </Grid>
                         </Grid>
                     </FormGroup>
+                </form>
+                <form onSubmit={handleReset} className={styles.formItem}>
+                    <Grid
+                        container
+                        direction={"column"}
+                        spacing={25}
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <Button
+                            sx={{ marginTop: 2 }}
+                            variant="contained"
+                            size="small"
+                            color="error"
+                            type="submit"
+        
+                        >
+                            Forgot Password?
+                        </Button>
+                    </Grid>
                 </form>
                 <div className={styles.loginErrorMsg}>
                     <h3>Incorrect Username or Password</h3>

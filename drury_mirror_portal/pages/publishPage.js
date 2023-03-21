@@ -1,4 +1,4 @@
-// NOT CREATED BY THOMAS NIELD
+// CREATED BY THOMAS NIELD
 
 // writerPortal.js
 // Page Description:

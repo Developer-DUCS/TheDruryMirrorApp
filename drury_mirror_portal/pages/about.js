@@ -15,7 +15,7 @@ import {
 
 import { useRouter } from "next/router";
 
-import SplashHeader from "./SplashHeader";
+import SplashHeader from "./AboutUsSplashHeader";
 
 export default function about() {
     return (
