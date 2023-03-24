@@ -18,6 +18,7 @@ import {
     Stack,
     Container,
     Grid,
+    Portal,
 } from "@mui/material";
 import { theme } from "../styles/theme";
 import Avatar from "@mui/material/Avatar";
@@ -28,11 +29,13 @@ import PublishIcon from "@mui/icons-material/Publish";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import PersonIcon from '@mui/icons-material/Person';
 import { styled } from "@mui/material/styles";
 
 // Component Imports
 import SplashHeader from "./SplashHeader";
 import Footer from "./Footer";
+import Person from "@mui/icons-material/Person";
 
 const Buttonavatar = styled(Avatar)({
     backgroundColor: "#0E0E0E",
@@ -304,6 +307,33 @@ export function dashboard() {
                                             size="large"
                                             onClick={siteSettingsRoute}
                                         >
+                                            <PersonIcon
+                                                sx={{
+                                                    color: "white",
+                                                    fontSize: 56,
+                                                }}
+                                            />
+                                        </IconButton>
+                                    </Buttonavatar>
+                                    <Typography variant="buttonLabel">
+                                        User Management
+                                    </Typography>
+                                </Stack>
+                            </Grid>
+                        ) : (
+                            <></>
+                        )}
+                        {role === "Editor-In-Chief" || role == "Manager" ? (
+                            <Grid item xs={2}>
+                                <Stack
+                                    alignItems="center"
+                                    justifyContent="center"
+                                >
+                                    <Buttonavatar>
+                                        <IconButton
+                                            size="large"
+                                            //onClick={portalSettings}
+                                        >
                                             <SettingsIcon
                                                 sx={{
                                                     color: "white",
@@ -313,7 +343,7 @@ export function dashboard() {
                                         </IconButton>
                                     </Buttonavatar>
                                     <Typography variant="buttonLabel">
-                                        User Settings
+                                        Settings
                                     </Typography>
                                 </Stack>
                             </Grid>

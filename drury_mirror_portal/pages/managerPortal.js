@@ -40,6 +40,8 @@ export default function managerPortal() {
 	const router = useRouter();
 
 	const [getUsers, setUsers] = useState([]);
+	const [isError, setIsError] = useState(null);
+	const [isRole, setIsRole] = useState(null);
 
 	useEffect(() => {
 		const getUsersRoute = async () => {
@@ -76,42 +78,65 @@ export default function managerPortal() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		// Get data from the form.
-		const data = {
-			fname: event.target.fname.value,
-			lname: event.target.lname.value,
-			email: event.target.email.value,
-			password: event.target.password.value,
-			roles: event.target.roles.value,
-		};
+		let fname = event.target.fname.value
+		let lname = event.target.lname.value
+		let email = event.target.email.value
+		let password = event.target.password.value
+		let confirmPassword = event.target.confirmPassword.value
+		let roles = event.target.roles.value
 
-		// Send the data to the server in JSON format.
-		//console.log(data)
-		const JSONdata = JSON.stringify(data);
-		//console.log(JSONdata)
+		if (password == confirmPassword && roles != "none") {
+			console.log("passwords match")
+			setIsError(false)
+			setIsRole(true)
 
-		const endpoint = "api/createUser";
+			// Get data from the form.
+			const data = {
+				fname: event.target.fname.value,
+				lname: event.target.lname.value, 
+				email: event.target.email.value,
+				password: event.target.password.value,
+				roles: event.target.roles.value,
+			};
 
-		// Form the request for sending data to the server.
-		const options = {
-			// The method is POST because we are sending data.
-			method: "POST",
-			// Tell the server we're sending JSON.
-			headers: {
-				"Content-Type": "application/json",
-			},
-			// Body of the request is the JSON data we created above.
-			body: JSONdata,
-		};
+			// Send the data to the server in JSON format.
+			//console.log(data)
+			const JSONdata = JSON.stringify(data);
+			//console.log(JSONdata)
 
-		// Send the form data to our forms API on Vercel and get a response.
-		const response = await fetch(endpoint, options);
-		console.log("response: ", response);
-		if (response.status == 201) {
-			console.log("User Created");
-			router.reload(window.location);
-		} else {
-			// TODO: Display message saying the username or password is incorrect
+			const endpoint = "api/createUser";
+
+			// Form the request for sending data to the server.
+			const options = {
+				// The method is POST because we are sending data.
+				method: "POST",
+				// Tell the server we're sending JSON.
+				headers: {
+					"Content-Type": "application/json",
+				},
+				// Body of the request is the JSON data we created above.
+				body: JSONdata,
+			};
+
+			// Send the form data to our forms API on Vercel and get a response.
+			const response = await fetch(endpoint, options);
+			console.log("response: ", response);
+			if (response.status == 201) {
+				console.log("User Created");
+				router.reload(window.location);
+			} else {
+				// TODO: Display message saying the username or password is incorrect
+			}
+		}
+		else {
+			if(roles == "none"){
+				console.log("No roles specified");
+				setIsRole(false);
+			}
+			if(password != confirmPassword){
+				console.log("passwords do not match");
+				setIsError(true);
+			}
 		}
 	};
 
@@ -313,7 +338,9 @@ export default function managerPortal() {
 								label="Roles"
 								sx={{ margin: 1, marginLeft: 0 }}
 							>
-								<MenuItem value={"Writer"}>Writer</MenuItem>
+								<MenuItem value={"Writer"}>
+									Writer
+								</MenuItem>
 								<MenuItem value={"Copy-Editor"}>
 									Copy-Editor
 								</MenuItem>
@@ -431,6 +458,7 @@ export default function managerPortal() {
 												label="First name"
 												name="fname"
 												variant="filled"
+												required
 												sx={{
 													label: { color: "black" },
 													input: { color: "black" },
@@ -457,6 +485,7 @@ export default function managerPortal() {
 												label="Last name"
 												name="lname"
 												variant="filled"
+												required
 												sx={{
 													label: { color: "black" },
 													input: { color: "black" },
@@ -484,6 +513,7 @@ export default function managerPortal() {
 												label="Email"
 												name="email"
 												variant="filled"
+												required
 												sx={{
 													label: { color: "black" },
 													input: { color: "black" },
@@ -510,6 +540,33 @@ export default function managerPortal() {
 												label="Password"
 												name="password"
 												variant="filled"
+												required
+												sx={{
+													label: { color: "black" },
+													input: { color: "black" },
+													border: "1px solid black",
+													borderRadius: "5px",
+													margin: 1,
+												}}
+											></TextField>
+										</Grid>
+										<Grid item xs={4}>
+											<Typography
+												variant="managerPortalLabel"
+												sx={{
+													margin: 1,
+													marginBottom: 0,
+												}}
+											>
+												Confirm Password
+											</Typography>
+											<TextField
+												type="password"
+												id="confirmPassword"
+												label="Confirm Password"
+												name="confirmPassword"
+												variant="filled"
+												required
 												sx={{
 													label: { color: "black" },
 													input: { color: "black" },
@@ -538,6 +595,7 @@ export default function managerPortal() {
 												name="roles"
 												input={<CustomInput />}
 												label="Roles"
+												required
 												sx={{ margin: 1 }}
 											>
 												<MenuItem value="none" disabled>
@@ -572,6 +630,48 @@ export default function managerPortal() {
 
 									<br></br>
 								</form>
+				{isError === true &&(
+                    <div>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                margin: 2,
+                                marginTop: 1,
+                                color: "red"
+                            }}
+                        >
+                            The passwords do not match
+                        </Typography>
+                    </div>
+                )}                    
+                {isError === false &&(
+                    <div>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                margin: 1,
+                                marginTop: 1,
+                                color: "green"
+                            }}
+                        >
+                            New User has been created
+                        </Typography>
+                    </div>
+                )}
+				{isRole === false &&(
+                    <div>
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                margin: 1,
+                                marginTop: 1,
+                                color: "red"
+                            }}
+                        >
+                            No Role has been assigned
+                        </Typography>
+                    </div>
+                )}               
 							</FormGroup>
 						</Card>
 					</AccordionDetails>

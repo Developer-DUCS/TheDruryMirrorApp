@@ -23,7 +23,7 @@ export default function Header() {
 	};
 
 	const handleLogo = () => {
-		router.push("/testSplashPage");
+		router.push("/Dashboard");
 	};
 
 	// Handle the write draft button

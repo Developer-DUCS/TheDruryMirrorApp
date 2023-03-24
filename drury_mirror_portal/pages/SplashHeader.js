@@ -37,7 +37,7 @@ export default function SplashHeader() {
 
     // Sends user back to splash page when clicking mirror logo
     const handleHome = () => {
-        router.push("/testSplashPage")
+        router.push("/Dashboard");
     };
 
     return (
