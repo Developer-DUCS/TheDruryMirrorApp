@@ -46,7 +46,7 @@ export default (req, res) => {
             );
         } else {
             saveQuery =
-                "INSERT INTO articles(email, author, headline, body, isDraft, imageType, thumbnailImage, createdDate) VALUES(?, ?, ?, ?, ?, ?, NOW())";
+                "INSERT INTO articles(email, author, headline, body, isDraft, imageType, thumbnailImage, createdDate) VALUES(?, ?, ?, ?, ?, ?, ?, NOW())";
 
             conn.query(
                 saveQuery,

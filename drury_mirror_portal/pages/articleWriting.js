@@ -14,8 +14,6 @@ import React, { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-
-
 // Components
 import Header from "./header";
 
