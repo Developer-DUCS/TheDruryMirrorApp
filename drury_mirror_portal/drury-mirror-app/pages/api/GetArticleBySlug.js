@@ -36,6 +36,7 @@ export default async (req, res) => {
                 body: row.body,
                 isDraft: row.isDraft,
                 thumbnailImage: row.thumbnailImage,
+                imageType: row.imageType,
             };
 
             return res.status(200).json(article);

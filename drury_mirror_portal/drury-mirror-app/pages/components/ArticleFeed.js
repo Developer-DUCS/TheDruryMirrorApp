@@ -228,15 +228,15 @@ export default function ArticleFeed() {
         
         let thumbnail;
         
-        if (props.article.thumbnailImageData) {
+        if (props.article.imageType) {
 
             const imageData = Buffer.from(props.article.thumbnailImageData).toString('base64');
-            const imageType = Buffer.from(props.article.imageType).toString('base64');
+            console.log("Data \n" + imageData);
 
             thumbnail = (
                 <Image
                     alt="thumbnail"
-                    src={`data:${imageType};base64,${imageData}`}
+                    src={`data:image/png;base64,${imageData}`}
                     width="80"
                     height="80"
                 />

@@ -32,12 +32,11 @@ export default async (req, res) => {
 
     // * Turbo console log
     // * select what to log
-    // * ctrl+option+l
-    // TODO: install tabnine
+    // * ctrl+option+l OR ctrl + alt + l (liveshare extension has hotkey conflicts)
 
     let isDraft = "0";
 
-    let getQuery = "SELECT aid, author, headline, isDraft, body, thumbnailImage FROM articles";
+    let getQuery = "SELECT aid, author, headline, isDraft, body, thumbnailImage, imageType FROM articles";
 
     let query = getQuery;
 
@@ -56,7 +55,6 @@ export default async (req, res) => {
         } else {
             let articles = [];
             rows.forEach((row) => {
-
                 let article = {
                     aid: row.aid,
                     author: row.author,
@@ -64,9 +62,11 @@ export default async (req, res) => {
                     body: row.body,
                     isDraft: row.isDraft,
                     thumbnailImageData: row.thumbnailImage,
+                    imageType: row.imageType,
                 };
-
-                console.log(article.thumbnailImageData);
+                
+                console.log("Image Type: " +  typeof article.thumbnailImageData);
+                console.log("Image Type: " +  typeof article.body);
                 
                 articles.push(article);
             });

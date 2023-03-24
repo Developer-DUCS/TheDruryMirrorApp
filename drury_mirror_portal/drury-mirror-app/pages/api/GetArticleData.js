@@ -37,6 +37,7 @@ export default async (req, res) => {
         
         let articles = [];
         rows.forEach((row) => {
+            console.log("BACK END: " + row.imageType);
             let article = {
                 aid: row.aid,
                 author: row.author,
@@ -44,6 +45,7 @@ export default async (req, res) => {
                 body: row.body,
                 isDraft: row.isDraft,
                 thumbnailImage: row.thumbnailImage,
+                imageType: row.imageType,
             };
 
             articles.push(article);
