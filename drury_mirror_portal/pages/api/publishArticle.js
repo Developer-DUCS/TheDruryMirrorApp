@@ -10,6 +10,7 @@ export default async (req, res) => {
 		console.log("🚀 ~ file: publishArticle.js:10 ~ body:", body);
 		const action = req.body.action;
 		const tags = req.body.tags;
+		const availableTags = req.body.availableTags;
 		console.log("🚀 ~ file: publishArticle.js:12 ~ tags:", tags);
 		console.log("🚀 ~ file: publishArticle.js:12 ~ tags:", typeof tags);
 		console.log("Action: " + action);
@@ -21,38 +22,26 @@ export default async (req, res) => {
 			isDraft = "5";
 		}
 
+		var array = tags.split(", ");
+		const placeholders = Array(array.length).fill("1").join(",");
+
+		let setTagsQuery = "";
 		if (action == "unpublishButton") {
 			console.log("ACTION: " + action);
 			isDraft = "4";
+			// delete tags query
+			setTagsQuery = "delete from tags WHERE tid = ?";
+		} else {
+			console.log("tag length", array.length);
+			setTagsQuery = `INSERT INTO tags(tid, ${tags}) VALUES(?,${placeholders})`;
 		}
-		const compareTags = ["local", "national", "international"];
-		var array = tags.split(", ");
-		console.log("🚀 ~ file: publishArticle.js:29 ~ array:", array);
-		// let local = false
-		// let national = false
-		// let international = false
-		// for (let i = 0; i < compareTags.length; i++) {
-		// 	if (array.includes(compareTags[i])) {
-		// 		console.log("Match");
 
-		// 	}
-		// }
-		const [local, national, international] = compareTags.map((tag) =>
-			array.includes(tag)
-		);
-		console.log(
-			"🚀 ~ file: publishArticle.js:42 ~ local, national, international:",
-			local,
-			national,
-			international
-		);
+		const compareTags = ["local", "national", "international"];
+
 		const id = body.id;
 
 		let updateArticleQuery =
 			"UPDATE articles SET isDraft = ? WHERE aid = ?";
-
-		let setTagsQuery =
-			"INSERT INTO tags(tid, local, national, international) VALUES(?,?,?,?)";
 
 		const updateArticleResult = await executeQuery({
 			query: updateArticleQuery,
@@ -65,9 +54,11 @@ export default async (req, res) => {
 			);
 			return res.status(500).json({ error: "Failed Update" });
 		} else {
+			console.log("Query Tags: ", tags);
+
 			const setTagsResult = await executeQuery({
 				query: setTagsQuery,
-				values: [id, local, national, international],
+				values: [id, tags],
 			});
 			if (setTagsResult.error) {
 				console.log(

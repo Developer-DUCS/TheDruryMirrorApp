@@ -1,25 +1,27 @@
 import React from "react";
 import { Dropdown } from "@nextui-org/react";
+import { TextField } from "@mui/material";
 
-export default function TagSelect({ articleID, tags }) {
+export default function TagSelect({ articleID, tags, selectedValueProp }) {
 	let currTags = [];
+	console.log("Selected Value", selectedValueProp);
 	for (let i = 0; i < tags.length; i++) {
 		if (tags[i]["0"]["tid"] == articleID) {
-			if (tags[i]["0"]["local"] == 1) {
-				currTags.push("local");
-			}
-			if (tags[i]["0"]["national"] == 1) {
-				currTags.push("national");
-			}
-			if (tags[i]["0"]["international"] == 1) {
-				currTags.push("international");
+			let obj = tags[i]["0"];
+			for (const key in obj) {
+				const value = obj[key];
+				console.log(`${key}: ${value}`);
+				if (value == 1) {
+					currTags.push(key);
+				}
 			}
 		}
 	}
-
-	if (currTags.length < 1) {
-		currTags = ["local"];
-	}
+	// if (currTags.length < 1) {
+	// 	currTags = ["Select Tags"];
+	// } else if (currTags.includes("Select Tags")) {
+	// 	currTags.pop("Select Tags");
+	// }
 
 	const [selected, setSelected] = React.useState(new Set(currTags));
 
@@ -27,23 +29,81 @@ export default function TagSelect({ articleID, tags }) {
 		() => Array.from(selected).join(", ").replaceAll("_", " "),
 		[selected]
 	);
-	return (
-		<Dropdown name={"Article" + articleID}>
-			<Dropdown.Button flat color="primary" css={{ tt: "capitalize" }}>
-				{selectedValue}
-			</Dropdown.Button>
-			<Dropdown.Menu
-				aria-label="Multiple selection actions"
-				color="primary"
-				disallowEmptySelection
-				selectionMode="multiple"
-				selectedKeys={selected}
-				onSelectionChange={setSelected}
-			>
-				<Dropdown.Item key="local">Local</Dropdown.Item>
-				<Dropdown.Item key="national">National</Dropdown.Item>
-				<Dropdown.Item key="international">International</Dropdown.Item>
-			</Dropdown.Menu>
-		</Dropdown>
-	);
+
+	const [getTags, setTags] = React.useState([]);
+
+	React.useEffect(() => {
+		const getTagsRoute = async () => {
+			const endpoint = "api/getTags";
+			const response = await fetch(endpoint);
+			console.log(
+				"🚀 ~ file: portalSettings.js:49 ~ addTag ~ response:",
+				response
+			);
+			if (response.ok) {
+				let tags = await response.json();
+				console.log(
+					"🚀 ~ file: portalSettings.js:61 ~ getTagsRoute ~ tags:",
+					tags
+				);
+				setTags(tags);
+			} else {
+				console.log("error getting the tags");
+			}
+		};
+		getTagsRoute();
+	}, []);
+	if (selectedValueProp == "unpublished") {
+		return (
+			<Dropdown name={"Article" + articleID}>
+				<Dropdown.Button
+					flat
+					color="primary"
+					css={{ tt: "capitalize" }}
+				>
+					{selectedValue}
+				</Dropdown.Button>
+				<Dropdown.Menu
+					aria-label="Multiple selection actions"
+					color="primary"
+					disallowEmptySelection
+					selectionMode="multiple"
+					selectedKeys={selected}
+					onSelectionChange={setSelected}
+				>
+					{getTags.map((tag) => (
+						<Dropdown.Item key={tag} value={tag}>
+							{tag}
+						</Dropdown.Item>
+					))}
+				</Dropdown.Menu>
+			</Dropdown>
+		);
+	} else {
+		return (
+			<Dropdown name={"Article" + articleID}>
+				<Dropdown.Button
+					flat
+					color="primary"
+					css={{ tt: "capitalize" }}
+				>
+					{selectedValue}
+				</Dropdown.Button>
+				{/* <Dropdown.Menu
+					aria-label="Multiple selection actions"
+					color="primary"
+					disallowEmptySelection
+					selectionMode="multiple"
+					selectedKeys={selected}
+					onSelectionChange={setSelected}
+				>
+					{getTags.map((tag) => (
+						<Dropdown.Item key={tag} value={tag}>
+							{tag}
+						</Dropdown.Item>
+					))}
+				</Dropdown.Menu> */}
+			</Dropdown>
+		);
+	}
 }

@@ -61,8 +61,7 @@ export default async (req, res) => {
 	let getPublished =
 		"SELECT aid,author,headline,body,isDraft FROM articles WHERE isDraft = ?";
 
-	let getTags =
-		"SELECT tid, local, national, international FROM tags WHERE tid = ?";
+	let getTags = "SELECT * FROM tags WHERE tid = ?";
 	let query = "";
 	let result = [];
 

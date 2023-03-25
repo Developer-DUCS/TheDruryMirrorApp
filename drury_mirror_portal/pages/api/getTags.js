@@ -16,7 +16,11 @@ export default async (req, res) => {
 			.status(500)
 			.json({ error: "There was an error loading the articles" });
 	} else {
-		const tags = result.slice(1).map((column) => column.COLUMN_NAME);
+		console.log("Result", result);
+		// const tags = result.slice(1).map((column) => column.COLUMN_NAME);
+		const tags = result
+			.map((obj) => obj.COLUMN_NAME) // extract COLUMN_NAME values
+			.filter((name) => name !== "tid"); // remove 'tid'
 		console.log("Tags", tags);
 		return res.status(200).json(tags);
 	}

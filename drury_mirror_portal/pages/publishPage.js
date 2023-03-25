@@ -37,6 +37,7 @@ export function draftList() {
 	const [selected, setSelected] = useState(new Set(["unpublished"]));
 	// let allTags = [];
 	const [getTags, setTags] = useState([]);
+	const [isError, setIsError] = useState(null);
 
 	const selectedValue = useMemo(
 		() => Array.from(selected).join(", ").replaceAll("_", " "),
@@ -78,6 +79,13 @@ export function draftList() {
 			event.target[0].getElementsByTagName("div")[0].innerHTML
 		);
 
+		let availableTagsRes = await fetch("api/getTags");
+		let availableTags = await availableTagsRes.json();
+		console.log(
+			"🚀 ~ file: publishPage.js:82 ~ publishArticle ~ availableTags:",
+			availableTags
+		);
+
 		console.log("article id: ", event.target[1].id);
 		console.log("Button Name: ", event.target[1].name);
 		console.log("Tag DropDown Value: ");
@@ -87,27 +95,35 @@ export function draftList() {
 			"🚀 ~ file: publishPage.js:78 ~ publishArticle ~ tags:",
 			tags
 		);
-		let endpoint = "/api/publishArticle";
-		let data = {
-			id: event.target[1].id,
-			tags: tags,
-			action: event.target[1].name,
-		};
-		let JSONdata = JSON.stringify(data);
-		console.log("JSONdata", JSONdata);
-		let options = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			// Body of the request is the JSON data we created above.
-			body: JSONdata,
-		};
+		if (tags != []) {
+			setIsError(false);
+			// let tags = tagsString.split(",");
+			let endpoint = "/api/publishArticle";
+			let data = {
+				id: event.target[1].id,
+				tags: tags,
+				availableTags: availableTags,
+				action: event.target[1].name,
+			};
+			let JSONdata = JSON.stringify(data);
+			console.log("JSONdata", JSONdata);
+			let options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				// Body of the request is the JSON data we created above.
+				body: JSONdata,
+			};
 
-		let response = await fetch(endpoint, options);
+			let response = await fetch(endpoint, options);
 
-		//reload page upon click of button
-		router.reload();
+			//reload page upon click of button
+			router.reload();
+		} else {
+			console.log("SELECT TAGS");
+			setIsError(true);
+		}
 	};
 
 	useEffect(() => {
@@ -200,6 +216,28 @@ export function draftList() {
 
 	// Check if the user is authenticated
 	const allowedRoles = ["Editor-In-Chief", "Manager"];
+
+	function renderDropdown(aid) {
+		if (selectedValue === "unpublished") {
+			console.log("unpublished!");
+			return (
+				<TagSelect
+					articleID={aid}
+					tags={getTags}
+					selectedValueProp={"unpublished"}
+				/>
+			);
+		} else if (selectedValue === "published") {
+			// console.log("published!")
+			return (
+				<TagSelect
+					articleID={aid}
+					tags={getTags}
+					selectedValueProp={"published"}
+				/>
+			);
+		}
+	}
 
 	function renderButtons(aid) {
 		if (selectedValue === "unpublished") {
@@ -322,27 +360,45 @@ export function draftList() {
 								{parse(article.body)}
 							</Typography>
 
-							{/* <Button
-								id={article.aid}
-								variant="contained"
-								onClick={publishArticle}
-								sx={{
-									marginBottom: 1,
-									marginRight: 5,
-									color: "white",
-									backgroundColor: "#4685F5",
-								}}
-							>
-								Publish Article
-							</Button> */}
+							{/* <Typography>Select Tags</Typography> */}
 							<form onSubmit={publishArticle}>
-								<TagSelect
+								{/* <TagSelect
 									articleID={article.aid}
 									tags={getTags}
 								/>
 
-								{renderButtons(article.aid)}
+								{renderButtons(article.aid)} */}
+								<div
+									style={{
+										display: "flex",
+										alignItems: "center",
+									}}
+								>
+									<Typography>Select Tags</Typography>
+
+									{/* <TagSelect
+										articleID={article.aid}
+										tags={getTags}
+										
+									/> */}
+									{renderDropdown(article.aid)}
+									{renderButtons(article.aid)}
+								</div>
 							</form>
+							{isError === true && (
+								<div>
+									<Typography
+										variant="h4"
+										sx={{
+											margin: 2,
+											marginTop: 1,
+											color: "red",
+										}}
+									>
+										Please select a tag
+									</Typography>
+								</div>
+							)}
 						</Card>
 					))}
 				</Box>

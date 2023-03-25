@@ -64,6 +64,7 @@ export default function portalSettings() {
 		let response = await fetch(endpoint, options);
 		if (response.ok) {
 			console.log("Inserted tag successfully");
+			router.reload();
 		} else {
 			console.log("Failed to insert tag");
 		}
