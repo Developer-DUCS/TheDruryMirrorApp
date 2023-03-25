@@ -199,7 +199,7 @@ export function draftList() {
 	console.log("aritcle 1:", articles[0]);
 
 	// Check if the user is authenticated
-	const allowedRoles = ["Editor-In-Chief"];
+	const allowedRoles = ["Editor-In-Chief", "Manager"];
 
 	function renderButtons(aid) {
 		if (selectedValue === "unpublished") {
