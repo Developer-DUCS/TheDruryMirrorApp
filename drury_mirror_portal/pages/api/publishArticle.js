@@ -15,30 +15,29 @@ export default async (req, res) => {
 		console.log("🚀 ~ file: publishArticle.js:12 ~ tags:", typeof tags);
 		console.log("Action: " + action);
 		let isDraft = "";
+		const id = body.id;
 
 		if (body.page == "copyEditorPortal") {
 			isDraft = "4";
 		} else {
 			isDraft = "5";
+
+			var array = tags.split(", ");
+			const placeholders = Array(array.length).fill("1").join(",");
+
+			var setTagsQuery = "";
+			if (action == "unpublishButton") {
+				console.log("ACTION: " + action);
+				isDraft = "4";
+				// delete tags query
+				setTagsQuery = "delete from tags WHERE tid = ?";
+			} else {
+				console.log("tag length", array.length);
+				setTagsQuery = `INSERT INTO tags(tid, ${tags}) VALUES(?,${placeholders})`;
+			}
+
+			const compareTags = ["local", "national", "international"];
 		}
-
-		var array = tags.split(", ");
-		const placeholders = Array(array.length).fill("1").join(",");
-
-		let setTagsQuery = "";
-		if (action == "unpublishButton") {
-			console.log("ACTION: " + action);
-			isDraft = "4";
-			// delete tags query
-			setTagsQuery = "delete from tags WHERE tid = ?";
-		} else {
-			console.log("tag length", array.length);
-			setTagsQuery = `INSERT INTO tags(tid, ${tags}) VALUES(?,${placeholders})`;
-		}
-
-		const compareTags = ["local", "national", "international"];
-
-		const id = body.id;
 
 		let updateArticleQuery =
 			"UPDATE articles SET isDraft = ? WHERE aid = ?";
@@ -56,31 +55,35 @@ export default async (req, res) => {
 		} else {
 			console.log("Query Tags: ", tags);
 
-			const setTagsResult = await executeQuery({
-				query: setTagsQuery,
-				values: [id, tags],
-			});
-			if (setTagsResult.error) {
-				console.log(
-					"🚀 ~ file: publishArticle.js:64 ~ setTagsResult.error:",
-					setTagsResult.error
-				);
-				return res.status(500).json({ error: "Failed Tags" });
+			if (body.page != "copyEditorPortal") {
+				const setTagsResult = await executeQuery({
+					query: setTagsQuery,
+					values: [id, tags],
+				});
+				if (setTagsResult.error) {
+					console.log(
+						"🚀 ~ file: publishArticle.js:64 ~ setTagsResult.error:",
+						setTagsResult.error
+					);
+					return res.status(500).json({ error: "Failed Tags" });
+				} else {
+					return res.status(201).json({ msg: "Successful Update" });
+				}
 			} else {
 				return res.status(201).json({ msg: "Successful Update" });
 			}
 		}
 
-		conn.query(updateArticleQuery, [isDraft, id], (err) => {
-			//console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
-			if (err) {
-				console.log("Something went wrong");
-				console.log(err);
-				res.status(500).json({ error: "Failed Insertion" });
-			} else {
-				res.status(201).json({ msg: "Successful Update" });
-			}
-		});
+		// conn.query(updateArticleQuery, [isDraft, id], (err) => {
+		// 	//console.log("Query: ", conn.query(saveQuery, [testAuthor, testHeadline, articleString]))
+		// 	if (err) {
+		// 		console.log("Something went wrong");
+		// 		console.log(err);
+		// 		res.status(500).json({ error: "Failed Insertion" });
+		// 	} else {
+		// 		res.status(201).json({ msg: "Successful Update" });
+		// 	}
+		// });
 	} catch (error) {
 		console.log(error);
 	}

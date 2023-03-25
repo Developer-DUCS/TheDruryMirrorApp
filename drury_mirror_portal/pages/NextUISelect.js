@@ -1,21 +1,24 @@
 import React from "react";
 import { Dropdown } from "@nextui-org/react";
-import { TextField } from "@mui/material";
 
 export default function TagSelect({ articleID, tags, selectedValueProp }) {
 	let currTags = [];
 	console.log("Selected Value", selectedValueProp);
-	for (let i = 0; i < tags.length; i++) {
-		if (tags[i]["0"]["tid"] == articleID) {
-			let obj = tags[i]["0"];
-			for (const key in obj) {
-				const value = obj[key];
-				console.log(`${key}: ${value}`);
-				if (value == 1) {
-					currTags.push(key);
+	if (tags) {
+		for (let i = 0; i < tags.length; i++) {
+			if (tags[i]["0"]["tid"] == articleID) {
+				let obj = tags[i]["0"];
+				for (const key in obj) {
+					const value = obj[key];
+					console.log(`${key}: ${value}`);
+					if (value == 1) {
+						currTags.push(key);
+					}
 				}
 			}
 		}
+	} else {
+		console.log("no tags");
 	}
 	// if (currTags.length < 1) {
 	// 	currTags = ["Select Tags"];
