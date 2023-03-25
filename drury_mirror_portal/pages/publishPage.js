@@ -299,29 +299,38 @@ export function draftList() {
 					{data.user.fname} {data.user.lname}
 				</Typography>
 
-				<Dropdown>
-					<Dropdown.Button
-						flat
-						color="primary"
-						css={{ tt: "capitalize" }}
-					>
-						{selectedValue}
-					</Dropdown.Button>
-					<Dropdown.Menu
-						aria-label="Single selection actions"
-						color="primary"
-						disallowEmptySelection
-						selectionMode="single"
-						selectedKeys={selected}
-						// onSelectionChange={setSelected}
-						onSelectionChange={setSelected}
-					>
-						<Dropdown.Item key="unpublished">
-							Unpublished
-						</Dropdown.Item>
-						<Dropdown.Item key="published">Published</Dropdown.Item>
-					</Dropdown.Menu>
-				</Dropdown>
+				<div
+					style={{
+						marginLeft: "15px",
+						marginTop: "10px",
+					}}
+				>
+					<Dropdown>
+						<Dropdown.Button
+							flat
+							color="primary"
+							css={{ tt: "capitalize" }}
+						>
+							{selectedValue}
+						</Dropdown.Button>
+						<Dropdown.Menu
+							aria-label="Single selection actions"
+							color="primary"
+							disallowEmptySelection
+							selectionMode="single"
+							selectedKeys={selected}
+							// onSelectionChange={setSelected}
+							onSelectionChange={setSelected}
+						>
+							<Dropdown.Item key="unpublished">
+								Unpublished
+							</Dropdown.Item>
+							<Dropdown.Item key="published">
+								Published
+							</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
+				</div>
 				<Box sx={{ marginTop: -2 }}>
 					{getArticles.map((article) => (
 						<Card
@@ -362,12 +371,6 @@ export function draftList() {
 
 							{/* <Typography>Select Tags</Typography> */}
 							<form onSubmit={publishArticle}>
-								{/* <TagSelect
-									articleID={article.aid}
-									tags={getTags}
-								/>
-
-								{renderButtons(article.aid)} */}
 								<div
 									style={{
 										display: "flex",
@@ -375,14 +378,21 @@ export function draftList() {
 									}}
 								>
 									<Typography>Select Tags</Typography>
-
-									{/* <TagSelect
-										articleID={article.aid}
-										tags={getTags}
-										
-									/> */}
-									{renderDropdown(article.aid)}
-									{renderButtons(article.aid)}
+									<div
+										style={{
+											marginLeft: "10px",
+											marginRight: "10px",
+										}}
+									>
+										{renderDropdown(article.aid)}
+									</div>
+									<div
+										style={{
+											paddingTop: "10px",
+										}}
+									>
+										{renderButtons(article.aid)}
+									</div>
 								</div>
 							</form>
 							{isError === true && (
