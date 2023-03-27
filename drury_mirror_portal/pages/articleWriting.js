@@ -16,12 +16,11 @@ import {
 	Checkbox,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 
 // React, Next, system stuff
 import React, { useState, useEffect } from "react";
 import { useSession, signOut, getSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 // Components
 import Header from "./header";
@@ -79,13 +78,12 @@ const formats = [
 ];
 
 export default function articleWriting() {
-
-    // Handles the contents of the article editor
-    let [value, setValue] = useState();
-    const [getArticle, setArticle] = useState([]);
-    const [getImageData, setImageData] = useState("");
-    const [getImageType, setImageType] = useState("");
-    const { status, data } = useSession();
+	// Handles the contents of the article editor
+	let [value, setValue] = useState();
+	const [getArticle, setArticle] = useState([]);
+	const [getImageData, setImageData] = useState("");
+	const [getImageType, setImageType] = useState("");
+	const { status, data } = useSession();
 
 	// Used to set the text on the submit button
 	const [buttonText, setButtonText] = useState("Save as Draft");
@@ -121,7 +119,6 @@ export default function articleWriting() {
 			setValue(myArticle);
 		}
 	}, [getArticle]);
-        
 
 	const handleSubmit = async (event) => {
 		// Stop the form from submitting and refreshing the page.
@@ -143,15 +140,15 @@ export default function articleWriting() {
 		// 		aid: router.query.id,
 		// 	};
 		if (router.query.id) {
-            const data = {
-                email: session.user.email,
-                author: author,
-                article: value,
-                check: document.getElementById("checkbox").checked,
-                aid: router.query.id,
-                imageType: getImageType,
-                imageData: getImageData,
-            };
+			const data = {
+				email: session.user.email,
+				author: author,
+				article: value,
+				check: document.getElementById("checkbox").checked,
+				aid: router.query.id,
+				imageType: getImageType,
+				imageData: getImageData,
+			};
 
 			// Send the data to the server in JSON format.
 			console.log(data);
@@ -187,13 +184,13 @@ export default function articleWriting() {
 			// 	check: document.getElementById("checkbox").checked,
 			// };
 			const data = {
-                email: session.user.email,
-                author: author,
-                article: value,
-                check: document.getElementById("checkbox").checked,
-                imageData: getImageData,
-                imageType: getImageType,
-            };
+				email: session.user.email,
+				author: author,
+				article: value,
+				check: document.getElementById("checkbox").checked,
+				imageData: getImageData,
+				imageType: getImageType,
+			};
 
 			// Send the data to the server in JSON format.
 			console.log(data);
@@ -281,34 +278,38 @@ export default function articleWriting() {
 	}, [router.isReady]);
 
 	// UploadFileHandler()
-    // - Converts the file uploaded into base 64
-    function uploadFileHandler() {
-        
-        // Open a file explorer for a user that only accepts image files
-        const fileInput = document.createElement("input");
-        fileInput.type = "file";
-        fileInput.accept = "image/*";
-        fileInput.click();
-    
-        // When the user selects an image, send the image to the server using the uploadHandler API endpoint
-        fileInput.addEventListener("change", async (event) => {
-            
-            // 1. Convert file into base64 object
-            const file = event.target.files[0]
-            
-            var reader = new FileReader();
-            
-            reader.onloadend = function () {
-                console.log("RESULT", file.type);
-                setImageData(reader.result);
-                setImageType(file.type);
-                console.log("🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ getImageType", getImageType)
-            };
-                console.log("🚀 ~ file: articleWriting.js:259 ~ fileInput.addEventListener ~ setImageData:", getImageData);
+	// - Converts the file uploaded into base 64
+	function uploadFileHandler() {
+		// Open a file explorer for a user that only accepts image files
+		const fileInput = document.createElement("input");
+		fileInput.type = "file";
+		fileInput.accept = "image/*";
+		fileInput.click();
 
-            reader.readAsDataURL(file);
-        });
-    }
+		// When the user selects an image, send the image to the server using the uploadHandler API endpoint
+		fileInput.addEventListener("change", async (event) => {
+			// 1. Convert file into base64 object
+			const file = event.target.files[0];
+
+			var reader = new FileReader();
+
+			reader.onloadend = function () {
+				console.log("RESULT", file.type);
+				setImageData(reader.result);
+				setImageType(file.type);
+				console.log(
+					"🚀 ~ file: articleWriting.js:131 ~ fileInput.addEventListener ~ getImageType",
+					getImageType
+				);
+			};
+			console.log(
+				"🚀 ~ file: articleWriting.js:259 ~ fileInput.addEventListener ~ setImageData:",
+				getImageData
+			);
+
+			reader.readAsDataURL(file);
+		});
+	}
 
 	if (status === "authenticated") {
 		return (
@@ -318,15 +319,17 @@ export default function articleWriting() {
 						<Header />
 					</div>
 					<form onSubmit={handleSubmit}>
-					<Button
-                            sx={{ m: 2 }}
-                            variant="contained"
-                            color="error"
-                            onClick={() => { uploadFileHandler(); }}
-                            startIcon={<DriveFolderUploadIcon/>}
-                        >
-                            Upload Thumbnail
-                        </Button>
+						<Button
+							sx={{ m: 2 }}
+							variant="contained"
+							color="error"
+							onClick={() => {
+								uploadFileHandler();
+							}}
+							startIcon={<DriveFolderUploadIcon />}
+						>
+							Upload Thumbnail
+						</Button>
 						<Box
 							sx={{
 								backgroundColor: "white",

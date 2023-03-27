@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`users` (
   `password` VARCHAR(60) NULL,
   `roles` VARCHAR(20) NOT NULL,
   `created` DATETIME NULL,
-  'thumbnailImage' LONGBLOB NULL,
   `active` bool NOT NULL,
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
@@ -64,6 +63,8 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
   `headline` VARCHAR(50) NOT NULL,
   `body` MEDIUMTEXT NOT NULL,
   `isDraft` INT NOT NULL,
+  `imageType` VARCHAR(100) NULL,
+  `thumbnailImage` LONGBLOB NULL,
   `createdDate` date NOT NULL,
   PRIMARY KEY (`aid`))
 ENGINE = InnoDB;

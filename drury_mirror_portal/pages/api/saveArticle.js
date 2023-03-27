@@ -11,13 +11,13 @@ export default async (req, res) => {
 		console.log("article", body.article);
 		console.log("check", body.check);
 
-        let check = body.check;
-        let articleString = body.article;
-        let author = body.author;
-        let testHeadline = "Test Headline";
-        let email = body.email;
-        let imageData = body.imageData;
-        let imageType = body.imageType;
+		let check = body.check;
+		let articleString = body.article;
+		let author = body.author;
+		let testHeadline = "Test Headline";
+		let email = body.email;
+		let thumbnailImage = body.imageData;
+		let imageType = body.imageType;
 
 		if (check) {
 			check = "1";
@@ -80,7 +80,15 @@ export default async (req, res) => {
 
 			const result = await executeQuery({
 				query: saveQuery,
-				values: [email, author, testHeadline, articleString, check,imageType, thumbnailImage],
+				values: [
+					email,
+					author,
+					testHeadline,
+					articleString,
+					check,
+					imageType,
+					thumbnailImage,
+				],
 			});
 			// console.log("🚀 ~ file: saveArticle.js:76 ~ result:", result);
 
