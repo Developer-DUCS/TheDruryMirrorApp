@@ -11,11 +11,13 @@ export default async (req, res) => {
 		console.log("article", body.article);
 		console.log("check", body.check);
 
-		let check = body.check;
-		let articleString = body.article;
-		let author = body.author;
-		let testHeadline = "Test Headline";
-		let email = body.email;
+        let check = body.check;
+        let articleString = body.article;
+        let author = body.author;
+        let testHeadline = "Test Headline";
+        let email = body.email;
+        let imageData = body.imageData;
+        let imageType = body.imageType;
 
 		if (check) {
 			check = "1";
@@ -59,7 +61,7 @@ export default async (req, res) => {
 			}
 		} else {
 			saveQuery =
-				"INSERT INTO articles(email,author, headline, body, isDraft, createdDate) VALUES(?,?,?,?,?, NOW())";
+				"INSERT INTO articles(email,author, headline, body, isDraft, imageType, thumbnailImage, createdDate) VALUES(?,?,?,?,?,?,?, NOW())";
 
 			// conn.query(
 			// 	saveQuery,
@@ -78,7 +80,7 @@ export default async (req, res) => {
 
 			const result = await executeQuery({
 				query: saveQuery,
-				values: [email, author, testHeadline, articleString, check],
+				values: [email, author, testHeadline, articleString, check,imageType, thumbnailImage],
 			});
 			// console.log("🚀 ~ file: saveArticle.js:76 ~ result:", result);
 
