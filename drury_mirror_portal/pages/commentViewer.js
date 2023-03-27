@@ -305,7 +305,9 @@ export function CommentViewer() {
 
 			// Set the value for the overall comments
 			console.log("COMMENTS: ", comments);
+			console.log("COMMENTS: ", comments.length);
 			console.log("OVERALL: ", comments.overallComments);
+			console.log("OVERALL: ", comments.overallComments.length);
 			setOverallComments(comments.overallComments);
 
 			comments = comments.comments.split(",");
@@ -319,58 +321,67 @@ export function CommentViewer() {
 					inputArray.push(comments[i]);
 				}
 			}
-			for (let y = 0; y < commentsArray.length; y++) {
-				let tempid = inputArray[y];
-				let idnum = tempid.split("t");
-				console.log("comment: ", commentsArray[y]);
+			if (commentsArray[0] != "") {
+				console.log("array length", commentsArray.length);
 
-				const styledCard = () => {
-					return (
-						<Card
-							id={`card${idnum[1]}`}
-							onMouseEnter={mouseover}
-							onMouseLeave={mouseleave}
-							style={{
-								margin: 15,
-								marginTop: 30,
-								padding: 5,
-								paddingLeft: 15,
-								boxShadow: 4,
-								backgroundColor: "#82858f",
-							}}
-						>
-							<Typography
-								variant="body1"
-								color="white"
-								sx={{ m: 1 }}
-							>
-								{commentsArray[y]}
-							</Typography>{" "}
-							<Button
-								id={`button${idnum[1]}`}
-								onClick={(event) => {
-									resolve(event);
+				console.log("HERE");
+				for (let y = 0; y < commentsArray.length; y++) {
+					let tempid = inputArray[y];
+					var idnum = "";
+					if (tempid) {
+						idnum = tempid.split("t");
+					}
+
+					console.log("comment: ", commentsArray[y]);
+
+					const styledCard = () => {
+						return (
+							<Card
+								id={`card${idnum[1]}`}
+								onMouseEnter={mouseover}
+								onMouseLeave={mouseleave}
+								style={{
+									margin: 15,
+									marginTop: 30,
+									padding: 5,
+									paddingLeft: 15,
+									boxShadow: 4,
+									backgroundColor: "#82858f",
 								}}
-								variant="contained"
-								color="secondary"
-								sx={{ margin: 2, marginLeft: 0 }}
 							>
-								Resolve
-							</Button>
-						</Card>
-					);
-				};
+								<Typography
+									variant="body1"
+									color="white"
+									sx={{ m: 1 }}
+								>
+									{commentsArray[y]}
+								</Typography>{" "}
+								<Button
+									id={`button${idnum[1]}`}
+									onClick={(event) => {
+										resolve(event);
+									}}
+									variant="contained"
+									color="secondary"
+									sx={{ margin: 2, marginLeft: 0 }}
+								>
+									Resolve
+								</Button>
+							</Card>
+						);
+					};
 
-				// A card containing the comments and their
-				// resolve buttons
-				var card = React.createElement(styledCard);
+					// A card containing the comments and their
+					// resolve buttons
+					var card = React.createElement(styledCard);
 
-				// ----------------------RENDER OBJECTS-------------------------- //
-				allComments.push(card);
+					// ----------------------RENDER OBJECTS-------------------------- //
+					allComments.push(card);
 
-				const rootID = document.getElementById("currentComments");
+					const rootID = document.getElementById("currentComments");
 
-				console.log("card.props.id", card.props.id);
+					console.log("card.props.id", card.props.id);
+				}
 			}
 		} else {
 			console.log("Comments not ready");

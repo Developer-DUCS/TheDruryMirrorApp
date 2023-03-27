@@ -351,15 +351,20 @@ export function commentEditor() {
 		//let x = event.target.overAllComments.value;
 		const id = parseInt(router.query.id);
 		let x = event.target.commentTest;
-		console.log("🚀 ~ file: commentEditor.js:454 ~ submit ~ x", x);
-		let y = x.length;
-		let i = 0;
-		let commentsArray = [];
-		// let overAllComments = x[0].value;
-		let overAllComments = event.target.overAllComments.value;
-		console.log("OverAllComments:", overAllComments);
+		var commentsArray = [];
 
-		if (y > 0) {
+		var overAllComments = event.target.overAllComments.value;
+
+		console.log("🚀 ~ file: commentEditor.js:454 ~ submit ~ x", x);
+		if (x) {
+			let y = x.length;
+			let i = 0;
+			commentsArray = [];
+			// let overAllComments = x[0].value;
+			overAllComments = event.target.overAllComments.value;
+			console.log("OverAllComments:", overAllComments);
+
+			// if (y > 0) {
 			console.log("here");
 			while (y > 0) {
 				console.log("here2");
