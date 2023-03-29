@@ -7,14 +7,13 @@
 
 ## Running
 
-First Time? Run these commands:
+First, run the development server:
+
 ```bash
-npm install // installs all modules
-npm run build // builds .next folder for Android and iOS emulators
-npm run static
-npx cap sync // sync to emulators
 npm run dev
 ```
+
+This runs the **Capacitor** dev environment for the ios and android platforms
 
 Next, run your desired platform device
 1. If you made any big changes and don't have [live reload](https://dev.to/k4u5h4l/configure-next-js-for-cross-platform-development-with-capacitor-js-ai2) set up, do 
@@ -22,16 +21,21 @@ Next, run your desired platform device
     npx cap sync
     ``` 
     to "sync" builds between your code and Android Studio's gradle build
-2. Open your emulator:
-    ```bash
-    Android: npx cap open android
-    iPhone: npx cap open iOS
-    ```
-3. Run your emulator:
-    ```bash
-    Android: npx cap run android
-    iPhone: npx cap run iOS
-    ```
+2.
+
+```bash
+Android: npx cap run android
+iPhone: npx cap run iphone
+```
+
+## Developing on Different WiFis
+
+You may need to change **capacitor.config.json** server -> url on different WiFis. Use your local WiFi address, find this by doing
+```bash
+ipconfig
+```
+In your command prompt.
+
 ## Useful Docs
 
 [API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
