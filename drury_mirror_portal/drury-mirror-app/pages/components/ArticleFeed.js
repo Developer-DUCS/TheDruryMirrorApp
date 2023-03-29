@@ -13,8 +13,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Buffer } from 'buffer';
-import { debounce } from 'lodash';
+import { Buffer } from "buffer";
+import { debounce } from "lodash";
 
 // Components
 import Header from "./Header";
@@ -40,31 +40,30 @@ import {
     Box,
     Card,
     CardContent,
-    TextField
+    TextField,
 } from "@mui/material";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 import SearchIcon from "@mui/icons-material/Search";
 
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 
 export default function ArticleFeed() {
-
     const articleStyles = makeStyles((theme) => ({
         container: {
-            display: 'flex',
-            flexDirection: 'row',
-            height: 'auto',
-            width: 'auto',
+            display: "flex",
+            flexDirection: "row",
+            height: "auto",
+            width: "auto",
             marginBottom: 5,
             borderRadius: 5,
-            boxShadow: '0px 4px 5px rgba(0, 0, 0, 1)',
-            backgroundColor: 'white',
+            boxShadow: "0px 4px 5px rgba(0, 0, 0, 1)",
+            backgroundColor: "white",
         },
         column: {
-            width: 'auto',
-            height: 'auto',
-            display: 'flex',
+            width: "auto",
+            height: "auto",
+            display: "flex",
         },
         featuredImage: {
             width: 120,
@@ -73,21 +72,21 @@ export default function ArticleFeed() {
             margin: theme.spacing(1),
         },
         headline: {
-            fontFamily: 'AvantGarde',
+            fontFamily: "AvantGarde",
             fontSize: 16,
             width: 200,
             margin: theme.spacing(1),
             marginBottom: 0,
         },
         author: {
-            fontFamily: 'AvantGarde',
+            fontFamily: "AvantGarde",
             fontSize: 12,
             width: 150,
             margin: theme.spacing(1),
             marginBottom: theme.spacing(2),
         },
         subtitle: {
-            fontFamily: 'AvantGarde',
+            fontFamily: "AvantGarde",
             fontSize: 12,
             margin: theme.spacing(1),
             marginTop: 0,
@@ -103,14 +102,14 @@ export default function ArticleFeed() {
     const [getDisplay, setDisplay] = useState("none");
 
     // For search value
-    const [getSearchTerm, setSearchTerm] = useState('');
+    const [getSearchTerm, setSearchTerm] = useState("");
 
     // To adjust header height
     const [getHeight, setHeight] = useState("55px");
 
     // To adjust card margin (search header expanded)
     const [getPaddingTop, setPaddingTop] = useState("50px");
-    
+
     // On search click, set display property to block or none respectively
     function onSearchButtonClick() {
         if (getDisplay == "none") {
@@ -129,18 +128,17 @@ export default function ArticleFeed() {
             setPaddingTop("50px");
         }
     }
-    
+
     // handleSearch - debounce function
     // - Calls the last onChange event from SearchBar
     // - Prevents database-lookup everytime user inputs a letter rapidly (fast typers)
     const handleSearch = debounce(async (getSearchTerm) => {
-        
         let payload = {
-            searchText: getSearchTerm
+            searchText: getSearchTerm,
         };
 
         let JSONdata = JSON.stringify(payload);
-        
+
         const options = {
             method: "POST",
             headers: {
@@ -149,17 +147,19 @@ export default function ArticleFeed() {
             body: JSONdata,
         };
 
-        const response = await fetch('/api/GetArticleData', options)
+        const response = await fetch("/api/GetArticleData", options);
 
         const data = await response.json();
 
-        if(data){
-            console.log("🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data", data);
-            setArticles(data)
+        if (data) {
+            console.log(
+                "🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
+                data
+            );
+            setArticles(data);
         }
-
     }, 500);
-    
+
     // handleInputChange
     // - handles the input change from textfield
     // - react friendly
@@ -225,18 +225,19 @@ export default function ArticleFeed() {
     // Article Card - stateless functional component
     // - Creates a MUI card component from props with article data
     const ArticleCard = (props) => {
-        
         let thumbnail;
-        
+
         if (props.article.imageType) {
 
+            
             const imageData = Buffer.from(props.article.thumbnailImageData).toString('base64');
-            console.log("Data \n" + imageData);
+            const decodedString = atob(imageData);
+            console.log(decodedString)
 
             thumbnail = (
                 <Image
                     alt="thumbnail"
-                    src={`data:image/png;base64,${imageData}`}
+                    src={`${decodedString}`}
                     width="80"
                     height="80"
                 />
@@ -251,37 +252,49 @@ export default function ArticleFeed() {
                 />
             );
         }
-        
+
         let newHeadline = truncateString(props.article.headline);
 
         return (
-            <Card style={articleStyles.container} sx={{m: 2, marginBottom: 3}}>
+            <Card
+                style={articleStyles.container}
+                sx={{ m: 2, marginBottom: 3 }}>
                 <Link href={`/articles/[${props.article.aid}]`}>
                     <CardContent>
                         <Box style={articleStyles.column}>
-                                <Box style={articleStyles.featuredImage}>
-                                    {thumbnail}
-                                </Box>
-                                <Box style={articleStyles.column}>
-                                    <Typography sx={{fontSize: 24, fontFamily: "AvantGrande", color: "black"}}>
-                                        {newHeadline}
-                                    </Typography>
-                                    <Typography sx={{fontSize: 16, fontFamily: "AvantGrande", color: "black"}}>
-                                        By {props.article.author}
-                                    </Typography>
-                                    <Typography style={articleStyles.subtitle}>
-                                        {props.subtitle}
-                                    </Typography>
-                                </Box>
+                            <Box style={articleStyles.featuredImage}>
+                                {thumbnail}
+                            </Box>
+                            <Box style={articleStyles.column}>
+                                <Typography
+                                    sx={{
+                                        fontSize: 24,
+                                        fontFamily: "AvantGrande",
+                                        color: "black",
+                                    }}>
+                                    {newHeadline}
+                                </Typography>
+                                <Typography
+                                    sx={{
+                                        fontSize: 16,
+                                        fontFamily: "AvantGrande",
+                                        color: "black",
+                                    }}>
+                                    By {props.article.author}
+                                </Typography>
+                                <Typography style={articleStyles.subtitle}>
+                                    {props.subtitle}
+                                </Typography>
+                            </Box>
                         </Box>
                     </CardContent>
                 </Link>
             </Card>
         );
     };
-    
+
     return (
-        <Box sx={{backgroundColor: "#F3F3F3"}}>
+        <Box sx={{ backgroundColor: "#F3F3F3" }}>
             <Box>
                 <Box
                     style={{
@@ -289,8 +302,7 @@ export default function ArticleFeed() {
                         top: 0,
                         width: "100%",
                         marginBottom: 10,
-                    }}
-                    >
+                    }}>
                     <AppBar
                         position="fixed"
                         sx={{
@@ -355,7 +367,6 @@ export default function ArticleFeed() {
                                         disabledUnderline: true,
                                     },
                                 }}
-                                
                             />
                         </Toolbar>
                     </AppBar>

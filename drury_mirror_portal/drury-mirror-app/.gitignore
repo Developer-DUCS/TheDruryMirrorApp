@@ -2,11 +2,11 @@
 
 # dependencies
 /node_modules
-.next
+./next
 ../next
 /.pnp
-/drury-mirror-app
 .pnp.js
+/android
 ./android
 ./ios
 

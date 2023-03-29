@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">drury-mirror-app</string>
     <string name="title_activity_main">drury-mirror-app</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="package_name">com.nextcap.app</string>
+    <string name="custom_url_scheme">com.nextcap.app</string>
 </resources>
