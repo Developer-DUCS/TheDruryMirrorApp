@@ -40,8 +40,7 @@ export default async (req, res) => {
                 headline: row.headline,
                 body: row.body,
                 isDraft: row.isDraft,
-                thumbnailImage: row.thumbnailImage,
-                imageType: row.imageType,
+                thumbnailImage: row.thumbnailImage
             };
 
             articles.push(article);

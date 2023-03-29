@@ -227,7 +227,10 @@ export default function ArticleFeed() {
 	const ArticleCard = (props) => {
 		let thumbnail;
 
-		if (props.article.thumbnailImageData !== null) {
+		if (typeof props.article.thumbnailImageData == "string" ||
+		typeof props.article.thumbnailImageData === "array" ||
+		typeof props.article.thumbnailImageData === "buffer"
+		) {
 			const imageData = Buffer.from(props.article.thumbnailImageData, 'base64');
 			// const decodedString = atob(imageData);
 			console.log(imageData);

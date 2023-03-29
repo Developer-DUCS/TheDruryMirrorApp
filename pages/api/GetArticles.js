@@ -47,14 +47,11 @@ export default async (req, res) => {
                     headline: row.headline,
                     body: row.body,
                     isDraft: row.isDraft,
-                    thumbnailImageData: row.thumbnailImage,
-                    imageType: row.imageType,
+                    thumbnailImageData: row.thumbnailImage
                 };
                 
                 articles.push(article);
             });
-
-            //createArticleIndices(articles);
 
             return res.status(200).json(articles);
         }

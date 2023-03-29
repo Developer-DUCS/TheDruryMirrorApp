@@ -26,17 +26,18 @@ export default async (req, res) => {
         
         rows.forEach((row) => {
 
-            article = {
-                aid: row.aid,
-                author: row.author,
-                headline: row.headline,
-                body: row.body,
-                isDraft: row.isDraft,
-                thumbnailImage: row.thumbnailImage,
-                imageType: row.imageType,
-            };
-
-            return res.status(200).json(article);
+            if(row.aid === articleID){
+                article = {
+                    aid: row.aid,
+                    author: row.author,
+                    headline: row.headline,
+                    body: row.body,
+                    isDraft: row.isDraft,
+                    thumbnailImage: row.thumbnailImage
+                };
+    
+                return res.status(200).json(article);
+            }
         
         });
     });
