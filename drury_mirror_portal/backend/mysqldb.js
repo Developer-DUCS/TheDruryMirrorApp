@@ -26,7 +26,7 @@ const config = require("./mysqlConfig.json"); // Configuration file for the mysq
 // OR include configuration options
 
 // Change the myUser variable to your username
-var myUser = "sam";
+var myUser = "thomasN";
 // let db = "";
 // if (myUser == "sam") {
 // 	db = mysql.createConnection({
@@ -145,6 +145,7 @@ if (myUser == "sam") {
 
 export default async function executeQuery({ query, values }) {
 	try {
+		console.log('Testing query', query, values);
 		const test = await db.connect();
 		console.log("Connection test", test);
 		const results = await db.query(query, values);
