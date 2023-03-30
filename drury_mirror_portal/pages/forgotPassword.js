@@ -69,7 +69,7 @@ export default function resetPage() {
 
         const response2 = await fetch(endpoint2, options2);
 		if (response2.status == 201) {
-			router.reload(window.location);
+			router.reload()
 		} 
     }
     

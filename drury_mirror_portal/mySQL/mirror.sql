@@ -99,9 +99,9 @@ ENGINE = InnoDB;
 -- Table `drurymirror`.`sessions`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror.sessions`;
+DROP TABLE IF EXISTS `drurymirror`.`sessions`;
 
-CREATE TABLE IF NOT EXISTS `drurymirror.sessions`
+CREATE TABLE IF NOT EXISTS `drurymirror`.`sessions`
   (
     `id`            INT NOT NULL AUTO_INCREMENT,
     `user_id`       INTEGER NOT NULL,
@@ -118,15 +118,15 @@ ENGINE = InnoDB;
 -- Table `drurymirror`.`tokens`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror.tokens`;
+DROP TABLE IF EXISTS `drurymirror`.`tokens`;
 
 -- forgot_password_token row is a placeholder for the tokens used to reset passwords
 -- when a new password is made the token will be stored and overwritten when another
 -- new password is made.
-CREATE TABLE IF NOT EXISTS `drurymirror.tokens`
+CREATE TABLE IF NOT EXISTS `drurymirror`.`tokens`
   (
     `id`                            INT NOT NULL AUTO_INCREMENT,
-    `email`                         INTEGER NOT NULL,
+    `email`                         VARCHAR(50) NOT NULL,
     `forgot_password_token`         VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`)
   )

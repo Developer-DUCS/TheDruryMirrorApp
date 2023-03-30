@@ -145,7 +145,6 @@ if (myUser == "sam") {
 
 export default async function executeQuery({ query, values }) {
 	try {
-		console.log('Testing query', query, values);
 		const test = await db.connect();
 		console.log("Connection test", test);
 		const results = await db.query(query, values);
