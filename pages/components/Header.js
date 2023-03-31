@@ -25,7 +25,6 @@ import {
 } from "@mui/material";
 
 // Icons
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function NavBar() {
@@ -37,11 +36,6 @@ export default function NavBar() {
 
     // To adjust header height
     const [getHeight, setHeight] = useState("55px");
-
-    // debounceSearch
-    // - Calls the last onChange event from SearchBar
-    // - Prevents database-lookup everytime user inputs a letter rapidly (fast typers)
-    async function debounceSearch() {}
 
     // On search click, set display property to block or none
     function onSearchButtonClick() {

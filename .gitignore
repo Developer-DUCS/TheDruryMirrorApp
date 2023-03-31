@@ -9,6 +9,10 @@
 /android
 ./android
 ./ios
+./drury_mirror_portal
+./drury_mirror_portal/.next
+./drury_mirror_portal/node_modules
+
 
 # testing
 /coverage

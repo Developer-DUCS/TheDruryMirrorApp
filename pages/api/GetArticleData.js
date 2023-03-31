@@ -13,11 +13,7 @@
 const conn = require("../../backend/mysqldb");
 
 export default async (req, res) => {
-
     console.log("called get article route for: " + req.body.searchText);
-
-    // Return results
-    let responseData = "";
 
     // Define the text to match
     const searchText = req.body.searchText;
@@ -31,7 +27,7 @@ export default async (req, res) => {
             console.error("ERROR:\n" + error);
             return;
         }
-        
+
         let articles = [];
         rows.forEach((row) => {
             let article = {
@@ -40,7 +36,7 @@ export default async (req, res) => {
                 headline: row.headline,
                 body: row.body,
                 isDraft: row.isDraft,
-                thumbnailImage: row.thumbnailImage
+                thumbnailImage: row.thumbnailImage,
             };
 
             articles.push(article);
@@ -50,6 +46,4 @@ export default async (req, res) => {
 
         return res.status(200).json(articles);
     });
-
-
-}; 
+};

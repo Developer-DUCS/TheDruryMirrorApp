@@ -48,6 +48,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@mui/icons-material/Search";
 
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
+import { Router } from "next/router";
 
 export default function Article({ resData }) {
 	// Check if data was returned correctly
@@ -139,7 +140,7 @@ export default function Article({ resData }) {
 			<Box sx={{ backgroundColor: "#F3F3F3" }}>
 				<Header />
 				<Typography sx={{ color: "black", m: 1, marginTop: 10 }}>
-					Error
+					Loading...
 				</Typography>
 				<NavBar />
 			</Box>
@@ -172,17 +173,11 @@ export async function getStaticPaths() {
 		});
 	});
 
-	// TODO:
-	// - for some reason not accepting numbers as slugs?
-
 	let articleSlugs = [];
 	articles.forEach((article) => {
-		console.log(
-			"🚀 ~ file: [slug].js:103 ~ getStaticPaths ~ article:",
-			article.aid
-		);
-
 		let slug = article.aid.toString();
+		
+		console.log(slug)
 
 		articleSlugs.push(slug);
 	});
@@ -190,7 +185,7 @@ export async function getStaticPaths() {
 		params: { slug },
 	}));
 
-	console.log("🚀 ~ file: [slug].js:107 ~ getStaticPaths ~ paths:", paths);
+	console.log("🚀 ~ file: [slug].js:107 ~ getStaticPaths ~ paths: \n",  paths);
 
 	// return the paths
 	return {
@@ -207,6 +202,8 @@ export async function getStaticProps({ params }) {
 		slug: articleID,
 	};
 
+	console.log("ID: " + articleID)
+
 	let payload = JSON.stringify(data);
 
 	const options = {
@@ -216,17 +213,13 @@ export async function getStaticProps({ params }) {
 		},
 		body: payload,
 	};
-
-	const endpoint = "http://localhost:3000/api/GetArticleBySlug";
-
-	let response = await fetch(endpoint, options);
+	
+	let response = await fetch("http://localhost:3000/api/GetArticleBySlug", options);
 	let resData = await response.json();
 	console.log(
 		"🚀 ~ file: [slug].js:153 ~ getStaticProps ~ resData:",
 		resData
 	);
-
-	let article = JSON.stringify(resData);
 
 	return {
 		props: {
