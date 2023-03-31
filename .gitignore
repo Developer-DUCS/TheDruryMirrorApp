@@ -1,2 +1,8 @@
 node_modules
 node_modules
+
+# Ignore because mobile app brings these folders to BuildV1 sometimes
+/.vscode
+/ios
+/android
+/.next
