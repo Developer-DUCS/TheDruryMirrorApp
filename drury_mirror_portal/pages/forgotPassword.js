@@ -17,19 +17,60 @@ import { MissingStaticPage } from "next/dist/shared/lib/utils";
 import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-
 export default function resetPage() {
     const router = useRouter();
-    const handleReset = async (event) => {
-        const endpoint = "api/resetPassword"
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        let emailReset = document.getElementById("Email").value;
+        console.log("Entered Email:", emailReset)
+        //const endpoint = "api/resetPassword"
+        const endpoint = "api/getUsers"
 
         const options = {
-            method: "GET"
+            // The method is POST because we are sending data.
+            method: "GET",
+            // Tell the server we're sending JSON.
+            headers: {
+                "Content-Type": "application/json",
+            },
         };
 
-        const response = fetch(endpoint, options);
-        console.log(response)
-    
+        const response = await fetch(endpoint, options);
+
+        if (response.status == 200) {
+            //const test = document.getElementById("Email")
+            let users = await response.json();
+            for(let user of users) {
+                if(user.email == emailReset){
+                    console.log("Found", user.email)
+                    handleEmail(user)
+                }
+            }
+        } else {
+            console.log("Email Not Found");
+        }
+
+    }
+
+    const handleEmail = async (user) =>{
+        const endpoint2 = "api/resetPassword"
+
+        const data = {
+            email: user.email
+        }
+        const options2 = {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        }
+
+        const response2 = await fetch(endpoint2, options2);
+		if (response2.status == 201) {
+			router.reload()
+		} 
     }
     
 
@@ -56,21 +97,22 @@ export default function resetPage() {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <TextField
-                                    sx={{
-                                        input: {
-                                            color: "black",
-                                        },
-                                        label: {
-                                            color: "black",
-                                        },
-                                    }}
-                                    id="Email"
-                                    name="Email"
-                                    label="Email"
-                                    variant="standard"
-                                />
-                                <form onSubmit={handleReset}>
+                                <form onSubmit={handleSubmit}>
+                                    <TextField
+                                        sx={{
+                                            input: {
+                                                color: "black",
+                                            },
+                                            label: {
+                                                color: "black",
+                                            },
+                                        }}
+                                        id="Email"
+                                        name="Email"
+                                        label="Email"
+                                        variant="standard"
+                                    />
+                                    <br></br>
                                     <Button
                                         sx={{ marginTop: 2 }}
                                         variant="contained"

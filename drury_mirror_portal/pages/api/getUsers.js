@@ -12,7 +12,7 @@ export default async (req, res) => {
 		query: getQuery,
 		// values:
 	});
-	console.log("🚀 ~ file: getUsers.js:15 ~ result:", result[0]);
+	//console.log("🚀 ~ file: getUsers.js:15 ~ result:", result[0]);
 
 	if (result.error) {
 		return res.status(500).json({ error: err });
@@ -21,12 +21,12 @@ export default async (req, res) => {
 	} else {
 		let users = [];
 		for (var i = 0; i < result.length; i++) {
-			console.log("user.role: " + result[i].roles);
+			//console.log("user.role: " + result[i].roles);
 			if (result[i].roles != "Manager") {
 				users.push(result[i]);
 			}
 		}
-		console.log("Users list: ", users);
+		//console.log("Users list: ", users);
 
 		return res.status(200).json(users);
 	}
