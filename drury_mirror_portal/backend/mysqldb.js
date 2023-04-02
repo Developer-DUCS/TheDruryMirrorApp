@@ -26,7 +26,7 @@ const config = require("./mysqlConfig.json"); // Configuration file for the mysq
 // OR include configuration options
 
 // Change the myUser variable to your username
-var myUser = "thomasN";
+var myUser = "root";
 // let db = "";
 // if (myUser == "sam") {
 // 	db = mysql.createConnection({
@@ -138,6 +138,18 @@ if (myUser == "sam") {
 			password: config.thomasN_local_db[0].password,
 			database: config.thomasN_local_db[0].database,
 			port: config.thomasN_local_db[0].port,
+		},
+		library: mysql2,
+	});
+}
+else if (myUser == "root") {
+	db = mysql({
+		config: {
+			host: config.root[0].host,
+			user: config.root[0].user,
+			password: config.root[0].password,
+			database: config.root[0].database,
+			port: config.root[0].port,
 		},
 		library: mysql2,
 	});

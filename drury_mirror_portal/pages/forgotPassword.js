@@ -82,8 +82,17 @@ export default function resetPage() {
     };
 
     return (
-        <>
-            <Typography variant="logo">Drury Mirror</Typography>
+        <Box sx={{ height: "100vh", backgroundColor: "#F3F3F3" }}>
+            <Typography
+                variant="logo"
+                sx={{
+                    display: "flex",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    marginBottom: 3
+                }}>
+                Drury Mirror
+            </Typography>
             <Grid
                 container
                 direction={"column"}
@@ -92,19 +101,21 @@ export default function resetPage() {
                 justifyContent="center"
                 alignItems="center">
                 <Grid item>
-                    <Typography variant="body1">
-                        Please enter your email
+                    <Typography variant="h4">
+                        Please enter your email.
                     </Typography>
                 </Grid>
                 <Grid item>
                     <TextField
                         sx={{
+                            m: 2,
                             input: {
                                 color: "black",
+                                backgroundColor: "#F3F3F3"
                             },
                             label: {
                                 color: "black",
-                            }
+                            },
                         }}
                         id="Email"
                         name="Email"
@@ -117,7 +128,6 @@ export default function resetPage() {
                 </Grid>
                 <Grid item>
                     <Button
-                        sx={{ marginTop: 2 }}
                         onClick={() => {
                             handleSubmit();
                         }}
@@ -129,6 +139,6 @@ export default function resetPage() {
                     </Button>
                 </Grid>
             </Grid>
-        </>
+        </Box>
     );
 }

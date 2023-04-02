@@ -30,6 +30,10 @@ export default function MyApp({ Component, pageProps }) {
 		curTheme = theme;
 	}
 
+	if (router.pathname == "/managerPortal") {
+		curTheme = theme;
+	}
+
 	if (router.pathname == "/about") {
 		curTheme = aboutTheme;
 	}
