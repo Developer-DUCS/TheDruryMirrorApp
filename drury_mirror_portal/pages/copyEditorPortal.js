@@ -159,7 +159,7 @@ export function copyEditorPortal() {
 
 	if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
 		return (
-			<>
+			<Box>
 				<Header sx={{ marginBottom: 2 }} />
 				<Typography variant="copyEditorHeader" sx={{ m: 2 }}>
 					Edit Articles
@@ -168,7 +168,7 @@ export function copyEditorPortal() {
 				<Typography sx={{ m: 2 }} variant="userLabel">
 					{data.user.fname} {data.user.lname}
 				</Typography>
-				<Box sx={{ marginTop: -2 }}>
+				<Box sx={{ marginTop: -2, display: 'flex', flexDirection: 'column', minHeight: '100vh', }}>
 					{articles.map((article) => (
 						<Card
 							style={{
@@ -234,7 +234,7 @@ export function copyEditorPortal() {
 						</Card>
 					))}
 				</Box>
-			</>
+			</Box>
 		);
 	} else {
 		return (
