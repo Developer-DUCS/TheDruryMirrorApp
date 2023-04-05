@@ -58,6 +58,7 @@ export default function Header() {
 					sx={{
 						fontSize: { lg: "18px", md: "16px", sm: "6px" },
 						fontFamily: "Trajan",
+						color: "black"
 					}}
 					onClick={() => {
 						handleLogo();

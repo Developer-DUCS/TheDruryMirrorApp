@@ -104,16 +104,18 @@ export default function LoginPage() {
 									Log in
 								</Button>
 							</Grid>
-							<Button
-								sx={{ marginTop: 2 }}
-								variant="contained"
-								size="small"
-								color="error"
-								type="button"
-								onClick={handleReset}
-							>
-								Forgot Password?
-							</Button>
+							<Grid item>
+								<Button
+									sx={{ marginTop: 2, alignSelf: "center" }}
+									variant="contained"
+									size="small"
+									color="error"
+									type="button"
+									onClick={handleReset}
+								>
+									Forgot Password?
+								</Button>
+							</Grid>
 						</Grid>
 					</FormGroup>
 				</form>

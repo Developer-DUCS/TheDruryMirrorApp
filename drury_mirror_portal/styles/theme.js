@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#fffee",
+      main: "#F3F3F3",
     },
     contrast:{
       main:"#fff"
@@ -138,7 +138,7 @@ export const editorTheme = createTheme({
 export const mainTheme = createTheme({
   palette: {
     primary: {
-      main: "#fffee",
+      main: "#F3F3F3",
     },
     contrast:{
       main:"#000"
@@ -147,7 +147,7 @@ export const mainTheme = createTheme({
       main:"#4685F5",
     },
     background: {
-      default: "#303030"
+      default: "#F3F3F3"
     },
   },
   typography:{

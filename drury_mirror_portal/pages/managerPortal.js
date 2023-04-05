@@ -408,7 +408,7 @@ export default function managerPortal() {
 	);
 
 	return (
-		<>
+		<Box>
 			<SplashHeader />
 
 			<Box
@@ -680,8 +680,9 @@ export default function managerPortal() {
 
 			<Box
 				sx={{
-					width: "70%",
+					width: "60%",
 					margin: "auto",
+					display: 'flex', flexDirection: 'column', minHeight: '100vh',
 				}}
 			>
 				<Typography variant="h3" sx={{ margin: 2 }}>
@@ -699,7 +700,7 @@ export default function managerPortal() {
 								key={user.email}
 								variant="outlined"
 								sx={{
-									width: "50%",
+									width: "80%",
 									height: "auto",
 									margin: 2,
 									paddingBottom: "0px",
@@ -718,35 +719,6 @@ export default function managerPortal() {
 					</Accordion>
 				))}
 			</Box>
-		</>
+		</Box>
 	);
 }
-
-// export async function getStaticProps() {
-// 	console.log("Getting Users");
-
-// 	const endpoint = "api/getUsers";
-
-// 	// Form the request for sending data to the server.
-// 	const options = {
-// 		// The method is POST because we are sending data.
-// 		method: "GET",
-// 		// Tell the server we're sending JSON.
-// 		headers: {
-// 			"Content-Type": "application/json",
-// 		},
-// 		// Body of the request is the JSON data we created above.
-// 		//body: JSONdata,
-// 	};
-
-// 	const data = await fetch(endpoint, options);
-
-// 	if (data.status == 200) {
-// 		console.log("recieving data");
-// 		let users = await data.json();
-// 		console.log(users);
-// 		console.log(users[0]);
-// 		return { props: { users } };
-// 	} else {
-// 	}
-// }
