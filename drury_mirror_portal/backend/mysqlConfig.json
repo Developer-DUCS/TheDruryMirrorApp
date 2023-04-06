@@ -80,5 +80,14 @@
             "database": "drurymirror",
             "port": "3306"
         }
+    ],
+    "du_mirror": [
+        {
+            "host": "127.0.0.1",
+            "user": "du_mirror",
+            "password": "Letmein!22",
+            "database": "du_mirror",
+            "port": "3306"
+        }
     ]
 }

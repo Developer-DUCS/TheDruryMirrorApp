@@ -11,14 +11,14 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 
-CREATE SCHEMA IF NOT EXISTS `drurymirror` DEFAULT CHARACTER SET utf8 ;
-USE `drurymirror` ;
+CREATE SCHEMA IF NOT EXISTS `du_mirror` DEFAULT CHARACTER SET utf8 ;
+USE `du_mirror` ;
 
 -- -----------------------------------------------------
--- Table `drurymirror`.`user`
+-- Table `du_mirror`.`user`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `drurymirror`.`users` (
+CREATE TABLE IF NOT EXISTS `du_mirror`.`users` (
   `uid` INT NOT NULL AUTO_INCREMENT,
   `fname` VARCHAR(45) NOT NULL,
   `lname` VARCHAR(45) NOT NULL,
@@ -33,12 +33,12 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `drurymirror`.`comments`
+-- Table `du_mirror`.`comments`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror`.`comments` ;
+DROP TABLE IF EXISTS `du_mirror`.`comments` ;
 
-CREATE TABLE IF NOT EXISTS `drurymirror`.`comments` (
+CREATE TABLE IF NOT EXISTS `du_mirror`.`comments` (
   `cid` INT NOT NULL, -- Set to the same as the "aid" of the article that the comments belong to
   `email` VARCHAR(60) NOT NULL,
   `editor` VARCHAR(45) NOT NULL,
@@ -49,14 +49,14 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`comments` (
 ENGINE = InnoDB;
  
 -- -----------------------------------------------------
--- Table `drurymirror`.`article`
+-- Table `du_mirror`.`article`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror`.`articles` ;
+DROP TABLE IF EXISTS `du_mirror`.`articles` ;
 
 -- isDraft: 0: Unfinished, 1: Draft (ready to be edited), 2: Edited (sent back to the author), 
 --          3: Fixed (sent to editor again), 4: Ready to publish (send to Editor-In-Chief), 5: Publish
-CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
+CREATE TABLE IF NOT EXISTS `du_mirror`.`articles` (
   `aid` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(60) NOT NULL,
   `author` VARCHAR(45) NOT NULL,
@@ -70,11 +70,11 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`articles` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `drurymirror`.`tags`
+-- Table `du_mirror`.`tags`
 -- -----------------------------------------------------
-  DROP TABLE IF EXISTS `drurymirror`.`tags` ;
+  DROP TABLE IF EXISTS `du_mirror`.`tags` ;
 
-  CREATE TABLE IF NOT EXISTS `drurymirror`.`tags` (
+  CREATE TABLE IF NOT EXISTS `du_mirror`.`tags` (
     `tid` INT NOT NULL,
     `local` bool,
     `national` bool,
@@ -82,12 +82,12 @@ ENGINE = InnoDB;
     PRIMARY KEY (`tid`))
   ENGINE = InnoDB;
 -- -----------------------------------------------------
--- Table `drurymirror`.`unfinished`
+-- Table `du_mirror`.`unfinished`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror`.`unfinished` ;
+DROP TABLE IF EXISTS `du_mirror`.`unfinished` ;
 
-CREATE TABLE IF NOT EXISTS `drurymirror`.`unfinished` (
+CREATE TABLE IF NOT EXISTS `du_mirror`.`unfinished` (
   `fid` INT NOT NULL AUTO_INCREMENT,
   `author` VARCHAR(45) NOT NULL,
   `headline` VARCHAR(50) NOT NULL,
@@ -98,12 +98,12 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`unfinished` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `drurymirror`.`sessions`
+-- Table `du_mirror`.`sessions`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror`.`sessions`;
+DROP TABLE IF EXISTS `du_mirror`.`sessions`;
 
-CREATE TABLE IF NOT EXISTS `drurymirror`.`sessions`
+CREATE TABLE IF NOT EXISTS `du_mirror`.`sessions`
   (
     `id`            INT NOT NULL AUTO_INCREMENT,
     `user_id`       INTEGER NOT NULL,
@@ -117,15 +117,15 @@ CREATE TABLE IF NOT EXISTS `drurymirror`.`sessions`
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `drurymirror`.`tokens`
+-- Table `du_mirror`.`tokens`
 -- -----------------------------------------------------
 
-DROP TABLE IF EXISTS `drurymirror`.`tokens`;
+DROP TABLE IF EXISTS `du_mirror`.`tokens`;
 
 -- forgot_password_token row is a placeholder for the tokens used to reset passwords
 -- when a new password is made the token will be stored and overwritten when another
 -- new password is made.
-CREATE TABLE IF NOT EXISTS `drurymirror`.`tokens`
+CREATE TABLE IF NOT EXISTS `du_mirror`.`tokens`
   (
     `id`                            INT NOT NULL AUTO_INCREMENT,
     `email`                         VARCHAR(50) NOT NULL,
