@@ -41,7 +41,7 @@ export default function portalSettings() {
 	// Redirect the user to the log in screen
 	const redirectToSignIn = (event) => {
 		event.preventDefault();
-		router.push("/");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
 	};
 
 	const addTag = async (event) => {

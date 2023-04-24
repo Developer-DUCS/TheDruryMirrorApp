@@ -158,9 +158,9 @@ else if (myUser == "du_mirror") {
 	db = mysql({
 		config: {
 			host: config.root[0].host,
-			user: config.root[0].user,
-			password: config.root[0].password,
-			database: config.root[0].database,
+			user: "du_mirror",
+			password: "Letmein!22",
+			database: "du_mirror",
 			port: config.root[0].port,
 		},
 		library: mysql2,

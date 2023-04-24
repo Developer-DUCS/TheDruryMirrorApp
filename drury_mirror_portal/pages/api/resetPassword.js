@@ -83,7 +83,7 @@ export default async (req, res) => {
 			from: "developerducs@gmail.com", // Change to your verified sender
 			subject: "Password Reset",
 			text: `"Good afternoon! ${user} Use the following steps to reset your password!"`,
-			html: `'<strong> Click link pls :) i not hacks</strong> <a href="http://localhost:3000/submitReset?token=${token}"> Click here to reset </a>'`,
+			html: `'<strong> Click link pls :) i not hacks</strong> <a href="https://mcs.drury.edu/mirror/submitReset?token=${token}"> Click here to reset </a>'`,
 		};
 		sgMail
 			.send(msg)

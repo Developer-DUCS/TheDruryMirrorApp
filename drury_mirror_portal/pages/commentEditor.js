@@ -131,7 +131,7 @@ export function commentEditor() {
 	// Redirect the user to the
 	const redirectToSignIn = (event) => {
 		event.preventDefault();
-		router.push("/");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
 	};
 
 	// loads the article into the editor
@@ -399,7 +399,7 @@ export function commentEditor() {
 		console.log(JSONdata);
 
 		// API endpoint where we send form data.
-		const endpoint = "/api/saveEdits";
+		const endpoint = "api/saveEdits";
 
 		// Form the request for sending data to the server.
 		const options = {
@@ -457,7 +457,7 @@ export function commentEditor() {
 				console.log(id);
 
 				if (!isNaN(id)) {
-					let endpoint = "/api/getArticle";
+					let endpoint = "api/getArticle";
 
 					// Make sure there is a session before making the API call
 					if (session) {

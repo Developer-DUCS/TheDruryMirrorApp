@@ -47,7 +47,7 @@ export function draftList() {
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         router.push({
-            pathname: "articleWriting",
+            pathname: `${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`,
             query: { id: event.currentTarget.id },
         });
     };
@@ -56,7 +56,7 @@ export function draftList() {
         // Get the articles for the current user from the database
         const getArticlesRoute = async () => {
             const session = await getSession();
-            let endpoint = "/api/getArticles";
+            let endpoint = "api/getArticles";
 
             // Make sure there is a session before making the API call
             if (session) {

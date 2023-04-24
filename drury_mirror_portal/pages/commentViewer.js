@@ -185,7 +185,7 @@ export function CommentViewer() {
 	// Redirect the user to the log in screen
 	const redirectToSignIn = (event) => {
 		event.preventDefault();
-		router.push("/");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
 	};
 
 	// Api calls for the article and comments
@@ -198,7 +198,7 @@ export function CommentViewer() {
 				const id = parseInt(router.query.id);
 
 				if (!isNaN(id)) {
-					let endpoint = "/api/getArticle";
+					let endpoint = "api/getArticle";
 
 					// Make sure there is a session before making the API call
 					if (session) {
@@ -233,7 +233,7 @@ export function CommentViewer() {
 				const id = parseInt(router.query.id);
 
 				if (!isNaN(id)) {
-					let endpoint = "/api/getComments";
+					let endpoint = "api/getComments";
 
 					// Make sure there is a session before making the API call
 					if (session) {
@@ -398,7 +398,7 @@ export function CommentViewer() {
 		const JSONdata = JSON.stringify(data);
 
 		// API endpoint where we send form data.
-		const endpoint = "/api/saveEdits";
+		const endpoint = "api/saveEdits";
 
 		// Form the request for sending data to the server.
 		const options = {

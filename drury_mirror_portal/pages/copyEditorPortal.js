@@ -38,7 +38,7 @@ export function copyEditorPortal() {
 	// Redirect the user to the log in screen
 	const redirectToSignIn = (event) => {
 		event.preventDefault();
-		router.push("/");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
 	};
 
 	// Handle the edit article button
@@ -46,7 +46,7 @@ export function copyEditorPortal() {
 		event.preventDefault();
 		console.log("article id: ", event.currentTarget.id);
 		router.push({
-			pathname: "commentEditor",
+			pathname: `${process.env.NEXT_PUBLIC_API_PATH}/commentEditor`,
 			query: { id: event.currentTarget.id },
 		});
 	};
@@ -66,7 +66,7 @@ export function copyEditorPortal() {
 		console.log(JSONdata);
 
 		// API endpoint where we send form data.
-		const endpoint = "/api/publishArticle";
+		const endpoint = "api/publishArticle";
 
 		// Form the request for sending data to the server.
 		const options = {
@@ -96,7 +96,7 @@ export function copyEditorPortal() {
 		const getArticlesRoute = async () => {
 			const session = await getSession();
 
-			let endpoint = "/api/getArticles";
+			let endpoint = "api/getArticles";
 
 			// Make sure there is a session before making the API call
 			if (session) {

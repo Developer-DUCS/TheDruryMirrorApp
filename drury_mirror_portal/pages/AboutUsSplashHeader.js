@@ -35,14 +35,14 @@ export default function SplashHeader() {
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         router.push({
-            pathname: "articleWriting",
+            pathname: `${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`,
             query: { id: event.currentTarget.id },
         });
     };
 
     // Sends user back to splash page when clicking mirror logo
     const handleHome = () => {
-        router.push("/testSplashPage")
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`)
     };
 
     return (

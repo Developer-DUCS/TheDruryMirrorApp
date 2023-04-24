@@ -23,7 +23,7 @@ export default function Header() {
 	};
 
 	const handleLogo = () => {
-		router.push("/Dashboard");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`);
 	};
 
 	// Handle the write draft button
@@ -31,14 +31,14 @@ export default function Header() {
 		event.preventDefault();
 		console.log("article id: ", event.currentTarget.id);
 		router.push({
-			pathname: "articleWriting",
+			pathname: `${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`,
 			query: { id: event.currentTarget.id },
 		});
 	};
 
 	// Handle the About Us button
 	const handleAbout = () => {
-		router.push("/about");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/about`);
 	};
 
 	return (

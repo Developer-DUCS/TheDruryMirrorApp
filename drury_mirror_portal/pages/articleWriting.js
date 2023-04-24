@@ -93,7 +93,7 @@ export default function articleWriting() {
     // Redirect the user to the
     const redirectToSignIn = (event) => {
         event.preventDefault();
-        router.push("/");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
     };
 
     // Switch the text on the submit button when the user clicks
@@ -156,7 +156,7 @@ export default function articleWriting() {
             console.log(JSONdata);
 
             // API endpoint where we send form data.
-            const endpoint = "/api/saveArticle";
+            const endpoint = "api/saveArticle";
 
             // Form the request for sending data to the server.
             const options = {
@@ -198,7 +198,7 @@ export default function articleWriting() {
             console.log(JSONdata);
 
             // API endpoint where we send form data.
-            const endpoint = "/api/saveArticle";
+            const endpoint = "api/saveArticle";
 
             // Form the request for sending data to the server.
             const options = {
@@ -238,7 +238,7 @@ export default function articleWriting() {
                 console.log(id);
 
                 if (!isNaN(id)) {
-                    let endpoint = "/api/getArticle";
+                    let endpoint = "api/getArticle";
 
                     // Make sure there is a session before making the API call
                     if (session) {

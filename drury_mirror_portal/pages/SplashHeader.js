@@ -11,6 +11,7 @@ import {
 
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 export default function SplashHeader() {
     const router = useRouter();
@@ -25,19 +26,19 @@ export default function SplashHeader() {
         event.preventDefault();
         console.log("article id: ", event.currentTarget.id);
         router.push({
-            pathname: "articleWriting",
+            pathname: `${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`,
             query: { id: event.currentTarget.id },
         });
     };
 
     // Handle the About Us button
     const handleAbout = () => {
-        router.push("/about");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/about`);
     };
 
     // Sends user back to splash page when clicking mirror logo
     const handleHome = () => {
-        router.push("/Dashboard");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`);
     };
 
     return (
@@ -73,7 +74,7 @@ export default function SplashHeader() {
                 </Typography>
             </Grid>
             <Grid item xs={1}>
-                <Button variant="outlined" color="error" onClick={logOut}>
+                <Button variant="outlined" color="error" onClick={() => signOut()}>
                     Log Out
                 </Button>
             </Grid>

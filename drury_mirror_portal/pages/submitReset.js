@@ -102,7 +102,7 @@ export default function confirmReset() {
 			const response = await fetch(endpoint, options);
 			const result = await response.json();
 			if (response.ok) {
-				router.push("/");
+				router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
 			}
 		} else {
 			console.log("passwords do not match");

@@ -38,20 +38,20 @@ export function writerPortal() {
     // Redirect the user to the log in screen
     const redirectToSignIn = (event) => {
         event.preventDefault();
-        router.push("/");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
     };
 
     // Handle the write draft button
     const writeDraftRoute = async (event) => {
         router.push({
-            pathname: "articleWriting",
+            pathname: `${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`,
         });
     };
     // Handle the see comments button
     const seeCommentsRoute = async (event) => {
         console.log("article id: ", event.currentTarget.id);
         router.push({
-            pathname: "commentViewer",
+            pathname: `${process.env.NEXT_PUBLIC_API_PATH}/commentViewer`,
             query: { id: event.currentTarget.id },
         });
     };
@@ -60,7 +60,7 @@ export function writerPortal() {
         // Get the articles for the current user from the database
         const getArticlesRoute = async () => {
             const session = await getSession();
-            let endpoint = "/api/getArticles";
+            let endpoint = `api/getArticles`;
 
             // Make sure there is a session before making the API call
             if (session) {
@@ -84,7 +84,7 @@ export function writerPortal() {
                     console.log(response.statusText);
                 } else {
                     let articles = await response.json();
-
+		    console.log(`Articles: ${articles}`);
                     // Make sure the response was recieved before setting the articles
                     if (articles) {
                         setArticles(articles.reverse());

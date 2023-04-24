@@ -38,7 +38,7 @@ export default async (req, res) => {
 		if (result.length == 1) {
 			console.log("One user found");
 			// Make sure the password is correct
-			if (password == result[0].password) {
+			if (password == result[0].password && result[0].active == 1) {
 				console.log("Password matches");
 				let user = {
 					fname: result[0].fname,

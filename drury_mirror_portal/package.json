@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "NODE_TLS_REJECT_UNAUTHORIZED=0 next build",
+    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 next start -p 3230",
     "lint": "next lint"
   },
   "dependencies": {

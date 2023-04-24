@@ -50,39 +50,39 @@ export function dashboard() {
     // Redirect the user to the
     const redirectToSignIn = (event) => {
         event.preventDefault();
-        router.push("/");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
     };
 
     const writeDraftRoute = async (event) => {
-        router.push("articleWriting");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`);
     };
 
     const editArticleRoute = async (event) => {
-        router.push("copyEditorPortal");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/copyEditorPortal`);
     };
 
     const seeDraftsRoute = async (event) => {
-        router.push("draftList");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/draftList`);
     };
 
     const mySeeEditsRoute = (event) => {
         event.preventDefault();
-        router.push("writerPortal");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/writerPortal`);
     };
 
     const siteSettingsRoute = (event) => {
         event.preventDefault();
-        router.push("managerPortal");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/managerPortal`);
     };
 
     const publishRoute = (event) => {
         event.preventDefault();
-        router.push("publishPage");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/publishPage`);
     };
 
     const portalSettings = (event) => {
         event.preventDefault();
-        router.push("portalSettings");
+        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/portalSettings`);
     };
 
     if (status === "authenticated") {

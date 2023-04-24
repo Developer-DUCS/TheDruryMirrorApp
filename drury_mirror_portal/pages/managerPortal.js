@@ -46,7 +46,7 @@ export default function managerPortal() {
 	useEffect(() => {
 		const getUsersRoute = async () => {
 			console.log("Getting users");
-			const endpoint = "api/getUsers";
+			const endpoint = `api/getUsers`;
 
 			// Form the request for sending data to the server.
 			const options = {
@@ -104,7 +104,7 @@ export default function managerPortal() {
 			const JSONdata = JSON.stringify(data);
 			//console.log(JSONdata)
 
-			const endpoint = "api/createUser";
+			const endpoint = `api/createUser`;
 
 			// Form the request for sending data to the server.
 			const options = {
@@ -152,7 +152,7 @@ export default function managerPortal() {
 		const JSONdata = JSON.stringify(data);
 		//console.log(JSONdata)
 
-		const endpoint = "api/deleteUser";
+		const endpoint = `${process.env.API_PATH}/api/deleteUser`;
 
 		// Form the request for sending data to the server.
 		const options = {

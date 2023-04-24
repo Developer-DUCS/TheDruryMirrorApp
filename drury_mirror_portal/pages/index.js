@@ -12,7 +12,7 @@ import { redirect } from "next/dist/server/api-utils";
 
 export default function LoginPage() {
 	const router = useRouter();
-	const { status, data } = useSession();
+	//const { status, data } = useSession();
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -20,7 +20,8 @@ export default function LoginPage() {
 			redirect: true,
 			email: event.target.username.value,
 			password: event.target.password.value,
-			callbackUrl: "/Dashboard",
+			callbackUrl: `/${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`,
+                       //basePath: "/mirror",
 		});
 
 		console.log(res);
@@ -39,7 +40,7 @@ export default function LoginPage() {
 
 	const handleReset = async (event) => {
 		event.preventDefault();
-		router.push("/forgotPassword");
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/forgotPassword`);
 
 		console.log("reset button pushed");
 	};

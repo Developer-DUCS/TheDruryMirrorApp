@@ -30,7 +30,8 @@ export default function resetPage() {
     const router = useRouter();
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        console.log(`event: ${event}`);
+	event.preventDefault();
         let emailReset = getEmail;
         console.log("Entered Email:", emailReset);
         //const endpoint = "api/resetPassword"
@@ -129,7 +130,7 @@ export default function resetPage() {
                 <Grid item>
                     <Button
                         onClick={() => {
-                            handleSubmit();
+                            handleSubmit
                         }}
                         variant="contained"
                         size="small"

@@ -98,7 +98,7 @@ export function draftList() {
         if (tags != []) {
             setIsError(false);
             // let tags = tagsString.split(",");
-            let endpoint = "/api/publishArticle";
+            let endpoint = "api/publishArticle";
             let data = {
                 id: event.target[1].id,
                 tags: tags,
@@ -133,7 +133,7 @@ export function draftList() {
 
     const getArticlesRoute = async () => {
         const session = await getSession();
-        let endpoint = "/api/getArticles";
+        let endpoint = "api/getArticles";
 
         // Make sure there is a session before making the API call
         if (session) {
