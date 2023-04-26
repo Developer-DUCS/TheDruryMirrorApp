@@ -61,8 +61,10 @@ export default function MyApp({ Component, pageProps }) {
 			</Head>
 			<ThemeProvider theme={curTheme}>
 				<CssBaseline />
-				<SessionProvider session={pageProps.session}
-					basePath={"/mirror/api/auth"}>
+				<SessionProvider
+					session={pageProps.session}
+					// basePath={"/mirror/api/auth"}
+				>
 					<NextUIProvider>
 						<Component {...pageProps} />
 						{/* //<Footer/> */}
