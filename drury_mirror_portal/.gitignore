@@ -19,6 +19,7 @@
 # production
 /build
 /backend
+next.config.js
 # misc
 .DS_Store
 *.pem
