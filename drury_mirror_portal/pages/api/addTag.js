@@ -1,11 +1,8 @@
 import executeQuery from "../../backend/mysqldb";
 
 export default async (req, res) => {
-	console.log("called add tags route");
-
 	let tag = req.body.tag;
 
-	// let addTag = "ALTER TABLE tags ADD COLUMN ? BOOL";
 	let addTag = "ALTER TABLE tags ADD COLUMN `" + tag + "` BOOL";
 
 	let result = await executeQuery({
@@ -20,5 +17,4 @@ export default async (req, res) => {
 	} else {
 		return res.status(201).json(result);
 	}
-	console.log(result);
 };

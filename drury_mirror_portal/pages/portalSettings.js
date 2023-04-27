@@ -14,7 +14,7 @@
 import Header from "./header";
 
 import { useRouter } from "next/router";
-import { useSession, signOut, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
 	Stack,
@@ -46,7 +46,6 @@ export default function portalSettings() {
 
 	const addTag = async (event) => {
 		event.preventDefault();
-		console.log(event.target.newTag.value);
 		let tag = event.target.newTag.value;
 		const endpoint = "api/addTag";
 		let data = {
@@ -63,10 +62,8 @@ export default function portalSettings() {
 
 		let response = await fetch(endpoint, options);
 		if (response.ok) {
-			console.log("Inserted tag successfully");
 			router.reload();
 		} else {
-			console.log("Failed to insert tag");
 		}
 	};
 
@@ -74,19 +71,11 @@ export default function portalSettings() {
 		const getTagsRoute = async () => {
 			const endpoint = "api/getTags";
 			const response = await fetch(endpoint);
-			console.log(
-				"🚀 ~ file: portalSettings.js:49 ~ addTag ~ response:",
-				response
-			);
+
 			if (response.ok) {
 				let tags = await response.json();
-				console.log(
-					"🚀 ~ file: portalSettings.js:61 ~ getTagsRoute ~ tags:",
-					tags
-				);
 				setTags(tags);
 			} else {
-				console.log("error getting the tags");
 			}
 		};
 		getTagsRoute();
@@ -105,15 +94,6 @@ export default function portalSettings() {
 						margin: "auto",
 					}}
 				></Box>
-				{/* <Typography
-					variant="managerPortalLabel"
-					sx={{
-						margin: 1,
-						marginBottom: 0,
-					}}
-				>
-					Tags
-				</Typography> */}
 				<Box
 					sx={{
 						margin: "auto",

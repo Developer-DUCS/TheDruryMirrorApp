@@ -8,13 +8,9 @@
 //
 //
 
-//import Head from 'next/head'
-//import Image from 'next/image'
 import styles from "../styles/Home.module.css";
-import Router, { useRouter } from "next/router";
-import { MissingStaticPage } from "next/dist/shared/lib/utils";
+import { useRouter } from "next/router";
 import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 
 export default function confirmReset() {
@@ -48,17 +44,10 @@ export default function confirmReset() {
 
 				const response = await fetch(endpoint, options);
 				const result = await response.json();
-				console.log(
-					"🚀 ~ file: submitReset.js:51 ~ checkToken ~ result:",
-					result
-				);
+
 				if (response.ok) {
 					setIsAuthorized(true);
 					setUserEmail(result);
-					console.log(
-						"🚀 ~ file: submitReset.js:58 ~ checkToken ~ userEmail:",
-						userEmail
-					);
 				}
 			}
 		};
@@ -68,17 +57,10 @@ export default function confirmReset() {
 	const handleReset = async (event) => {
 		event.preventDefault();
 
-		console.log("bottom pressed");
-		console.log(event);
-		console.log(event.target.password.value);
-		console.log(event.target.confirmPassword.value);
-
 		let password = event.target.password.value;
 		let confirmPassword = event.target.confirmPassword.value;
-		console.log("USER EMAIL:", userEmail);
 
 		if (password == confirmPassword) {
-			console.log("passwords match");
 			setIsError(false);
 			let endpoint = "api/updatePassword";
 
@@ -105,7 +87,6 @@ export default function confirmReset() {
 				router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
 			}
 		} else {
-			console.log("passwords do not match");
 			setIsError(true);
 		}
 	};

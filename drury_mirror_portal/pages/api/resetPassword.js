@@ -10,18 +10,13 @@
 import jwt from "jsonwebtoken";
 import executeQuery from "../../backend/mysqldb";
 
-const conn = require("../../backend/mysqldb");
-
 export default async (req, res) => {
 	const user = req.body.email;
-	console.log(user);
-	console.log("Called Reset Password Route");
 
 	const payload = { email: user };
 	const secret = process.env.JWT_SECRET;
 
 	const token = jwt.sign(payload, secret);
-	// console.log(token);
 
 	let tokenQuery =
 		"INSERT INTO tokens (email, forgot_password_token) VALUES (?,?)";
@@ -38,7 +33,6 @@ export default async (req, res) => {
 		values: user,
 	});
 	if (result.error) {
-		console.log("There was an error with the page");
 		res.status(500).json({ error: "Error" });
 	} else if (result.length < 1) {
 		res.status(404).json({ error: "Email not found" });
@@ -50,7 +44,6 @@ export default async (req, res) => {
 		if (tokenUser.error) {
 			res.status(500).json({ error: "Error" });
 		} else if (tokenUser.length < 1) {
-			console.log("Length of tokenUser", tokenUser.length);
 			const insertToken = await executeQuery({
 				query: tokenQuery,
 				values: [user, token],

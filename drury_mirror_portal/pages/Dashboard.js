@@ -10,15 +10,12 @@ import { useSession, signOut } from "next-auth/react";
 
 // Material UI and Styling Imports
 import {
-    ThemeProvider,
-    Typography,
-    Box,
-    Button,
-    IconButton,
-    Stack,
-    Container,
-    Grid,
-    Portal,
+	Typography,
+	Box,
+	Button,
+	IconButton,
+	Stack,
+	Grid,
 } from "@mui/material";
 import { theme } from "../styles/theme";
 import Avatar from "@mui/material/Avatar";
@@ -38,349 +35,323 @@ import Footer from "./Footer";
 import Person from "@mui/icons-material/Person";
 
 const Buttonavatar = styled(Avatar)({
-    backgroundColor: "#0E0E0E",
-    width: 100,
-    height: 100,
+	backgroundColor: "#0E0E0E",
+	width: 100,
+	height: 100,
 });
 
 export function dashboard() {
-    const router = useRouter();
-    const { status, data } = useSession();
+	const router = useRouter();
+	const { status, data } = useSession();
 
-    // Redirect the user to the
-    const redirectToSignIn = (event) => {
-        event.preventDefault();
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
-    };
+	// Redirect the user to the
+	const redirectToSignIn = (event) => {
+		event.preventDefault();
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
+	};
 
-    const writeDraftRoute = async (event) => {
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`);
-    };
+	const writeDraftRoute = async (event) => {
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`);
+	};
 
-    const editArticleRoute = async (event) => {
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/copyEditorPortal`);
-    };
+	const editArticleRoute = async (event) => {
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/copyEditorPortal`);
+	};
 
-    const seeDraftsRoute = async (event) => {
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/draftList`);
-    };
+	const seeDraftsRoute = async (event) => {
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/draftList`);
+	};
 
-    const mySeeEditsRoute = (event) => {
-        event.preventDefault();
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/writerPortal`);
-    };
+	const mySeeEditsRoute = (event) => {
+		event.preventDefault();
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/writerPortal`);
+	};
 
-    const siteSettingsRoute = (event) => {
-        event.preventDefault();
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/managerPortal`);
-    };
+	const siteSettingsRoute = (event) => {
+		event.preventDefault();
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/managerPortal`);
+	};
 
-    const publishRoute = (event) => {
-        event.preventDefault();
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/publishPage`);
-    };
+	const publishRoute = (event) => {
+		event.preventDefault();
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/publishPage`);
+	};
 
-    const portalSettings = (event) => {
-        event.preventDefault();
-        router.push(`${process.env.NEXT_PUBLIC_API_PATH}/portalSettings`);
-    };
+	const portalSettings = (event) => {
+		event.preventDefault();
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/portalSettings`);
+	};
 
-    if (status === "authenticated") {
-        console.log(data.user.role);
-        console.log(data.user);
-        const role = data.user.role;
+	if (status === "authenticated") {
+		const role = data.user.role;
 
-        return (
-            <Box sx={{ height: "100vh", backgroundColor: "#F3F3F3" }}>
-                <SplashHeader />
-                <Grid
-                    container
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignContent: "left",
-                        flexDirection: "column",
-                    }}>
-                    <Grid
-                        item
-                        sx={{ marginTop: 3 }}>
-                        <Typography
-                            variant="spashBody"
-                            sx={{
-                                width: "20%",
-                                m: 5,
-                                marginLeft: 8,
-                                fontSize: "36px",
-                            }}>
-                            Welcome, {data.user.fname} {data.user.lname}.
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <Grid
-                    container
-                    direction="column"
-                    spacing={3}>
-                    <Grid
-                        container
-                        item
-                        direction="row"
-                        justifyContent="center"
-                        sx={{ marginTop: 8 }}>
-                        {role === "Writer" ||
-                        role === "Copy-Editor" ||
-                        role === "Editor-In-Chief" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={writeDraftRoute}>
-                                            <CreateIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 56,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        Write Article
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
+		return (
+			<Box sx={{ height: "100vh", backgroundColor: "#F3F3F3" }}>
+				<SplashHeader />
+				<Grid
+					container
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						alignContent: "left",
+						flexDirection: "column",
+					}}
+				>
+					<Grid item sx={{ marginTop: 3 }}>
+						<Typography
+							variant="spashBody"
+							sx={{
+								width: "20%",
+								m: 5,
+								marginLeft: 8,
+								fontSize: "36px",
+							}}
+						>
+							Welcome, {data.user.fname} {data.user.lname}.
+						</Typography>
+					</Grid>
+				</Grid>
+				<Grid container direction="column" spacing={3}>
+					<Grid
+						container
+						item
+						direction="row"
+						justifyContent="center"
+						sx={{ marginTop: 8 }}
+					>
+						{role === "Writer" ||
+						role === "Copy-Editor" ||
+						role === "Editor-In-Chief" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={writeDraftRoute}
+										>
+											<CreateIcon
+												sx={{
+													color: "white",
+													fontSize: 56,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										Write Article
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
 
-                        {role === "Writer" ||
-                        role === "Copy-Editor" ||
-                        role === "Editor-In-Chief" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={mySeeEditsRoute}>
-                                            <AssignmentTurnedInIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 56,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        See Edits
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
+						{role === "Writer" ||
+						role === "Copy-Editor" ||
+						role === "Editor-In-Chief" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={mySeeEditsRoute}
+										>
+											<AssignmentTurnedInIcon
+												sx={{
+													color: "white",
+													fontSize: 56,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										See Edits
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
 
-                        {role === "Copy-Editor" ||
-                        role === "Editor-In-Chief" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={editArticleRoute}>
-                                            <BorderColorIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 50,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        Edit Articles
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
+						{role === "Copy-Editor" ||
+						role === "Editor-In-Chief" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={editArticleRoute}
+										>
+											<BorderColorIcon
+												sx={{
+													color: "white",
+													fontSize: 50,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										Edit Articles
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
 
-                        {role === "Writer" ||
-                        role === "Copy-Editor" ||
-                        role === "Editor-In-Chief" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={seeDraftsRoute}>
-                                            <AssignmentIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 56,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        Drafts
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
-                    </Grid>
+						{role === "Writer" ||
+						role === "Copy-Editor" ||
+						role === "Editor-In-Chief" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={seeDraftsRoute}
+										>
+											<AssignmentIcon
+												sx={{
+													color: "white",
+													fontSize: 56,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										Drafts
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
+					</Grid>
 
-                    <Grid
-                        container
-                        item
-                        direction="row"
-                        justifyContent="center">
-                        {role === "Editor-In-Chief" || role == "Manager" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={publishRoute}>
-                                            <PublishIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 56,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        Publish Articles
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
+					<Grid
+						container
+						item
+						direction="row"
+						justifyContent="center"
+					>
+						{role === "Editor-In-Chief" || role == "Manager" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={publishRoute}
+										>
+											<PublishIcon
+												sx={{
+													color: "white",
+													fontSize: 56,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										Publish Articles
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
 
-                        {/* <Grid item xs={2}>
-                            <Stack alignItems="center" justifyContent="center">
-                                <Buttonavatar>
-                                    <IconButton
-                                        size="large"
-                                        onClick={() => {
-                                            alert("Clicked");
-                                        }}
-                                    >
-                                        <UploadFileIcon
-                                            sx={{
-                                                color: "white",
-                                                fontSize: 56,
-                                            }}
-                                        />
-                                    </IconButton>
-                                </Buttonavatar>
-                                <Typography variant="buttonLabel">
-                                    Upload Articles
-                                </Typography>
-                            </Stack>
-                        </Grid> */}
-
-                        {role === "Manager" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={siteSettingsRoute}>
-                                            <PersonIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 56,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        User Management
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
-                        {role === "Editor-In-Chief" || role == "Manager" ? (
-                            <Grid
-                                item
-                                xs={2}>
-                                <Stack
-                                    alignItems="center"
-                                    justifyContent="center">
-                                    <Buttonavatar>
-                                        <IconButton
-                                            size="large"
-                                            onClick={portalSettings}>
-                                            <SettingsIcon
-                                                sx={{
-                                                    color: "white",
-                                                    fontSize: 56,
-                                                }}
-                                            />
-                                        </IconButton>
-                                    </Buttonavatar>
-                                    <Typography variant="buttonLabel">
-                                        Settings
-                                    </Typography>
-                                </Stack>
-                            </Grid>
-                        ) : (
-                            <></>
-                        )}
-                    </Grid>
-                </Grid>
-            </Box>
-        );
-    } else {
-        return (
-            <Stack
-                display="flex"
-                spacing={2}
-                justifyContent="center"
-                alignItems="center">
-                <Typography
-                    variant="h2"
-                    color="black">
-                    Please sign in
-                </Typography>
-                <Button
-                    variant="contained"
-                    color="error"
-                    onClick={redirectToSignIn}>
-                    Sign In
-                </Button>
-            </Stack>
-        );
-    }
+						{role === "Manager" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={siteSettingsRoute}
+										>
+											<PersonIcon
+												sx={{
+													color: "white",
+													fontSize: 56,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										User Management
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
+						{role === "Editor-In-Chief" || role == "Manager" ? (
+							<Grid item xs={2}>
+								<Stack
+									alignItems="center"
+									justifyContent="center"
+								>
+									<Buttonavatar>
+										<IconButton
+											size="large"
+											onClick={portalSettings}
+										>
+											<SettingsIcon
+												sx={{
+													color: "white",
+													fontSize: 56,
+												}}
+											/>
+										</IconButton>
+									</Buttonavatar>
+									<Typography variant="buttonLabel">
+										Settings
+									</Typography>
+								</Stack>
+							</Grid>
+						) : (
+							<></>
+						)}
+					</Grid>
+				</Grid>
+			</Box>
+		);
+	} else {
+		return (
+			<Stack
+				display="flex"
+				spacing={2}
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Typography variant="h2" color="black">
+					Please sign in
+				</Typography>
+				<Button
+					variant="contained"
+					color="error"
+					onClick={redirectToSignIn}
+				>
+					Sign In
+				</Button>
+			</Stack>
+		);
+	}
 }
 
 export default dashboard;

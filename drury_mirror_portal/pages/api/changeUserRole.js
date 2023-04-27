@@ -10,17 +10,11 @@
 
 import executeQuery from "../../backend/mysqldb";
 
-const conn = require("../../backend/mysqldb");
-
 export default async (req, res) => {
-	console.log("Called Update User Status Route");
 	const body = req.body;
 
 	let email = body.email;
 	let role = body.role;
-
-	console.log(email);
-	console.log(role);
 
 	let updateStatusQuery = "UPDATE users SET roles = ? WHERE email = ?";
 
@@ -31,7 +25,6 @@ export default async (req, res) => {
 		values: email,
 	});
 	if (checkUser.length == 1) {
-		console.log("user found");
 		const updateStatusResult = await executeQuery({
 			query: updateStatusQuery,
 			values: [role, email],
@@ -41,28 +34,8 @@ export default async (req, res) => {
 			return res.status(500).json({ error: updateStatusResult.error });
 		} else {
 			res.status(200).json({ msg: "User Role Updated" });
-			console.log("User Role Updated");
 		}
 	} else {
 		res.status(401).json({ msg: "User does not exist" });
-		console.log("user does not exist");
 	}
-
-	// conn.query(existingQuery, [email], (err, rows) => {
-	// 	if (rows.length == 1) {
-	// 		console.log("user found");
-	// 		conn.query(updateStatusQuery, [role, email], (err, rows) => {
-	// 			if (err) {
-	// 				console.log(err);
-	// 				return res.status(500).json({ error: err });
-	// 			} else {
-	// 				res.status(200).json({ msg: "User Role Updated" });
-	// 				console.log("User Role Updated");
-	// 			}
-	// 		});
-	// 	} else {
-	// 		res.status(401).json({ msg: "User does not exist" });
-	// 		console.log("user does not exist");
-	// 	}
-	// });
 };

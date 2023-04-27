@@ -16,9 +16,9 @@ export default async (req, res) => {
 	// TODO: install tabnine
 
 	const email = req.body.email;
-	console.log("🚀 ~ file: getArticles.js:22 ~ email", email);
+	// console.log("🚀 ~ file: getArticles.js:22 ~ email", email);
 	const page = req.body.page;
-	console.log("🚀 ~ file: getArticles.js:24 ~ page", page);
+	// console.log("🚀 ~ file: getArticles.js:24 ~ page", page);
 	let isDraft = "0";
 	const test = 2;
 
@@ -28,9 +28,9 @@ export default async (req, res) => {
 		console.log("Article type: " + articleType);
 	}
 
-	console.log("email", email);
-	console.log("email.length", email.length);
-	console.log(typeof email);
+	// console.log("email", email);
+	// console.log("email.length", email.length);
+	// console.log(typeof email);
 	//console.log("session", session)
 	//const session = await getSession({req})
 
@@ -44,8 +44,8 @@ export default async (req, res) => {
 		isDraft = "4";
 	}
 
-	console.log(page);
-	console.log(isDraft);
+	// console.log(page);
+	// console.log(isDraft);
 
 	let getQuery =
 		"SELECT aid,author,headline,body,isDraft FROM articles WHERE email = ? AND isDraft = ?";

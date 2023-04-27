@@ -11,18 +11,8 @@ import { SessionProvider } from "next-auth/react";
 import { NextUIProvider } from "@nextui-org/react";
 import Footer from "./Footer";
 
-// // To show the page is loading
-// import NProgress from "nprogress"; //nprogress module
-// import "nprogress/nprogress.css"; //styles of nprogress
-// //Binding events.
-// Router.events.on("routeChangeStart", () => NProgress.start());
-// Router.events.on("routeChangeComplete", () => NProgress.done());
-// Router.events.on("routeChangeError", () => NProgress.done());
-
 export default function MyApp({ Component, pageProps }) {
-	// const { Component, pageProps } = props;
 	const router = useRouter();
-	console.log(router.pathname);
 
 	let curTheme = theme;
 
@@ -74,8 +64,3 @@ export default function MyApp({ Component, pageProps }) {
 		</React.Fragment>
 	);
 }
-
-// MyApp.propTypes = {
-//     Component: PropTypes.func.isRequired,
-//     pageProps: PropTypes.object.isRequired,
-// };

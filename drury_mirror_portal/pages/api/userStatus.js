@@ -27,8 +27,6 @@ export default async (req, res) => {
 		active = 0;
 	}
 
-	console.log(email);
-
 	let updateStatusQuery = "UPDATE users SET active = ? WHERE email = ?";
 
 	let existingQuery = "SELECT email FROM users WHERE email = ?";
@@ -38,41 +36,16 @@ export default async (req, res) => {
 		values: email,
 	});
 	if (checkUser.length == 1) {
-		console.log("user found");
 		const updateStatusResult = await executeQuery({
 			query: updateStatusQuery,
 			values: [active, email],
 		});
 		if (updateStatusResult.error) {
-			console.log(
-				"🚀 ~ file: userStatus.js:47 ~ updateStatusResult.error:",
-				updateStatusResult.error
-			);
 			return res.status(500).json({ error: updateStatusResult.error });
 		} else {
-			console.log("User Status Updated");
 			return res.status(200).json({ msg: "User Status Updated" });
 		}
 	} else {
-		console.log("user does not exist");
 		return res.status(401).json({ msg: "User does not exist" });
 	}
-
-	conn.query(existingQuery, [email], (err, rows) => {
-		if (rows.length == 1) {
-			console.log("user found");
-			conn.query(updateStatusQuery, [active, email], (err, rows) => {
-				if (err) {
-					console.log(err);
-					return res.status(500).json({ error: err });
-				} else {
-					res.status(200).json({ msg: "User Status Updated" });
-					console.log("User Status Updated");
-				}
-			});
-		} else {
-			res.status(401).json({ msg: "User does not exist" });
-			console.log("user does not exist");
-		}
-	});
 };

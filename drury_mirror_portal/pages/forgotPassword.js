@@ -8,138 +8,124 @@
 //
 //
 
-//import Head from 'next/head'
-//import Image from 'next/image'
-import styles from "../styles/Home.module.css";
-import Router, { useRouter } from "next/router";
-import { MissingStaticPage } from "next/dist/shared/lib/utils";
-import {
-    TextField,
-    Button,
-    FormGroup,
-    Grid,
-    Typography,
-    Box,
-} from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useRouter } from "next/router";
+import { TextField, Button, Grid, Typography, Box } from "@mui/material";
 import React from "react";
 
 export default function resetPage() {
-    const [getEmail, setEmail] = React.useState();
+	const [getEmail, setEmail] = React.useState();
 
-    const router = useRouter();
+	const router = useRouter();
 
-    const handleSubmit = async (event) => {
-        console.log(`event: ${event}`);
-	event.preventDefault();
-        let emailReset = getEmail;
-        console.log("Entered Email:", emailReset);
-        //const endpoint = "api/resetPassword"
-        const endpoint = "api/getUsers";
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		let emailReset = getEmail;
+		const endpoint = "api/getUsers";
 
-        const options = {
-            // The method is POST because we are sending data.
-            method: "GET",
-            // Tell the server we're sending JSON.
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
+		const options = {
+			// The method is POST because we are sending data.
+			method: "GET",
+			// Tell the server we're sending JSON.
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
 
-        const response = await fetch(endpoint, options);
+		const response = await fetch(endpoint, options);
 
-        if (response.status == 200) {
-            //const test = document.getElementById("Email")
-            let users = await response.json();
-            for (let user of users) {
-                if (user.email == getEmail) {
-                    console.log("Found", user.email);
-                    handleEmail();
-                }
-            }
-        } else {
-            console.log("Email Not Found");
-        }
-    };
+		if (response.status == 200) {
+			//const test = document.getElementById("Email")
+			let users = await response.json();
+			for (let user of users) {
+				if (user.email == getEmail) {
+					handleEmail();
+				}
+			}
+		} else {
+		}
+	};
 
-    const handleEmail = async () => {
-        const endpoint2 = "api/resetPassword";
+	const handleEmail = async () => {
+		const endpoint2 = "api/resetPassword";
 
-        const data = {
-            email: getEmail,
-        };
-        const options2 = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        };
+		const data = {
+			email: getEmail,
+		};
+		const options2 = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		};
 
-        const response2 = await fetch(endpoint2, options2);
-        if (response2.status == 201) {
-            router.reload();
-        }
-    };
+		const response2 = await fetch(endpoint2, options2);
+		if (response2.status == 201) {
+			router.reload();
+		}
+	};
 
-    return (
-        <Box sx={{ height: "100vh", backgroundColor: "#F3F3F3" }}>
-            <Typography
-                variant="logo"
-                sx={{
-                    display: "flex",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    marginBottom: 3
-                }}>
-                Drury Mirror
-            </Typography>
-            <Grid
-                container
-                direction={"column"}
-                spacing={2}
-                width
-                justifyContent="center"
-                alignItems="center">
-                <Grid item>
-                    <Typography variant="h4">
-                        Please enter your email.
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <TextField
-                        sx={{
-                            m: 2,
-                            input: {
-                                color: "black",
-                                backgroundColor: "#F3F3F3"
-                            },
-                            label: {
-                                color: "black",
-                            },
-                        }}
-                        id="Email"
-                        name="Email"
-                        variant="standard"
-                        value={getEmail}
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
-                    />
-                </Grid>
-                <Grid item>
-                    <Button
-                        onClick={() => {
-                            handleSubmit
-                        }}
-                        variant="contained"
-                        size="small"
-                        color="error"
-                        type="submit">
-                        Reset Password
-                    </Button>
-                </Grid>
-            </Grid>
-        </Box>
-    );
+	return (
+		<Box sx={{ height: "100vh", backgroundColor: "#F3F3F3" }}>
+			<Typography
+				variant="logo"
+				sx={{
+					display: "flex",
+					alignSelf: "center",
+					justifyContent: "center",
+					marginBottom: 3,
+				}}
+			>
+				Drury Mirror
+			</Typography>
+			<Grid
+				container
+				direction={"column"}
+				spacing={2}
+				width
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Grid item>
+					<Typography variant="h4">
+						Please enter your email.
+					</Typography>
+				</Grid>
+				<Grid item>
+					<TextField
+						sx={{
+							m: 2,
+							input: {
+								color: "black",
+								backgroundColor: "#F3F3F3",
+							},
+							label: {
+								color: "black",
+							},
+						}}
+						id="Email"
+						name="Email"
+						variant="standard"
+						value={getEmail}
+						onChange={(e) => {
+							setEmail(e.target.value);
+						}}
+					/>
+				</Grid>
+				<Grid item>
+					<Button
+						onClick={() => {
+							handleSubmit;
+						}}
+						variant="contained"
+						size="small"
+						color="error"
+						type="submit"
+					>
+						Reset Password
+					</Button>
+				</Grid>
+			</Grid>
+		</Box>
+	);
 }

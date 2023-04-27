@@ -78,22 +78,22 @@ export default function managerPortal() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
-		let fname = event.target.fname.value
-		let lname = event.target.lname.value
-		let email = event.target.email.value
-		let password = event.target.password.value
-		let confirmPassword = event.target.confirmPassword.value
-		let roles = event.target.roles.value
+		let fname = event.target.fname.value;
+		let lname = event.target.lname.value;
+		let email = event.target.email.value;
+		let password = event.target.password.value;
+		let confirmPassword = event.target.confirmPassword.value;
+		let roles = event.target.roles.value;
 
 		if (password == confirmPassword && roles != "none") {
-			console.log("passwords match")
-			setIsError(false)
-			setIsRole(true)
+			console.log("passwords match");
+			setIsError(false);
+			setIsRole(true);
 
 			// Get data from the form.
 			const data = {
 				fname: event.target.fname.value,
-				lname: event.target.lname.value, 
+				lname: event.target.lname.value,
 				email: event.target.email.value,
 				password: event.target.password.value,
 				roles: event.target.roles.value,
@@ -120,21 +120,16 @@ export default function managerPortal() {
 
 			// Send the form data to our forms API on Vercel and get a response.
 			const response = await fetch(endpoint, options);
-			console.log("response: ", response);
 			if (response.status == 201) {
-				console.log("User Created");
 				router.reload(window.location);
 			} else {
 				// TODO: Display message saying the username or password is incorrect
 			}
-		}
-		else {
-			if(roles == "none"){
-				console.log("No roles specified");
+		} else {
+			if (roles == "none") {
 				setIsRole(false);
 			}
-			if(password != confirmPassword){
-				console.log("passwords do not match");
+			if (password != confirmPassword) {
 				setIsError(true);
 			}
 		}
@@ -143,14 +138,12 @@ export default function managerPortal() {
 	// Handle the deletion of a user
 	const handleDelete = async (event) => {
 		event.preventDefault();
-		console.log(event.target.name);
 
 		let data = {
 			email: event.target.name,
 		};
 
 		const JSONdata = JSON.stringify(data);
-		//console.log(JSONdata)
 
 		const endpoint = `${process.env.API_PATH}/api/deleteUser`;
 
@@ -168,10 +161,8 @@ export default function managerPortal() {
 
 		// Wait for the response to see if the user was deleted
 		const response = await fetch(endpoint, options);
-		console.log("response: ", response);
 
 		if (response.status == 204) {
-			console.log("User Deleted");
 			router.reload(window.location);
 		} else {
 			// TODO: Display message saying the user could not be deleted
@@ -181,18 +172,13 @@ export default function managerPortal() {
 	// Handle the activation and deactivation of a user
 	const handleActive = async (event) => {
 		event.preventDefault();
-		//console.log(email)
-		//console.log(document.getElementById("checkbox").checked)
-		console.log(event.target.name);
-		console.log(event.target.checked);
+
 		let data = {
 			email: event.target.name,
-			//email: event.target.getElementBy,
 			active: event.target.checked,
 		};
 
 		const JSONdata = JSON.stringify(data);
-		//console.log(JSONdata)
 
 		const endpoint = "api/userStatus";
 
@@ -210,11 +196,9 @@ export default function managerPortal() {
 
 		// Wait for the response to see if the user was deleted
 		const response = await fetch(endpoint, options);
-		console.log("response: ", response);
 
 		if (response.status == 200) {
 			router.reload(window.location);
-			console.log("User Status Changed");
 		} else {
 			// TODO: Display message saying the user could not be deleted
 		}
@@ -223,15 +207,13 @@ export default function managerPortal() {
 	// Handle role changes
 	const handleRole = async (event) => {
 		event.preventDefault();
-		console.log(event.target.name);
-		console.log(event.target.roles.value);
+
 		let data = {
 			email: event.target.name,
 			role: event.target.roles.value,
 		};
 
 		const JSONdata = JSON.stringify(data);
-		//console.log(JSONdata)
 
 		const endpoint = "api/changeUserRole";
 
@@ -249,11 +231,9 @@ export default function managerPortal() {
 
 		// Wait for the response to see if the user was deleted
 		const response = await fetch(endpoint, options);
-		console.log("response: ", response);
 
 		if (response.status == 200) {
 			router.reload(window.location);
-			console.log("User Role Changed");
 		} else {
 			// TODO: Display message saying the user could not be deleted
 		}
@@ -338,9 +318,7 @@ export default function managerPortal() {
 								label="Roles"
 								sx={{ margin: 1, marginLeft: 0 }}
 							>
-								<MenuItem value={"Writer"}>
-									Writer
-								</MenuItem>
+								<MenuItem value={"Writer"}>Writer</MenuItem>
 								<MenuItem value={"Copy-Editor"}>
 									Copy-Editor
 								</MenuItem>
@@ -348,16 +326,7 @@ export default function managerPortal() {
 									Editor-In-Chief
 								</MenuItem>
 							</Select>
-							{/* <select
-                                name="role"
-                                required
-                                defaultValue={props.roles}
-                            >
-                                <option value="Writer">Writer</option>
-                                <option value="Editor">Editor</option>
-                                <option value="Copy-Editor">Copy-Editor</option>
-                                <option value="Admin">Admin</option>
-                            </select>{" "} */}
+
 							<br></br>
 							<Button
 								sx={{ marginTop: 2 }}
@@ -368,7 +337,6 @@ export default function managerPortal() {
 							>
 								Change Role
 							</Button>
-							{/* <button type="submit">Change Role</button> */}
 						</form>
 						<Box sx={{ marginTop: 2, marginRight: 2 }}>
 							<Typography
@@ -630,48 +598,48 @@ export default function managerPortal() {
 
 									<br></br>
 								</form>
-				{isError === true &&(
-                    <div>
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                margin: 2,
-                                marginTop: 1,
-                                color: "red"
-                            }}
-                        >
-                            The passwords do not match
-                        </Typography>
-                    </div>
-                )}                    
-                {isError === false &&(
-                    <div>
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                margin: 1,
-                                marginTop: 1,
-                                color: "green"
-                            }}
-                        >
-                            New User has been created
-                        </Typography>
-                    </div>
-                )}
-				{isRole === false &&(
-                    <div>
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                margin: 1,
-                                marginTop: 1,
-                                color: "red"
-                            }}
-                        >
-                            No Role has been assigned
-                        </Typography>
-                    </div>
-                )}               
+								{isError === true && (
+									<div>
+										<Typography
+											variant="h4"
+											sx={{
+												margin: 2,
+												marginTop: 1,
+												color: "red",
+											}}
+										>
+											The passwords do not match
+										</Typography>
+									</div>
+								)}
+								{isError === false && (
+									<div>
+										<Typography
+											variant="h4"
+											sx={{
+												margin: 1,
+												marginTop: 1,
+												color: "green",
+											}}
+										>
+											New User has been created
+										</Typography>
+									</div>
+								)}
+								{isRole === false && (
+									<div>
+										<Typography
+											variant="h4"
+											sx={{
+												margin: 1,
+												marginTop: 1,
+												color: "red",
+											}}
+										>
+											No Role has been assigned
+										</Typography>
+									</div>
+								)}
 							</FormGroup>
 						</Card>
 					</AccordionDetails>
@@ -682,7 +650,9 @@ export default function managerPortal() {
 				sx={{
 					width: "60%",
 					margin: "auto",
-					display: 'flex', flexDirection: 'column', minHeight: '100vh',
+					display: "flex",
+					flexDirection: "column",
+					minHeight: "100vh",
 				}}
 			>
 				<Typography variant="h3" sx={{ margin: 2 }}>

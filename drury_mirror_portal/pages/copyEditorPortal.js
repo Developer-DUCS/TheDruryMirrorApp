@@ -10,23 +10,13 @@
 
 import styles from "../styles/article.module.css";
 
-import {
-	TextField,
-	Button,
-	FormGroup,
-	Grid,
-	Typography,
-	Card,
-	Toolbar,
-	Box,
-	Stack,
-} from "@mui/material";
+import { Button, Typography, Card, Box, Stack } from "@mui/material";
 
 import Header from "./header";
 
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { useSession, signOut, getSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 
 //Populates the page
 export function copyEditorPortal() {
@@ -44,7 +34,6 @@ export function copyEditorPortal() {
 	// Handle the edit article button
 	const editArticleRoute = async (event) => {
 		event.preventDefault();
-		console.log("article id: ", event.currentTarget.id);
 		router.push({
 			pathname: `${process.env.NEXT_PUBLIC_API_PATH}/commentEditor`,
 			query: { id: event.currentTarget.id },
@@ -53,7 +42,6 @@ export function copyEditorPortal() {
 
 	const readyToPublish = async (event) => {
 		event.preventDefault();
-		console.log("article id: ", event.currentTarget.id);
 		// Get data from the form.
 		const data = {
 			id: event.currentTarget.id,
@@ -61,9 +49,7 @@ export function copyEditorPortal() {
 		};
 
 		// Send the data to the server in JSON format.
-		console.log(data);
 		const JSONdata = JSON.stringify(data);
-		console.log(JSONdata);
 
 		// API endpoint where we send form data.
 		const endpoint = "api/publishArticle";
@@ -105,7 +91,6 @@ export function copyEditorPortal() {
 					page: "copyEditorPortal",
 				};
 				let JSONdata = JSON.stringify(data);
-				console.log("JSONdata", JSONdata);
 				let options = {
 					method: "POST",
 					headers: {
@@ -117,14 +102,8 @@ export function copyEditorPortal() {
 
 				let response = await fetch(endpoint, options);
 				if (response.status != 200) {
-					console.log(response.status);
-					console.log(response.statusText);
 				} else {
 					let articles = await response.json();
-					console.log(
-						"🚀 ~ file: copyEditorPortal.js:68 ~ getArticlesRoute ~ articles",
-						articles
-					);
 
 					// Make sure the response was recieved before setting the articles
 					if (articles) {
@@ -153,7 +132,6 @@ export function copyEditorPortal() {
 		}
 	}
 	filterArticles();
-	console.log("aritcle 1:", articles[0]);
 
 	const allowedRoles = ["Copy-Editor", "Editor-In-Chief"];
 
@@ -168,7 +146,14 @@ export function copyEditorPortal() {
 				<Typography sx={{ m: 2 }} variant="userLabel">
 					{data.user.fname} {data.user.lname}
 				</Typography>
-				<Box sx={{ marginTop: -2, display: 'flex', flexDirection: 'column', minHeight: '100vh', }}>
+				<Box
+					sx={{
+						marginTop: -2,
+						display: "flex",
+						flexDirection: "column",
+						minHeight: "100vh",
+					}}
+				>
 					{articles.map((article) => (
 						<Card
 							style={{

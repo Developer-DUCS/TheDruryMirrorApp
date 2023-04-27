@@ -1,26 +1,11 @@
-import {
-	TextField,
-	Button,
-	FormGroup,
-	Grid,
-	Typography,
-	Card,
-	Toolbar,
-	Box,
-} from "@mui/material";
+import { Button, Grid } from "@mui/material";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { useSession, signOut } from "next-auth/react";
-// import { signOut } from "next-auth/client";
+import { signOut } from "next-auth/react";
 
 export default function Header() {
 	const router = useRouter();
-
-	// Handle the log out button
-	const logOut = async (event) => {
-		router.push("/");
-	};
 
 	const handleLogo = () => {
 		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`);
@@ -29,7 +14,6 @@ export default function Header() {
 	// Handle the write draft button
 	const writeDraftRoute = async (event) => {
 		event.preventDefault();
-		console.log("article id: ", event.currentTarget.id);
 		router.push({
 			pathname: `${process.env.NEXT_PUBLIC_API_PATH}/articleWriting`,
 			query: { id: event.currentTarget.id },
@@ -58,7 +42,7 @@ export default function Header() {
 					sx={{
 						fontSize: { lg: "18px", md: "16px", sm: "6px" },
 						fontFamily: "Trajan",
-						color: "black"
+						color: "black",
 					}}
 					onClick={() => {
 						handleLogo();

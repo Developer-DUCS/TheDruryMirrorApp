@@ -248,17 +248,13 @@ export function commentEditor() {
 		const rootID = document.getElementById("currentComments");
 		const root = createRoot(rootID);
 
-		console.log(box.props.id);
 		allComments.push(box);
 	};
 
 	const resolve = async (event) => {
 		// document.getElementById(`div ${commentId}`).remove();
 		let buttonId = event.target.id;
-		console.log(
-			"🚀 ~ file: commentEditor.js:360 ~ resolve ~ buttonId",
-			buttonId
-		);
+
 		//Splits the number from the id of the button
 		let num = buttonId.split("n");
 
@@ -294,18 +290,9 @@ export function commentEditor() {
 		// let currentCommentID = "span" + commentId;
 
 		let num = inputId.split("t");
-		console.log(
-			"🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
-			num[1]
-		);
 		if (num[1]) {
 			let tempCom = "span";
 			let tempComId = tempCom.concat(num[1].toString());
-			console.log(
-				"🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
-				tempComId
-			);
-			console.log("here2");
 
 			if (document.getElementById(tempComId)) {
 				document
@@ -315,18 +302,8 @@ export function commentEditor() {
 						"background-color: rgb(0,0,255); color:white;"
 					);
 			} else {
-				console.log("HERE");
 			}
 		}
-
-		// console.log(document.getElementById(currentCommentID));
-
-		// let spanElement = document.getElementById(currentCommentID);
-
-		// spanElement.setAttribute(
-		//     "style",
-		//     "background-color: blue; color: white;"
-		// );
 	};
 
 	const mouseleave = async (event) => {
@@ -348,26 +325,16 @@ export function commentEditor() {
 
 	const submit = async (event) => {
 		event.preventDefault();
-		//let x = event.target.overAllComments.value;
 		const id = parseInt(router.query.id);
 		let x = event.target.commentTest;
-		console.log("🚀 ~ file: commentEditor.js:454 ~ submit ~ x", x);
 		let y = x.length;
 		let i = 0;
 		let commentsArray = [];
-		// let overAllComments = x[0].value;
 		let overAllComments = event.target.overAllComments.value;
-		console.log("OverAllComments:", overAllComments);
 
 		if (y > 0) {
-			console.log("here");
 			while (y > 0) {
-				console.log("here2");
-
 				if (x[i].value != null) {
-					console.log("here3");
-					console.log("x[i]", x[i].value);
-
 					let com = [x[i].value, x[i].id];
 					commentsArray.push(com);
 					y = y - 1;
@@ -375,13 +342,11 @@ export function commentEditor() {
 				i = i + 1;
 			}
 		} else {
-			console.log("List was Empty");
 		}
 
 		event.preventDefault();
 		let session = await getSession();
 		let editor = session.user.fname + " " + session.user.lname;
-		// console.log(event.target.check)
 
 		// Get data from the form.
 		const data = {
@@ -394,9 +359,7 @@ export function commentEditor() {
 		};
 
 		// Send the data to the server in JSON format.
-		console.log(data);
 		const JSONdata = JSON.stringify(data);
-		console.log(JSONdata);
 
 		// API endpoint where we send form data.
 		const endpoint = "api/saveEdits";
@@ -415,18 +378,10 @@ export function commentEditor() {
 
 		// Send the form data to our forms API on Vercel and get a response.
 		const response = await fetch(endpoint, options);
-		console.log(
-			"🚀 ~ file: commentEditor.js:421 ~ submit ~ response:",
-			response
-		);
 
 		// Get the response data from server as JSON.
 		// If server returns the name submitted, that means the form works.
 		const result = await response.json();
-		console.log(
-			"🚀 ~ file: commentEditor.js:425 ~ submit ~ result:",
-			result
-		);
 
 		if (response.ok) {
 			// show message and wait for 2 seconds before going back
@@ -445,7 +400,6 @@ export function commentEditor() {
 	};
 
 	useEffect(() => {
-		console.log("here");
 		// Make sure the router is ready before
 		// getting the query parameters
 		if (router.isReady) {
@@ -453,8 +407,6 @@ export function commentEditor() {
 			const getArticleRoute = async () => {
 				const session = await getSession();
 				const id = parseInt(router.query.id);
-				console.log(id);
-				console.log(id);
 
 				if (!isNaN(id)) {
 					let endpoint = "api/getArticle";
@@ -466,7 +418,6 @@ export function commentEditor() {
 							id: id,
 						};
 						let JSONdata = JSON.stringify(data);
-						console.log("JSONdata", JSONdata);
 						let options = {
 							method: "POST",
 							headers: {
@@ -479,19 +430,17 @@ export function commentEditor() {
 						let response = await fetch(endpoint, options);
 						let article = await response.json();
 
-						// Make sure the response was recieved before setting the articles
+						// Make sure the response was received before setting the articles
 						if (article) {
 							setArticle(article);
 						}
 					}
 				} else {
-					console.log("id was NaN");
 				}
 			};
 
 			getArticleRoute();
 		} else {
-			console.log("router was not ready");
 		}
 		// depend on router.isReady
 	}, [router.isReady]);
@@ -596,9 +545,6 @@ export function commentEditor() {
 								color="error"
 								variant="contained"
 								type="submit"
-								// onClick={() => {
-								//     submit;
-								// }}
 								sx={{ m: 1 }}
 							>
 								Submit Edits

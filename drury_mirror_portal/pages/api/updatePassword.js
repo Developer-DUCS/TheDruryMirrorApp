@@ -4,9 +4,7 @@ import executeQuery from "../../backend/mysqldb";
 
 export default async (req, res) => {
 	let email = req.body.email;
-	console.log("🚀 ~ file: updatePassword.js:7 ~ email:", email);
 	let password = req.body.password;
-	console.log("🚀 ~ file: updatePassword.js:9 ~ password:", password);
 
 	let updatePasswordQuery = "UPDATE users SET password = ? WHERE email = ?";
 
@@ -17,7 +15,6 @@ export default async (req, res) => {
 		values: email,
 	});
 	if (result.error) {
-		console.log("There was an error with the page");
 		return res.status(500).json({ error: "Error" });
 	} else if (result.length < 1) {
 		return res.status(404).json({ error: "Email not found" });
@@ -33,7 +30,6 @@ export default async (req, res) => {
 				.status(202)
 				.json({ msg: "Password updated successfully" });
 		} else {
-			console.log("check here");
 		}
 	}
 };

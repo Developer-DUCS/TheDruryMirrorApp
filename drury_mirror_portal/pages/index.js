@@ -1,18 +1,11 @@
-//import Head from 'next/head'
-//import Image from 'next/image'
 import styles from "../styles/Home.module.css";
-import Router, { useRouter } from "next/router";
-import { MissingStaticPage } from "next/dist/shared/lib/utils";
+import { useRouter } from "next/router";
 import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import theme from "../styles/theme";
 
-import { useSession, signIn, signOut } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
 	const router = useRouter();
-	//const { status, data } = useSession();
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
@@ -21,19 +14,13 @@ export default function LoginPage() {
 			email: event.target.username.value,
 			password: event.target.password.value,
 			callbackUrl: `/${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`,
-                       //basePath: "/mirror",
+			//basePath: "/mirror",
 		});
 
-		console.log(res);
-
-		// console.log("STATUS: ", res.status);
-		// res.ok = false;
 		try {
 			if (res.ok) {
 				router.push(res.url);
-				console.log(res.status);
 			} else {
-				console.log(res.error);
 			}
 		} catch (e) {}
 	};
@@ -41,8 +28,6 @@ export default function LoginPage() {
 	const handleReset = async (event) => {
 		event.preventDefault();
 		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/forgotPassword`);
-
-		console.log("reset button pushed");
 	};
 
 	return (

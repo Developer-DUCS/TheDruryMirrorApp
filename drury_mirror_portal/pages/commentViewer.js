@@ -14,11 +14,9 @@
 
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/article.module.css";
-import styles2 from "../styles/article.module.css";
 
 import {
 	Button,
-	Container,
 	TextField,
 	Box,
 	Card,
@@ -29,14 +27,12 @@ import {
 } from "@mui/material";
 
 import { withStyles } from "@mui/styles";
-import { createRoot, hydrateRoot } from "react-dom/client";
 
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useSession, signOut, getSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 
 import React, { useState, useEffect } from "react";
-import { getElementById } from "domutils";
 
 import Header from "./header";
 
@@ -44,54 +40,6 @@ const QuillNoSSRWrapper = dynamic(import("react-quill"), {
 	ssr: false,
 	loading: () => <p>Loading ...</p>,
 });
-
-// * Look into this
-// const QuillNoSSRWrapper = dynamic(
-// 	async function () {
-// 		const module = await import("react-quill");
-// 		const Clipboard = await import("react-quill/dist/quill.clipboard.js");
-
-// 		module.Quill.register("modules/clipboard", Clipboard, true);
-
-// 		return module;
-// 	},
-// 	{
-// 		ssr: false,
-// 		loading: () => <p>Loading ...</p>,
-// 	}
-// );
-
-// * Look into this
-// * https://www.npmjs.com/package/react-quilljs
-
-// * Also look into this
-// const QuillNoSSRWrapper = dynamic(async function() {
-// 	const module = await import("react-quill");
-// 	const Clipboard = await import("react-quill/dist/quill.clipboard");
-
-// 	module.Quill.register("modules/clipboard", Clipboard.default, true);
-
-// 	const { Quill, Delta } = module;
-
-// 	const customConverter = {
-// 	  filter: 'span',
-// 	  replacement: function(content, node) {
-// 		let attributes = '';
-// 		if (node.hasAttribute('id')) {
-// 		  attributes += ` id="${node.getAttribute('id')}"`;
-// 		}
-
-// 		return `<span${attributes}>${content}</span>`;
-// 	  },
-// 	};
-
-// 	Quill.register(customConverter, true);
-
-// 	return module;
-//   }, {
-// 	ssr: false,
-// 	loading: () => <p>Loading ...</p>,
-//   });
 
 // Pulled from StackOverflow user "Hitesh Sahu" with modifications
 // - TextField component with style
@@ -124,18 +72,7 @@ const CssTextField = withStyles({
 const articleModules = {
 	toolbar: [["bold", "italic", "underline", "strike"], [{ background: [] }]],
 	clipboard: {
-		// toggle to add extra line breaks when pasting HTML:
 		matchVisual: false,
-		// Added this to try to get the id of the span tags back
-		// matchers: [
-		// 	[
-		// 		"span",
-		// 		function (node, delta) {
-		// 			delta.attributes.id = node.getAttribute("id");
-		// 			return delta;
-		// 		},
-		// 	],
-		// ],
 	},
 };
 
@@ -153,10 +90,7 @@ const modules = {
 		matchVisual: false,
 	},
 };
-/*
- * Quill editor formats
- * See https://quilljs.com/docs/formats/
- */
+
 const formats = [
 	"bold",
 	"italic",
@@ -192,7 +126,6 @@ export function CommentViewer() {
 	useEffect(() => {
 		if (router.isReady) {
 			// Get the articles for the current user from the database
-			console.log("Use effect running");
 			const getArticleRoute = async () => {
 				const session = await getSession();
 				const id = parseInt(router.query.id);
@@ -219,7 +152,7 @@ export function CommentViewer() {
 						let response = await fetch(endpoint, options);
 						let article = await response.json();
 
-						// Make sure the response was recieved before setting the articles
+						// Make sure the response was received before setting the articles
 						if (article) {
 							setArticle(article);
 						}
@@ -257,7 +190,6 @@ export function CommentViewer() {
 						// Make sure the response was recieved before setting the articles
 						if (comments) {
 							setComments(comments);
-							console.log("setting comments: ", comments);
 						}
 					}
 				} else {
@@ -266,7 +198,6 @@ export function CommentViewer() {
 			getArticleRoute();
 			getCommentsRoute();
 		} else {
-			console.log("Not ready yet");
 		}
 	}, [router.isReady]); //router.isReady
 
@@ -274,25 +205,13 @@ export function CommentViewer() {
 	useEffect(() => {
 		if (getArticle != []) {
 			let myArticle = getArticle;
-			console.log(
-				"🚀 ~ file: commentViewer.js:218 ~ useEffect ~ myArticle",
-				myArticle
-			);
-
-			//myArticle = myArticle.toString();
-			// !  setValue seems to be removing the id on the span tag ! //
-			// setValue(myArticle);
 
 			// Make sure the editor is loaded before putting the article in it
 			const editor = document.querySelector(".ql-editor");
 
 			if (editor) {
-				console.log("THE EDITOR IS LOADED");
 				editor.innerHTML = myArticle;
 			}
-
-			// setValue(QuillNoSSRWrapper.clipboard.convert(myArticle));
-			// QuillNoSSRWrapper.clipboard.convert(myArticle);
 		}
 	}, [getArticle]);
 
@@ -301,11 +220,7 @@ export function CommentViewer() {
 		if (getComments != null) {
 			let comments = getComments;
 
-			//myArticle = myArticle.toString();
-
 			// Set the value for the overall comments
-			console.log("COMMENTS: ", comments);
-			console.log("OVERALL: ", comments.overallComments);
 			setOverallComments(comments.overallComments);
 
 			comments = comments.comments.split(",");
@@ -322,7 +237,6 @@ export function CommentViewer() {
 			for (let y = 0; y < commentsArray.length; y++) {
 				let tempid = inputArray[y];
 				let idnum = tempid.split("t");
-				console.log("comment: ", commentsArray[y]);
 
 				const styledCard = () => {
 					return (
@@ -369,11 +283,8 @@ export function CommentViewer() {
 				allComments.push(card);
 
 				const rootID = document.getElementById("currentComments");
-
-				console.log("card.props.id", card.props.id);
 			}
 		} else {
-			console.log("Comments not ready");
 		}
 	}, [getComments]);
 
@@ -382,9 +293,6 @@ export function CommentViewer() {
 		const id = parseInt(router.query.id);
 
 		event.preventDefault();
-		let session = await getSession();
-		//let editor = session.user.fname + " " + session.user.lname;
-		// console.log(event.target.check)
 
 		// Get data from the form.
 		const data = {
@@ -436,12 +344,6 @@ export function CommentViewer() {
 	};
 
 	const resolve = async (event) => {
-		// * Consider this as an alternate solution
-		// var span = document.getElementById("mySpanId");
-		// var parent = span.parentNode;
-		// parent.removeChild(span);
-
-		// document.getElementById(`div ${commentId}`).remove();
 		let buttonId = event.target.id;
 		console.log(
 			"🚀 ~ file: commentEditor.js:360 ~ resolve ~ buttonId",
@@ -468,36 +370,16 @@ export function CommentViewer() {
 
 		//Prevents the page from completely reloading
 		event.preventDefault();
-		// let currentCommentID = "span" + commentId;
-		// let spanElement = document.getElementById(currentCommentID);
-
-		// if (spanElement) {
-		//     spanElement.removeAttribute("style", "background-color: yellow");
-		// }
 	};
 
 	const mouseover = async (event) => {
 		let inputId = event.target.id;
-		console.log(
-			"🚀 ~ file: commentViewer.js:404 ~ mouseover ~ inputId",
-			inputId
-		);
-
-		// let currentCommentID = "span" + commentId;
 
 		let num = inputId.split("d");
-		console.log(
-			"🚀 ~ file: commentEditor.js:398 ~ mouseover ~ num",
-			num[1]
-		);
+
 		if (num[1]) {
 			let tempCom = "span";
 			let tempComId = tempCom.concat(num[1].toString());
-			console.log(
-				"🚀 ~ file: commentEditor.js:401 ~ mouseover ~ tempComId",
-				tempComId
-			);
-			console.log("here2");
 
 			if (document.getElementById(tempComId)) {
 				document
@@ -507,37 +389,19 @@ export function CommentViewer() {
 						"background-color: rgb(0,0,255); color:white;"
 					);
 			} else {
-				console.log("HERE");
 			}
 		}
-
-		// console.log(document.getElementById(currentCommentID));
-
-		// let spanElement = document.getElementById(currentCommentID);
-
-		// spanElement.setAttribute(
-		//     "style",
-		//     "background-color: blue; color: white;"
-		// );
 	};
 
 	const mouseleave = async (event) => {
 		try {
 			let inputId = event.target.id;
-			console.log(
-				"🚀 ~ file: commentViewer.js:377 ~ mouseleave ~ inputId",
-				inputId
-			);
 
 			let num = inputId.split("d");
 			if (num[1]) {
 				let tempCom = "span";
 
 				let tempComId = tempCom.concat(num[1].toString());
-				console.log(
-					"🚀 ~ file: commentViewer.js:522 ~ mouseleave ~ tempComId:",
-					tempComId
-				);
 
 				if (document.getElementById(tempComId)) {
 					document
@@ -547,12 +411,9 @@ export function CommentViewer() {
 							"background-color: rgb(255,255,0); color:black;"
 						);
 				} else {
-					console.log("didn't work");
 				}
 			}
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	if (status === "authenticated") {
@@ -589,7 +450,7 @@ export function CommentViewer() {
 								</Box>
 								<div id="notice" hidden>
 									{/* make red */}
-									<text>Please hightlight in the draft</text>
+									<text>Please highlight in the draft</text>
 								</div>
 							</Box>
 						</Grid>
@@ -610,23 +471,6 @@ export function CommentViewer() {
 								>
 									{overallComments}
 								</Typography>{" "}
-								{/* <TextField
-								sx={{
-									marginLeft: 1,
-									marginTop: 0,
-									input: {
-										color: "black",
-										background: "white",
-										borderRadius: 1,
-									},
-								}}
-								variant="filled"
-								id="overAllComments"
-								name="overAllComments"
-							>
-								
-								{overallComments}
-							</TextField> */}
 								{/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
 								<br></br>
 								<Box id="commentsContainer">
@@ -660,9 +504,6 @@ export function CommentViewer() {
 									color="error"
 									variant="contained"
 									type="submit"
-									// onClick={() => {
-									//     submit;
-									// }}
 									sx={{ m: 1 }}
 								>
 									Submit Edits
@@ -701,106 +542,6 @@ export function CommentViewer() {
 				</div>
 			</>
 		);
-		{
-			/* <div className={styles.comments}>
-                    
-                    <form onSubmit={submit}>
-                        <div id="quillEditor" className={styles.Editor}>
-                            <Box
-                                sx={{
-                                    backgroundColor: "white",
-                                }}
-                            >
-                                <QuillNoSSRWrapper
-                                    id="article"
-                                    modules={articleModules}
-                                    value={value}
-                                    onChange={setValue}
-                                    formats={articleFormats}
-                                    theme="snow"
-                                />
-                                <br></br>
-                                <br></br>
-                            </Box>
-                        </div>
-                        <Grid
-                            container
-                            sx={{
-                                marginTop: 4,
-                                display: "flex",
-                                flexDirection: "row",
-                            }}
-                        >
-                            <Grid item>
-                                <Typography
-                                    sx={{ color: "white", marginLeft: 1 }}
-                                >
-                                    {/* Maybe explain better */
-		}
-		// Ready for Edits
-		//                 </Typography>
-		//             </Grid>
-		//             <Grid item>
-		//                 <Checkbox
-		//                     id="checkbox"
-		//                     color="error"
-		//                     sx={{
-		//                         color: "white",
-		//                         marginTop: -1,
-		//                         marginLeft: 1,
-		//                         bordercolor: "white",
-		//                     }}
-		//                 />
-		//             </Grid>
-		//         </Grid>
-		//         <Typography
-		//             variant="h4"
-		//             color="white"
-		//             sx={{ m: 1, marginTop: 2 }}
-		//         >
-		//             Overall Comments
-		//         </Typography>{" "}
-		//         <TextField
-		//             sx={{
-		//                 marginLeft: 1,
-		//                 marginTop: 0,
-		//                 input: {
-		//                     color: "black",
-		//                     background: "white",
-		//                     borderRadius: 1,
-		//                 },
-		//             }}
-		//             variant="filled"
-		//             id="overAllComments"
-		//             name="overAllComments"
-		//             aria-readonly
-		//         ></TextField>
-		//         {/* <textarea style={{m: 1}} id="overAllComments"></textarea> <br></br> */}
-		//         <br></br>
-		//         <Box id="commentsContainer">
-		//             <Typography
-		//                 variant="h4"
-		//                 sx={{ margin: 1, marginTop: 2, color: "white" }}
-		//             >
-		//                 Comments
-		//             </Typography>
-		//             <div id="currentComments">{allComments}</div>
-		//         </Box>
-		//         <Button
-		//             color="error"
-		//             variant="contained"
-		//             type="submit"
-		//             // onClick={() => {
-		//             //     submit;
-		//             // }}
-		//             sx={{ m: 1 }}
-		//         >
-		//             Submit Edits
-		//         </Button>
-		//     </form>
-		// </div> */}
-
-		// );
 	} else {
 		return (
 			<Stack

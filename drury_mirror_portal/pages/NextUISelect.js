@@ -3,14 +3,12 @@ import { Dropdown } from "@nextui-org/react";
 
 export default function TagSelect({ articleID, tags, selectedValueProp }) {
 	let currTags = [];
-	console.log("Selected Value", selectedValueProp);
 	if (tags) {
 		for (let i = 0; i < tags.length; i++) {
 			if (tags[i]["0"]["tid"] == articleID) {
 				let obj = tags[i]["0"];
 				for (const key in obj) {
 					const value = obj[key];
-					console.log(`${key}: ${value}`);
 					if (value == 1) {
 						currTags.push(key);
 					}
@@ -18,13 +16,7 @@ export default function TagSelect({ articleID, tags, selectedValueProp }) {
 			}
 		}
 	} else {
-		console.log("no tags");
 	}
-	// if (currTags.length < 1) {
-	// 	currTags = ["Select Tags"];
-	// } else if (currTags.includes("Select Tags")) {
-	// 	currTags.pop("Select Tags");
-	// }
 
 	const [selected, setSelected] = React.useState(new Set(currTags));
 
@@ -39,19 +31,12 @@ export default function TagSelect({ articleID, tags, selectedValueProp }) {
 		const getTagsRoute = async () => {
 			const endpoint = "api/getTags";
 			const response = await fetch(endpoint);
-			console.log(
-				"🚀 ~ file: portalSettings.js:49 ~ addTag ~ response:",
-				response
-			);
+
 			if (response.ok) {
 				let tags = await response.json();
-				console.log(
-					"🚀 ~ file: portalSettings.js:61 ~ getTagsRoute ~ tags:",
-					tags
-				);
+
 				setTags(tags);
 			} else {
-				console.log("error getting the tags");
 			}
 		};
 		getTagsRoute();
@@ -92,20 +77,6 @@ export default function TagSelect({ articleID, tags, selectedValueProp }) {
 				>
 					{selectedValue}
 				</Dropdown.Button>
-				{/* <Dropdown.Menu
-					aria-label="Multiple selection actions"
-					color="primary"
-					disallowEmptySelection
-					selectionMode="multiple"
-					selectedKeys={selected}
-					onSelectionChange={setSelected}
-				>
-					{getTags.map((tag) => (
-						<Dropdown.Item key={tag} value={tag}>
-							{tag}
-						</Dropdown.Item>
-					))}
-				</Dropdown.Menu> */}
 			</Dropdown>
 		);
 	}
