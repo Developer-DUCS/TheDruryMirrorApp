@@ -43,7 +43,6 @@ export default async (req, res) => {
 			}
 		}
 	} else {
-		console.log("Unauthorized");
 		res.status(401).json({ msg: "User Unauthorized" });
 	}
 };
