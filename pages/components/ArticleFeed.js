@@ -62,6 +62,7 @@ function ArticleFeed(props) {
 			borderRadius: 5,
 			boxShadow: "0px 4px 5px rgba(0, 0, 0, 1)",
 			backgroundColor: "white",
+			padding: 1,
 		},
 		column: {
 			width: "auto",
@@ -206,14 +207,16 @@ function ArticleFeed(props) {
 		);
 
 		const data = await response.json();
-
+		let articles = [];
+		articles.push(data);
 		if (data) {
-			console.log(
-				"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
-				data
-			);
-			setArticles2(data);
+			// console.log(
+			// 	"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
+			// 	data
+			// );
+			setArticles2(data.result);
 		}
+		console.log("Set Articles 2", getArticles2);
 	}, 500);
 
 	// handleInputChange
@@ -230,33 +233,35 @@ function ArticleFeed(props) {
 
 	// useEffect(() => {
 	// 	async function updateFeed() {
-	// 		let payload = {
-	// 			filterBy: props.currentPage,
-	// 		};
+	// 		setArticles(getArticles2);
 
-	// 		console.log("Searching for: " + props.currentPage);
+	// 		// let payload = {
+	// 		// 	filterBy: props.currentPage,
+	// 		// };
 
-	// 		let JSONdata = JSON.stringify(payload);
+	// 		// console.log("Searching for: " + props.currentPage);
 
-	// 		const options = {
-	// 			method: "POST",
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSONdata,
-	// 		};
+	// 		// let JSONdata = JSON.stringify(payload);
 
-	// 		const response = await fetch("/api/GetArticleByTag", options);
+	// 		// const options = {
+	// 		// 	method: "POST",
+	// 		// 	headers: {
+	// 		// 		"Content-Type": "application/json",
+	// 		// 	},
+	// 		// 	body: JSONdata,
+	// 		// };
 
-	// 		const data = await response.json();
+	// 		// const response = await fetch("/api/GetArticleByTag", options);
 
-	// 		if (data) {
-	// 			console.log(
-	// 				"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
-	// 				data
-	// 			);
-	// 			setArticles(data);
-	// 		}
+	// 		// const data = await response.json();
+
+	// 		// if (data) {
+	// 		// 	console.log(
+	// 		// 		"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
+	// 		// 		data
+	// 		// 	);
+	// 		// 	setArticles(data);
+	// 		// }
 	// 	}
 
 	// 	updateFeed();
@@ -275,8 +280,15 @@ function ArticleFeed(props) {
 	// Article Card - stateless functional component
 	// - Creates a MUI card component from props with article and tag data
 	const ArticleCard = (props) => {
+		// return (
+		// 	<Box>
+		// 		<Typography>Test</Typography>
+		// 	</Box>
+		// );
+
 		let thumbnail;
 		let tags = getTags[props.index][0];
+		console.log("PROPS: ", props);
 
 		if (props.article.aid != tags.tid) {
 			console.log("Tags and article id mismatch");
@@ -482,6 +494,7 @@ function ArticleFeed(props) {
 							<Virtuoso
 								totalCount={getArticles2.length}
 								data={getArticles2}
+								initialItemCount={0}
 								itemContent={(index, article) => {
 									return (
 										<ArticleCard
