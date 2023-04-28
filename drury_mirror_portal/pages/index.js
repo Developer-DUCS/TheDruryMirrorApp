@@ -13,7 +13,7 @@ export default function LoginPage() {
 		event.preventDefault();
 
 		const res = await signIn("credentials", {
-			redirect: false,
+			redirect: true,
 			email: event.target.username.value,
 			password: event.target.password.value,
 			callbackUrl: `/${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`,
