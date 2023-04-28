@@ -16,6 +16,11 @@ export default function MyApp({ Component, pageProps }) {
 
 	const isProd = process.env.MY_ENVIRONMENT === "production";
 
+	let customBasePath = "";
+	if (isProd) {
+		customBasePath = "/mirror/api/auth";
+	}
+
 	let curTheme = theme;
 
 	if (router.pathname == "/Dashboard") {
@@ -55,7 +60,7 @@ export default function MyApp({ Component, pageProps }) {
 				<CssBaseline />
 				<SessionProvider
 					session={pageProps.session}
-					basePath={"/mirror/api/auth"}
+					basePath={customBasePath}
 				>
 					<NextUIProvider>
 						<Component {...pageProps} />
