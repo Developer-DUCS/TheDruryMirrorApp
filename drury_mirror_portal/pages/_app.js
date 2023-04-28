@@ -55,7 +55,7 @@ export default function MyApp({ Component, pageProps }) {
 				<CssBaseline />
 				<SessionProvider
 					session={pageProps.session}
-					basePath={isProd ? "/mirror/api/auth" : undefined}
+					basePath={isProd ? "/mirror/api/auth" : "test"}
 				>
 					<NextUIProvider>
 						<Component {...pageProps} />
