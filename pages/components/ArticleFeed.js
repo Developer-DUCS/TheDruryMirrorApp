@@ -152,6 +152,7 @@ function ArticleFeed(props) {
 			console.log("🚀 ~ TEST ~ test:", test);
 
 			if (response.status !== 200) {
+				console.log("failed");
 			} else {
 				let articles = [];
 				let tags = [];
