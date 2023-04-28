@@ -3,24 +3,30 @@ import { useRouter } from "next/router";
 import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
 
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 export default function LoginPage() {
 	const router = useRouter();
+	const [isError, setIsError] = useState(null);
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 
 		const res = await signIn("credentials", {
-			redirect: true,
+			redirect: false,
 			email: event.target.username.value,
 			password: event.target.password.value,
 			callbackUrl: `/${process.env.NEXT_PUBLIC_API_PATH}/Dashboard`,
+
 			//basePath: "/mirror",
 		});
 
 		try {
 			if (res.ok) {
+				setIsError(false);
 				router.push(res.url);
 			} else {
+				setIsError(true);
 			}
 		} catch (e) {}
 	};
@@ -90,6 +96,18 @@ export default function LoginPage() {
 									Log in
 								</Button>
 							</Grid>
+							{isError === true && (
+								<Typography
+									variant="h6"
+									sx={{
+										margin: 1,
+										marginTop: 1,
+										color: "red",
+									}}
+								>
+									Incorrect Username or Password
+								</Typography>
+							)}
 							<Grid item>
 								<Button
 									sx={{ marginTop: 2, alignSelf: "center" }}
@@ -105,10 +123,6 @@ export default function LoginPage() {
 						</Grid>
 					</FormGroup>
 				</form>
-
-				<div className={styles.loginErrorMsg}>
-					<h3>Incorrect Username or Password</h3>
-				</div>
 			</div>
 		</>
 	);

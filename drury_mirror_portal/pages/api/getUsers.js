@@ -2,7 +2,6 @@ import executeQuery from "../../backend/mysqldb";
 const conn = require("../../backend/mysqldb");
 
 export default async (req, res) => {
-	console.log("called get user route");
 	const body = req.body;
 
 	let getQuery =
