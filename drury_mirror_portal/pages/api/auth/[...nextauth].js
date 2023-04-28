@@ -52,7 +52,7 @@ export default NextAuth({
 					(session.user.lname = token.lname),
 					(session.user.role = token.role);
 			}
-			// session.basePath = "/mirror";
+			session.basePath = "/mirror";
 			return session;
 		},
 		jwt: async ({ user, token }) => {
