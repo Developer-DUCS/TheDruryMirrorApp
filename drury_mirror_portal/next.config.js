@@ -5,7 +5,7 @@ const nextConfig = {
 	reactStrictMode: false,
 	swcMinify: true,
 	//basePath: "/mirror",
-	assetPrefix: isProd ? "https://mcs.drury.edu/mirror/" : undefined,
+	assetPrefix: isProd ? "https://mcs.drury.edu/mirror/" : "",
 };
 
 module.exports = nextConfig;
