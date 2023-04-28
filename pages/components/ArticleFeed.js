@@ -12,7 +12,7 @@
 // System stuff
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import Router from "next/router";
-import NextLink from 'next/link'
+import NextLink from "next/link";
 import Link from "next/link";
 import Image from "next/image";
 import { Buffer } from "buffer";
@@ -31,16 +31,16 @@ import { IonContent, IonPage } from "@ionic/react";
 
 // Styling
 import {
-    AppBar,
-    Toolbar,
-    Button,
-    Typography,
-    IconButton,
-    Grid,
-    Box,
-    Card,
-    CardContent,
-    TextField,
+	AppBar,
+	Toolbar,
+	Button,
+	Typography,
+	IconButton,
+	Grid,
+	Box,
+	Card,
+	CardContent,
+	TextField,
 } from "@mui/material";
 
 import ButtonBase from "@material-ui/core/ButtonBase";
@@ -52,374 +52,450 @@ import SearchIcon from "@mui/icons-material/Search";
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 
 function ArticleFeed(props) {
-    const articleStyles = makeStyles((theme) => ({
-        container: {
-            display: "flex",
-            flexDirection: "row",
-            height: "auto",
-            width: "auto",
-            marginBottom: 5,
-            borderRadius: 5,
-            boxShadow: "0px 4px 5px rgba(0, 0, 0, 1)",
-            backgroundColor: "white",
-        },
-        column: {
-            width: "auto",
-            height: "auto",
-            display: "flex",
-        },
-        featuredImage: {
-            width: 120,
-            height: 120,
-            borderRadius: 5,
-            margin: theme.spacing(1),
-        },
-        headline: {
-            fontFamily: "AvantGarde",
-            fontSize: 16,
-            width: 200,
-            margin: theme.spacing(1),
-            marginBottom: 0,
-        },
-        author: {
-            fontFamily: "AvantGarde",
-            fontSize: 12,
-            width: 150,
-            margin: theme.spacing(1),
-            marginBottom: theme.spacing(2),
-        },
-        subtitle: {
-            fontFamily: "AvantGarde",
-            fontSize: 12,
-            margin: theme.spacing(1),
-            marginTop: 0,
-            width: 200,
-        },
-    }));
+	const articleStyles = makeStyles((theme) => ({
+		container: {
+			display: "flex",
+			flexDirection: "row",
+			height: "auto",
+			width: "auto",
+			marginBottom: 5,
+			borderRadius: 5,
+			boxShadow: "0px 4px 5px rgba(0, 0, 0, 1)",
+			backgroundColor: "white",
+		},
+		column: {
+			width: "auto",
+			height: "auto",
+			display: "flex",
+		},
+		featuredImage: {
+			width: 120,
+			height: 120,
+			borderRadius: 5,
+			margin: theme.spacing(1),
+		},
+		headline: {
+			fontFamily: "AvantGarde",
+			fontSize: 16,
+			width: 200,
+			margin: theme.spacing(1),
+			marginBottom: 0,
+		},
+		author: {
+			fontFamily: "AvantGarde",
+			fontSize: 12,
+			width: 150,
+			margin: theme.spacing(1),
+			marginBottom: theme.spacing(2),
+		},
+		subtitle: {
+			fontFamily: "AvantGarde",
+			fontSize: 12,
+			margin: theme.spacing(1),
+			marginTop: 0,
+			width: 200,
+		},
+	}));
 
-    // For error handling
-    const [getArticles, setArticles] = useState([]);
+	// For error handling
+	const [getArticles, setArticles] = useState([]);
 
-    // For searcb bar display property
-    const [getDisplay, setDisplay] = useState("none");
+	// For searcb bar display property
+	const [getDisplay, setDisplay] = useState("none");
 
-    // For search value
-    const [getSearchTerm, setSearchTerm] = useState("");
+	// For search value
+	const [getSearchTerm, setSearchTerm] = useState("");
 
-    // To adjust header height
-    const [getHeight, setHeight] = useState("55px");
+	// To adjust header height
+	const [getHeight, setHeight] = useState("55px");
 
-    // To adjust card margin (search header expanded)
-    const [getPaddingTop, setPaddingTop] = useState("50px");
+	// To adjust card margin (search header expanded)
+	const [getPaddingTop, setPaddingTop] = useState("50px");
 
-    // On search click, set display property to block or none respectively
-    function onSearchButtonClick() {
-        if (getDisplay == "none") {
-            setDisplay("flex");
-        }
-        if (getDisplay == "flex") {
-            setDisplay("none");
-        }
-        if (getHeight == "55px") {
-            setHeight("100px");
-        }
-        if (getPaddingTop == "50px") {
-            setPaddingTop("135px");
-        }
-        if (getPaddingTop == "135px") {
-            setPaddingTop("50px");
-        }
-    }
+	const [getArticles2, setArticles2] = useState([]);
+	// let allTags = [];
+	const [getTags, setTags] = useState([]);
 
-    // For routing articles
-    const router = useRouter();
+	const getArticlesRoute = async () => {
+		// const session = await getSession();
+		let endpoint = "https://mcs.drury.edu/mirror/api/getArticles";
+		console.log(
+			"🚀 ~ file: ArticleFeed.js:122 ~ getArticlesRoute ~ endpoint:",
+			endpoint
+		);
 
-    // handleSearch - debounce function
-    // - Calls the last onChange event from SearchBar
-    // - Prevents database-lookup everytime user inputs a letter rapidly (fast typers)
-    const handleSearch = debounce(async (getSearchTerm) => {
-        let payload = {
-            searchText: getSearchTerm,
-        };
+		// Make sure there is a session before making the API call
 
-        let JSONdata = JSON.stringify(payload);
+		let data = {
+			email: "manager",
+			page: "publishPage",
+			articleType: "published",
+		};
+		let JSONdata = JSON.stringify(data);
+		let options = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			// Body of the request is the JSON data we created above.
+			body: JSONdata,
+			// ! Fix the server so that the no-cors mode is not needed
+			mode: "no-cors",
+		};
+		try {
+			let response = await fetch(endpoint, options);
+			console.log(
+				"🚀 ~ file: ArticleFeed.js:147 ~ getArticlesRoute ~ response:",
+				response
+			);
+			let test = await response.json();
+			console.log("🚀 ~ TEST ~ test:", test);
 
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSONdata,
-        };
+			if (response.status !== 200) {
+			} else {
+				let articles = [];
+				let tags = [];
 
-        const response = await fetch("/api/GetArticleData", options);
+				let data = await response.json();
+				articles = data.result;
+				tags = data.tagsList;
 
-        const data = await response.json();
+				tags.reverse();
 
-        if (data) {
-            console.log(
-                "🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
-                data
-            );
-            setArticles(data);
-        }
-    }, 500);
+				setTags(tags);
 
-    // handleInputChange
-    // - handles the input change from textfield
-    // - react friendly
-    const handleInputChange = (event) => {
-        setSearchTerm(event.target.value);
-        handleSearch(event.target.value);
-    };
+				// Make sure the response was received before setting the articles
+				if (articles) {
+					setArticles2(articles.reverse());
+				}
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+	getArticlesRoute();
+	console.log(`ARTICLES: ${getArticles2}`);
+	console.log(`TAGS: ${getTags}`);
 
-    // useEffects
-    // - On page load, return the list of articles according to what's being filtered
-    // - Updates every time the user chooses a different tag
-    useEffect(() => {
-        async function updateFeed() {
-            let payload = {
-                filterBy: props.currentPage,
-            };
+	// On search click, set display property to block or none respectively
+	function onSearchButtonClick() {
+		if (getDisplay == "none") {
+			setDisplay("flex");
+		}
+		if (getDisplay == "flex") {
+			setDisplay("none");
+		}
+		if (getHeight == "55px") {
+			setHeight("100px");
+		}
+		if (getPaddingTop == "50px") {
+			setPaddingTop("135px");
+		}
+		if (getPaddingTop == "135px") {
+			setPaddingTop("50px");
+		}
+	}
 
-            console.log("Searching for: " + props.currentPage);
+	// For routing articles
+	const router = useRouter();
 
-            let JSONdata = JSON.stringify(payload);
+	// handleSearch - debounce function
+	// - Calls the last onChange event from SearchBar
+	// - Prevents database-lookup everytime user inputs a letter rapidly (fast typers)
+	const handleSearch = debounce(async (getSearchTerm) => {
+		let payload = {
+			searchText: getSearchTerm,
+		};
 
-            const options = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSONdata,
-            };
+		let JSONdata = JSON.stringify(payload);
 
-            const response = await fetch("/api/GetArticleByTag", options);
+		const options = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSONdata,
+		};
 
-            const data = await response.json();
+		const response = await fetch("/api/GetArticleData", options);
 
-            if (data) {
-                console.log(
-                    "🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
-                    data
-                );
-                setArticles(data);
-            }
-        }
+		const data = await response.json();
 
-        updateFeed();
-    }, [props.currentPage]);
+		if (data) {
+			console.log(
+				"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
+				data
+			);
+			setArticles(data);
+		}
+	}, 500);
 
-    // truncateString
-    // - shortens headlines so they fit on cards
-    function truncateString(str) {
-        let truncated = str.slice(0, 25);
-        if (str.length > 25) {
-            truncated += "...";
-        }
-        return truncated;
-    }
+	// handleInputChange
+	// - handles the input change from textfield
+	// - react friendly
+	const handleInputChange = (event) => {
+		setSearchTerm(event.target.value);
+		handleSearch(event.target.value);
+	};
 
-    // Article Card - stateless functional component
-    // - Creates a MUI card component from props with article data
-    const ArticleCard = (props) => {
-        let thumbnail;
+	// useEffects
+	// - On page load, return the list of articles according to what's being filtered
+	// - Updates every time the user chooses a different tag
+	useEffect(() => {
+		async function updateFeed() {
+			let payload = {
+				filterBy: props.currentPage,
+			};
 
-        if (
-            typeof props.article.thumbnailImageData == "string" ||
-            typeof props.article.thumbnailImageData === "array" ||
-            typeof props.article.thumbnailImageData === "buffer"
-        ) {
-            const imageData = Buffer.from(
-                props.article.thumbnailImageData,
-                "base64"
-            );
-            // const decodedString = atob(imageData);
-            console.log(imageData);
+			console.log("Searching for: " + props.currentPage);
 
-            thumbnail = (
-                <img
-                    alt="thumbnail"
-                    src={`${imageData}`}
-                    width="80"
-                    height="80"
-                />
-            );
-        } else {
-            thumbnail = (
-                <Image
-                    alt="thumbnail"
-                    src={DUIcon.src}
-                    width="80"
-                    height="80"
-                />
-            );
-        }
+			let JSONdata = JSON.stringify(payload);
 
-        let newHeadline = truncateString(props.article.headline);
+			const options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSONdata,
+			};
 
-        function handleArticleClick(e) {
-            e.preventDefault();
-            console.log("Going to: " + `${asPath}/articles/[${props.article.aid}]`)
-            router.push(`${asPath}/articles/[${props.article.aid}]`);
-        }
+			const response = await fetch("/api/GetArticleByTag", options);
 
-        const { asPath } = useRouter();
+			const data = await response.json();
 
-        return (
-            <Card
-                style={articleStyles.container}
-                sx={{ m: 2, marginBottom: 3 }}>
-                <Button
-                    href={`${asPath}/articles/[${props.article.aid}]`}
-                    component="a"
-                    LinkComponent={Link}
-                    onClick={handleArticleClick}>
-                    <CardContent>
-                        <Box style={articleStyles.column}>
-                            <Box style={articleStyles.featuredImage}>
-                                {thumbnail}
-                            </Box>
-                            <Box style={articleStyles.column}>
-                                <Typography
-                                    sx={{
-                                        fontSize: 24,
-                                        fontFamily: "AvantGrande",
-                                        color: "black",
-                                        textAlign: "left",
-                                    }}>
-                                    {newHeadline}
-                                </Typography>
-                                <Typography
-                                    sx={{
-                                        fontSize: 16,
-                                        fontFamily: "AvantGrande",
-                                        color: "black",
-                                        textAlign: "left",
-                                    }}>
-                                    By {props.article.author}
-                                </Typography>
-                                <Typography style={articleStyles.subtitle}>
-                                    {props.subtitle}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </CardContent>
-                </Button>
-            </Card>
-        );
-    };
+			if (data) {
+				console.log(
+					"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
+					data
+				);
+				setArticles(data);
+			}
+		}
 
-    return (
-        <Box sx={{ backgroundColor: "#F3F3F3" }}>
-            <Box>
-                <Box
-                    style={{
-                        position: "absolute",
-                        top: 0,
-                        width: "100%",
-                        marginBottom: 10,
-                    }}>
-                    <AppBar
-                        position="fixed"
-                        sx={{
-                            backgroundColor: "#BC2932",
-                            height: { getHeight },
-                        }}>
-                        <Toolbar
-                            sx={{ display: "flex", flexDirection: "column" }}>
-                            <Grid container>
-                                <Grid
-                                    xs={11}
-                                    item>
-                                    <NextLink
-                                        href="/"
-                                        style={{ color: "white" }}>
-                                        <Button
-                                            variant="text"
-                                            sx={{
-                                                color: "white",
-                                                fontSize: "24px",
-                                                justifyContent: "space-around",
-                                                fontFamily: "TrajanPro-Regular",
-                                            }}>
-                                            Drury Mirror
-                                        </Button>
-                                    </NextLink>
-                                </Grid>
-                                <Grid
-                                    xs={1}
-                                    item
-                                    sx={{
-                                        display: "flex",
-                                        justifyContent: "space-around",
-                                    }}>
-                                    <IconButton
-                                        edge="start"
-                                        onClick={() => {
-                                            onSearchButtonClick();
-                                        }}
-                                        sx={{ color: "white", display: "flex" }}
-                                        aria-label="menu">
-                                        <SearchIcon />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                            <TextField
-                                value={getSearchTerm}
-                                onChange={handleInputChange}
-                                variant="standard"
-                                sx={{
-                                    borderWidth: 0,
-                                    display: getDisplay,
-                                    m: 1,
-                                    p: 1,
-                                    borderRadius: 5,
-                                    marginTop: 0,
-                                    width: "99%",
-                                    backgroundColor: "white",
-                                    color: "black",
-                                    disabledUnderline: true,
-                                    inputProps: {
-                                        width: "99%",
-                                        backgroundColor: "white",
-                                        disabledUnderline: true,
-                                    },
-                                }}
-                            />
-                        </Toolbar>
-                    </AppBar>
-                </Box>
-                <Box>
-                    <IonPage>
-                        <IonContent>
-                            <Box sx={{ paddingTop: getPaddingTop }}></Box>
-                            <Virtuoso
-                                totalCount={getArticles.length}
-                                data={getArticles}
-                                itemContent={(index, article) => {
-                                    return (
-                                        <ArticleCard
-                                            article={article}
-                                            key={index}
-                                        />
-                                    );
-                                }}
-                            />
-                            <Box sx={{ marginBottom: 9 }}></Box>
-                        </IonContent>
-                    </IonPage>
-                </Box>
-            </Box>
-            <NavBar />
-        </Box>
-    );
+		updateFeed();
+	}, [props.currentPage]);
+
+	// truncateString
+	// - shortens headlines so they fit on cards
+	function truncateString(str) {
+		let truncated = str.slice(0, 25);
+		if (str.length > 25) {
+			truncated += "...";
+		}
+		return truncated;
+	}
+
+	// Article Card - stateless functional component
+	// - Creates a MUI card component from props with article data
+	const ArticleCard = (props) => {
+		let thumbnail;
+
+		if (
+			typeof props.article.thumbnailImageData == "string" ||
+			typeof props.article.thumbnailImageData === "array" ||
+			typeof props.article.thumbnailImageData === "buffer"
+		) {
+			const imageData = Buffer.from(
+				props.article.thumbnailImageData,
+				"base64"
+			);
+			// const decodedString = atob(imageData);
+			console.log(imageData);
+
+			thumbnail = (
+				<img
+					alt="thumbnail"
+					src={`${imageData}`}
+					width="80"
+					height="80"
+				/>
+			);
+		} else {
+			thumbnail = (
+				<Image
+					alt="thumbnail"
+					src={DUIcon.src}
+					width="80"
+					height="80"
+				/>
+			);
+		}
+
+		let newHeadline = truncateString(props.article.headline);
+
+		function handleArticleClick(e) {
+			e.preventDefault();
+			console.log(
+				"Going to: " + `${asPath}/articles/[${props.article.aid}]`
+			);
+			router.push(`${asPath}/articles/[${props.article.aid}]`);
+		}
+
+		const { asPath } = useRouter();
+
+		return (
+			<Card
+				style={articleStyles.container}
+				sx={{ m: 2, marginBottom: 3 }}
+			>
+				<Button
+					href={`${asPath}/articles/[${props.article.aid}]`}
+					component="a"
+					LinkComponent={Link}
+					onClick={handleArticleClick}
+				>
+					<CardContent>
+						<Box style={articleStyles.column}>
+							<Box style={articleStyles.featuredImage}>
+								{thumbnail}
+							</Box>
+							<Box style={articleStyles.column}>
+								<Typography
+									sx={{
+										fontSize: 24,
+										fontFamily: "AvantGrande",
+										color: "black",
+										textAlign: "left",
+									}}
+								>
+									{newHeadline}
+								</Typography>
+								<Typography
+									sx={{
+										fontSize: 16,
+										fontFamily: "AvantGrande",
+										color: "black",
+										textAlign: "left",
+									}}
+								>
+									By {props.article.author}
+								</Typography>
+								<Typography style={articleStyles.subtitle}>
+									{props.subtitle}
+								</Typography>
+							</Box>
+						</Box>
+					</CardContent>
+				</Button>
+			</Card>
+		);
+	};
+
+	return (
+		<Box sx={{ backgroundColor: "#F3F3F3" }}>
+			<Box>
+				<Box
+					style={{
+						position: "absolute",
+						top: 0,
+						width: "100%",
+						marginBottom: 10,
+					}}
+				>
+					<AppBar
+						position="fixed"
+						sx={{
+							backgroundColor: "#BC2932",
+							height: { getHeight },
+						}}
+					>
+						<Toolbar
+							sx={{ display: "flex", flexDirection: "column" }}
+						>
+							<Grid container>
+								<Grid xs={11} item>
+									<NextLink
+										href="/"
+										style={{ color: "white" }}
+									>
+										<Button
+											variant="text"
+											sx={{
+												color: "white",
+												fontSize: "24px",
+												justifyContent: "space-around",
+												fontFamily: "TrajanPro-Regular",
+											}}
+										>
+											Drury Mirror
+										</Button>
+									</NextLink>
+								</Grid>
+								<Grid
+									xs={1}
+									item
+									sx={{
+										display: "flex",
+										justifyContent: "space-around",
+									}}
+								>
+									<IconButton
+										edge="start"
+										onClick={() => {
+											onSearchButtonClick();
+										}}
+										sx={{ color: "white", display: "flex" }}
+										aria-label="menu"
+									>
+										<SearchIcon />
+									</IconButton>
+								</Grid>
+							</Grid>
+							<TextField
+								value={getSearchTerm}
+								onChange={handleInputChange}
+								variant="standard"
+								sx={{
+									borderWidth: 0,
+									display: getDisplay,
+									m: 1,
+									p: 1,
+									borderRadius: 5,
+									marginTop: 0,
+									width: "99%",
+									backgroundColor: "white",
+									color: "black",
+									disabledUnderline: true,
+									inputProps: {
+										width: "99%",
+										backgroundColor: "white",
+										disabledUnderline: true,
+									},
+								}}
+							/>
+						</Toolbar>
+					</AppBar>
+				</Box>
+				<Box>
+					<IonPage>
+						<IonContent>
+							<Box sx={{ paddingTop: getPaddingTop }}></Box>
+							<Virtuoso
+								totalCount={getArticles.length}
+								data={getArticles}
+								itemContent={(index, article) => {
+									return (
+										<ArticleCard
+											article={article}
+											key={index}
+										/>
+									);
+								}}
+							/>
+							<Box sx={{ marginBottom: 9 }}></Box>
+						</IonContent>
+					</IonPage>
+				</Box>
+			</Box>
+			<NavBar />
+		</Box>
+	);
 }
 
 const mapStateToProps = (state) => {
-    return {
-        currentPage: state.article.currentPage,
-    };
+	return {
+		currentPage: state.article.currentPage,
+	};
 };
 
 export default connect(mapStateToProps)(ArticleFeed);

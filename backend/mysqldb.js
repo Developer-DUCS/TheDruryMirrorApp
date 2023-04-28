@@ -19,7 +19,7 @@ const config = require("./mysqlConfig.json"); // Configuration file for the mysq
 // });
 
 // Change the myUser variable to your username
-const myUser = "root";
+const myUser = "sam";
 let db = "";
 if (myUser == "sam") {
 	db = mysql.createConnection({

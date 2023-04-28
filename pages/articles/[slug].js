@@ -155,8 +155,8 @@ export async function getStaticPaths() {
 
 	const conn = mysql.createConnection({
 		host: "127.0.0.1",
-		user: "root",
-		password: "password",
+		user: "sam",
+		password: "Letmein!22",
 		database: "drurymirror",
 		port: "3306",
 	});
@@ -176,8 +176,8 @@ export async function getStaticPaths() {
 	let articleSlugs = [];
 	articles.forEach((article) => {
 		let slug = article.aid.toString();
-		
-		console.log(slug)
+
+		console.log(slug);
 
 		articleSlugs.push(slug);
 	});
@@ -185,7 +185,7 @@ export async function getStaticPaths() {
 		params: { slug },
 	}));
 
-	console.log("🚀 ~ file: [slug].js:107 ~ getStaticPaths ~ paths: \n",  paths);
+	console.log("🚀 ~ file: [slug].js:107 ~ getStaticPaths ~ paths: \n", paths);
 
 	// return the paths
 	return {
@@ -202,7 +202,7 @@ export async function getStaticProps({ params }) {
 		slug: articleID,
 	};
 
-	console.log("ID: " + articleID)
+	console.log("ID: " + articleID);
 
 	let payload = JSON.stringify(data);
 
@@ -213,8 +213,11 @@ export async function getStaticProps({ params }) {
 		},
 		body: payload,
 	};
-	
-	let response = await fetch("http://localhost:3000/api/GetArticleBySlug", options);
+
+	let response = await fetch(
+		"http://localhost:3000/api/GetArticleBySlug",
+		options
+	);
 	let resData = await response.json();
 	console.log(
 		"🚀 ~ file: [slug].js:153 ~ getStaticProps ~ resData:",

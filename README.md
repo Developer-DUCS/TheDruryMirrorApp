@@ -16,10 +16,11 @@ npm run dev
 This runs the **Capacitor** dev environment for the ios and android platforms
 
 Next, run your desired platform device
-1. If you made any big changes and don't have [live reload](https://dev.to/k4u5h4l/configure-next-js-for-cross-platform-development-with-capacitor-js-ai2) set up, do 
+
+1. If you made any big changes and don't have [live reload](https://dev.to/k4u5h4l/configure-next-js-for-cross-platform-development-with-capacitor-js-ai2) set up, do
     ```bash
     npx cap sync
-    ``` 
+    ```
     to "sync" builds between your code and Android Studio's gradle build
 2.
 
@@ -31,10 +32,13 @@ iPhone: npx cap run iphone
 ## Developing on Different WiFis
 
 You may need to change **capacitor.config.json** server -> url on different WiFis. Use your local WiFi address, find this by doing
+
 ```bash
 ipconfig
 ```
+
 In your command prompt.
+Or `ipconfig getifaddr en0` for mac
 
 ## Useful Docs
 
