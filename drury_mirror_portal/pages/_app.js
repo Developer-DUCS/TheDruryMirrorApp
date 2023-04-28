@@ -15,6 +15,7 @@ export default function MyApp({ Component, pageProps }) {
 	const router = useRouter();
 
 	const isProd = process.env.MY_ENVIRONMENT === "production";
+	console.log("🚀 ~ file: _app.js:18 ~ MyApp ~ isProd:", isProd);
 
 	let customBasePath = "";
 	if (isProd) {
