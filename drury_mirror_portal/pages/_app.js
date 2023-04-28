@@ -14,12 +14,12 @@ import Footer from "./Footer";
 export default function MyApp({ Component, pageProps }) {
 	const router = useRouter();
 
-	const isProd = process.env.MY_ENVIRONMENT === "production";
+	// const isProd = process.env.MY_ENVIRONMENT === "production";
 
-	let customBasePath = "";
-	if (isProd) {
-		customBasePath = "/mirror/api/auth";
-	}
+	// let customBasePath = "";
+	// if (isProd) {
+	// 	customBasePath = "/mirror/api/auth";
+	// }
 
 	let curTheme = theme;
 
@@ -60,7 +60,7 @@ export default function MyApp({ Component, pageProps }) {
 				<CssBaseline />
 				<SessionProvider
 					session={pageProps.session}
-					basePath={customBasePath}
+					basePath={"/mirror/api/auth"}
 				>
 					<NextUIProvider>
 						<Component {...pageProps} />
