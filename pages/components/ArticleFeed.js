@@ -200,7 +200,10 @@ function ArticleFeed(props) {
 			body: JSONdata,
 		};
 
-		const response = await fetch("/api/GetArticleData", options);
+		const response = await fetch(
+			"https://mcs.drury.edu/mirror/api/mobileAppSearch",
+			options
+		);
 
 		const data = await response.json();
 
@@ -209,7 +212,7 @@ function ArticleFeed(props) {
 				"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
 				data
 			);
-			setArticles(data);
+			setArticles2(data);
 		}
 	}, 500);
 
@@ -480,7 +483,6 @@ function ArticleFeed(props) {
 								totalCount={getArticles2.length}
 								data={getArticles2}
 								itemContent={(index, article) => {
-									console.log("INDEX", index);
 									return (
 										<ArticleCard
 											article={article}
