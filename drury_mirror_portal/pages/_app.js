@@ -53,7 +53,7 @@ export default function MyApp({ Component, pageProps }) {
 				<CssBaseline />
 				<SessionProvider
 					session={pageProps.session}
-					// basePath={"/mirror/api/auth"}
+					basePath={"/mirror/api/auth"}
 				>
 					<NextUIProvider>
 						<Component {...pageProps} />
