@@ -113,70 +113,52 @@ function ArticleFeed(props) {
 	const [getPaddingTop, setPaddingTop] = useState("50px");
 
 	const [getArticles2, setArticles2] = useState([]);
-	// let allTags = [];
 	const [getTags, setTags] = useState([]);
 
-	const getArticlesRoute = async () => {
-		// const session = await getSession();
-		let endpoint = "https://mcs.drury.edu/mirror/api/getArticles";
-		console.log(
-			"🚀 ~ file: ArticleFeed.js:122 ~ getArticlesRoute ~ endpoint:",
-			endpoint
-		);
-
-		// Make sure there is a session before making the API call
-
-		let data = {
-			email: "manager",
-			page: "publishPage",
-			articleType: "published",
-		};
-		let JSONdata = JSON.stringify(data);
-		let options = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			// Body of the request is the JSON data we created above.
-			body: JSONdata,
-			// ! Fix the server so that the no-cors mode is not needed
-			mode: "no-cors",
-		};
-		try {
-			let response = await fetch(endpoint, options);
+	useEffect(() => {
+		const getArticlesRoute = async () => {
+			let endpoint = "https://mcs.drury.edu/mirror/api/getPublishedToApp";
 			console.log(
-				"🚀 ~ file: ArticleFeed.js:147 ~ getArticlesRoute ~ response:",
-				response
+				"🚀 ~ file: ArticleFeed.js:122 ~ getArticlesRoute ~ endpoint:",
+				endpoint
 			);
-			let test = await response.json();
-			console.log("🚀 ~ TEST ~ test:", test);
 
-			if (response.status !== 200) {
-				console.log("failed");
-			} else {
-				let articles = [];
-				let tags = [];
+			let options = {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
+			try {
+				let response = await fetch(endpoint, options);
 
-				let data = await response.json();
-				articles = data.result;
-				tags = data.tagsList;
+				if (response.status !== 200) {
+					console.log("failed");
+				} else {
+					let articles = [];
+					let tags = [];
 
-				tags.reverse();
+					let data = await response.json();
+					articles = data.result;
+					tags = data.tagsList;
 
-				setTags(tags);
+					tags.reverse();
+					setTags(tags);
 
-				// Make sure the response was received before setting the articles
-				if (articles) {
-					setArticles2(articles.reverse());
+					// Make sure the response was received before setting the articles
+					if (articles) {
+						setArticles2(articles.reverse());
+					}
 				}
+			} catch (err) {
+				console.log(err);
 			}
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	getArticlesRoute();
-	console.log(`ARTICLES: ${getArticles2}`);
-	console.log(`TAGS: ${getTags}`);
+		};
+
+		getArticlesRoute();
+		// console.log(`ARTICLES: ${getArticles2}`);
+		// console.log(`TAGS: ${getTags}`);
+	}, []);
 
 	// On search click, set display property to block or none respectively
 	function onSearchButtonClick() {
@@ -242,39 +224,40 @@ function ArticleFeed(props) {
 	// useEffects
 	// - On page load, return the list of articles according to what's being filtered
 	// - Updates every time the user chooses a different tag
-	useEffect(() => {
-		async function updateFeed() {
-			let payload = {
-				filterBy: props.currentPage,
-			};
 
-			console.log("Searching for: " + props.currentPage);
+	// useEffect(() => {
+	// 	async function updateFeed() {
+	// 		let payload = {
+	// 			filterBy: props.currentPage,
+	// 		};
 
-			let JSONdata = JSON.stringify(payload);
+	// 		console.log("Searching for: " + props.currentPage);
 
-			const options = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSONdata,
-			};
+	// 		let JSONdata = JSON.stringify(payload);
 
-			const response = await fetch("/api/GetArticleByTag", options);
+	// 		const options = {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSONdata,
+	// 		};
 
-			const data = await response.json();
+	// 		const response = await fetch("/api/GetArticleByTag", options);
 
-			if (data) {
-				console.log(
-					"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
-					data
-				);
-				setArticles(data);
-			}
-		}
+	// 		const data = await response.json();
 
-		updateFeed();
-	}, [props.currentPage]);
+	// 		if (data) {
+	// 			console.log(
+	// 				"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
+	// 				data
+	// 			);
+	// 			setArticles(data);
+	// 		}
+	// 	}
+
+	// 	updateFeed();
+	// }, [props.currentPage]);
 
 	// truncateString
 	// - shortens headlines so they fit on cards
@@ -287,9 +270,21 @@ function ArticleFeed(props) {
 	}
 
 	// Article Card - stateless functional component
-	// - Creates a MUI card component from props with article data
+	// - Creates a MUI card component from props with article and tag data
 	const ArticleCard = (props) => {
 		let thumbnail;
+		let tags = getTags[props.index][0];
+
+		if (props.article.aid != tags.tid) {
+			console.log("Tags and article id mismatch");
+		}
+		let activeTags = [];
+		for (const key in tags) {
+			const value = tags[key];
+			if (value == 1) {
+				activeTags.push(key);
+			}
+		}
 
 		if (
 			typeof props.article.thumbnailImageData == "string" ||
@@ -370,6 +365,16 @@ function ArticleFeed(props) {
 									}}
 								>
 									By {props.article.author}
+								</Typography>
+								<Typography
+									sx={{
+										fontSize: 16,
+										fontFamily: "AvantGrande",
+										color: "black",
+										textAlign: "left",
+									}}
+								>
+									{activeTags}
 								</Typography>
 								<Typography style={articleStyles.subtitle}>
 									{props.subtitle}
@@ -472,13 +477,16 @@ function ArticleFeed(props) {
 						<IonContent>
 							<Box sx={{ paddingTop: getPaddingTop }}></Box>
 							<Virtuoso
-								totalCount={getArticles.length}
-								data={getArticles}
+								totalCount={getArticles2.length}
+								data={getArticles2}
 								itemContent={(index, article) => {
+									console.log("INDEX", index);
 									return (
 										<ArticleCard
 											article={article}
+											// tags={tags}
 											key={index}
+											index={index}
 										/>
 									);
 								}}

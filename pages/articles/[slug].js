@@ -52,8 +52,11 @@ import { Router } from "next/router";
 
 export default function Article({ resData }) {
 	// Check if data was returned correctly
+	console.log("Res Data", resData);
+
 	if (resData) {
 		const sanitizedHtml = resData.body.replace(/<\/?span>/g, "");
+		console.log("Res Data", resData);
 
 		// Check if the article has an image
 		if (resData.thumbnailImage) {
