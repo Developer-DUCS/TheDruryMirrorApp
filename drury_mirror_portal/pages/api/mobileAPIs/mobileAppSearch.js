@@ -1,4 +1,4 @@
-import executeQuery from "../../backend/mysqldb";
+import executeQuery from "../../../backend/mysqldb";
 
 const Cors = require("cors");
 
