@@ -19,6 +19,8 @@ import { Buffer } from "buffer";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 
+import { StatusBar, Style } from "@capacitor/status-bar";
+
 // Redux component
 // - helps connect to the navbar for article feed data
 import { connect } from "react-redux";
@@ -50,6 +52,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@mui/icons-material/Search";
 
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
+
+// import AppBar from "@material-ui/core/AppBar";
+import { SafeArea } from "capacitor-plugin-safe-area";
+// import { Plugins } from '@capacitor/core';
+// import { makeStyles } from '@material-ui/core/styles';
 
 function ArticleFeed(props) {
 	const articleStyles = makeStyles((theme) => ({
@@ -96,6 +103,11 @@ function ArticleFeed(props) {
 			marginTop: 0,
 			width: 200,
 		},
+		// appBar: {
+		// 	paddingTop: `env(safe-area-inset-top)`,
+		// 	paddingLeft: `env(safe-area-inset-left)`,
+		// 	paddingRight: `env(safe-area-inset-right)`,
+		// },
 	}));
 
 	// For error handling
@@ -115,6 +127,9 @@ function ArticleFeed(props) {
 
 	const [getArticles2, setArticles2] = useState([]);
 	const [getTags, setTags] = useState([]);
+
+	// Get window padding for top safe areas
+	const [getSafePaddingTop, setSafePaddingTop] = useState("50px");
 
 	const getArticlesRoute = async () => {
 		let endpoint =
@@ -284,6 +299,18 @@ function ArticleFeed(props) {
 		updateFeed();
 	}, [props.currentPage]);
 
+	useEffect(() => {
+		SafeArea.getSafeAreaInsets().then(({ insets }) => {
+			console.log(insets);
+			setSafePaddingTop(insets.top + "px");
+			console.log("Padding Top: ", getSafePaddingTop);
+		});
+
+		SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
+			console.log(statusBarHeight, "statusbarHeight");
+		});
+	});
+
 	// truncateString
 	// - shortens headlines so they fit on cards
 	function truncateString(str) {
@@ -297,12 +324,6 @@ function ArticleFeed(props) {
 	// Article Card - stateless functional component
 	// - Creates a MUI card component from props with article and tag data
 	const ArticleCard = (props) => {
-		// return (
-		// 	<Box>
-		// 		<Typography>Test</Typography>
-		// 	</Box>
-		// );
-
 		let thumbnail;
 		let tags = getTags;
 
@@ -440,8 +461,13 @@ function ArticleFeed(props) {
 	};
 
 	return (
-		<Box sx={{ backgroundColor: "#F3F3F3" }}>
-			<Box>
+		<>
+			{/* <meta
+				name="viewport"
+				content="initial-scale=1, viewport-fit=cover"
+			></meta> */}
+			{/* <SafeArea></SafeArea> */}
+			<Box sx={{ backgroundColor: "#F3F3F3" }}>
 				<Box
 					style={{
 						position: "absolute",
@@ -454,11 +480,15 @@ function ArticleFeed(props) {
 						position="fixed"
 						sx={{
 							backgroundColor: "#BC2932",
-							height: { getHeight },
+							zIndex: 1,
 						}}
 					>
 						<Toolbar
-							sx={{ display: "flex", flexDirection: "column" }}
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								paddingTop: getSafePaddingTop,
+							}}
 						>
 							<Grid container>
 								<Grid xs={11} item>
@@ -492,7 +522,10 @@ function ArticleFeed(props) {
 										onClick={() => {
 											onSearchButtonClick();
 										}}
-										sx={{ color: "white", display: "flex" }}
+										sx={{
+											color: "white",
+											display: "flex",
+										}}
 										aria-label="menu"
 									>
 										<SearchIcon />
@@ -524,10 +557,11 @@ function ArticleFeed(props) {
 						</Toolbar>
 					</AppBar>
 				</Box>
-				<Box>
+				<Box sx={{ m: 20 }}></Box>
+				<Box sx={{ marginTop: 10 }}>
 					<IonPage>
 						<IonContent>
-							<Box sx={{ paddingTop: getPaddingTop }}></Box>
+							<Box sx={{ paddingTop: 15 }}></Box>
 							<Virtuoso
 								totalCount={getArticles2.length}
 								data={getArticles2}
@@ -543,13 +577,13 @@ function ArticleFeed(props) {
 									);
 								}}
 							/>
-							<Box sx={{ marginBottom: 9 }}></Box>
+							<Box sx={{ marginBottom: 15 }}></Box>
 						</IonContent>
 					</IonPage>
 				</Box>
+				<NavBar />
 			</Box>
-			<NavBar />
-		</Box>
+		</>
 	);
 }
 

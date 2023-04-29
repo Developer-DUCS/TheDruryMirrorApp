@@ -233,3 +233,45 @@
 // 		},
 // 	};
 // }
+
+// Sam's implementation
+import { useRouter } from "next/router";
+
+function Article({ article }) {
+	return (
+		<div>
+			<h1>{article.title}</h1>
+			<p>{article.content}</p>
+		</div>
+	);
+}
+
+export default Article;
+
+export async function getStaticProps({ params }) {
+	// Fetch article data from an external data source based on the slug
+	const article = await fetchArticleBySlug(params.slug);
+
+	// Pass article data as props to the component
+	return {
+		props: {
+			article,
+		},
+	};
+}
+
+export async function getStaticPaths() {
+	// Fetch all article slugs from an external data source
+	const slugs = await fetchArticleSlugs();
+
+	// Map the slugs to an array of objects with the `params` key
+	const paths = slugs.map((slug) => ({
+		params: { slug },
+	}));
+
+	// Return the array of possible paths
+	return {
+		paths,
+		fallback: false,
+	};
+}
