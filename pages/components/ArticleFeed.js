@@ -116,46 +116,47 @@ function ArticleFeed(props) {
 	const [getArticles2, setArticles2] = useState([]);
 	const [getTags, setTags] = useState([]);
 
-	useEffect(() => {
-		const getArticlesRoute = async () => {
-			let endpoint = "https://mcs.drury.edu/mirror/api/getPublishedToApp";
-			console.log(
-				"🚀 ~ file: ArticleFeed.js:122 ~ getArticlesRoute ~ endpoint:",
-				endpoint
-			);
+	const getArticlesRoute = async () => {
+		let endpoint =
+			"https://mcs.drury.edu/mirror/api/mobileAPIs/getPublishedToApp";
+		console.log(
+			"🚀 ~ file: ArticleFeed.js:122 ~ getArticlesRoute ~ endpoint:",
+			endpoint
+		);
 
-			let options = {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			};
-			try {
-				let response = await fetch(endpoint, options);
-
-				if (response.status !== 200) {
-					console.log("failed");
-				} else {
-					let articles = [];
-					let tags = [];
-
-					let data = await response.json();
-					articles = data.result;
-					tags = data.tagsList;
-
-					tags.reverse();
-					setTags(tags);
-
-					// Make sure the response was received before setting the articles
-					if (articles) {
-						setArticles2(articles.reverse());
-					}
-				}
-			} catch (err) {
-				console.log(err);
-			}
+		let options = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
 		};
+		try {
+			let response = await fetch(endpoint, options);
 
+			if (response.status !== 200) {
+				console.log("failed");
+			} else {
+				let articles = [];
+				let tags = [];
+
+				let data = await response.json();
+				articles = data.result;
+				tags = data.tagsList;
+
+				tags.reverse();
+				setTags(tags);
+
+				// Make sure the response was received before setting the articles
+				if (articles) {
+					setArticles2(articles.reverse());
+				}
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
 		getArticlesRoute();
 		// console.log(`ARTICLES: ${getArticles2}`);
 		// console.log(`TAGS: ${getTags}`);
@@ -202,7 +203,7 @@ function ArticleFeed(props) {
 		};
 
 		const response = await fetch(
-			"https://mcs.drury.edu/mirror/api/mobileAppSearch",
+			"https://mcs.drury.edu/mirror/api/mobileAPIs/mobileAppSearch",
 			options
 		);
 
@@ -231,41 +232,57 @@ function ArticleFeed(props) {
 	// - On page load, return the list of articles according to what's being filtered
 	// - Updates every time the user chooses a different tag
 
-	// useEffect(() => {
-	// 	async function updateFeed() {
-	// 		setArticles(getArticles2);
+	useEffect(() => {
+		async function updateFeed() {
+			// setArticles2(getArticles2);
+			console.log("HEEERE: ", props.currentPage.toLowerCase());
+			let notSupported = ["all", "recent"];
 
-	// 		// let payload = {
-	// 		// 	filterBy: props.currentPage,
-	// 		// };
+			if (!notSupported.includes(props.currentPage.toLowerCase())) {
+				let payload = {
+					tag: props.currentPage.toLowerCase(),
+				};
 
-	// 		// console.log("Searching for: " + props.currentPage);
+				console.log("Searching for: " + props.currentPage);
 
-	// 		// let JSONdata = JSON.stringify(payload);
+				let JSONdata = JSON.stringify(payload);
+				console.log(
+					"🚀 ~ file: ArticleFeed.js:246 ~ updateFeed ~ JSONdata:",
+					JSONdata
+				);
 
-	// 		// const options = {
-	// 		// 	method: "POST",
-	// 		// 	headers: {
-	// 		// 		"Content-Type": "application/json",
-	// 		// 	},
-	// 		// 	body: JSONdata,
-	// 		// };
+				const options = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSONdata,
+				};
 
-	// 		// const response = await fetch("/api/GetArticleByTag", options);
+				const response = await fetch(
+					"https://mcs.drury.edu/mirror/api/mobileAPIs/filterByTags",
+					options
+				);
 
-	// 		// const data = await response.json();
+				const data = await response.json();
 
-	// 		// if (data) {
-	// 		// 	console.log(
-	// 		// 		"🚀 ~ file: ArticleFeed.js:88 ~ handleSearch ~ data",
-	// 		// 		data
-	// 		// 	);
-	// 		// 	setArticles(data);
-	// 		// }
-	// 	}
+				if (data) {
+					console.log(
+						"🚀 ~ file: ArticleFeed.js:268 ~ updateFeed ~ data:",
+						data
+					);
+					console.log("TYPE: ", typeof data);
 
-	// 	updateFeed();
-	// }, [props.currentPage]);
+					setArticles2(data.reverse());
+				}
+			} else {
+				console.log("Tag was all or recent");
+				getArticlesRoute();
+			}
+		}
+
+		updateFeed();
+	}, [props.currentPage]);
 
 	// truncateString
 	// - shortens headlines so they fit on cards
@@ -287,15 +304,35 @@ function ArticleFeed(props) {
 		// );
 
 		let thumbnail;
-		let tags = getTags[props.index][0];
-		console.log("PROPS: ", props);
+		let tags = getTags;
 
-		if (props.article.aid != tags.tid) {
+		const tidToFind = props.article.aid;
+		// const result = tags.find((item) => item.tid === tidToFind);
+
+		// const tidToFind = 2;
+		let currTags = null;
+
+		tags.some((arr) => {
+			const obj = arr.find((item) => item.tid === tidToFind);
+			if (obj) {
+				currTags = obj;
+				return true;
+			}
+		});
+
+		// console.log(result);
+
+		console.log("RESUUUUUULT", currTags);
+		// let tags = getTags[props.index][0];
+
+		// console.log("PROPS: ", props);
+
+		if (props.article.aid != currTags.tid) {
 			console.log("Tags and article id mismatch");
 		}
 		let activeTags = [];
-		for (const key in tags) {
-			const value = tags[key];
+		for (const key in currTags) {
+			const value = currTags[key];
 			if (value == 1) {
 				activeTags.push(key);
 			}
