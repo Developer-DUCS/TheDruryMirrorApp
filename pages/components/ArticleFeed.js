@@ -129,7 +129,9 @@ function ArticleFeed(props) {
     const [getTags, setTags] = useState([]);
 
     // Get window padding for top safe areas
-    const [getSafePaddingTop, setSafePaddingTop] = useState("50px");
+    const [getSafePaddingTop, setSafePaddingTop] = useState(3);
+
+    const [getScrollPaddingTop, setScrollPaddingTop] = useState(7);
 
     const getArticlesRoute = async () => {
         let endpoint =
@@ -194,6 +196,14 @@ function ArticleFeed(props) {
         if (getPaddingTop == "135px") {
             setPaddingTop("50px");
         }
+
+        if (getScrollPaddingTop == 7){
+            setScrollPaddingTop(getSafePaddingTop + 17);
+        }
+        else{
+            setScrollPaddingTop(7);
+        }
+
     }
 
     // For routing articles
@@ -307,7 +317,7 @@ function ArticleFeed(props) {
     useEffect(() => {
         SafeArea.getSafeAreaInsets().then(({ insets }) => {
             console.log(insets);
-            setSafePaddingTop(insets.top + "px");
+            setSafePaddingTop(insets.top);
             console.log("Padding Top: ", getSafePaddingTop);
         });
     });
@@ -561,7 +571,7 @@ function ArticleFeed(props) {
                 <Box sx={{ marginTop: 10 }}>
                     <IonPage>
                         <IonContent>
-                            <Box sx={{ paddingTop: 15 }}></Box>
+                            <Box sx={{ paddingTop: getScrollPaddingTop }}></Box>
                             <Virtuoso
                                 totalCount={getArticles2.length}
                                 data={getArticles2}
