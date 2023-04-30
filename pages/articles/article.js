@@ -51,6 +51,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 import { Router } from "next/router";
 
+import { Profiler } from 'react';
+
 function ArticleView(props) {
 
 	const [getData, setData] = useState(null);
@@ -74,34 +76,36 @@ function ArticleView(props) {
 		// Check if the article has an image
 		if (getData.thumbnailImage) {
 			return (
-				<Box sx={{ backgroundColor: "#F3F3F3" }}>
-					<Header />
-					<Box sx={{ p: 2, marginTop: 8 }}>
-						<Image src={getData.thumbnailImage} alt="thumbnail" />
-						<Typography
-							sx={{
-								color: "black",
-								fontFamily: "TrajanPro-Regular",
-								fontSize: "28px",
-							}}
-						>
-							{getData.headline}
-						</Typography>
-						<Typography
-							sx={{
-								color: "black",
-								textIndent: "5%",
-								textAlign: "justify",
-								fontFamily: "Garamond-Regular",
-								fontSize: "18px",
-								marginTop: 2,
-							}}
-						>
-							{sanitizedHtml}
-						</Typography>
+				<Profiler id="Article View">
+					<Box sx={{ backgroundColor: "#F3F3F3" }}>
+						<Header />
+						<Box sx={{ p: 2, marginTop: 8 }}>
+							<Image src={getData.thumbnailImage} alt="thumbnail" />
+							<Typography
+								sx={{
+									color: "black",
+									fontFamily: "TrajanPro-Regular",
+									fontSize: "28px",
+								}}
+							>
+								{getData.headline}
+							</Typography>
+							<Typography
+								sx={{
+									color: "black",
+									textIndent: "5%",
+									textAlign: "justify",
+									fontFamily: "Garamond-Regular",
+									fontSize: "18px",
+									marginTop: 2,
+								}}
+							>
+								{sanitizedHtml}
+							</Typography>
+						</Box>
+						<NavBar />
 					</Box>
-					<NavBar />
-				</Box>
+				</Profiler>
 			);
 		} else {
 			return (

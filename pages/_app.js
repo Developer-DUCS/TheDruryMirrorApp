@@ -20,6 +20,8 @@ import { setupIonicReact } from '@ionic/react';
 import { Provider } from "react-redux";
 import store from "../store";
 
+import { Profiler } from 'react';
+
 setupIonicReact();
 
 import NonSSRWrapper from './components/NoSSRWrapper';
@@ -27,17 +29,19 @@ import NonSSRWrapper from './components/NoSSRWrapper';
 function MyApp({ Component, pageProps }) {
 	return (
 		<>
-		<Provider store={store}>
-				<Head>
-					<title>Drury Mirror</title>
-					<meta name="description" content="A mobile application for the Drury Mirror news organization" />
-					<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-					<link rel="icon" href="/favicon.ico" />
-				</Head>
-				<NonSSRWrapper>
-					<Component {...pageProps} />
-				</NonSSRWrapper>
-		</Provider>
+		<Profiler id="App">
+			<Provider store={store}>
+					<Head>
+						<title>Drury Mirror</title>
+						<meta name="description" content="A mobile application for the Drury Mirror news organization" />
+						<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+						<link rel="icon" href="/favicon.ico" />
+					</Head>
+					<NonSSRWrapper>
+						<Component {...pageProps} />
+					</NonSSRWrapper>
+			</Provider>
+		</Profiler>
 		</>
 	);
 }
