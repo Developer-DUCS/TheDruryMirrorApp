@@ -9,6 +9,8 @@
 //Modificaiton Log:
 //
 //
+import styles from "../styles/article.module.css";
+
 import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 import { useState, useEffect, useMemo } from "react";
@@ -265,87 +267,109 @@ export function draftList() {
 						minHeight: "100vh",
 					}}
 				>
-					{getArticles.map((article) => (
-						<Card
-							style={{
-								margin: 15,
-								marginTop: 30,
+					{getArticles.length != 0 ? (
+						<div className={styles.divArticle}>
+							{getArticles.map((article) => (
+								<Card
+									style={{
+										margin: 15,
+										marginTop: 30,
+										padding: 5,
+										paddingLeft: 15,
+										boxShadow: 4,
+										backgroundColor: "#82858f",
+									}}
+								>
+									<Typography
+										variant="headline"
+										sx={{ color: "#F3f3f3" }}
+									>
+										{article.headline}
+									</Typography>
+									<br></br>
+									<Typography
+										variant="author"
+										sx={{ color: "#F3f3f3" }}
+									>
+										{article.author}
+									</Typography>
+									<Typography
+										variant="copyEditorBody"
+										sx={{
+											color: "#F3f3f3",
+											overflow: "hidden",
+											textOverflow: "ellipsis",
+											display: "-webkit-box",
+											WebkitLineClamp: "2",
+										}}
+									>
+										{parse(article.body)}
+									</Typography>
+									<Box sx={{ marginTop: 5 }}>
+										<form onSubmit={publishArticle}>
+											<div
+												style={{
+													display: "flex",
+													alignItems: "center",
+												}}
+											>
+												<Typography
+													sx={{ color: "#F3f3f3" }}
+												>
+													Select Tags
+												</Typography>
+												<div
+													style={{
+														marginLeft: "10px",
+														marginRight: "10px",
+													}}
+												>
+													{renderDropdown(
+														article.aid
+													)}
+												</div>
+												<div
+													style={{
+														paddingTop: "10px",
+													}}
+												>
+													{renderButtons(article.aid)}
+												</div>
+											</div>
+										</form>
+										{isError === true && (
+											<div>
+												<Typography
+													variant="h4"
+													sx={{
+														margin: 2,
+														marginTop: 1,
+														color: "red",
+													}}
+												>
+													Please select a tag
+												</Typography>
+											</div>
+										)}
+									</Box>
+								</Card>
+							))}
+						</div>
+					) : (
+						<Box
+							sx={{
+								m: 15,
+								marginTop: 10,
 								padding: 5,
 								paddingLeft: 15,
 								boxShadow: 4,
-								backgroundColor: "#82858f",
 							}}
 						>
-							<Typography
-								variant="headline"
-								sx={{ color: "#F3f3f3" }}
-							>
-								{article.headline}
+							<Typography>
+								There are no {selectedValue} articles.
 							</Typography>
-							<br></br>
-							<Typography
-								variant="author"
-								sx={{ color: "#F3f3f3" }}
-							>
-								{article.author}
-							</Typography>
-							<Typography
-								variant="copyEditorBody"
-								sx={{
-									color: "#F3f3f3",
-									overflow: "hidden",
-									textOverflow: "ellipsis",
-									display: "-webkit-box",
-									WebkitLineClamp: "2",
-								}}
-							>
-								{parse(article.body)}
-							</Typography>
-							<Box sx={{ marginTop: 5 }}>
-								<form onSubmit={publishArticle}>
-									<div
-										style={{
-											display: "flex",
-											alignItems: "center",
-										}}
-									>
-										<Typography sx={{ color: "#F3f3f3" }}>
-											Select Tags
-										</Typography>
-										<div
-											style={{
-												marginLeft: "10px",
-												marginRight: "10px",
-											}}
-										>
-											{renderDropdown(article.aid)}
-										</div>
-										<div
-											style={{
-												paddingTop: "10px",
-											}}
-										>
-											{renderButtons(article.aid)}
-										</div>
-									</div>
-								</form>
-								{isError === true && (
-									<div>
-										<Typography
-											variant="h4"
-											sx={{
-												margin: 2,
-												marginTop: 1,
-												color: "red",
-											}}
-										>
-											Please select a tag
-										</Typography>
-									</div>
-								)}
-							</Box>
-						</Card>
-					))}
+						</Box>
+					)}
 				</Box>
 			</Box>
 		);

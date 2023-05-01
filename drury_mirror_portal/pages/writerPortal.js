@@ -110,57 +110,75 @@ export function writerPortal() {
 						minHeight: "100vh",
 					}}
 				>
-					{articles.map((article) => (
-						<Card
-							style={{
-								margin: 15,
-								marginTop: 30,
+					{articles.length != 0 ? (
+						<div className={styles.divArticle}>
+							{articles.map((article) => (
+								<Card
+									style={{
+										margin: 15,
+										marginTop: 30,
+										padding: 5,
+										paddingLeft: 15,
+										boxShadow: 4,
+										backgroundColor: "#82858f",
+									}}
+								>
+									<Typography
+										variant="headline"
+										sx={{ color: "#F3f3f3" }}
+									>
+										{article.headline}
+									</Typography>
+									<br></br>
+									<Typography
+										variant="author"
+										sx={{ color: "#F3f3f3" }}
+									>
+										{article.author}
+									</Typography>
+									<Typography
+										variant="copyEditorBody"
+										sx={{
+											color: "#F3f3f3",
+											overflow: "hidden",
+											textOverflow: "ellipsis",
+											display: "-webkit-box",
+											WebkitLineClamp: "2",
+										}}
+									>
+										{parse(article.body)}
+									</Typography>
+									<Button
+										id={article.aid}
+										variant="contained"
+										onClick={seeCommentsRoute}
+										sx={{
+											marginBottom: 1,
+											marginRight: 5,
+											color: "white",
+											backgroundColor: "#4685F5",
+										}}
+									>
+										Edit Article
+									</Button>
+								</Card>
+							))}
+						</div>
+					) : (
+						<Box
+							sx={{
+								m: 15,
+								marginTop: 10,
 								padding: 5,
 								paddingLeft: 15,
 								boxShadow: 4,
-								backgroundColor: "#82858f",
 							}}
 						>
-							<Typography
-								variant="headline"
-								sx={{ color: "#F3f3f3" }}
-							>
-								{article.headline}
+							<Typography>
+								You don't have any edited articles.
 							</Typography>
-							<br></br>
-							<Typography
-								variant="author"
-								sx={{ color: "#F3f3f3" }}
-							>
-								{article.author}
-							</Typography>
-							<Typography
-								variant="copyEditorBody"
-								sx={{
-									color: "#F3f3f3",
-									overflow: "hidden",
-									textOverflow: "ellipsis",
-									display: "-webkit-box",
-									WebkitLineClamp: "2",
-								}}
-							>
-								{parse(article.body)}
-							</Typography>
-							<Button
-								id={article.aid}
-								variant="contained"
-								onClick={seeCommentsRoute}
-								sx={{
-									marginBottom: 1,
-									marginRight: 5,
-									color: "white",
-									backgroundColor: "#4685F5",
-								}}
-							>
-								Edit Article
-							</Button>
-						</Card>
-					))}
+						</Box>
+					)}
 				</Box>
 			</Box>
 		);

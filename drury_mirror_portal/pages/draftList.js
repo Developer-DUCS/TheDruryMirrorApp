@@ -190,15 +190,13 @@ export function draftList() {
 						<Box
 							sx={{
 								m: 15,
-								marginTop: 0,
+								marginTop: 10,
 								padding: 5,
 								paddingLeft: 15,
 								boxShadow: 4,
 							}}
 						>
-							<Typography>
-								You don't have any articles.
-							</Typography>
+							<Typography>You don't have any drafts.</Typography>
 						</Box>
 					)}
 				</Box>

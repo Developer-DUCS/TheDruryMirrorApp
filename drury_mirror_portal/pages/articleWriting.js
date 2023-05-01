@@ -185,7 +185,7 @@ export default function articleWriting() {
 		}
 
 		// reload page upon submit
-		router.reload();
+		router.back();
 	};
 
 	useEffect(() => {
