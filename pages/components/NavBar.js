@@ -60,7 +60,7 @@ function NavBar(props) {
 	}
 
 	return (
-		<div style={{ position: "fixed", bottom: 1, width: "100%" }}>
+		<div style={{ position: "fixed", bottom: 0, width: "100%" }}>
 			<AppBar
 				position="static"
 				sx={{

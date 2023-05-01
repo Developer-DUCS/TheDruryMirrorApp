@@ -129,7 +129,9 @@ function ArticleFeed(props) {
 	const [getTags, setTags] = useState([]);
 
 	// Get window padding for top safe areas
-	const [getSafePaddingTop, setSafePaddingTop] = useState("50px");
+	const [getSafePaddingTop, setSafePaddingTop] = useState(3);
+
+	const [getScrollPaddingTop, setScrollPaddingTop] = useState(7);
 
 	const getArticlesRoute = async () => {
 		let endpoint =
@@ -194,6 +196,12 @@ function ArticleFeed(props) {
 		if (getPaddingTop == "135px") {
 			setPaddingTop("50px");
 		}
+
+		if (getScrollPaddingTop == 7) {
+			setScrollPaddingTop(getSafePaddingTop + 17);
+		} else {
+			setScrollPaddingTop(7);
+		}
 	}
 
 	// For routing articles
@@ -243,14 +251,17 @@ function ArticleFeed(props) {
 		handleSearch(event.target.value);
 	};
 
-	// useEffects
+	//-------------------------------------------------------------------//
+	//                   UpdateFeed useEffect                            //
+	//-------------------------------------------------------------------//
+
+	// useEffect
 	// - On page load, return the list of articles according to what's being filtered
 	// - Updates every time the user chooses a different tag
-
 	useEffect(() => {
 		async function updateFeed() {
-			// setArticles2(getArticles2);
-			console.log("HEEERE: ", props.currentPage.toLowerCase());
+			console.log("Page: ", props.currentPage.toLowerCase());
+
 			let notSupported = ["all", "recent"];
 
 			if (!notSupported.includes(props.currentPage.toLowerCase())) {
@@ -299,15 +310,12 @@ function ArticleFeed(props) {
 		updateFeed();
 	}, [props.currentPage]);
 
+	// This useEffect function automatically adjusts the paddingTop for the header
 	useEffect(() => {
 		SafeArea.getSafeAreaInsets().then(({ insets }) => {
 			console.log(insets);
 			setSafePaddingTop(insets.top + "px");
 			console.log("Padding Top: ", getSafePaddingTop);
-		});
-
-		SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-			console.log(statusBarHeight, "statusbarHeight");
 		});
 	});
 
@@ -321,13 +329,17 @@ function ArticleFeed(props) {
 		return truncated;
 	}
 
+	//-------------------------------------------------------------------//
+	//                    Article Card Component                         //
+	//-------------------------------------------------------------------//
+
 	// Article Card - stateless functional component
 	// - Creates a MUI card component from props with article and tag data
-	const ArticleCard = (props) => {
+	const ArticleCard = (articleData) => {
 		let thumbnail;
 		let tags = getTags;
 
-		const tidToFind = props.article.aid;
+		const tidToFind = articleData.article.aid;
 		// const result = tags.find((item) => item.tid === tidToFind);
 
 		// const tidToFind = 2;
@@ -343,12 +355,12 @@ function ArticleFeed(props) {
 
 		// console.log(result);
 
-		console.log("RESUUUUUULT", currTags);
-		// let tags = getTags[props.index][0];
+		// console.log("RESUUUUUULT", currTags);
+		// let tags = getTags[articleData.index][0];
 
-		// console.log("PROPS: ", props);
+		// console.log("articleData: ", articleData);
 
-		if (props.article.aid != currTags.tid) {
+		if (articleData.article.aid != currTags.tid) {
 			console.log("Tags and article id mismatch");
 		}
 		let activeTags = [];
@@ -360,12 +372,12 @@ function ArticleFeed(props) {
 		}
 
 		if (
-			typeof props.article.thumbnailImageData == "string" ||
-			typeof props.article.thumbnailImageData === "array" ||
-			typeof props.article.thumbnailImageData === "buffer"
+			typeof articleData.article.thumbnailImageData == "string" ||
+			typeof articleData.article.thumbnailImageData === "array" ||
+			typeof articleData.article.thumbnailImageData === "buffer"
 		) {
 			const imageData = Buffer.from(
-				props.article.thumbnailImageData,
+				articleData.article.thumbnailImageData,
 				"base64"
 			);
 			// const decodedString = atob(imageData);
@@ -390,14 +402,18 @@ function ArticleFeed(props) {
 			);
 		}
 
-		let newHeadline = truncateString(props.article.headline);
+		let newHeadline = truncateString(articleData.article.headline);
 
 		function handleArticleClick(e) {
 			e.preventDefault();
-			console.log(
-				"Going to: " + `${asPath}/articles/[${props.article.aid}]`
-			);
-			router.push(`${asPath}/articles/[${props.article.aid}]`);
+
+			console.log("Going to: " + `${asPath}articles/article`);
+
+			// Sends the article articleData to the Redux store's reducer
+			console.log("articleData: ", articleData);
+			props.dispatch({ type: "SET_ARTICLE_DATA", payload: articleData });
+
+			router.push(`${asPath}articles/article`);
 		}
 
 		const { asPath } = useRouter();
@@ -408,7 +424,6 @@ function ArticleFeed(props) {
 				sx={{ m: 2, marginBottom: 3 }}
 			>
 				<Button
-					href={`${asPath}/articles/[${props.article.aid}]`}
 					component="a"
 					LinkComponent={Link}
 					onClick={handleArticleClick}
@@ -437,7 +452,7 @@ function ArticleFeed(props) {
 										textAlign: "left",
 									}}
 								>
-									By {props.article.author}
+									By {articleData.article.author}
 								</Typography>
 								<Typography
 									sx={{
@@ -450,7 +465,7 @@ function ArticleFeed(props) {
 									{activeTags}
 								</Typography>
 								<Typography style={articleStyles.subtitle}>
-									{props.subtitle}
+									{articleData.subtitle}
 								</Typography>
 							</Box>
 						</Box>
@@ -557,11 +572,13 @@ function ArticleFeed(props) {
 						</Toolbar>
 					</AppBar>
 				</Box>
-				<Box sx={{ m: 20 }}></Box>
-				<Box sx={{ marginTop: 10 }}>
+				{/* <Box sx={{ m: 20 }}></Box> */}
+				<Box sx={{ marginTop: 0 }}>
 					<IonPage>
 						<IonContent>
-							<Box sx={{ paddingTop: 15 }}></Box>
+							<Box
+								sx={{ paddingTop: getScrollPaddingTop + 8 }}
+							></Box>
 							<Virtuoso
 								totalCount={getArticles2.length}
 								data={getArticles2}
