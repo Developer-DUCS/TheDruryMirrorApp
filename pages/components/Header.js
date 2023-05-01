@@ -26,6 +26,7 @@ import {
 
 // Icons
 import SearchIcon from "@mui/icons-material/Search";
+import { SafeArea } from "capacitor-plugin-safe-area";
 
 export default function NavBar() {
 	// For searcb bar display property
@@ -36,6 +37,7 @@ export default function NavBar() {
 
 	// To adjust header height
 	const [getHeight, setHeight] = useState("55px");
+	const [getSafePaddingTop, setSafePaddingTop] = useState(3);
 
 	// On search click, set display property to block or none
 	function onSearchButtonClick() {
@@ -50,6 +52,15 @@ export default function NavBar() {
 		}
 	}
 
+	// This useEffect function automatically adjusts the paddingTop for the header
+	useEffect(() => {
+		SafeArea.getSafeAreaInsets().then(({ insets }) => {
+			console.log(insets);
+			setSafePaddingTop(insets.top + "px");
+			console.log("Padding Top: ", getSafePaddingTop);
+		});
+	});
+
 	return (
 		<div
 			style={{
@@ -63,7 +74,13 @@ export default function NavBar() {
 				position="fixed"
 				sx={{ backgroundColor: "#BC2932", height: { getHeight } }}
 			>
-				<Toolbar sx={{ display: "flex", flexDirection: "column" }}>
+				<Toolbar
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						paddingTop: getSafePaddingTop,
+					}}
+				>
 					<Grid container>
 						<Grid xs={11} sx={{ marginLeft: -2 }} item>
 							<Link href="/">

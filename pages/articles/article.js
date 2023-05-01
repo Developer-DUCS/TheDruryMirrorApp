@@ -51,23 +51,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import DUIcon from "../../Lib/Images/DU-Small-Icon.png";
 import { Router } from "next/router";
 
-import { Profiler } from 'react';
+import { Profiler } from "react";
 
 function ArticleView(props) {
-
 	const [getData, setData] = useState(null);
 
-    useEffect(() => {
-        
-        function setArticleData(){
-            console.log("Article Props: ", props.currentArticle.article)
+	useEffect(() => {
+		function setArticleData() {
+			console.log("Article Props: ", props.currentArticle.article);
 			setData(props.currentArticle.article);
-        }
+		}
 
-        setArticleData();
-
-    })
-    
+		setArticleData();
+	});
 
 	if (getData) {
 		const sanitizedHtml = getData.body.replace(/<\/?span>/g, "");
@@ -80,7 +76,10 @@ function ArticleView(props) {
 					<Box sx={{ backgroundColor: "#F3F3F3" }}>
 						<Header />
 						<Box sx={{ p: 2, marginTop: 8 }}>
-							<Image src={getData.thumbnailImage} alt="thumbnail" />
+							<Image
+								src={getData.thumbnailImage}
+								alt="thumbnail"
+							/>
 							<Typography
 								sx={{
 									color: "black",
@@ -111,7 +110,8 @@ function ArticleView(props) {
 			return (
 				<Box sx={{ backgroundColor: "#F3F3F3" }}>
 					<Header />
-					<Box sx={{ p: 2, marginTop: 8 }}>
+
+					<Box sx={{ p: 2, marginTop: 12 }}>
 						<Image
 							alt="thumbnail"
 							src={DUIcon.src}
@@ -159,6 +159,8 @@ function ArticleView(props) {
 		return (
 			<Box sx={{ backgroundColor: "#F3F3F3" }}>
 				<Header />
+				<Box sx={{ m: 20 }}></Box>
+				<Box sx={{ marginTop: 10 }}></Box>
 				<Typography sx={{ color: "black", m: 1, marginTop: 10 }}>
 					Loading...
 				</Typography>
