@@ -10,16 +10,13 @@
 // ---------------------------------------------------
 
 // System stuff
-import React, { useEffect, useState, useCallback, useContext } from "react";
-import Router from "next/router";
+import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
 import Link from "next/link";
 import Image from "next/image";
 import { Buffer } from "buffer";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
-
-import { StatusBar, Style } from "@capacitor/status-bar";
 
 // Redux component
 // - helps connect to the navbar for article feed data
@@ -45,7 +42,6 @@ import {
 	TextField,
 } from "@mui/material";
 
-import ButtonBase from "@material-ui/core/ButtonBase";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -198,7 +194,8 @@ function ArticleFeed(props) {
 		}
 
 		if (getScrollPaddingTop == 7) {
-			setScrollPaddingTop(getSafePaddingTop + 17);
+			setScrollPaddingTop(12);
+            console.log("Padding Top: " + getScrollPaddingTop)
 		} else {
 			setScrollPaddingTop(7);
 		}
@@ -314,8 +311,6 @@ function ArticleFeed(props) {
 	useEffect(() => {
 		SafeArea.getSafeAreaInsets().then(({ insets }) => {
 			console.log(insets);
-			setSafePaddingTop(insets.top + "px");
-			console.log("Padding Top: ", getSafePaddingTop);
 		});
 	});
 
@@ -340,9 +335,7 @@ function ArticleFeed(props) {
 		let tags = getTags;
 
 		const tidToFind = articleData.article.aid;
-		// const result = tags.find((item) => item.tid === tidToFind);
-
-		// const tidToFind = 2;
+        
 		let currTags = null;
 
 		tags.some((arr) => {
@@ -352,13 +345,6 @@ function ArticleFeed(props) {
 				return true;
 			}
 		});
-
-		// console.log(result);
-
-		// console.log("RESUUUUUULT", currTags);
-		// let tags = getTags[articleData.index][0];
-
-		// console.log("articleData: ", articleData);
 
 		if (articleData.article.aid != currTags.tid) {
 			console.log("Tags and article id mismatch");
@@ -572,12 +558,11 @@ function ArticleFeed(props) {
 						</Toolbar>
 					</AppBar>
 				</Box>
-				{/* <Box sx={{ m: 20 }}></Box> */}
-				<Box sx={{ marginTop: 0 }}>
+				<Box>
 					<IonPage>
 						<IonContent>
 							<Box
-								sx={{ paddingTop: getScrollPaddingTop + 8 }}
+								sx={{ marginTop: getScrollPaddingTop + 5 }}
 							></Box>
 							<Virtuoso
 								totalCount={getArticles2.length}
