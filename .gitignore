@@ -6,3 +6,4 @@ node_modules
 /ios
 /android
 /.next
+drury_mirror_portal/.env

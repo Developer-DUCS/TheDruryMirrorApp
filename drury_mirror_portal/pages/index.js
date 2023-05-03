@@ -88,10 +88,9 @@ export default function LoginPage() {
 							</Grid>
 							<Grid item>
 								<Button
-									color="contrast"
-									sx={{ color: "black" }}
+									sx={{ color: "white", backgroundColor: "#5683ED", marginTop: 2 }}
 									type="submit"
-									variant="outline"
+									variant="contained"
 								>
 									Log in
 								</Button>
@@ -110,8 +109,8 @@ export default function LoginPage() {
 							)}
 							<Grid item>
 								<Button
-									sx={{ marginTop: 2, alignSelf: "center" }}
-									variant="contained"
+									sx={{ marginTop: 1, alignSelf: "center" }}
+									variant="text"
 									size="small"
 									color="error"
 									type="button"
