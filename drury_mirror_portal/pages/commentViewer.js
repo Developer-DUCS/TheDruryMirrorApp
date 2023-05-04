@@ -109,6 +109,7 @@ let allComments = [];
 export function CommentViewer() {
 	let [value, setValue] = useState();
 	const [getArticle, setArticle] = useState([]);
+	const [getHeadline, setHeadline] = useState([]);
 	const [getComments, setComments] = useState();
 	const [isError, setIsError] = useState(null);
 	const [overallComments, setOverallComments] = useState("");
@@ -150,11 +151,16 @@ export function CommentViewer() {
 						};
 
 						let response = await fetch(endpoint, options);
-						let article = await response.json();
+						let result = await response.json();
+						let headline = result.headline;
+						let article = result.body;
 
 						// Make sure the response was received before setting the articles
 						if (article) {
 							setArticle(article);
+						}
+						if (headline) {
+							setHeadline(headline);
 						}
 					}
 				} else {
@@ -296,6 +302,7 @@ export function CommentViewer() {
 
 		// Get data from the form.
 		const data = {
+			headline: getHeadline,
 			article: value,
 			id: id,
 			page: "commentViewer",
@@ -437,6 +444,36 @@ export function CommentViewer() {
 										marginTop: 1,
 									}}
 								>
+									<Box
+										sx={{
+											display: "flex",
+											flexDirection: "column",
+											width: "30%",
+										}}
+									>
+										<TextField
+											sx={{
+												input: {
+													color: "black",
+												},
+												label: {
+													color: "black",
+												},
+												backgroundColor: "white",
+												m: 2,
+												borderRadius: 1,
+												width: "100%",
+											}}
+											id="headline"
+											name="headline"
+											label="Headline"
+											variant="outlined"
+											value={getHeadline}
+											onChange={(e) => {
+												setHeadline(e.target.value);
+											}}
+										/>
+									</Box>
 									<QuillNoSSRWrapper
 										id="article"
 										modules={articleModules}
@@ -489,6 +526,12 @@ export function CommentViewer() {
 									</div>
 								</Box>
 								<Grid item>
+									<Typography
+										sx={{ color: "white", marginLeft: 2 }}
+									>
+										{/* Maybe explain better */}
+										Ready for Edits
+									</Typography>
 									<Checkbox
 										id="checkbox"
 										color="error"
@@ -498,7 +541,7 @@ export function CommentViewer() {
 											marginLeft: 1,
 											borderColor: "white",
 										}}
-									/>
+									></Checkbox>
 								</Grid>
 								<Button
 									color="error"

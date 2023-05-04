@@ -114,9 +114,7 @@ export default function resetPage() {
 				</Grid>
 				<Grid item>
 					<Button
-						onClick={() => {
-							handleSubmit;
-						}}
+						onClick={handleSubmit}
 						variant="contained"
 						size="small"
 						color="error"

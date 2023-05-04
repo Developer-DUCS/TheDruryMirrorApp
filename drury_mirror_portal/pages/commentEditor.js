@@ -13,7 +13,6 @@
 //
 
 // Editor imports
-//import styles from '../styles/quillTestStyle.css'
 import "react-quill/dist/quill.snow.css";
 import styles from "../styles/quill.module.css";
 import styles2 from "../styles/article.module.css";
@@ -48,29 +47,34 @@ const QuillNoSSRWrapper = dynamic(import("react-quill"), {
 	loading: () => <p>Loading ...</p>,
 });
 
-// Pulled from StackOverflow user "Hitesh Sahu" with modifications
 // - TextField component with style
 const CssTextField = withStyles({
 	root: {
 		"& .MuiFilledInput-root": {
 			background: "white",
+			borderRadius: 3,
 		},
 		"& label.Mui-focused": {
 			color: "black",
+			borderRadius: 3,
 		},
 		"& .MuiInput-underline:after": {
 			borderBottomColor: "black",
 			backgroundColor: "black",
+			borderRadius: 3,
 		},
 		"& .MuiOutlinedInput-root": {
 			"& fieldset": {
 				borderColor: "black",
+				borderRadius: 3,
 			},
 			"&:hover fieldset": {
 				borderColor: "black",
+				borderRadius: 3,
 			},
 			"&.Mui-focused fieldset": {
 				borderColor: "black",
+				borderRadius: 3,
 			},
 		},
 	},
@@ -125,6 +129,7 @@ export function commentEditor() {
 
 	let [value, setValue] = useState();
 	const [getArticle, setArticle] = useState([]);
+	const [getHeadline, setHeadline] = useState([]);
 	const [isError, setIsError] = useState(null);
 	const { status, data } = useSession();
 
@@ -138,6 +143,7 @@ export function commentEditor() {
 	useEffect(() => {
 		if (getArticle != []) {
 			let myArticle = getArticle;
+			let myHeadline = getHeadline;
 
 			//myArticle = myArticle.toString();
 
@@ -183,9 +189,13 @@ export function commentEditor() {
 							input: {
 								color: "black",
 								background: "white",
-								borderRadius: 1,
+								borderRadius: 3,
 							},
+							borderRadius: 3,
 						}}
+						multiline
+						rows={2}
+						maxRows={4}
 					></CssTextField>
 					<br></br>
 				</>
@@ -221,7 +231,7 @@ export function commentEditor() {
 						resolve(event);
 					}}
 					variant="contained"
-					color="secondary"
+					color="error"
 					sx={{ margin: 2, marginLeft: 0 }}
 				>
 					Delete
@@ -347,11 +357,13 @@ export function commentEditor() {
 		event.preventDefault();
 		let session = await getSession();
 		let editor = session.user.fname + " " + session.user.lname;
+		console.log("Headline: " + getHeadline);
 
 		// Get data from the form.
 		const data = {
 			email: session.user.email,
 			editor: editor,
+			headline: getHeadline,
 			article: value,
 			comments: commentsArray,
 			overAllComments: overAllComments,
@@ -387,7 +399,7 @@ export function commentEditor() {
 			// show message and wait for 2 seconds before going back
 			setIsError(false);
 			setTimeout(() => {
-				router.back();
+				// router.back();
 			}, 2000);
 		} else {
 			setIsError(true);
@@ -428,11 +440,24 @@ export function commentEditor() {
 						};
 
 						let response = await fetch(endpoint, options);
-						let article = await response.json();
+						let result = await response.json();
+						let headline = result.headline;
+						let article = result.body;
+						console.log(
+							"🚀 ~ file: commentEditor.js:432 ~ getArticleRoute ~ article:",
+							headline
+						);
+						console.log(
+							"🚀 ~ file: commentEditor.js:432 ~ getArticleRoute ~ article:",
+							article
+						);
 
 						// Make sure the response was received before setting the articles
 						if (article) {
 							setArticle(article);
+						}
+						if (headline) {
+							setHeadline(headline);
 						}
 					}
 				} else {
@@ -452,13 +477,13 @@ export function commentEditor() {
 			// We pass the event to the handleSubmit() function on submit.
 			<Box
 				className={styles2.divWriting}
-				sx={{ height: "100%", backgroundColor: "#303030" }}
+				sx={{ height: "100vh", backgroundColor: "#303030" }}
 			>
 				<Header />
 
 				<br></br>
 				<Grid
-					Container
+					container
 					sx={{
 						display: "flex",
 						width: "100%",
@@ -469,7 +494,8 @@ export function commentEditor() {
 						<Button
 							size="small"
 							sx={{
-								backgroundColor: "white",
+								backgroundColor: "#5683ED",
+								color: "white",
 								p: 1,
 								marginBottom: 1,
 							}}
@@ -480,10 +506,40 @@ export function commentEditor() {
 						<Box id="quillEditor">
 							<Box
 								sx={{
-									backgroundColor: "white",
 									marginTop: 1,
+									backgroundColor: "white",
 								}}
 							>
+								<Box
+									sx={{
+										display: "flex",
+										flexDirection: "column",
+										width: "30%",
+									}}
+								>
+									<TextField
+										sx={{
+											input: {
+												color: "black",
+											},
+											label: {
+												color: "black",
+											},
+											backgroundColor: "white",
+											m: 2,
+											borderRadius: 1,
+											width: "100%",
+										}}
+										id="headline"
+										name="headline"
+										label="Headline"
+										variant="outlined"
+										value={getHeadline}
+										onChange={(e) => {
+											setHeadline(e.target.value);
+										}}
+									/>
+								</Box>
 								<QuillNoSSRWrapper
 									id="article"
 									modules={articleModules}
@@ -503,7 +559,7 @@ export function commentEditor() {
 							</div>
 						</Box>
 					</Grid>
-					<Grid item sx={{ width: "40%", marginLeft: 2 }}>
+					<Grid item sx={{ marginLeft: 2 }}>
 						<form onSubmit={submit}>
 							<Typography
 								variant="h4"
@@ -518,10 +574,17 @@ export function commentEditor() {
 									marginTop: 0,
 									input: {
 										color: "black",
-										background: "white",
+										backgroundColor: "white",
 										borderRadius: 1,
 									},
+									flexWrap: "wrap",
+									width: "85%",
+									backgroundColor: "white",
+									borderRadius: 2,
 								}}
+								multiline
+								rows={2}
+								maxRows={10}
 								variant="filled"
 								id="overAllComments"
 								name="overAllComments"
@@ -539,13 +602,21 @@ export function commentEditor() {
 								>
 									Comments
 								</Typography>
-								<div id="currentComments">{allComments}</div>
+								<Box
+									sx={{ marginLeft: 1 }}
+									id="currentComments"
+								>
+									{allComments}
+								</Box>
 							</Box>
 							<Button
-								color="error"
 								variant="contained"
 								type="submit"
-								sx={{ m: 1 }}
+								sx={{
+									m: 1,
+									backgroundColor: "#2bd942",
+									color: "white",
+								}}
 							>
 								Submit Edits
 							</Button>
@@ -571,7 +642,7 @@ export function commentEditor() {
 									sx={{
 										margin: 1,
 										marginTop: 2,
-										color: "green",
+										color: "white",
 									}}
 								>
 									Successfully Saved the Edits

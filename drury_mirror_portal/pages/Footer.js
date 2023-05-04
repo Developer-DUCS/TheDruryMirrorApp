@@ -1,3 +1,13 @@
+// Article Writing
+// Page Description:
+//                 The footer element, should be on bottom of each page
+//
+//Creation Date:
+//                  By: Thomas O'Brien
+//
+//Modificaiton Log:
+//
+
 import { Grid, Typography } from "@mui/material";
 
 import React from "react";

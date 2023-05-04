@@ -1,3 +1,13 @@
+// Splash Header
+// Page Description:
+//                 Custom header for the about page
+//
+//Creation Date:
+//                  By: Haley Saylor
+//
+//Modificaiton Log:
+//
+
 import { Button, Grid, Typography } from "@mui/material";
 
 import React from "react";

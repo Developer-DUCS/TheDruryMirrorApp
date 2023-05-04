@@ -1,11 +1,28 @@
+// Article Writing
+// Page Description:
+//                 The writing page for articles, before comments, etc.
+//
+//Creation Date:
+//                  By: Haley Saylor
+//
+//Modificaiton Log:
+//
+
 // Editor
-//import styles from '../styles/quillTestStyle.css'
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
 import styles from "../styles/article.module.css";
 
 import { useRouter } from "next/router";
-import { Button, Box, Stack, Grid, Typography, Checkbox } from "@mui/material";
+import {
+	Button,
+	Box,
+	Stack,
+	Grid,
+	Typography,
+	Checkbox,
+	TextField,
+} from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 
 // React, Next, system stuff
@@ -117,6 +134,7 @@ export default function articleWriting() {
 			const data = {
 				email: session.user.email,
 				author: author,
+				headline: event.target.headline.value,
 				article: value,
 				check: document.getElementById("checkbox").checked,
 				aid: router.query.id,
@@ -152,6 +170,7 @@ export default function articleWriting() {
 			const data = {
 				email: session.user.email,
 				author: author,
+				headline: event.target.headline.value,
 				article: value,
 				check: document.getElementById("checkbox").checked,
 				imageData: getImageData,
@@ -279,17 +298,43 @@ export default function articleWriting() {
 						<Header />
 					</div>
 					<form onSubmit={handleSubmit}>
-						<Button
-							sx={{ m: 2 }}
-							variant="contained"
-							color="error"
-							onClick={() => {
-								uploadFileHandler();
+						<Box
+							sx={{
+								display: "flex",
+								flexDirection: "column",
+								width: "30%",
 							}}
-							startIcon={<DriveFolderUploadIcon />}
 						>
-							Upload Thumbnail
-						</Button>
+							<Button
+								sx={{ m: 2 }}
+								variant="contained"
+								color="error"
+								onClick={() => {
+									uploadFileHandler();
+								}}
+								startIcon={<DriveFolderUploadIcon />}
+							>
+								Upload Thumbnail
+							</Button>
+							<TextField
+								sx={{
+									input: {
+										color: "black",
+									},
+									label: {
+										color: "black",
+									},
+									backgroundColor: "white",
+									m: 2,
+									borderRadius: 1,
+								}}
+								id="headline"
+								name="headline"
+								label="Headline"
+								variant="outlined"
+							/>
+						</Box>
+
 						<Box
 							sx={{
 								backgroundColor: "white",
@@ -322,24 +367,25 @@ export default function articleWriting() {
 							<Grid item>
 								<Checkbox
 									id="checkbox"
-									color="error"
 									onChange={switchReadyForEdits}
 									sx={{
 										color: "white",
 										marginTop: -1,
 										marginLeft: 1,
 										borderColor: "white",
+										input: {
+											backgroundColor: "#2bd942",
+										},
 									}}
 								/>
 							</Grid>
 						</Grid>
-						{/* <input id="checkbox" type="checkbox"></input> */}
-
 						<Button
 							sx={{
 								m: 2,
+								backgroundColor: "#2bd942",
+								color: "white",
 							}}
-							color="error"
 							variant="contained"
 							type="submit"
 						>

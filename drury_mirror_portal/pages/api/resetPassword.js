@@ -75,8 +75,16 @@ export default async (req, res) => {
 			to: user, // Change to your recipient
 			from: "developerducs@gmail.com", // Change to your verified sender
 			subject: "Password Reset",
-			text: `"Good afternoon! ${user} Use the following steps to reset your password!"`,
-			html: `'<strong> Click link pls :) i not hacks</strong> <a href="https://mcs.drury.edu/mirror/submitReset?token=${token}"> Click here to reset </a>'`,
+			html: `Hello, ${user}!
+
+					<p>It seems you have forgotten your password. <a href="https://mcs.drury.edu/mirror/submitReset?token=${token}">Please follow this link</a>  to change your password. 
+					This link will expire within 15 minutes so if you do not use you will need to request another link.</p>
+					
+					<p>If you did not request this link please contact your faculty advisor and consider changing your password. </p>
+					
+					Thank you,<br>
+					The Reflecting DUCS <br>
+					Drury Mirror Portal`,
 		};
 		sgMail
 			.send(msg)

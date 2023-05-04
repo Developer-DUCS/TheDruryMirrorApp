@@ -111,7 +111,7 @@ export function writerPortal() {
 					}}
 				>
 					{articles.length != 0 ? (
-						<div className={styles.divArticle}>
+						<div>
 							{articles.map((article) => (
 								<Card
 									style={{

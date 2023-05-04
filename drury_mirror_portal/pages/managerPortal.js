@@ -29,9 +29,11 @@ import {
 	AccordionSummary,
 	AccordionDetails,
 	Checkbox,
+	Stack,
 } from "@mui/material";
 
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 import SplashHeader from "./SplashHeader";
 import React, { useState, useEffect } from "react";
@@ -42,6 +44,15 @@ export default function managerPortal() {
 	const [getUsers, setUsers] = useState([]);
 	const [isError, setIsError] = useState(null);
 	const [isRole, setIsRole] = useState(null);
+	const { status, data } = useSession();
+
+	const allowedRoles = ["Manager"];
+
+	// Redirect the user to the log in screen
+	const redirectToSignIn = (event) => {
+		event.preventDefault();
+		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
+	};
 
 	useEffect(() => {
 		const getUsersRoute = async () => {
@@ -100,9 +111,7 @@ export default function managerPortal() {
 			};
 
 			// Send the data to the server in JSON format.
-			//console.log(data)
 			const JSONdata = JSON.stringify(data);
-			//console.log(JSONdata)
 
 			const endpoint = `api/createUser`;
 
@@ -375,320 +384,374 @@ export default function managerPortal() {
 		</>
 	);
 
-	return (
-		<Box>
-			<SplashHeader />
+	if (status === "authenticated" && allowedRoles.includes(data.user.role)) {
+		return (
+			<Box>
+				<SplashHeader />
 
-			<Box
-				sx={{
-					margin: "auto",
-					width: "70%",
-					height: "auto",
-					paddingBottom: "0px",
-				}}
-			>
-				<Accordion>
-					<AccordionSummary>
-						<Typography variant="userLabel">Create User</Typography>
-					</AccordionSummary>
-					<AccordionDetails>
-						<Card
-							variant="outlined"
-							sx={{
-								p: 1,
-								margin: "auto",
-								width: "70%",
-								height: "auto",
-							}}
-						>
-							<FormGroup sx={{ margin: "auto" }}>
-								<form onSubmit={handleSubmit}>
-									<Grid
-										container
-										sx={{
-											display: "flex",
-											flexDirection: "row",
-										}}
-									>
-										<Grid item xs={4}>
-											<Typography
-												variant="managerPortalLabel"
-												sx={{
-													margin: 1,
-													marginBottom: 0,
-												}}
-											>
-												First Name
-											</Typography>
-											<TextField
-												type="text"
-												id="fname"
-												label="First name"
-												name="fname"
-												variant="filled"
-												required
-												sx={{
-													label: { color: "black" },
-													input: { color: "black" },
-													border: "1px solid black",
-													borderRadius: "5px",
-													margin: 1,
-												}}
-											></TextField>
-											<br></br>
-										</Grid>
-										<Grid item xs={4}>
-											<Typography
-												variant="managerPortalLabel"
-												sx={{
-													margin: 1,
-													marginBottom: 0,
-												}}
-											>
-												Last Name
-											</Typography>
-											<TextField
-												type="text"
-												id="lname"
-												label="Last name"
-												name="lname"
-												variant="filled"
-												required
-												sx={{
-													label: { color: "black" },
-													input: { color: "black" },
-													border: "1px solid black",
-													borderRadius: "5px",
-													margin: 1,
-												}}
-											></TextField>
-											<br></br>
-										</Grid>
-
-										<Grid item xs={4}>
-											<Typography
-												variant="managerPortalLabel"
-												sx={{
-													margin: 1,
-													marginBottom: 0,
-												}}
-											>
-												Email
-											</Typography>
-											<TextField
-												type="text"
-												id="email"
-												label="Email"
-												name="email"
-												variant="filled"
-												required
-												sx={{
-													label: { color: "black" },
-													input: { color: "black" },
-													border: "1px solid black",
-													borderRadius: "5px",
-													margin: 1,
-												}}
-											></TextField>
-											<br></br>
-										</Grid>
-										<Grid item xs={4}>
-											<Typography
-												variant="managerPortalLabel"
-												sx={{
-													margin: 1,
-													marginBottom: 0,
-												}}
-											>
-												Password
-											</Typography>
-											<TextField
-												type="password"
-												id="password"
-												label="Password"
-												name="password"
-												variant="filled"
-												required
-												sx={{
-													label: { color: "black" },
-													input: { color: "black" },
-													border: "1px solid black",
-													borderRadius: "5px",
-													margin: 1,
-												}}
-											></TextField>
-										</Grid>
-										<Grid item xs={4}>
-											<Typography
-												variant="managerPortalLabel"
-												sx={{
-													margin: 1,
-													marginBottom: 0,
-												}}
-											>
-												Confirm Password
-											</Typography>
-											<TextField
-												type="password"
-												id="confirmPassword"
-												label="Confirm Password"
-												name="confirmPassword"
-												variant="filled"
-												required
-												sx={{
-													label: { color: "black" },
-													input: { color: "black" },
-													border: "1px solid black",
-													borderRadius: "5px",
-													margin: 1,
-												}}
-											></TextField>
-										</Grid>
-										<Grid item xs={4}>
-											<Typography
-												variant="managerPortalLabel"
-												sx={{
-													margin: 1,
-													marginBottom: 0,
-												}}
-											>
-												Roles
-											</Typography>
-											<br></br>
-											<Select
-												autoWidth
-												defaultValue="none"
-												labelId="roles"
-												id="roles"
-												name="roles"
-												input={<CustomInput />}
-												label="Roles"
-												required
-												sx={{ margin: 1 }}
-											>
-												<MenuItem value="none" disabled>
-													Choose Role
-												</MenuItem>
-												<MenuItem value={"Writer"}>
-													Writer
-												</MenuItem>
-
-												<MenuItem value={"Copy-Editor"}>
-													Copy-Editor
-												</MenuItem>
-												<MenuItem
-													value={"Editor-In-Chief"}
-												>
-													Editor-In-Chief
-												</MenuItem>
-											</Select>
-										</Grid>
-									</Grid>
-									<Grid item xs={4}>
-										<Button
-											variant="contained"
-											color="primaryButton"
-											type="submit"
-											size="medium"
-											sx={{ margin: 1, color: "white" }}
-										>
-											Create User
-										</Button>
-									</Grid>
-
-									<br></br>
-								</form>
-								{isError === true && (
-									<div>
-										<Typography
-											variant="h4"
-											sx={{
-												margin: 2,
-												marginTop: 1,
-												color: "red",
-											}}
-										>
-											The passwords do not match
-										</Typography>
-									</div>
-								)}
-								{isError === false && (
-									<div>
-										<Typography
-											variant="h4"
-											sx={{
-												margin: 1,
-												marginTop: 1,
-												color: "green",
-											}}
-										>
-											New User has been created
-										</Typography>
-									</div>
-								)}
-								{isRole === false && (
-									<div>
-										<Typography
-											variant="h4"
-											sx={{
-												margin: 1,
-												marginTop: 1,
-												color: "red",
-											}}
-										>
-											No Role has been assigned
-										</Typography>
-									</div>
-								)}
-							</FormGroup>
-						</Card>
-					</AccordionDetails>
-				</Accordion>
-			</Box>
-
-			<Box
-				sx={{
-					width: "60%",
-					margin: "auto",
-					display: "flex",
-					flexDirection: "column",
-					minHeight: "100vh",
-				}}
-			>
-				<Typography variant="h3" sx={{ margin: 2 }}>
-					User List
-				</Typography>
-				{getUsers.map((user) => (
-					<Accordion sx={{ margin: 1 }}>
+				<Box
+					sx={{
+						margin: "auto",
+						width: "70%",
+						height: "auto",
+						paddingBottom: "0px",
+					}}
+				>
+					<Accordion>
 						<AccordionSummary>
 							<Typography variant="userLabel">
-								{user.fname} {user.lname}
+								Create User
 							</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
 							<Card
-								key={user.email}
 								variant="outlined"
 								sx={{
-									width: "80%",
+									p: 1,
+									margin: "auto",
+									width: "70%",
 									height: "auto",
-									margin: 2,
-									paddingBottom: "0px",
 								}}
 							>
-								{
-									<UserCard
-										email={user.email}
-										password={user.password}
-										roles={user.roles}
-										active={user.active}
-									></UserCard>
-								}
+								<FormGroup sx={{ margin: "auto" }}>
+									<form onSubmit={handleSubmit}>
+										<Grid
+											container
+											sx={{
+												display: "flex",
+												flexDirection: "row",
+											}}
+										>
+											<Grid item xs={4}>
+												<Typography
+													variant="managerPortalLabel"
+													sx={{
+														margin: 1,
+														marginBottom: 0,
+													}}
+												>
+													First Name
+												</Typography>
+												<TextField
+													type="text"
+													id="fname"
+													label="First name"
+													name="fname"
+													variant="filled"
+													required
+													sx={{
+														label: {
+															color: "black",
+														},
+														input: {
+															color: "black",
+														},
+														border: "1px solid black",
+														borderRadius: "5px",
+														margin: 1,
+													}}
+												></TextField>
+												<br></br>
+											</Grid>
+											<Grid item xs={4}>
+												<Typography
+													variant="managerPortalLabel"
+													sx={{
+														margin: 1,
+														marginBottom: 0,
+													}}
+												>
+													Last Name
+												</Typography>
+												<TextField
+													type="text"
+													id="lname"
+													label="Last name"
+													name="lname"
+													variant="filled"
+													required
+													sx={{
+														label: {
+															color: "black",
+														},
+														input: {
+															color: "black",
+														},
+														border: "1px solid black",
+														borderRadius: "5px",
+														margin: 1,
+													}}
+												></TextField>
+												<br></br>
+											</Grid>
+
+											<Grid item xs={4}>
+												<Typography
+													variant="managerPortalLabel"
+													sx={{
+														margin: 1,
+														marginBottom: 0,
+													}}
+												>
+													Email
+												</Typography>
+												<TextField
+													type="text"
+													id="email"
+													label="Email"
+													name="email"
+													variant="filled"
+													required
+													sx={{
+														label: {
+															color: "black",
+														},
+														input: {
+															color: "black",
+														},
+														border: "1px solid black",
+														borderRadius: "5px",
+														margin: 1,
+													}}
+												></TextField>
+												<br></br>
+											</Grid>
+											<Grid item xs={4}>
+												<Typography
+													variant="managerPortalLabel"
+													sx={{
+														margin: 1,
+														marginBottom: 0,
+													}}
+												>
+													Password
+												</Typography>
+												<TextField
+													type="password"
+													id="password"
+													label="Password"
+													name="password"
+													variant="filled"
+													required
+													sx={{
+														label: {
+															color: "black",
+														},
+														input: {
+															color: "black",
+														},
+														border: "1px solid black",
+														borderRadius: "5px",
+														margin: 1,
+													}}
+												></TextField>
+											</Grid>
+											<Grid item xs={4}>
+												<Typography
+													variant="managerPortalLabel"
+													sx={{
+														margin: 1,
+														marginBottom: 0,
+													}}
+												>
+													Confirm Password
+												</Typography>
+												<TextField
+													type="password"
+													id="confirmPassword"
+													label="Confirm Password"
+													name="confirmPassword"
+													variant="filled"
+													required
+													sx={{
+														label: {
+															color: "black",
+														},
+														input: {
+															color: "black",
+														},
+														border: "1px solid black",
+														borderRadius: "5px",
+														margin: 1,
+													}}
+												></TextField>
+											</Grid>
+											<Grid item xs={4}>
+												<Typography
+													variant="managerPortalLabel"
+													sx={{
+														margin: 1,
+														marginBottom: 0,
+													}}
+												>
+													Roles
+												</Typography>
+												<br></br>
+												<Select
+													autoWidth
+													defaultValue="none"
+													labelId="roles"
+													id="roles"
+													name="roles"
+													input={<CustomInput />}
+													label="Roles"
+													required
+													sx={{ margin: 1 }}
+												>
+													<MenuItem
+														value="none"
+														disabled
+													>
+														Choose Role
+													</MenuItem>
+													<MenuItem value={"Writer"}>
+														Writer
+													</MenuItem>
+
+													<MenuItem
+														value={"Copy-Editor"}
+													>
+														Copy-Editor
+													</MenuItem>
+													<MenuItem
+														value={
+															"Editor-In-Chief"
+														}
+													>
+														Editor-In-Chief
+													</MenuItem>
+												</Select>
+											</Grid>
+										</Grid>
+										<Grid item xs={4}>
+											<Button
+												variant="contained"
+												color="primaryButton"
+												type="submit"
+												size="medium"
+												sx={{
+													margin: 1,
+													color: "white",
+												}}
+											>
+												Create User
+											</Button>
+										</Grid>
+
+										<br></br>
+									</form>
+									{isError === true && (
+										<div>
+											<Typography
+												variant="h4"
+												sx={{
+													margin: 2,
+													marginTop: 1,
+													color: "red",
+												}}
+											>
+												The passwords do not match
+											</Typography>
+										</div>
+									)}
+									{isError === false && (
+										<div>
+											<Typography
+												variant="h4"
+												sx={{
+													margin: 1,
+													marginTop: 1,
+													color: "green",
+												}}
+											>
+												New User has been created
+											</Typography>
+										</div>
+									)}
+									{isRole === false && (
+										<div>
+											<Typography
+												variant="h4"
+												sx={{
+													margin: 1,
+													marginTop: 1,
+													color: "red",
+												}}
+											>
+												No Role has been assigned
+											</Typography>
+										</div>
+									)}
+								</FormGroup>
 							</Card>
 						</AccordionDetails>
 					</Accordion>
-				))}
+				</Box>
+
+				<Box
+					sx={{
+						width: "60%",
+						margin: "auto",
+						display: "flex",
+						flexDirection: "column",
+						minHeight: "100vh",
+					}}
+				>
+					<Typography variant="h3" sx={{ margin: 2 }}>
+						User List
+					</Typography>
+					{getUsers.map((user) => (
+						<Accordion sx={{ margin: 1 }}>
+							<AccordionSummary>
+								<Typography variant="userLabel">
+									{user.fname} {user.lname}
+								</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<Card
+									key={user.email}
+									variant="outlined"
+									sx={{
+										width: "80%",
+										height: "auto",
+										margin: 2,
+										paddingBottom: "0px",
+									}}
+								>
+									{
+										<UserCard
+											email={user.email}
+											password={user.password}
+											roles={user.roles}
+											active={user.active}
+										></UserCard>
+									}
+								</Card>
+							</AccordionDetails>
+						</Accordion>
+					))}
+				</Box>
 			</Box>
-		</Box>
-	);
+		);
+	} else {
+		return (
+			<Stack
+				display="flex"
+				spacing={2}
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Typography variant="h2" color="black">
+					Please sign in
+				</Typography>
+				<Button
+					variant="contained"
+					color="error"
+					onClick={redirectToSignIn}
+				>
+					Sign In
+				</Button>
+			</Stack>
+		);
+	}
 }

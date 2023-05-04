@@ -9,9 +9,11 @@ export default async (req, res) => {
 		let author = body.author;
 		// ! Change headline here
 		let testHeadline = "Test Headline";
+		let headline = body.headline;
 		let email = body.email;
 		let thumbnailImage = body.imageData;
 		let imageType = body.imageType;
+		console.log(headline);
 
 		if (check) {
 			check = "1";
@@ -29,7 +31,7 @@ export default async (req, res) => {
 
 			const result = await executeQuery({
 				query: saveQuery,
-				values: [testHeadline, articleString, isDraft, aid],
+				values: [headline, articleString, isDraft, aid],
 			});
 			console.log("🚀 ~ file: saveArticle.js:52 ~ result:", result);
 			if (result.error) {
@@ -48,7 +50,7 @@ export default async (req, res) => {
 				values: [
 					email,
 					author,
-					testHeadline,
+					headline,
 					articleString,
 					check,
 					imageType,

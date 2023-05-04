@@ -1,3 +1,13 @@
+// About
+// Page Description:
+//                 Showcases the developers of the Mirror application and website
+//
+//Creation Date:
+//                  By: Thomas O'Brien
+//
+//Modificaiton Log:
+//
+
 import {
 	Grid,
 	Typography,

@@ -6,7 +6,7 @@
 //Creation Date:
 //                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022
 //
-//Modificaiton Log:
+// Modificaiton Log:
 //
 //
 import styles from "../styles/article.module.css";
@@ -15,11 +15,18 @@ import { useRouter } from "next/router";
 import { useSession, getSession } from "next-auth/react";
 import { useState, useEffect, useMemo } from "react";
 import { Dropdown } from "@nextui-org/react";
-//import { TagSelect} from "./NextUISelect";
 import dynamic from "next/dynamic";
-import { Button, Box, Typography, Stack, Card } from "@mui/material";
+import {
+	Button,
+	Box,
+	Typography,
+	Stack,
+	Card,
+	IconButton,
+} from "@mui/material";
 
 import Header from "./header";
+import ReplyIcon from "@mui/icons-material/Reply";
 
 export function draftList() {
 	const router = useRouter();
@@ -28,8 +35,9 @@ export function draftList() {
 
 	// Keep track of the dropdown state
 	const [selected, setSelected] = useState(new Set(["unpublished"]));
-	// let allTags = [];
+
 	const [getTags, setTags] = useState([]);
+
 	const [isError, setIsError] = useState(null);
 
 	const selectedValue = useMemo(
@@ -153,6 +161,33 @@ export function draftList() {
 
 	filterArticles();
 
+	// Send the article back to the editor
+	const backToEditing = async (id) => {
+		let aid = id.split("k")[1];
+		let endpoint = "api/backToEditing";
+		let data = {
+			aid: aid,
+		};
+		let JSONdata = JSON.stringify(data);
+		let options = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			// Body of the request is the JSON data we created above.
+			body: JSONdata,
+		};
+
+		let response = await fetch(endpoint, options);
+
+		if (response.ok) {
+			console.log("Successful update");
+			router.reload();
+		} else {
+			console.log("Failed to update article");
+		}
+	};
+
 	// Check if the user is authenticated
 	const allowedRoles = ["Editor-In-Chief", "Manager"];
 
@@ -179,21 +214,47 @@ export function draftList() {
 	function renderButtons(aid) {
 		if (selectedValue === "unpublished") {
 			return (
-				<Button
-					id={aid}
-					name="publishButton"
-					variant="contained"
-					type="submit"
+				<Box
 					sx={{
+						display: "flex",
+						justifyContent: "space-around",
 						marginBottom: 1,
-						marginRight: 5,
-						color: "white",
-						backgroundColor: "#4685F5",
-						height: 44,
 					}}
 				>
-					Publish Article
-				</Button>
+					<Button
+						id={aid}
+						name="publishButton"
+						variant="contained"
+						type="submit"
+						sx={{
+							marginBottom: 1,
+							marginRight: 5,
+							marginLeft: -5,
+							color: "white",
+							backgroundColor: "#4685F5",
+							height: 44,
+						}}
+					>
+						Publish Article
+					</Button>
+					<Button
+						variant="contained"
+						endIcon={<ReplyIcon />}
+						id={`back${aid}`}
+						name="back"
+						type="button"
+						color="error"
+						onClick={() => backToEditing(`back${aid}`)}
+						sx={{
+							borderWidth: 1,
+							marginBottom: 1,
+							marginLeft: 15,
+							borderColor: "black",
+						}}
+					>
+						Send Back
+					</Button>
+				</Box>
 			);
 		} else if (selectedValue === "published") {
 			return (
@@ -314,7 +375,10 @@ export function draftList() {
 												}}
 											>
 												<Typography
-													sx={{ color: "#F3f3f3" }}
+													sx={{
+														color: "#F3f3f3",
+														width: "15%",
+													}}
 												>
 													Select Tags
 												</Typography>
@@ -331,6 +395,7 @@ export function draftList() {
 												<div
 													style={{
 														paddingTop: "10px",
+														width: "100%",
 													}}
 												>
 													{renderButtons(article.aid)}

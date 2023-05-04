@@ -1,12 +1,13 @@
+// ------------------------------------------------------
 // writerPortal.js
 // Page Description:
-//                  The home page for the writer
-//Creation Date:
+//                  The home page for the writer,
+//                  handles ever article in a "draft" state
+// Creation Date:
 //                  By: Thomas Nield, Daniel Brinck, Samuel Rudqvist  Oct. 4 2022
-//
-//Modificaiton Log:
-//
-//
+// TODO
+// ------------------------------------------------------
+
 import styles from "../styles/article.module.css";
 import { useRouter } from "next/router";
 import { useSession, signOut, getSession } from "next-auth/react";

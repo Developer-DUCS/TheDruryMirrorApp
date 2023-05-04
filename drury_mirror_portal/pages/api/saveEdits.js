@@ -10,6 +10,7 @@ export default async (req, res) => {
 		const id = body.id;
 		let checked = body.checked;
 		const page = body.page;
+		let headline = body.headline;
 
 		if (page == "commentViewer" && checked) {
 			isDraft = "3";
@@ -31,6 +32,7 @@ export default async (req, res) => {
 			const overAllComments = body.overAllComments;
 			const comments = body.comments.toString();
 
+			// ! Todo: check if the cid exists, if it does run an update query instead
 			let saveCommentsQuery =
 				"INSERT INTO comments (cid, email, editor, overAllComments, comments, createdDate) VALUES(?,?,?,?,?,NOW())";
 
@@ -49,11 +51,11 @@ export default async (req, res) => {
 		}
 
 		let updateArticleQuery =
-			"UPDATE articles SET body = ?, isDraft = ? WHERE aid = ?";
+			"UPDATE articles SET headline = ?, body = ?, isDraft = ? WHERE aid = ?";
 
 		const result = await executeQuery({
 			query: updateArticleQuery,
-			values: [articleString, isDraft, id],
+			values: [headline, articleString, isDraft, id],
 		});
 		if (result.error) {
 			return res.status(500).json({ error: "Failed Insertion" });

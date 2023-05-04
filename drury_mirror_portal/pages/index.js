@@ -1,3 +1,13 @@
+// index
+// Page Description:
+//                 The very first page a user goes to, the login page
+//
+//Creation Date:
+//                  By: Thomas N.
+//
+//Modificaiton Log:
+//
+
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 import { TextField, Button, FormGroup, Grid, Typography } from "@mui/material";
@@ -88,7 +98,11 @@ export default function LoginPage() {
 							</Grid>
 							<Grid item>
 								<Button
-									sx={{ color: "white", backgroundColor: "#5683ED", marginTop: 2 }}
+									sx={{
+										color: "white",
+										backgroundColor: "#5683ED",
+										marginTop: 2,
+									}}
 									type="submit"
 									variant="contained"
 								>

@@ -54,6 +54,7 @@ export default function confirmReset() {
 		checkToken();
 	}, [router.query.token]);
 
+	// When reset password is clicked, send an api request to begin update password process
 	const handleReset = async (event) => {
 		event.preventDefault();
 
