@@ -272,7 +272,7 @@ export function CommentViewer() {
 									resolve(event);
 								}}
 								variant="contained"
-								color="secondary"
+								color="error"
 								sx={{ margin: 2, marginLeft: 0 }}
 							>
 								Resolve
@@ -525,7 +525,13 @@ export function CommentViewer() {
 										{allComments}
 									</div>
 								</Box>
-								<Grid item>
+								<Grid
+									item
+									sx={{
+										display: "flex",
+										alignItems: "center",
+									}}
+								>
 									<Typography
 										sx={{ color: "white", marginLeft: 2 }}
 									>
@@ -534,10 +540,10 @@ export function CommentViewer() {
 									</Typography>
 									<Checkbox
 										id="checkbox"
-										color="error"
+										// color="error"
 										sx={{
 											color: "white",
-											marginTop: -1,
+											marginTop: 0,
 											marginLeft: 1,
 											borderColor: "white",
 										}}
@@ -547,7 +553,11 @@ export function CommentViewer() {
 									color="error"
 									variant="contained"
 									type="submit"
-									sx={{ m: 1 }}
+									sx={{
+										m: 1,
+										backgroundColor: "#2bd942",
+										color: "white",
+									}}
 								>
 									Submit Edits
 								</Button>
