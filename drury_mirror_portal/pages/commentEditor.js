@@ -399,7 +399,7 @@ export function commentEditor() {
 			// show message and wait for 2 seconds before going back
 			setIsError(false);
 			setTimeout(() => {
-				// router.back();
+				router.back();
 			}, 2000);
 		} else {
 			setIsError(true);
