@@ -305,7 +305,14 @@ function ArticleFeed(props) {
 					);
 					console.log("TYPE: ", typeof data);
 
-					setArticles2(data.reverse());
+					if (Array.isArray(data)){
+
+						setArticles2(data.reverse());
+					}
+					else{
+						setArticles2(data)
+					}
+
 				}
 			} else {
 				console.log("Tag was all or recent");
@@ -343,27 +350,21 @@ function ArticleFeed(props) {
 		let thumbnail;
 		let tags = getTags;
 
-		const tidToFind = articleData.article.aid;
+		let tidToFind
+		if (articleData.article.aid !== null){
+			tidToFind = articleData.article.aid;
+		}
 
 		let currTags = null;
 
 		tags.some((arr) => {
-			if(arr.find(item)){
-				if (item.tid){
-					const obj = arr.find((item) => item.tid === tidToFind);
-					if (obj) {
-						currTags = obj;
-						return true;
-					}
-				}
+			const obj = arr.find((item) => (item.tid) && item.tid === tidToFind);
+			if (obj) {
+			  currTags = obj;
+			  return true;
 			}
+		  });
 
-			return false;
-		});
-
-		if (articleData.article.aid != currTags.tid) {
-			console.log("Tags and article id mismatch");
-		}
 		let activeTags = [];
 		for (const key in currTags) {
 			const value = currTags[key];
