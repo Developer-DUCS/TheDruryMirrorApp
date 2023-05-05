@@ -42,7 +42,6 @@ import {
 	TextField,
 } from "@mui/material";
 
-
 import { makeStyles } from "@material-ui/core/styles";
 
 import SearchIcon from "@mui/icons-material/Search";
@@ -129,6 +128,16 @@ function ArticleFeed(props) {
 
 	const [getScrollPaddingTop, setScrollPaddingTop] = useState(7);
 
+	// This useEffect function automatically adjusts the paddingTop for the header
+
+	useEffect(() => {
+		SafeArea.getSafeAreaInsets().then(({ insets }) => {
+			console.log(insets);
+			setSafePaddingTop(insets.top + "px");
+			console.log("Padding Top: ", getSafePaddingTop);
+		});
+	});
+
 	const getArticlesRoute = async () => {
 		let endpoint =
 			"https://mcs.drury.edu/mirror/api/mobileAPIs/getPublishedToApp";
@@ -195,7 +204,7 @@ function ArticleFeed(props) {
 
 		if (getScrollPaddingTop == 7) {
 			setScrollPaddingTop(12);
-            console.log("Padding Top: " + getScrollPaddingTop)
+			console.log("Padding Top: " + getScrollPaddingTop);
 		} else {
 			setScrollPaddingTop(7);
 		}
@@ -335,7 +344,7 @@ function ArticleFeed(props) {
 		let tags = getTags;
 
 		const tidToFind = articleData.article.aid;
-        
+
 		let currTags = null;
 
 		tags.some((arr) => {
