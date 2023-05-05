@@ -298,7 +298,7 @@ export default function managerPortal() {
 						<Typography variant="body1" sx={{ marginBottom: 2 }}>
 							{props.email}
 						</Typography>
-						<Typography
+						{/* <Typography
 							variant="userLabel"
 							sx={{ marginBottom: 0.5 }}
 						>
@@ -306,7 +306,7 @@ export default function managerPortal() {
 						</Typography>
 						<Typography variant="body1" sx={{ marginBottom: 2 }}>
 							{props.password}
-						</Typography>
+						</Typography> */}
 					</Grid>
 					<Grid item xs={6}>
 						<form name={props.email} onSubmit={handleRole}>
