@@ -312,7 +312,7 @@ export default function articleWriting() {
 								width: "30%",
 							}}
 						>
-							<Button
+							{/* <Button
 								sx={{ m: 2 }}
 								variant="contained"
 								color="error"
@@ -322,7 +322,7 @@ export default function articleWriting() {
 								startIcon={<DriveFolderUploadIcon />}
 							>
 								Upload Thumbnail
-							</Button>
+							</Button> */}
 							<TextField
 								sx={{
 									input: {
@@ -334,7 +334,7 @@ export default function articleWriting() {
 									backgroundColor: "white",
 									m: 2,
 									borderRadius: 1,
-								}}
+								}} 
 								id="headline"
 								name="headline"
 								label="Headline"
