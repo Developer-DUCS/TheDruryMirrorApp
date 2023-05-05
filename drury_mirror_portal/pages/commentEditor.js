@@ -477,7 +477,12 @@ export function commentEditor() {
 			// We pass the event to the handleSubmit() function on submit.
 			<Box
 				className={styles2.divWriting}
-				sx={{ height: "100vh", backgroundColor: "#303030" }}
+				// sx={{ height: "100vh", backgroundColor: "#303030" }}
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					minHeight: "100vh",
+				}}
 			>
 				<Header />
 

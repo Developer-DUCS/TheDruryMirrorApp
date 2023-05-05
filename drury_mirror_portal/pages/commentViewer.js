@@ -113,6 +113,8 @@ export function CommentViewer() {
 	const [getComments, setComments] = useState();
 	const [isError, setIsError] = useState(null);
 	const [overallComments, setOverallComments] = useState("");
+	const [buttonText, setButtonText] = useState("Save Edits");
+
 	const { status, data } = useSession();
 	const router = useRouter();
 	// var overallComments = [];
@@ -121,6 +123,18 @@ export function CommentViewer() {
 	const redirectToSignIn = (event) => {
 		event.preventDefault();
 		router.push(`${process.env.NEXT_PUBLIC_API_PATH}/`);
+	};
+
+	// Switch the text on the submit button when the user clicks
+	// the checkbox
+	const switchReadyForEdits = () => {
+		let checkValue = document.getElementById("checkbox").checked;
+		if (!checkValue) {
+			setButtonText("Save Edits");
+		} else if (checkValue) {
+			setButtonText("Submit Edits");
+		} else {
+		}
 	};
 
 	// Api calls for the article and comments
@@ -426,8 +440,18 @@ export function CommentViewer() {
 	if (status === "authenticated") {
 		return (
 			<>
-				<Header />
-				<div className={styles.comments}>
+				<Box
+					className={styles.divWriting}
+					// sx={{ height: "100vh", backgroundColor: "#303030" }}
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						minHeight: "100vh",
+					}}
+				>
+					<Header />
+					<br></br>
+					{/* <div className={styles.comments}> */}
 					<Grid
 						Container
 						sx={{
@@ -533,7 +557,10 @@ export function CommentViewer() {
 									}}
 								>
 									<Typography
-										sx={{ color: "white", marginLeft: 2 }}
+										sx={{
+											color: "white",
+											marginLeft: 2,
+										}}
 									>
 										{/* Maybe explain better */}
 										Ready for Edits
@@ -541,6 +568,7 @@ export function CommentViewer() {
 									<Checkbox
 										id="checkbox"
 										// color="error"
+										onChange={switchReadyForEdits}
 										sx={{
 											color: "white",
 											marginTop: 0,
@@ -550,7 +578,7 @@ export function CommentViewer() {
 									></Checkbox>
 								</Grid>
 								<Button
-									color="error"
+									// color="error"
 									variant="contained"
 									type="submit"
 									sx={{
@@ -559,7 +587,7 @@ export function CommentViewer() {
 										color: "white",
 									}}
 								>
-									Submit Edits
+									{buttonText}
 								</Button>
 							</form>
 							{isError === true && (
@@ -592,7 +620,8 @@ export function CommentViewer() {
 							)}
 						</Grid>
 					</Grid>
-				</div>
+					{/* </div> */}
+				</Box>
 			</>
 		);
 	} else {
