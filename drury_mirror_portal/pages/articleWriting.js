@@ -88,6 +88,7 @@ export default function articleWriting() {
 	// Handles the contents of the article editor
 	let [value, setValue] = useState();
 	const [getArticle, setArticle] = useState([]);
+	const [getHeadline, setHeadline] = useState([]);
 	const [getImageData, setImageData] = useState("");
 	const [getImageType, setImageType] = useState("");
 	const { status, data } = useSession();
@@ -236,11 +237,17 @@ export default function articleWriting() {
 						};
 
 						let response = await fetch(endpoint, options);
-						let article = await response.json();
+						let result = await response.json();
+						let headline = result.headline;
+						let article = result.body;
+
 
 						// Make sure the response was received before setting the articles
 						if (article) {
 							setArticle(article);
+						}
+						if (headline) {
+							setHeadline(headline);
 						}
 					}
 				} else {
@@ -332,6 +339,10 @@ export default function articleWriting() {
 								name="headline"
 								label="Headline"
 								variant="outlined"
+								value={getHeadline}
+								onChange={(e) => {
+									setHeadline(e.target.value);
+								}}
 							/>
 						</Box>
 
