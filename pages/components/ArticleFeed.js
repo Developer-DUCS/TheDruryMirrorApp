@@ -362,7 +362,7 @@ function ArticleFeed(props) {
 		for (const key in currTags) {
 			const value = currTags[key];
 			if (value == 1) {
-				activeTags.push(key);
+				activeTags.push(key + " ");
 			}
 		}
 
