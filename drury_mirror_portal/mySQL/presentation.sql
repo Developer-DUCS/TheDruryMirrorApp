@@ -122,7 +122,7 @@ NOW()
 <p>Zuckerberg has acknowledged these concerns and has said that the Metaverse will need to be designed with safety and privacy in mind. &quot;We need to make sure that people can feel comfortable being their authentic selves,&quot; he said. &quot;And we need to make sure that people can feel safe.&quot;</p>
 <p>The Metaverse is still in its early stages, and there is much work to be done before it becomes a reality. But Zuckerberg is optimistic about its potential, and he believes that it could be the key to unlocking new levels of human connection and creativity.</p>
 <p>&quot;The Metaverse is going to be an extension of the internet,&quot; he said. &quot;Its going to be the next generation of the internet, and it is going to enable us to do things that we cannot even imagine today.&quot;</p>',
-'5',
+'4',
 NOW()
 ),
 (
@@ -153,6 +153,6 @@ NOW()
 <p>We have also made significant improvements to the camera system on the iPhone 17. With a new 108-megapixel rear camera, you can capture stunning photos and videos that rival those of professional cameras. And with a new ultra-wide lens and improved image stabilization, you can capture even more detail and clarity in your shots.</p>
 <p>But the iPhone 17 is more than just a collection of impressive hardware features. We have also invested heavily in software and services that make it easier than ever to stay connected with the people and things that matter most to you. With our latest version of iOS, you will have access to a range of new features that make your phone more intuitive and personalized, from improved Siri functionality to new tools for managing your notifications.</p>
 <p>At Apple, we believe that technology should serve humanity, not the other way around. And with the iPhone 17, we are continuing to build products that are designed to make your life easier and more enjoyable. We cannot wait for you to experience it for yourself.</p>',
-'5',
+'4',
 NOW()
 )
