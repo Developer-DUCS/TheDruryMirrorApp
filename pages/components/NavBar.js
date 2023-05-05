@@ -25,149 +25,142 @@ import PublicIcon from "@mui/icons-material/Public";
 import RoomIcon from "@mui/icons-material/Room";
 
 function NavBar(props) {
-	const [getSafePaddingBtm, setSafePaddingBtm] = useState("");
+    const [getSafePaddingBtm, setSafePaddingBtm] = useState("");
 
-	useEffect(() => {
-		SafeArea.getSafeAreaInsets().then(({ insets }) => {
-			console.log(insets);
-			setSafePaddingBtm(insets.bottom + "px");
-			console.log("Padding Top: ", getSafePaddingBtm);
-		});
+    useEffect(() => {
+        SafeArea.getSafeAreaInsets().then(({ insets }) => {
+            console.log(insets);
+            setSafePaddingBtm(insets.bottom + "px");
+            console.log("Padding Top: ", getSafePaddingBtm);
+        });
 
-		SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-			console.log(statusBarHeight, "statusbarHeight");
-		});
-	});
+        SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
+            console.log(statusBarHeight, "statusbarHeight");
+        });
+    });
 
-	function handleRecent() {
-		props.dispatch({ type: "SET_CURRENT_PAGE", payload: "Recent" });
-		console.log("Changed to Recent: " + props.currentPage);
-	}
+    function handleRecent() {
+        props.dispatch({ type: "SET_CURRENT_PAGE", payload: "Recent" });
+        console.log("Changed to Recent: " + props.currentPage);
+    }
 
-	function handleLocal() {
-		props.dispatch({ type: "SET_CURRENT_PAGE", payload: "Local" });
-		console.log("Changed to Local: " + props.currentPage);
-	}
+    function handleLocal() {
+        props.dispatch({ type: "SET_CURRENT_PAGE", payload: "Local" });
+        console.log("Changed to Local: " + props.currentPage);
+    }
 
-	function handleNational() {
-		props.dispatch({ type: "SET_CURRENT_PAGE", payload: "National" });
-		console.log("Changed to National: " + props.currentPage);
-	}
+    function handleNational() {
+        props.dispatch({ type: "SET_CURRENT_PAGE", payload: "National" });
+        console.log("Changed to National: " + props.currentPage);
+    }
 
-	function handleInternational() {
-		props.dispatch({ type: "SET_CURRENT_PAGE", payload: "International" });
-		console.log("Changed to International: " + props.currentPage);
-	}
+    function handleInternational() {
+        props.dispatch({ type: "SET_CURRENT_PAGE", payload: "International" });
+        console.log("Changed to International: " + props.currentPage);
+    }
 
-	return (
-		<div style={{ position: "fixed", bottom: 0, width: "100%" }}>
-			<AppBar
-				position="static"
-				sx={{
-					backgroundColor: "#BC2932",
-					height: "65px",
-					p: 1,
-					width: "100%",
-					paddingTop: 3,
-					paddingBottom: 7,
-				}}
-			>
-				<Toolbar
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						paddingBottom: getSafePaddingBtm,
-					}}
-				>
-					<Link href={`/`}>
-						<IconButton
-							edge="start"
-							sx={{
-								m: 1,
-								marginButton: 0,
-								color: "white",
-								display: "flex",
-								flexDirection: "column",
-							}}
-							onClick={handleRecent}
-							aria-label="menu"
-						>
-							<QueryBuilderIcon />
-							<Typography
-								sx={{ color: "white", m: 0, fontSize: "14px" }}
-							>
-								Recent
-							</Typography>
-						</IconButton>
-					</Link>
-					<IconButton
-						edge="start"
-						sx={{
-							m: 1,
-							marginButton: 0,
-							color: "white",
-							display: "flex",
-							flexDirection: "column",
-						}}
-						onClick={handleLocal}
-						aria-label="menu"
-					>
-						<LanguageIcon />
-						<Typography
-							sx={{ color: "white", m: 0, fontSize: "14px" }}
-						>
-							Local
-						</Typography>
-					</IconButton>
-					<IconButton
-						edge="start"
-						sx={{
-							m: 1,
-							marginButton: 0,
-							color: "white",
-							display: "flex",
-							flexDirection: "column",
-						}}
-						onClick={handleNational}
-						aria-label="menu"
-					>
-						<PublicIcon />
-						<Typography
-							sx={{ color: "white", m: 0, fontSize: "14px" }}
-						>
-							National
-						</Typography>
-					</IconButton>
-					<IconButton
-						edge="start"
-						sx={{
-							m: 1,
-							marginButton: 0,
-							color: "white",
-							display: "flex",
-							flexDirection: "column",
-						}}
-						onClick={handleInternational}
-						aria-label="menu"
-					>
-						<RoomIcon />
-						<Typography
-							sx={{ color: "white", m: 0, fontSize: "14px" }}
-						>
-							International
-						</Typography>
-					</IconButton>
-				</Toolbar>
-			</AppBar>
-		</div>
-	);
+    return (
+        <div style={{ position: "fixed", bottom: 0, width: "100%" }}>
+            <AppBar
+                position="static"
+                sx={{
+                    backgroundColor: "#BC2932",
+                    height: "65px",
+                    p: 1,
+                    width: "100%",
+                    paddingTop: 3,
+                    paddingBottom: 7,
+                }}>
+                <Toolbar
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingBottom: getSafePaddingBtm,
+                    }}>
+                    <Link href={`/`}>
+                        <IconButton
+                            edge="start"
+                            sx={{
+                                m: 1,
+                                marginButton: 0,
+                                color: "white",
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                            onClick={handleRecent}
+                            aria-label="menu">
+                            <QueryBuilderIcon />
+                            <Typography
+                                sx={{ color: "white", m: 0, fontSize: "14px" }}>
+                                Recent
+                            </Typography>
+                        </IconButton>
+                    </Link>
+                    <IconButton
+                        href={`/`}
+                        edge="start"
+                        sx={{
+                            m: 1,
+                            marginButton: 0,
+                            color: "white",
+                            display: "flex",
+                            flexDirection: "column",
+                        }}
+                        onClick={handleLocal}
+                        aria-label="menu">
+                        <LanguageIcon />
+                        <Typography
+                            sx={{ color: "white", m: 0, fontSize: "14px" }}>
+                            Local
+                        </Typography>
+                    </IconButton>
+                    <IconButton
+                        href={`/`}
+                        edge="start"
+                        sx={{
+                            m: 1,
+                            marginButton: 0,
+                            color: "white",
+                            display: "flex",
+                            flexDirection: "column",
+                        }}
+                        onClick={handleNational}
+                        aria-label="menu">
+                        <PublicIcon />
+                        <Typography
+                            sx={{ color: "white", m: 0, fontSize: "14px" }}>
+                            National
+                        </Typography>
+                    </IconButton>
+                    <IconButton
+                        href={`/`}
+                        edge="start"
+                        sx={{
+                            m: 1,
+                            marginButton: 0,
+                            color: "white",
+                            display: "flex",
+                            flexDirection: "column",
+                        }}
+                        onClick={handleInternational}
+                        aria-label="menu">
+                        <RoomIcon />
+                        <Typography
+                            sx={{ color: "white", m: 0, fontSize: "14px" }}>
+                            International
+                        </Typography>
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
 }
 
 const mapStateToProps = (state) => {
-	return {
-		currentPage: state.article.currentPage,
-	};
+    return {
+        currentPage: state.article.currentPage,
+    };
 };
 
 export default connect(mapStateToProps)(NavBar);
