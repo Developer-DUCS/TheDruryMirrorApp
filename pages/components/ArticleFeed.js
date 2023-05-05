@@ -348,11 +348,17 @@ function ArticleFeed(props) {
 		let currTags = null;
 
 		tags.some((arr) => {
-			const obj = arr.find((item) => item.tid === tidToFind);
-			if (obj) {
-				currTags = obj;
-				return true;
+			if(arr.find(item)){
+				if (item.tid){
+					const obj = arr.find((item) => item.tid === tidToFind);
+					if (obj) {
+						currTags = obj;
+						return true;
+					}
+				}
 			}
+
+			return false;
 		});
 
 		if (articleData.article.aid != currTags.tid) {
